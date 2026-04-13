@@ -142,8 +142,8 @@ def persona_block_html(p):
     )
 
 
-def render_action_row(h: dict, accent: str) -> None:
-    """Compact single-row card for Priority Actions section."""
+def render_priority_card(h: dict, accent: str) -> None:
+    """Prominent card for Priority Actions — same grid as sector cards but slightly larger."""
     tk = h.get("ticker", "")
     name = DISPLAY_NAMES.get(tk, tk)
     sector = _sector_of(tk)
@@ -153,21 +153,17 @@ def render_action_row(h: dict, accent: str) -> None:
     nb, nh, ns = _vote_breakdown(personas)
     total = max(1, nb + nh + ns)
     st.markdown(
-        f'<div class="act-row act-row-{accent}">'
-        f'  <div class="act-row-left">'
+        f'<div class="priority-card priority-card-{accent}">'
+        f'  <div class="priority-card-top">'
+        f'    <div class="priority-ticker mono">{tk}</div>'
         f'    <span class="pill {VERDICT_CLS.get(v, "pill-hold")}">{v.upper()}</span>'
-        f'    <div class="act-ticker-block">'
-        f'      <div class="act-ticker mono">{tk}</div>'
-        f'      <div class="act-name">{name}</div>'
-        f'    </div>'
         f'  </div>'
-        f'  <div class="act-row-mid">'
-        f'    {_conviction_bar(c, v)}'
-        f'    <div class="act-conv-pct mono">{c}<span class="txt-mute">%</span></div>'
-        f'  </div>'
-        f'  <div class="act-row-right">'
-        f'    <div class="act-votes mono">{_vote_mono_html(nb, nh, ns)} <span class="txt-mute">of {total}</span></div>'
-        f'    <div class="act-sector txt-dim">{sector}</div>'
+        f'  <div class="priority-name txt-dim">{name}</div>'
+        f'  <div class="priority-sector txt-mute">{sector}</div>'
+        f'  {_conviction_bar(c, v)}'
+        f'  <div class="priority-bottom">'
+        f'    <div class="priority-pct mono">{c}<span class="txt-mute" style="font-size:11px;">%</span></div>'
+        f'    <div class="priority-votes mono txt-dim">{_vote_mono_html(nb, nh, ns)} <span class="txt-mute">/ {total}</span></div>'
         f'  </div>'
         f'</div>',
         unsafe_allow_html=True,
@@ -316,10 +312,13 @@ if priority_count == 0:
         unsafe_allow_html=True,
     )
 else:
-    for h in sells:
-        render_action_row(h, "sell")
-    for h in strong_buys[:3]:
-        render_action_row(h, "buy")
+    priority_items = [(h, "sell") for h in sells] + [(h, "buy") for h in strong_buys[:3]]
+    rows = [priority_items[i:i+3] for i in range(0, len(priority_items), 3)]
+    for row in rows:
+        cols = st.columns(len(row) if len(row) < 3 else 3, gap="small")
+        for ci, (h, accent) in enumerate(row):
+            with cols[ci]:
+                render_priority_card(h, accent)
 
 
 # ═══════════════════════════════════════════════════════════════════════════

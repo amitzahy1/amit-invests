@@ -583,8 +583,8 @@ html { scroll-behavior: smooth; }
 /* Conviction bar */
 .conv-bar {
     flex: 1;
-    height: 6px;
-    background: #F0F0F0;
+    height: 5px;
+    background: #EBEBEB;
     border-radius: 0;
     overflow: hidden;
     min-width: 60px;
@@ -593,6 +593,63 @@ html { scroll-behavior: smooth; }
     height: 100%;
     transition: width 0.3s ease;
 }
+/* Thicker bar inside priority cards */
+.priority-card .conv-bar { height: 4px; background: #EBEBEB; width: 100%; flex: none; }
+
+/* ─── Priority card (top 3 action items — larger than mini-card) ────────── */
+.priority-card {
+    border: 1px solid var(--hair);
+    border-left-width: 3px;
+    background: #ffffff;
+    padding: 18px 18px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    height: 100%;
+    box-sizing: border-box;
+}
+.priority-card-buy  { border-left-color: var(--up); }
+.priority-card-sell { border-left-color: var(--dn); border-top: 1px solid var(--dn-border); background: #fffafa; }
+.priority-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+}
+.priority-ticker {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    line-height: 1;
+}
+.priority-name {
+    font-size: 12px;
+    line-height: 1.35;
+    color: var(--text-dim);
+}
+.priority-sector {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-mute);
+    margin-bottom: 2px;
+}
+.priority-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+    margin-top: 4px;
+}
+.priority-pct {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    line-height: 1;
+}
+.priority-votes { font-size: 11px; }
 
 /* Mini card (sector grid + new ideas) */
 .mini-card {
