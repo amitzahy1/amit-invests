@@ -272,18 +272,8 @@ if is_dry_run:
     )
 
 
-# ═══════════════════════════════════════════════════════════════════════════
-# Filter
-# ═══════════════════════════════════════════════════════════════════════════
-fc1, fc2 = st.columns([2, 5], gap="small")
-with fc1:
-    min_conv = st.slider("Minimum conviction", min_value=0, max_value=100,
-                         value=60, step=5, label_visibility="collapsed")
-with fc2:
-    st.markdown(
-        f'<div class="recs-filter-caption">Filter · showing items with conviction ≥ <b>{min_conv}%</b></div>',
-        unsafe_allow_html=True,
-    )
+# Slider lives at the bottom of the page; read the persisted value here.
+min_conv: int = st.session_state.get("min_conv", 75)
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -439,6 +429,22 @@ with st.expander(f"All {len(holdings)} holdings — full review table", expanded
         '</tr></thead>'
         f'<tbody>{"".join(rows_html)}</tbody>'
         '</table>',
+        unsafe_allow_html=True,
+    )
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# FILTER — lives at the bottom so it doesn't push content down
+# ═══════════════════════════════════════════════════════════════════════════
+st.markdown('<div style="height:24px;"></div>', unsafe_allow_html=True)
+fc1, fc2 = st.columns([2, 5], gap="small")
+with fc1:
+    st.slider("Minimum conviction", min_value=0, max_value=100,
+              value=75, step=5, label_visibility="collapsed", key="min_conv")
+with fc2:
+    st.markdown(
+        f'<div class="recs-filter-caption" style="margin-top:8px;">'
+        f'Filter · showing items with conviction ≥ <b>{min_conv}%</b></div>',
         unsafe_allow_html=True,
     )
 
