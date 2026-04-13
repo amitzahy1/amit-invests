@@ -20,18 +20,19 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
+_V = _ROOT / "views"
 _pages = [
-    st.Page("views/portfolio.py",       title="Portfolio",       icon="📊",
+    st.Page(_V / "portfolio.py",       title="Portfolio",       icon="📊",
             url_path="portfolio", default=True),
-    st.Page("views/recommendations.py", title="Recommendations", icon="🎯",
+    st.Page(_V / "recommendations.py", title="Recommendations", icon="🎯",
             url_path="recommendations"),
-    st.Page("views/import_csv.py",      title="Import",          icon="📥",
+    st.Page(_V / "import_csv.py",      title="Import",          icon="📥",
             url_path="import_csv"),
-    st.Page("views/inbox.py",           title="Inbox",           icon="📬",
+    st.Page(_V / "inbox.py",           title="Inbox",           icon="📬",
             url_path="inbox"),
-    st.Page("views/settings.py",        title="Settings",        icon="⚙️",
+    st.Page(_V / "settings.py",        title="Settings",        icon="⚙️",
             url_path="settings"),
-    st.Page("views/explainer.py",       title="How It Works",    icon="🧠",
+    st.Page(_V / "explainer.py",       title="How It Works",    icon="🧠",
             url_path="explainer"),
 ]
 
