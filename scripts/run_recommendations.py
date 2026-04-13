@@ -300,21 +300,34 @@ def run_real(settings: dict, portfolio: dict) -> dict:
 
     llm = _gemini()
     n_calls = len(tickers) * len(personas)
-    print(f"[info] calling Gemini {n_calls} times ({len(tickers)} holdings × {len(personas)} personas)")
+    # Parallelism: run multiple persona calls concurrently. Gemini Flash
+    # tolerates ~8 concurrent requests per key before 429s; we stay conservative.
+    max_workers = int(os.environ.get("GEMINI_CONCURRENCY", "6"))
+    print(f"[info] calling Gemini {n_calls} times "
+          f"({len(tickers)} holdings × {len(personas)} personas) "
+          f"— up to {max_workers} in parallel")
 
+    from concurrent.futures import ThreadPoolExecutor, as_completed
     holdings_out = []
     for i, tk in enumerate(tickers, 1):
         display = DISPLAY_NAMES.get(tk, tk)
         persona_entries = []
-        for persona in personas:
-            entry = _call_persona(llm, persona, tk, display, preamble)
-            persona_entries.append(entry)
+        with ThreadPoolExecutor(max_workers=max_workers) as pool:
+            futures = {
+                pool.submit(_call_persona, llm, p, tk, display, preamble): p
+                for p in personas
+            }
+            for fut in as_completed(futures):
+                persona_entries.append(fut.result())
+        # Preserve the user's configured persona order in the output
+        _order = {p: idx for idx, p in enumerate(personas)}
+        persona_entries.sort(key=lambda e: _order.get(e.get("name", ""), 99))
         agg_v, agg_c = _aggregate_verdict(persona_entries)
         holdings_out.append({
             "ticker": tk, "verdict": agg_v, "conviction": agg_c,
             "personas": persona_entries,
         })
-        print(f"  [{i}/{len(tickers)}] {tk}: {agg_v.upper()} {agg_c}%")
+        print(f"  [{i}/{len(tickers)}] {tk}: {agg_v.upper()} {agg_c}%", flush=True)
 
     # Ask Gemini for 2-3 new ideas
     new_ideas = _generate_new_ideas(llm, preamble, tickers)

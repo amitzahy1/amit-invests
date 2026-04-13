@@ -140,10 +140,17 @@ def _ai_runner_body() -> None:
     meta_slot = st.empty()
     action_slot = st.empty()
 
+    # Pull persona count from settings so the subtitle matches reality
+    try:
+        _settings = load_json("settings.json") or {}
+        _n_personas = max(2, len(_settings.get("personas_active") or []))  # script forces ≥2
+    except Exception:
+        _n_personas = 5
+    _eta_min = max(2, int(round(15 * _n_personas * 4 / 60)))  # rough: 4s/call avg
     header_slot.markdown(
         _ai_header_html("running", "Running AI Analysis",
-                        "Calling Gemini for each holding across 5 personas. "
-                        "This takes ~1–3 minutes."),
+                        f"Calling Gemini for each holding across {_n_personas} personas. "
+                        f"Expect roughly {_eta_min}–{_eta_min*2} minutes."),
         unsafe_allow_html=True,
     )
     stepper_slot.markdown(_ai_stepper_html("init", set()), unsafe_allow_html=True)
@@ -188,16 +195,24 @@ def _ai_runner_body() -> None:
         return
 
     TOTAL_GUESS = 16
+    HARD_TIMEOUT = 2700   # 45 minutes — matches GitHub Actions timeout
     start_ts = _time.time()
     last_phase = "init"
+    timed_out = False
 
     while proc.poll() is None:
         elapsed = _time.time() - start_ts
-        if elapsed > 600:
+        if elapsed > HARD_TIMEOUT:
             proc.kill()
+            try:
+                proc.wait(timeout=5)
+            except Exception:
+                pass
+            timed_out = True
             header_slot.markdown(
-                _ai_header_html("error", "Timed out (10 min)",
-                                "Subprocess was killed. Try again."),
+                _ai_header_html("error", "Timed out (45 min)",
+                                "Subprocess was killed. Try running from the terminal: "
+                                "`python scripts/run_recommendations.py --once`"),
                 unsafe_allow_html=True,
             )
             break
@@ -265,8 +280,14 @@ def _ai_runner_body() -> None:
         )
         _time.sleep(1.5)
 
+    # Ensure we have a real returncode (kill() alone leaves it None)
+    try:
+        proc.wait(timeout=5)
+    except Exception:
+        pass
     rc = proc.returncode
-    if rc == 0:
+
+    if rc == 0 and not timed_out:
         header_slot.markdown(
             _ai_header_html("success", "Analysis complete",
                             "Recommendations updated. Refreshing your dashboard…"),
@@ -276,21 +297,32 @@ def _ai_runner_body() -> None:
             _ai_stepper_html("write", {"init", "load", "gemini", "write"}),
             unsafe_allow_html=True,
         )
-        progress_bar.progress(1.0, text="Done")
+        render_progress(1.0, "Done", "Wrote recommendations.json", "success")
         st.cache_data.clear()
         st.query_params.clear()
         import time as _time
         _time.sleep(1.2)
         st.rerun()
     else:
+        # Surface useful error excerpt from the log (avoid "exit None")
+        try:
+            _tail = "\n".join(log_file.read_text().splitlines()[-10:])
+        except Exception:
+            _tail = ""
+        _rc_label = "killed" if timed_out or rc is None else str(rc)
+        _subtitle = (
+            "The run didn't complete. Tail of log below. "
+            f"Check `logs/last_run.log` for the full trace."
+        )
         header_slot.markdown(
-            _ai_header_html("error", f"Run failed (exit {rc})",
-                            "Something went wrong. Check logs/last_run.log for details."),
+            _ai_header_html("error", f"Run failed (exit {_rc_label})", _subtitle),
             unsafe_allow_html=True,
         )
         stepper_slot.markdown(_ai_stepper_html(last_phase, set(), error=True),
                               unsafe_allow_html=True)
         progress_slot.empty()
+        if _tail:
+            action_slot.code(_tail, language="text")
         if action_slot.button("Close", type="secondary"):
             st.query_params.clear()
             st.rerun()

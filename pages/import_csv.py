@@ -15,7 +15,7 @@ What the parser handles automatically:
   • utf-8, utf-8-sig, cp1255, iso-8859-8 encodings
 """
 
-from _bootstrap import ROOT, inject_css, inject_header, handle_actions, load_json
+from _bootstrap import ROOT, inject_css, inject_header, handle_actions, load_json, minify
 
 import io
 import json

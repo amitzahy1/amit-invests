@@ -62,10 +62,20 @@ jobs:
           git add recommendations.json snapshots.jsonl 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "No changes to commit."
-          else
-            git commit -m "chore: daily AI recommendations [skip ci]"
-            git push
+            exit 0
           fi
+          git commit -m "chore: daily AI recommendations [skip ci]"
+          # Handle the race where another push landed between checkout and now.
+          for i in 1 2 3 4 5; do
+            if git push; then
+              exit 0
+            fi
+            echo "[warn] push attempt $i failed, rebasing on latest remote…"
+            git pull --rebase --autostash origin main || true
+            sleep 2
+          done
+          echo "[error] push failed after 5 attempts"
+          exit 1
 
       - name: Upload run log artifact
         if: always()
