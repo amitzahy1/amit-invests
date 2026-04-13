@@ -21,18 +21,27 @@ st.set_page_config(
 )
 
 _pages = [
-    st.Page("pages/portfolio.py", title="Portfolio", icon="📊", default=True),
-    st.Page("pages/recommendations.py", title="Recommendations", icon="🎯"),
-    st.Page("pages/import_csv.py", title="Import", icon="📥"),
-    st.Page("pages/inbox.py", title="Inbox", icon="📬"),
-    st.Page("pages/settings.py", title="Settings", icon="⚙️"),
-    st.Page("pages/explainer.py", title="How It Works", icon="🧠"),
+    st.Page("views/portfolio.py",       title="Portfolio",       icon="📊",
+            url_path="portfolio", default=True),
+    st.Page("views/recommendations.py", title="Recommendations", icon="🎯",
+            url_path="recommendations"),
+    st.Page("views/import_csv.py",      title="Import",          icon="📥",
+            url_path="import_csv"),
+    st.Page("views/inbox.py",           title="Inbox",           icon="📬",
+            url_path="inbox"),
+    st.Page("views/settings.py",        title="Settings",        icon="⚙️",
+            url_path="settings"),
+    st.Page("views/explainer.py",       title="How It Works",    icon="🧠",
+            url_path="explainer"),
 ]
 
-# `position="top"` puts the nav as tabs across the top; falls back to sidebar
-# on Streamlit versions that don't support it.
+# We render our OWN topbar in _bootstrap.inject_header(), so hide Streamlit's
+# default navigation widget entirely (position="hidden" when supported).
 try:
-    nav = st.navigation(_pages, position="top")
+    nav = st.navigation(_pages, position="hidden")
 except TypeError:
-    nav = st.navigation(_pages)
+    try:
+        nav = st.navigation(_pages, position="top")
+    except TypeError:
+        nav = st.navigation(_pages)
 nav.run()

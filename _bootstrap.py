@@ -39,12 +39,12 @@ def load_json(name: str) -> dict:
 
 # Page registry — slug, label, target path
 NAV_PAGES = [
-    ("portfolio",        "Portfolio",       "pages/portfolio.py"),
-    ("recommendations",  "Recommendations", "pages/recommendations.py"),
-    ("import_csv",       "Import",          "pages/import_csv.py"),
-    ("inbox",            "Inbox",           "pages/inbox.py"),
-    ("settings",         "Settings",        "pages/settings.py"),
-    ("explainer",        "How It Works",    "pages/explainer.py"),
+    ("portfolio",        "Portfolio",       "views/portfolio.py"),
+    ("recommendations",  "Recommendations", "views/recommendations.py"),
+    ("import_csv",       "Import",          "views/import_csv.py"),
+    ("inbox",            "Inbox",           "views/inbox.py"),
+    ("settings",         "Settings",        "views/settings.py"),
+    ("explainer",        "How It Works",    "views/explainer.py"),
 ]
 
 
