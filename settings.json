@@ -27,7 +27,15 @@
   "crypto_cap_pct": 3,
   "risk_level": "medium",
   "personas_active": [
-    "technical_analyst"
+    "warren_buffett",
+    "charlie_munger",
+    "cathie_wood",
+    "peter_lynch",
+    "risk_manager",
+    "sentiment",
+    "technical_analyst",
+    "fundamentals_analyst",
+    "macro"
   ],
   "telegram": {
     "enabled": true,
