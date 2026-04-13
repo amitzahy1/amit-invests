@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Portfolio · Cyberpunk Terminal (Concept 🅒)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #000;
+    --bg-1: #050505;
+    --grid: rgba(6,182,212,0.04);
+    --cyan: #06B6D4;
+    --cyan-glow: rgba(6,182,212,0.4);
+    --purple: #A855F7;
+    --purple-glow: rgba(168,85,247,0.4);
+    --lime: #A3E635;
+    --pink: #EC4899;
+    --amber: #FBBF24;
+    --txt: #E5E7EB;
+    --txt-dim: rgba(229,231,235,0.45);
+    --border: rgba(6,182,212,0.22);
+  }
+  html, body {
+    background: var(--bg); color: var(--txt);
+    font-family: 'Space Grotesk', sans-serif;
+    min-height: 100vh;
+    background-image:
+      linear-gradient(rgba(6,182,212,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(6,182,212,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .mono { font-family: 'JetBrains Mono', monospace; letter-spacing: -0.01em; }
+  .tab { font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; }
+  .glow-cyan { text-shadow: 0 0 12px var(--cyan-glow); }
+  .glow-purple { text-shadow: 0 0 12px var(--purple-glow); }
+  .glow-lime { text-shadow: 0 0 10px rgba(163,230,53,0.4); }
+  .glow-pink { text-shadow: 0 0 10px rgba(236,72,153,0.45); }
+  .panel {
+    background: linear-gradient(180deg, rgba(10,10,14,0.85), rgba(5,5,8,0.85));
+    border: 1px solid var(--border);
+    position: relative;
+    backdrop-filter: blur(8px);
+  }
+  .panel::before, .panel::after,
+  .panel > .corn-tl, .panel > .corn-tr, .panel > .corn-bl, .panel > .corn-br {
+    content: ""; position: absolute; width: 10px; height: 10px; pointer-events: none;
+  }
+  .panel::before { top:-1px; left:-1px; border-top: 1px solid var(--cyan); border-left: 1px solid var(--cyan); }
+  .panel::after  { top:-1px; right:-1px; border-top: 1px solid var(--cyan); border-right: 1px solid var(--cyan); }
+  .corn-bl { bottom:-1px; left:-1px; border-bottom: 1px solid var(--cyan); border-left: 1px solid var(--cyan); }
+  .corn-br { bottom:-1px; right:-1px; border-bottom: 1px solid var(--cyan); border-right: 1px solid var(--cyan); }
+  .panel-accent::before, .panel-accent::after { border-color: var(--purple); }
+  .panel-accent .corn-bl, .panel-accent .corn-br { border-color: var(--purple); }
+  .shadow-cyan { box-shadow: 0 0 25px rgba(6,182,212,0.12), inset 0 0 40px rgba(0,0,0,0.6); }
+  .up { color: var(--lime); }
+  .dn { color: var(--pink); }
+  .neu { color: var(--amber); }
+  .label { font-size: 10px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.22em; color: var(--txt-dim); }
+  .hairline { border-top: 1px dashed rgba(6,182,212,0.2); }
+  .pulse-dot { animation: pulse-dot 1.6s infinite; }
+  @keyframes pulse-dot { 0%,100% { opacity:1; box-shadow: 0 0 8px currentColor; } 50% { opacity: .4; box-shadow: 0 0 2px currentColor; } }
+  .pill { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; padding: 2px 8px; border: 1px solid; border-radius: 2px; }
+  .pill-buy  { color: var(--lime); border-color: rgba(163,230,53,0.4); background: rgba(163,230,53,0.06); }
+  .pill-sell { color: var(--pink); border-color: rgba(236,72,153,0.4); background: rgba(236,72,153,0.06); }
+  .pill-hold { color: var(--amber); border-color: rgba(251,191,36,0.4); background: rgba(251,191,36,0.06); }
+  .pill-new  { color: var(--purple); border-color: rgba(168,85,247,0.4); background: rgba(168,85,247,0.06); }
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 1px; }
+  button { cursor: pointer; }
+  .scan {
+    background: linear-gradient(180deg, transparent 0%, rgba(6,182,212,0.015) 50%, transparent 100%);
+    animation: scan 8s linear infinite;
+  }
+  @keyframes scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+</style>
+</head>
+<body>
+
+<!-- Scan line overlay -->
+<div class="fixed inset-0 pointer-events-none z-10 overflow-hidden"><div class="scan absolute inset-0"></div></div>
+
+<!-- ═══ TOP BAR ═══ -->
+<div class="sticky top-0 z-40 bg-black/80 backdrop-blur border-b" style="border-color: var(--border);">
+  <div class="max-w-[1600px] mx-auto px-6 h-14 flex items-center justify-between">
+    <div class="flex items-center gap-6">
+      <div class="flex items-center gap-2.5">
+        <div class="flex gap-0.5">
+          <span class="w-1 h-5 bg-[var(--cyan)]"></span>
+          <span class="w-1 h-5 bg-[var(--purple)]"></span>
+          <span class="w-1 h-5 bg-[var(--lime)]"></span>
+        </div>
+        <span class="mono text-sm font-bold tracking-widest">AMIT<span class="text-[var(--cyan)]">.</span>TERMINAL</span>
+      </div>
+      <nav class="hidden md:flex items-center gap-1 mono text-[11px] tracking-widest">
+        <a class="px-3 py-1.5 bg-[var(--cyan)]/10 border border-[var(--cyan)]/30 text-[var(--cyan)]">PORTFOLIO</a>
+        <a class="px-3 py-1.5 text-white/50 hover:text-white">RECS</a>
+        <a class="px-3 py-1.5 text-white/50 hover:text-white">IMPORT</a>
+        <a class="px-3 py-1.5 text-white/50 hover:text-white">INBOX<span class="ml-1 text-[var(--purple)]">02</span></a>
+        <a class="px-3 py-1.5 text-white/50 hover:text-white">CFG</a>
+      </nav>
+    </div>
+    <div class="flex items-center gap-3 mono text-[11px]">
+      <div class="hidden sm:flex items-center gap-1.5 text-white/50 tracking-widest">
+        <span class="dot bg-[var(--lime)] pulse-dot text-[var(--lime)]"></span> MKT_OPEN · USD/ILS 3.0606
+      </div>
+      <button class="px-3 py-1.5 border text-[var(--cyan)] tracking-widest hover:bg-[var(--cyan)]/10" style="border-color: var(--border)">⟳ SYNC</button>
+      <button class="px-3 py-1.5 border border-[var(--purple)]/50 text-[var(--purple)] tracking-widest bg-[var(--purple)]/10 hover:bg-[var(--purple)]/20">▶ EXEC_AI</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MAIN ═══ -->
+<main class="max-w-[1600px] mx-auto px-6 py-8 relative z-20">
+
+  <!-- HERO STRIP -->
+  <div class="mb-5">
+    <div class="flex items-center gap-3 mb-2">
+      <span class="mono text-[10px] tracking-[0.3em] text-[var(--cyan)]">>> PORTFOLIO_SESSION :: 2026-04-13 :: AUTH_OK</span>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+      <!-- Value -->
+      <div class="panel shadow-cyan p-5 col-span-2">
+        <span class="corn-bl"></span><span class="corn-br"></span>
+        <div class="label mb-2">TOTAL_VALUE</div>
+        <div class="flex items-baseline gap-2">
+          <span class="tab text-4xl font-bold text-white glow-cyan">$28,245</span>
+          <span class="mono text-sm text-white/40">USD</span>
+        </div>
+        <div class="tab text-xs text-white/50 mt-1">₪86,430 · cost $21,932</div>
+        <div class="flex items-center gap-2 mt-3">
+          <span class="pill pill-buy">▲ +0.24%</span>
+          <span class="tab text-xs up glow-lime">+$63.40 TODAY</span>
+        </div>
+      </div>
+
+      <!-- P&L -->
+      <div class="panel shadow-cyan p-5">
+        <span class="corn-bl"></span><span class="corn-br"></span>
+        <div class="label mb-2">PNL_TOTAL</div>
+        <div class="tab text-3xl font-bold up glow-lime">+28.8%</div>
+        <div class="tab text-xs text-white/50 mt-1">+$6,313</div>
+      </div>
+
+      <!-- Risk -->
+      <div class="panel shadow-cyan p-5">
+        <span class="corn-bl"></span><span class="corn-br"></span>
+        <div class="label mb-2">RISK_LVL</div>
+        <div class="text-3xl font-bold text-[var(--amber)] glow-lime" style="text-shadow: 0 0 10px rgba(251,191,36,0.4);">MEDIUM</div>
+        <div class="mono text-[10px] text-white/40 mt-1 tracking-widest">σ=22.4 · β=1.08</div>
+      </div>
+
+      <!-- Personas -->
+      <div class="panel panel-accent shadow-cyan p-5">
+        <span class="corn-bl"></span><span class="corn-br"></span>
+        <div class="label mb-2" style="color: rgba(168,85,247,0.6)">AI_AGENTS</div>
+        <div class="tab text-3xl font-bold text-[var(--purple)] glow-purple">05/12</div>
+        <div class="mono text-[10px] text-white/40 mt-1 tracking-widest">ACTIVE · 75 CALLS/RUN</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="grid grid-cols-12 gap-4">
+
+    <!-- HOLDINGS -->
+    <div class="col-span-12 lg:col-span-8">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-3">
+          <span class="label" style="color: var(--cyan)">>> POSITIONS [16]</span>
+          <span class="mono text-[10px] text-white/30">SORT:VALUE_DESC</span>
+        </div>
+        <div class="flex gap-1 mono text-[10px]">
+          <button class="px-3 py-1 border border-[var(--cyan)] text-[var(--cyan)] bg-[var(--cyan)]/5">ALL</button>
+          <button class="px-3 py-1 border border-white/10 text-white/50">EQUITY</button>
+          <button class="px-3 py-1 border border-white/10 text-white/50">ETF</button>
+          <button class="px-3 py-1 border border-white/10 text-white/50">CRYPTO</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="holdings"></div>
+    </div>
+
+    <!-- SMART INSIGHTS -->
+    <div class="col-span-12 lg:col-span-4">
+      <div class="panel panel-accent shadow-cyan p-5 mb-4">
+        <span class="corn-bl"></span><span class="corn-br"></span>
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-2">
+            <span class="dot bg-[var(--purple)] pulse-dot text-[var(--purple)]"></span>
+            <span class="label" style="color: var(--purple)">NEURAL_INSIGHTS</span>
+          </div>
+          <span class="mono text-[10px] text-white/30 tracking-widest">::GEMINI</span>
+        </div>
+        <div class="mono text-[11px] text-white/50 leading-relaxed mb-4 pb-4 hairline">
+          5 AGENTS · 16 ASSETS · 77 CALLS · CONSENSUS 4/5 BULLISH<br>
+          <span class="text-[var(--lime)]">5</span> STRONG_BUY · <span class="text-[var(--amber)]">6</span> HOLD · <span class="text-[var(--pink)]">2</span> STRONG_SELL · <span class="text-[var(--purple)]">3</span> NEW_IDEA
+        </div>
+        <div id="insights"></div>
+      </div>
+
+      <!-- System status -->
+      <div class="panel shadow-cyan p-5">
+        <span class="corn-bl"></span><span class="corn-br"></span>
+        <div class="label mb-3" style="color: var(--cyan)">SYSTEM_STATUS</div>
+        <div class="space-y-2 mono text-[11px]">
+          <div class="flex justify-between"><span class="text-white/50">LAST_RUN</span><span class="text-[var(--lime)]">16:35:02 IDT</span></div>
+          <div class="flex justify-between"><span class="text-white/50">MODEL</span><span class="text-[var(--cyan)]">gemini-flash-latest</span></div>
+          <div class="flex justify-between"><span class="text-white/50">SCHEDULE</span><span class="text-white/80">DAILY 16:35</span></div>
+          <div class="flex justify-between"><span class="text-white/50">TG_BOT</span><span class="text-[var(--lime)]">● ONLINE</span></div>
+          <div class="flex justify-between"><span class="text-white/50">SNAPSHOTS</span><span class="text-white/80">14 / 365</span></div>
+          <div class="flex justify-between"><span class="text-white/50">UPTIME</span><span class="tab text-white/80">99.94%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="mt-8 pt-4 hairline flex items-center justify-between mono text-[10px] text-white/30 tracking-widest">
+    <div>CONCEPT_C :: CYBERPUNK_TERMINAL · MARKET_COMMENTARY ≠ FINANCIAL_ADVICE</div>
+    <div>JETBRAINS_MONO + SPACE_GROTESK</div>
+  </footer>
+</main>
+
+<script>
+// Each holding has personaBreakdown showing how many of 5 personas voted each way
+const holdings = [
+  { t:"SPY",    n:"S&P 500 INDEX",           q:8,    cost:572.45,  px:679.46,  val:5435.68, pl:18.7,  spark:"up",  rec:"BUY",  conf:90, votes:{buy:5,hold:0,sell:0} },
+  { t:"QQQM",   n:"NASDAQ 100",              q:11,   cost:202.60,  px:251.60,  val:2767.60, pl:24.2,  spark:"up",  rec:"BUY",  conf:80, votes:{buy:4,hold:1,sell:0} },
+  { t:"VOO",    n:"VANGUARD S&P 500",        q:3,    cost:624.16,  px:624.60,  val:1873.80, pl:0.07,  spark:"flat",rec:"BUY",  conf:92, votes:{buy:5,hold:0,sell:0} },
+  { t:"GOOGL",  n:"ALPHABET CL-A",           q:4.46, cost:179.13,  px:317.24,  val:1414.89, pl:77.1,  spark:"up",  rec:"BUY",  conf:87, votes:{buy:4,hold:1,sell:0} },
+  { t:"ITA",    n:"AEROSPACE+DEFENSE",       q:6,    cost:186.70,  px:229.64,  val:1377.84, pl:23.0,  spark:"up",  rec:"HOLD", conf:60, votes:{buy:2,hold:3,sell:0} },
+  { t:"NVDA",   n:"NVIDIA",                  q:6.68, cost:155.82,  px:188.63,  val:1259.85, pl:21.1,  spark:"up",  rec:"BUY",  conf:86, votes:{buy:3,hold:2,sell:0} },
+  { t:"URNM",   n:"URANIUM MINERS",          q:18,   cost:47.01,   px:64.44,   val:1159.92, pl:37.1,  spark:"up",  rec:"BUY",  conf:75, votes:{buy:4,hold:1,sell:0} },
+  { t:"BN",     n:"BROOKFIELD_CORP",         q:24,   cost:43.78,   px:42.14,   val:1011.36, pl:-3.7,  spark:"flat",rec:"HOLD", conf:51, votes:{buy:1,hold:4,sell:0} },
+  { t:"NLR",    n:"NUCLEAR_ENERGY",          q:7,    cost:105.67,  px:136.75,  val:957.25,  pl:29.4,  spark:"up",  rec:"HOLD", conf:58, votes:{buy:2,hold:3,sell:0} },
+  { t:"XLV",    n:"HEALTHCARE_ETF",          q:5,    cost:154.42,  px:147.31,  val:736.55,  pl:-4.6,  spark:"down",rec:"HOLD", conf:59, votes:{buy:1,hold:4,sell:0} },
+  { t:"IBIT",   n:"BITCOIN_ETF",             q:37,   cost:52.97,   px:41.56,   val:1537.72, pl:-21.5, spark:"down",rec:"HOLD", conf:28, votes:{buy:0,hold:2,sell:3} },
+  { t:"ETHA",   n:"ETHEREUM_ETF",            q:10,   cost:31.72,   px:17.05,   val:170.50,  pl:-46.2, spark:"down",rec:"SELL", conf:75, votes:{buy:0,hold:1,sell:4} },
+];
+
+const sparkPaths = {
+  up:   "M0,24 L10,22 L20,20 L30,16 L40,18 L50,10 L60,12 L70,6 L80,8 L90,4 L100,3",
+  down: "M0,4 L10,6 L20,8 L30,14 L40,12 L50,18 L60,20 L70,22 L80,26 L90,24 L100,28",
+  flat: "M0,14 L10,13 L20,15 L30,14 L40,16 L50,14 L60,15 L70,13 L80,14 L90,13 L100,14",
+};
+
+const hGrid = document.getElementById("holdings");
+holdings.forEach(h => {
+  const isUp = h.pl >= 0;
+  const stroke = isUp ? "var(--lime)" : "var(--pink)";
+  const strokeHex = isUp ? "#A3E635" : "#EC4899";
+  const pillCls = h.rec === "BUY" ? "pill-buy" : h.rec === "SELL" ? "pill-sell" : "pill-hold";
+
+  // Persona vote dots — 5 dots, colored by verdict
+  let votesHtml = "";
+  for (let i = 0; i < h.votes.buy;  i++) votesHtml += '<span class="dot bg-[var(--lime)]"></span>';
+  for (let i = 0; i < h.votes.hold; i++) votesHtml += '<span class="dot bg-[var(--amber)]"></span>';
+  for (let i = 0; i < h.votes.sell; i++) votesHtml += '<span class="dot bg-[var(--pink)]"></span>';
+
+  hGrid.insertAdjacentHTML("beforeend", `
+    <div class="panel shadow-cyan p-4 cursor-pointer group">
+      <span class="corn-bl"></span><span class="corn-br"></span>
+      <div class="flex items-start justify-between mb-3">
+        <div>
+          <div class="flex items-baseline gap-2">
+            <span class="mono font-bold text-sm tracking-widest text-white">${h.t}</span>
+            <span class="mono text-[10px] text-white/40">${h.n}</span>
+          </div>
+          <div class="flex items-center gap-1.5 mt-1">
+            ${votesHtml}
+            <span class="mono text-[10px] text-white/40 ml-1">${h.votes.buy}B/${h.votes.hold}H/${h.votes.sell}S</span>
+          </div>
+        </div>
+        <span class="pill ${pillCls}">${h.rec} ${h.conf}%</span>
+      </div>
+
+      <div class="flex items-end justify-between">
+        <div>
+          <div class="tab text-2xl font-bold text-white ${isUp ? 'glow-lime' : 'glow-pink'}" style="text-shadow: 0 0 12px ${isUp ? 'rgba(163,230,53,0.3)' : 'rgba(236,72,153,0.3)'}">$${h.px.toFixed(2)}</div>
+          <div class="mono text-[11px] ${isUp ? 'up' : 'dn'} mt-1 tracking-wider">${isUp ? '▲' : '▼'} ${Math.abs(h.pl).toFixed(1)}%</div>
+        </div>
+        <svg viewBox="0 0 100 30" class="w-24 h-10 shrink-0">
+          <defs>
+            <filter id="f-${h.t}">
+              <feGaussianBlur stdDeviation="1.2" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <polyline points="${sparkPaths[h.spark].replace(/[ML]/g,'').trim().split(/\s+/).join(' ')}" fill="none" stroke="${strokeHex}" stroke-width="1.3" stroke-linecap="round" filter="url(#f-${h.t})"/>
+        </svg>
+      </div>
+
+      <div class="mt-3 pt-3 hairline grid grid-cols-3 mono text-[10px] text-white/40 tracking-widest">
+        <span>QTY:${h.q}</span>
+        <span class="text-center">AVG:$${h.cost.toFixed(0)}</span>
+        <span class="text-right">VAL:$${h.val.toFixed(0)}</span>
+      </div>
+    </div>
+  `);
+});
+
+// Insights with persona breakdown
+const insights = [
+  { t:"MSFT",  a:"NEW_IDEA", conf:90, r:"AI_HYPERSCALER :: AZURE+OPENAI+COPILOT", votes:{buy:5,hold:0,sell:0}, cls:"pill-new" },
+  { t:"VOO",   a:"BUY",      conf:92, r:"ANCHOR_S&P :: LOW_EXPENSE_RATIO", votes:{buy:5,hold:0,sell:0}, cls:"pill-buy" },
+  { t:"ETHA",  a:"SELL",     conf:75, r:"CRYPTO_CAP_BREACH :: 3%_LIMIT_EXCEEDED", votes:{buy:0,hold:1,sell:4}, cls:"pill-sell" },
+  { t:"SMCI",  a:"NEW_IDEA", conf:85, r:"AI_HARDWARE :: DATACENTER_BUILDOUT", votes:{buy:4,hold:1,sell:0}, cls:"pill-new" },
+];
+
+const insBox = document.getElementById("insights");
+insights.forEach(i => {
+  let votesHtml = "";
+  for (let j = 0; j < i.votes.buy;  j++) votesHtml += '<span class="dot bg-[var(--lime)]"></span>';
+  for (let j = 0; j < i.votes.hold; j++) votesHtml += '<span class="dot bg-[var(--amber)]"></span>';
+  for (let j = 0; j < i.votes.sell; j++) votesHtml += '<span class="dot bg-[var(--pink)]"></span>';
+
+  insBox.insertAdjacentHTML("beforeend", `
+    <div class="py-3 first:pt-0 last:pb-0 hairline first:border-t-0">
+      <div class="flex items-start justify-between gap-2 mb-2">
+        <div>
+          <div class="mono text-xs font-bold text-white tracking-widest">${i.t}</div>
+          <div class="flex items-center gap-1 mt-1">${votesHtml}</div>
+        </div>
+        <span class="pill ${i.cls}">${i.a} ${i.conf}</span>
+      </div>
+      <div class="mono text-[10px] text-white/50 tracking-widest">${i.r}</div>
+    </div>
+  `);
+});
+</script>
+</body>
+</html>

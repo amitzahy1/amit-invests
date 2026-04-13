@@ -1,0 +1,45 @@
+{
+  "profile_name": "Amit — Conservative AI Bull (default)",
+  "style": "conservative",
+  "horizon_years": 4,
+  "trading_frequency": "bi-monthly",
+  "contribution_ils": 4000,
+  "contribution_frequency_days": 60,
+  "theses": [
+    "AI is the dominant growth story of the next 3 years; companies will grow via AI rather than headcount",
+    "Google/Alphabet is a core long-term AI winner",
+    "US index exposure via S&P 500 is the portfolio anchor",
+    "Israeli insurance sector ETF (5108.TA) is a defensive diversifier",
+    "Crypto is speculative — keep exposure limited"
+  ],
+  "preferred_sectors": [
+    "Technology",
+    "Aerospace & Defense",
+    "Energy / Nuclear",
+    "Energy / Uranium",
+    "Healthcare",
+    "Insurance (Israel)",
+    "Broad Market"
+  ],
+  "avoid_sectors": [
+    "Crypto"
+  ],
+  "crypto_cap_pct": 3,
+  "risk_level": "medium",
+  "personas_active": [
+    "warren_buffett",
+    "charlie_munger",
+    "cathie_wood",
+    "peter_lynch",
+    "risk_manager",
+    "sentiment",
+    "technical_analyst",
+    "fundamentals_analyst",
+    "macro"
+  ],
+  "telegram": {
+    "enabled": true,
+    "send_daily_digest": true,
+    "send_alerts_on_strong_verdicts": true
+  }
+}

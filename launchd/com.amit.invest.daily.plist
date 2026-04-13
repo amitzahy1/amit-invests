@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.amit.invest.daily</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/Users/amitzahy/Documents/Draft/Amit Invests/scripts/run_daily.sh</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/amitzahy/Documents/Draft/Amit Invests</string>
+
+    <!--
+        Runs daily at 16:35 Israel local time = 5 minutes after US market open
+        (09:30 ET = 16:30 IDT/IST for most of the year). launchd uses system
+        local time, so Israeli DST is auto-handled. Drift of up to ~60 min
+        happens during the 2 weeks/year when US and Israel DST shifts don't
+        align (mid-March, late-Oct) — use the "Run AI Now" button on the
+        Portfolio page for those edge cases.
+    -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>16</integer>
+        <key>Minute</key>
+        <integer>35</integer>
+    </dict>
+
+    <!-- Don't fire a missed run if the Mac was asleep — next day is fine -->
+    <key>StartCalendarIntervalEnforce</key>
+    <false/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/amitzahy/Documents/Draft/Amit Invests/logs/launchd.out</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/amitzahy/Documents/Draft/Amit Invests/logs/launchd.err</string>
+
+    <!-- Inherit PATH so `python3`, `poetry`, etc. resolve -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+    </dict>
+</dict>
+</plist>

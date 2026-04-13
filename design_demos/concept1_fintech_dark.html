@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Portfolio · FinTech Dark (Concept 🅐)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-0: #07070B;
+    --bg-1: #0C0C12;
+    --glass: rgba(255,255,255,0.035);
+    --glass-hi: rgba(255,255,255,0.06);
+    --border: rgba(255,255,255,0.06);
+    --border-hi: rgba(255,255,255,0.12);
+    --txt: #F5F5F7;
+    --txt-dim: rgba(255,255,255,0.55);
+    --emerald: #10B981;
+    --ruby: #EF4444;
+    --amber: #F59E0B;
+    --blue: #3B82F6;
+  }
+  html, body { background: var(--bg-0); color: var(--txt); font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; }
+  body {
+    background:
+      radial-gradient(1000px 600px at 10% -10%, rgba(59,130,246,0.07), transparent 60%),
+      radial-gradient(800px 500px at 90% 0%, rgba(16,185,129,0.05), transparent 55%),
+      radial-gradient(600px 400px at 50% 100%, rgba(139,92,246,0.04), transparent 60%),
+      var(--bg-0);
+    min-height: 100vh;
+  }
+  .tabular { font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .glass {
+    background: var(--glass);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 20px;
+    position: relative;
+  }
+  .glass:hover { background: var(--glass-hi); border-color: var(--border-hi); }
+  .glass-top::before {
+    content: ""; position: absolute; top: 0; left: 16px; right: 16px; height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.15), transparent);
+  }
+  .chip { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 999px; display: inline-flex; align-items: center; gap: 6px; }
+  .chip-up { background: rgba(16,185,129,0.12); color: #6EE7B7; border: 1px solid rgba(16,185,129,0.25); }
+  .chip-dn { background: rgba(239,68,68,0.12); color: #FCA5A5; border: 1px solid rgba(239,68,68,0.25); }
+  .chip-hold { background: rgba(245,158,11,0.10); color: #FCD34D; border: 1px solid rgba(245,158,11,0.25); }
+  .chip-blue { background: rgba(59,130,246,0.12); color: #93C5FD; border: 1px solid rgba(59,130,246,0.25); }
+  .pos { color: #6EE7B7; }
+  .neg { color: #FCA5A5; }
+  .kbd { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 1px 5px; border-radius: 4px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
+  .grain::before { content:""; position:fixed; inset:0; pointer-events:none; opacity:.02;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");}
+  .ring-accent { box-shadow: 0 0 0 1px rgba(16,185,129,0.35), 0 8px 32px -8px rgba(16,185,129,0.15); }
+  button { cursor: pointer; }
+  .scroll-x::-webkit-scrollbar { height: 6px; }
+  .scroll-x::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+</style>
+</head>
+<body class="grain">
+
+<!-- ═══ TOP BAR ═══ -->
+<div class="sticky top-0 z-40 backdrop-blur-xl bg-black/40 border-b border-white/5">
+  <div class="max-w-[1600px] mx-auto px-6 h-16 flex items-center justify-between">
+    <div class="flex items-center gap-6">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-blue-500 grid place-items-center">
+          <svg viewBox="0 0 24 24" class="w-4 h-4 text-black" fill="none" stroke="currentColor" stroke-width="3"><path d="M3 17l6-6 4 4 8-8"/></svg>
+        </div>
+        <span class="font-bold tracking-tight">Portfolio / Amit</span>
+      </div>
+      <nav class="hidden md:flex items-center gap-1 text-sm text-white/60">
+        <a class="px-3 py-1.5 rounded-lg bg-white/5 text-white font-medium">Portfolio</a>
+        <a class="px-3 py-1.5 rounded-lg hover:bg-white/5">Recommendations</a>
+        <a class="px-3 py-1.5 rounded-lg hover:bg-white/5">Import</a>
+        <a class="px-3 py-1.5 rounded-lg hover:bg-white/5">Inbox <span class="ml-1.5 chip chip-blue">2</span></a>
+        <a class="px-3 py-1.5 rounded-lg hover:bg-white/5">Settings</a>
+      </nav>
+    </div>
+    <div class="flex items-center gap-3">
+      <div class="hidden sm:flex items-center gap-2 mono text-xs text-white/50">
+        <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        Market open · <span class="text-white/80">USD/ILS 3.06</span>
+      </div>
+      <button class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 flex items-center gap-2">
+        <svg viewBox="0 0 24 24" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        Refresh
+      </button>
+      <button class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 flex items-center gap-2">
+        <svg viewBox="0 0 24 24" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+        Run AI
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MAIN ═══ -->
+<main class="max-w-[1600px] mx-auto px-6 py-8">
+
+  <!-- HERO -->
+  <div class="flex items-end justify-between mb-6">
+    <div>
+      <div class="text-[11px] uppercase tracking-[0.2em] text-white/40 font-semibold mb-2">Overview</div>
+      <h1 class="text-3xl font-bold tracking-tight">Good morning, Amit</h1>
+      <div class="text-sm text-white/50 mt-1">Conservative AI Bull · 4y horizon · 16 holdings</div>
+    </div>
+    <div class="hidden md:flex items-center gap-2">
+      <span class="kbd">⌘K</span>
+      <span class="text-xs text-white/40">to jump</span>
+    </div>
+  </div>
+
+  <!-- BENTO GRID -->
+  <div class="grid grid-cols-12 gap-4">
+
+    <!-- Total Value (big) -->
+    <div class="col-span-12 md:col-span-5 glass glass-top p-6">
+      <div class="flex items-center justify-between mb-4">
+        <div class="text-xs uppercase tracking-[0.2em] text-white/40 font-semibold">Total Portfolio Value</div>
+        <span class="chip chip-up">▲ +0.24% today</span>
+      </div>
+      <div class="tabular text-5xl font-bold">$28,245<span class="text-2xl text-white/40 ml-2 font-normal">USD</span></div>
+      <div class="tabular text-sm text-white/60 mt-1">₪86,430 · cost $21,932 · <span class="pos font-semibold">+28.8%</span> all-time</div>
+
+      <!-- Total value sparkline -->
+      <svg viewBox="0 0 400 60" class="w-full h-14 mt-4">
+        <defs>
+          <linearGradient id="tvGrad" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#10B981" stop-opacity="0.35"/>
+            <stop offset="100%" stop-color="#10B981" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path d="M0,48 L30,44 L60,46 L90,40 L120,42 L150,36 L180,38 L210,30 L240,28 L270,22 L300,26 L330,18 L360,14 L400,10 L400,60 L0,60 Z" fill="url(#tvGrad)"/>
+        <path d="M0,48 L30,44 L60,46 L90,40 L120,42 L150,36 L180,38 L210,30 L240,28 L270,22 L300,26 L330,18 L360,14 L400,10" stroke="#10B981" stroke-width="1.75" fill="none" stroke-linecap="round"/>
+      </svg>
+
+      <div class="grid grid-cols-3 gap-3 mt-3 pt-3 border-t border-white/5">
+        <div><div class="text-[10px] uppercase tracking-wider text-white/40">1W</div><div class="tabular text-sm pos font-semibold">+3.7%</div></div>
+        <div><div class="text-[10px] uppercase tracking-wider text-white/40">1M</div><div class="tabular text-sm pos font-semibold">+0.6%</div></div>
+        <div><div class="text-[10px] uppercase tracking-wider text-white/40">1Y</div><div class="tabular text-sm pos font-semibold">+23.8%</div></div>
+      </div>
+    </div>
+
+    <!-- Risk -->
+    <div class="col-span-6 md:col-span-3 glass glass-top p-5">
+      <div class="flex items-center justify-between mb-2">
+        <div class="text-xs uppercase tracking-[0.2em] text-white/40 font-semibold">Risk</div>
+        <svg viewBox="0 0 24 24" class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01"/><path d="m21.73 18-8-14a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/></svg>
+      </div>
+      <div class="text-2xl font-bold">Medium</div>
+      <div class="text-xs text-white/60 mt-1">Vol 22.4% · β 1.08</div>
+      <div class="mt-3 flex gap-1">
+        <div class="h-1.5 flex-1 rounded-full bg-emerald-500/60"></div>
+        <div class="h-1.5 flex-1 rounded-full bg-emerald-500/60"></div>
+        <div class="h-1.5 flex-1 rounded-full bg-amber-500/80"></div>
+        <div class="h-1.5 flex-1 rounded-full bg-white/10"></div>
+        <div class="h-1.5 flex-1 rounded-full bg-white/10"></div>
+      </div>
+    </div>
+
+    <!-- Best performer -->
+    <div class="col-span-6 md:col-span-2 glass glass-top p-5">
+      <div class="text-xs uppercase tracking-[0.2em] text-white/40 font-semibold mb-2">Best</div>
+      <div class="text-lg font-bold">KSM-F34</div>
+      <div class="text-xs text-white/60">Israeli Broad</div>
+      <div class="tabular pos text-lg font-bold mt-1">+176.9%</div>
+    </div>
+
+    <!-- Worst -->
+    <div class="col-span-6 md:col-span-2 glass glass-top p-5">
+      <div class="text-xs uppercase tracking-[0.2em] text-white/40 font-semibold mb-2">Worst</div>
+      <div class="text-lg font-bold">ETHA</div>
+      <div class="text-xs text-white/60">Crypto</div>
+      <div class="tabular neg text-lg font-bold mt-1">-46.2%</div>
+    </div>
+
+    <!-- 16 holdings counter -->
+    <div class="col-span-12 md:col-span-2 glass glass-top p-5">
+      <div class="text-xs uppercase tracking-[0.2em] text-white/40 font-semibold mb-2">Holdings</div>
+      <div class="flex items-end gap-2">
+        <div class="text-3xl font-bold tabular">16</div>
+        <div class="text-xs text-white/50 pb-1">across 8 sectors</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SECOND ROW — Holdings grid + Smart Insights -->
+  <div class="grid grid-cols-12 gap-4 mt-4">
+
+    <!-- HOLDINGS GRID -->
+    <div class="col-span-12 lg:col-span-8">
+      <div class="flex items-center justify-between mb-3">
+        <div>
+          <h2 class="font-bold text-lg">Holdings</h2>
+          <div class="text-xs text-white/40">Sorted by value · 16 positions</div>
+        </div>
+        <div class="flex items-center gap-2 text-xs">
+          <button class="chip chip-blue">All</button>
+          <button class="text-white/40 px-2.5 py-1">Stocks</button>
+          <button class="text-white/40 px-2.5 py-1">ETFs</button>
+          <button class="text-white/40 px-2.5 py-1">Crypto</button>
+        </div>
+      </div>
+
+      <div id="holdings-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+    </div>
+
+    <!-- SMART INSIGHTS -->
+    <div class="col-span-12 lg:col-span-4">
+      <div class="glass glass-top p-5 ring-accent">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-2">
+            <svg viewBox="0 0 24 24" class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2 2-6z"/>
+            </svg>
+            <h2 class="font-bold text-lg">Smart Insights</h2>
+          </div>
+          <span class="chip chip-up">Live</span>
+        </div>
+
+        <div class="text-sm text-white/70 leading-relaxed mb-5 pb-4 border-b border-white/5">
+          AI flagged <span class="pos font-semibold">5 strong buys</span> and <span class="neg font-semibold">2 sells</span> tuned to your "Conservative AI Bull" profile. ETHA exceeds your 3% crypto cap — consider trimming.
+        </div>
+
+        <div id="insights"></div>
+
+        <button class="mt-4 w-full text-sm font-semibold py-2.5 rounded-xl border border-white/10 hover:bg-white/5 flex items-center justify-center gap-2">
+          View all 5 personas' reasoning
+          <svg viewBox="0 0 24 24" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+
+      <!-- Allocation mini -->
+      <div class="glass glass-top p-5 mt-4">
+        <div class="text-xs uppercase tracking-[0.2em] text-white/40 font-semibold mb-3">Sector Allocation</div>
+        <div class="space-y-2.5" id="sectors"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="mt-10 pt-6 border-t border-white/5 text-xs text-white/30 flex items-center justify-between">
+    <div>Concept 🅐 — Modern FinTech Dark · Bento + Glassmorphism</div>
+    <div class="mono">Typography: Plus Jakarta Sans + JetBrains Mono</div>
+  </footer>
+</main>
+
+<script>
+// ─── Data ────────────────────────────────────────────────────────────────
+// votes: {buy, hold, sell} across the 5 active personas (Buffett, Wood, Technical, Fundamentals, Risk Manager)
+const holdings = [
+  { t: "SPY",    n: "S&P 500 ETF",      s: "Broad",     q: 8,    cost: 572.45,  px: 679.46,  val: 5435.68, pl: 18.7,  sec: "Broad",       rec: "BUY 90%",  spark: "up",   color: "#10B981", votes:{buy:5,hold:0,sell:0} },
+  { t: "QQQM",   n: "Nasdaq 100 ETF",   s: "Broad",     q: 11,   cost: 202.60,  px: 251.60,  val: 2767.60, pl: 24.2,  sec: "Broad",       rec: "BUY 80%",  spark: "up",   color: "#10B981", votes:{buy:4,hold:1,sell:0} },
+  { t: "VOO",    n: "S&P 500 ETF",      s: "Broad",     q: 3,    cost: 624.16,  px: 624.60,  val: 1873.80, pl: 0.07,  sec: "Broad",       rec: "BUY 92%",  spark: "flat", color: "#10B981", votes:{buy:5,hold:0,sell:0} },
+  { t: "GOOGL",  n: "Alphabet (Google)",s: "Tech",      q: 4.46, cost: 179.13,  px: 317.24,  val: 1414.89, pl: 77.1,  sec: "Tech",        rec: "BUY 87%",  spark: "up",   color: "#3B82F6", votes:{buy:4,hold:1,sell:0} },
+  { t: "NVDA",   n: "Nvidia Corp",      s: "Tech",      q: 6.68, cost: 155.82,  px: 188.63,  val: 1259.85, pl: 21.1,  sec: "Tech",        rec: "BUY 86%",  spark: "up",   color: "#3B82F6", votes:{buy:3,hold:2,sell:0} },
+  { t: "ITA",    n: "Aerospace & Def",  s: "Defense",   q: 6,    cost: 186.70,  px: 229.64,  val: 1377.84, pl: 23.0,  sec: "Defense",     rec: "HOLD 60%", spark: "up",   color: "#F59E0B", votes:{buy:2,hold:3,sell:0} },
+  { t: "URNM",   n: "Uranium Miners",   s: "Energy",    q: 18,   cost: 47.01,   px: 64.44,   val: 1159.92, pl: 37.1,  sec: "Energy",      rec: "BUY 75%",  spark: "up",   color: "#EC4899", votes:{buy:4,hold:1,sell:0} },
+  { t: "BN",     n: "Brookfield Corp",  s: "Financial", q: 24,   cost: 43.78,   px: 42.14,   val: 1011.36, pl: -3.7,  sec: "Financials",  rec: "HOLD 51%", spark: "flat", color: "#06B6D4", votes:{buy:1,hold:4,sell:0} },
+  { t: "NLR",    n: "Nuclear Energy",   s: "Energy",    q: 7,    cost: 105.67,  px: 136.75,  val: 957.25,  pl: 29.4,  sec: "Energy",      rec: "HOLD 58%", spark: "up",   color: "#EC4899", votes:{buy:2,hold:3,sell:0} },
+  { t: "XLV",    n: "Healthcare ETF",   s: "Health",    q: 5,    cost: 154.42,  px: 147.31,  val: 736.55,  pl: -4.6,  sec: "Healthcare",  rec: "HOLD 59%", spark: "down", color: "#10B981", votes:{buy:1,hold:4,sell:0} },
+  { t: "AMZN",   n: "Amazon",           s: "Consumer",  q: 3,    cost: 226.72,  px: 238.38,  val: 715.14,  pl: 5.1,   sec: "Consumer",    rec: "BUY 75%",  spark: "up",   color: "#F59E0B", votes:{buy:3,hold:2,sell:0} },
+  { t: "IBIT",   n: "Bitcoin ETF",      s: "Crypto",    q: 37,   cost: 52.97,   px: 41.56,   val: 1537.72, pl: -21.5, sec: "Crypto",      rec: "HOLD 28%", spark: "down", color: "#F97316", votes:{buy:0,hold:2,sell:3} },
+  { t: "CPNG",   n: "Coupang",          s: "Consumer",  q: 23,   cost: 26.96,   px: 19.76,   val: 454.48,  pl: -26.7, sec: "Consumer",    rec: "HOLD 46%", spark: "down", color: "#F59E0B", votes:{buy:0,hold:3,sell:2} },
+  { t: "ETHA",   n: "Ethereum ETF",     s: "Crypto",    q: 10,   cost: 31.72,   px: 17.05,   val: 170.50,  pl: -46.2, sec: "Crypto",      rec: "SELL 75%", spark: "down", color: "#F97316", votes:{buy:0,hold:1,sell:4} },
+  { t: "KSM-F34",n: "Kesem F34 (ILS)",  s: "Israeli",   q: 13,   cost: 480.86,  px: 1331.80, val: 5659,    pl: 176.9, sec: "Israeli",     rec: "HOLD 68%", spark: "up",   color: "#14B8A6", votes:{buy:2,hold:3,sell:0} },
+  { t: "KSM-F77",n: "Kesem F77 (ILS)",  s: "Israeli",   q: 7,    cost: 505.80,  px: 746.90,  val: 1709,    pl: 47.6,  sec: "Israeli",     rec: "HOLD 62%", spark: "up",   color: "#14B8A6", votes:{buy:2,hold:3,sell:0} },
+];
+
+const sparkPaths = {
+  up:   "M0,24 C10,22 20,20 30,18 S50,12 60,10 S80,4 100,3",
+  down: "M0,4 C10,6 20,8 30,12 S50,18 60,20 S80,24 100,26",
+  flat: "M0,14 C10,13 20,15 30,14 S50,16 60,14 S80,13 100,14",
+};
+
+const insights = [
+  { t: "MSFT",  action: "NEW IDEA", conf: 90, rationale: "AI hyperscaler complement to GOOGL — Azure + OpenAI + Copilot", color: "emerald" },
+  { t: "VOO",   action: "BUY",      conf: 92, rationale: "Your S&P anchor — keep accumulating in bi-monthly contributions", color: "emerald" },
+  { t: "ETHA",  action: "SELL",     conf: 75, rationale: "Exceeds your 3% crypto cap; AI-skeptic profile", color: "ruby" },
+  { t: "SMCI",  action: "NEW IDEA", conf: 85, rationale: "Picks-and-shovels play on AI datacenter buildout", color: "emerald" },
+  { t: "CPNG",  action: "WATCH",    conf: 54, rationale: "Korean e-commerce squeeze — re-evaluate after Q2", color: "amber" },
+];
+
+const sectors = [
+  { n: "Broad Market", w: 35.8, c: "bg-slate-400" },
+  { n: "Israeli ETF",  w: 26.1, c: "bg-teal-400" },
+  { n: "Technology",   w: 12.3, c: "bg-blue-400" },
+  { n: "Energy",       w: 7.5,  c: "bg-pink-400" },
+  { n: "Defense",      w: 4.9,  c: "bg-amber-400" },
+  { n: "Crypto",       w: 6.0,  c: "bg-orange-400" },
+  { n: "Financials",   w: 3.6,  c: "bg-cyan-400" },
+  { n: "Other",        w: 3.8,  c: "bg-white/30" },
+];
+
+// ─── Render holdings ─────────────────────────────────────────────────────
+const grid = document.getElementById("holdings-grid");
+holdings.slice(0, 12).forEach(h => {
+  const isUp = h.pl >= 0;
+  const actionColor = h.rec.startsWith("BUY") ? "chip-up" :
+                       h.rec.startsWith("SELL") ? "chip-dn" : "chip-hold";
+  // Persona vote dots — 5 positions, colored emerald/amber/red
+  let votesHtml = "";
+  for (let i = 0; i < h.votes.buy;  i++) votesHtml += '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400" title="Buy"></span>';
+  for (let i = 0; i < h.votes.hold; i++) votesHtml += '<span class="w-1.5 h-1.5 rounded-full bg-amber-400" title="Hold"></span>';
+  for (let i = 0; i < h.votes.sell; i++) votesHtml += '<span class="w-1.5 h-1.5 rounded-full bg-red-400" title="Sell"></span>';
+
+  grid.insertAdjacentHTML("beforeend", `
+    <div class="glass glass-top p-4 cursor-pointer group">
+      <div class="flex items-start justify-between mb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl grid place-items-center font-bold text-sm" style="background: ${h.color}22; color: ${h.color}; border: 1px solid ${h.color}33;">${h.t.slice(0,2)}</div>
+          <div>
+            <div class="font-semibold text-sm leading-tight">${h.t}</div>
+            <div class="text-[11px] text-white/50 leading-tight">${h.n}</div>
+            <div class="flex items-center gap-1 mt-1" title="${h.votes.buy} buy · ${h.votes.hold} hold · ${h.votes.sell} sell across 5 personas">
+              ${votesHtml}
+              <span class="text-[10px] text-white/40 ml-1 mono">${h.votes.buy}/${h.votes.hold}/${h.votes.sell}</span>
+            </div>
+          </div>
+        </div>
+        <span class="chip ${actionColor}">${h.rec}</span>
+      </div>
+
+      <div class="flex items-end justify-between">
+        <div>
+          <div class="tabular text-xl font-bold">$${h.px.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}</div>
+          <div class="tabular text-xs ${isUp ? 'pos' : 'neg'} mt-0.5 font-semibold">
+            ${isUp ? '▲' : '▼'} ${Math.abs(h.pl).toFixed(1)}% · ${isUp ? '+' : ''}$${(h.val - h.q*h.cost).toFixed(0)}
+          </div>
+        </div>
+        <svg viewBox="0 0 100 30" class="w-20 h-10 shrink-0">
+          <defs>
+            <linearGradient id="g-${h.t}" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="${isUp ? '#10B981' : '#EF4444'}" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="${isUp ? '#10B981' : '#EF4444'}" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <path d="${sparkPaths[h.spark]} L100,30 L0,30 Z" fill="url(#g-${h.t})" />
+          <path d="${sparkPaths[h.spark]}" stroke="${isUp ? '#10B981' : '#EF4444'}" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <div class="mt-3 pt-3 border-t border-white/5 grid grid-cols-3 text-[10px] uppercase tracking-wider text-white/40">
+        <div>Qty<br><span class="tabular text-white/80 text-sm normal-case font-semibold tracking-normal">${h.q}</span></div>
+        <div>Value<br><span class="tabular text-white/80 text-sm normal-case font-semibold tracking-normal">$${h.val.toFixed(0)}</span></div>
+        <div>Weight<br><span class="tabular text-white/80 text-sm normal-case font-semibold tracking-normal">${(h.val/28245*100).toFixed(1)}%</span></div>
+      </div>
+    </div>
+  `);
+});
+
+// ─── Render insights ─────────────────────────────────────────────────────
+const insBox = document.getElementById("insights");
+insights.forEach(i => {
+  const cls = i.color === "emerald" ? "chip-up" : i.color === "ruby" ? "chip-dn" : "chip-hold";
+  const iconColor = i.color === "emerald" ? "text-emerald-400" : i.color === "ruby" ? "text-red-400" : "text-amber-400";
+  insBox.insertAdjacentHTML("beforeend", `
+    <div class="py-3 first:pt-0 border-b border-white/5 last:border-0">
+      <div class="flex items-start justify-between gap-3 mb-1.5">
+        <div class="flex items-center gap-2">
+          <span class="font-bold text-sm">${i.t}</span>
+          <span class="chip ${cls}">${i.action} · ${i.conf}%</span>
+        </div>
+      </div>
+      <div class="text-xs text-white/60 leading-relaxed">${i.rationale}</div>
+    </div>
+  `);
+});
+
+// ─── Render sectors ──────────────────────────────────────────────────────
+const sectorsBox = document.getElementById("sectors");
+sectors.forEach(s => {
+  sectorsBox.insertAdjacentHTML("beforeend", `
+    <div>
+      <div class="flex justify-between text-xs mb-1">
+        <span class="text-white/70">${s.n}</span>
+        <span class="tabular text-white/50">${s.w}%</span>
+      </div>
+      <div class="h-1.5 rounded-full bg-white/5 overflow-hidden">
+        <div class="h-full rounded-full ${s.c}" style="width: ${s.w * 2.5}%"></div>
+      </div>
+    </div>
+  `);
+});
+</script>
+</body>
+</html>
