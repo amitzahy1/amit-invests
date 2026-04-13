@@ -245,8 +245,7 @@ with st.expander("📲 Telegram digest — daily push (and strong-signal alerts)
 get an immediate push (not just the daily digest) — controlled by the
 *"Send immediate alert on STRONG BUY / STRONG SELL"* toggle in Settings.
 
-**How to set it up.** Look at the Settings page → Telegram section for a step-by-step guide.
-You need a bot token (from @BotFather) and your chat ID.
+**Credentials** are stored in environment secrets — `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`.
 
 **Privacy.** Messages go directly to Telegram's Bot API from your Mac. No third-party server
 in the middle.

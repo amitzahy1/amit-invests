@@ -14,6 +14,8 @@ Design principles (research-backed, Bloomberg + Morningstar pattern):
 
 from _bootstrap import inject_css, inject_header, handle_actions, load_json, minify
 
+import html as _html
+from datetime import datetime, timezone
 import streamlit as st
 from config import DISPLAY_NAMES
 
@@ -43,8 +45,27 @@ if not recs:
 profile = recs.get("profile_name", "—")
 holdings = recs.get("holdings", [])
 new_ideas = recs.get("new_ideas", [])
-updated = (recs.get("updated") or "—")[:16].replace("T", " ")
+updated_raw = recs.get("updated") or ""
+updated = updated_raw[:16].replace("T", " ") if updated_raw else "—"
 is_dry_run = bool(recs.get("dry_run", False))
+
+# Freshness badge
+_freshness_html = ""
+if updated_raw:
+    try:
+        _ts = datetime.fromisoformat(updated_raw.replace("Z", "+00:00"))
+        _age_h = (datetime.now(timezone.utc) - _ts).total_seconds() / 3600
+        if _age_h < 1:
+            _fl, _fc = "Just now", "fresh-green"
+        elif _age_h < 12:
+            _fl, _fc = f"{int(_age_h)}h ago", "fresh-green"
+        elif _age_h < 48:
+            _fl, _fc = f"{int(_age_h)}h ago", "fresh-yellow"
+        else:
+            _fl, _fc = f"{int(_age_h / 24)}d ago", "fresh-red"
+        _freshness_html = f'<span class="recs-fresh recs-fresh-{_fc}">{_fl}</span>'
+    except Exception:
+        pass
 
 n_buy = sum(1 for h in holdings if (h.get("verdict") or "").lower() == "buy")
 n_hold = sum(1 for h in holdings if (h.get("verdict") or "").lower() == "hold")
@@ -102,21 +123,21 @@ def _conviction_bar(pct: int, verdict: str) -> str:
 
 def persona_block_html(p):
     pkey = p.get("name", "")
-    pname = p.get("display_name") or pkey
+    pname = _html.escape(p.get("display_name") or pkey)
     pv = (p.get("verdict") or "hold").lower()
     pc = int(p.get("conviction", 0))
     pcol = PERSONA_COLORS.get(pkey, "#6B7280")
     cls = VERDICT_CLS.get(pv, "pill-hold")
-    rationale = p.get("rationale", "")
-    is_hebrew = any('\u0590' <= c <= '\u05FF' for c in rationale[:80])
-    rtl = ' dir="rtl"' if is_hebrew else ''
+    rationale = _html.escape(p.get("rationale", ""))
+    is_hebrew = any('\u0590' <= c <= '\u05FF' for c in (p.get("rationale") or "")[:80])
+    dir_attr = ' dir="rtl"' if is_hebrew else ''
     return (
         f'<div class="recs-persona" style="border-left-color:{pcol};">'
         f'<div class="recs-persona-head">'
         f'<div class="recs-persona-name" style="color:{pcol};">{pname}</div>'
         f'<span class="pill {cls}" style="font-size:10px;">{pv.upper()} {pc}</span>'
         f'</div>'
-        f'<div{rtl} class="recs-persona-body">{rationale}</div>'
+        f'<div{dir_attr} class="recs-persona-body">{rationale}</div>'
         f'</div>'
     )
 
@@ -153,14 +174,12 @@ def render_action_row(h: dict, accent: str) -> None:
     )
     if personas:
         with st.expander(f"Why {tk}? — {len(personas)} analysts", expanded=False):
-            pairs = [personas[i:i+2] for i in range(0, len(personas), 2)]
-            for batch in pairs:
-                st.markdown(
-                    '<div class="recs-persona-grid">'
-                    + "".join(persona_block_html(p) for p in batch)
-                    + '</div>',
-                    unsafe_allow_html=True,
-                )
+            st.markdown(
+                '<div class="recs-persona-grid">'
+                + "".join(persona_block_html(p) for p in personas)
+                + '</div>',
+                unsafe_allow_html=True,
+            )
 
 
 def render_mini_card(h: dict, accent: str) -> None:
@@ -185,22 +204,21 @@ def render_mini_card(h: dict, accent: str) -> None:
     )
     if personas:
         with st.expander(f"Why {tk}?", expanded=False):
-            pairs = [personas[i:i+2] for i in range(0, len(personas), 2)]
-            for batch in pairs:
-                st.markdown(
-                    '<div class="recs-persona-grid">'
-                    + "".join(persona_block_html(p) for p in batch)
-                    + '</div>',
-                    unsafe_allow_html=True,
-                )
+            st.markdown(
+                '<div class="recs-persona-grid">'
+                + "".join(persona_block_html(p) for p in personas)
+                + '</div>',
+                unsafe_allow_html=True,
+            )
 
 
 def render_new_idea_card(idea: dict):
     tk = idea.get("ticker", "")
-    name = idea.get("name", tk)
+    name = _html.escape(idea.get("name", tk))
     conv = int(idea.get("conviction", 0))
-    rationale = idea.get("rationale", "")
-    is_hebrew = any('\u0590' <= c <= '\u05FF' for c in rationale[:80])
+    rationale_raw = idea.get("rationale", "")
+    rationale = _html.escape(rationale_raw)
+    is_hebrew = any('\u0590' <= c <= '\u05FF' for c in rationale_raw[:80])
     rtl = ' dir="rtl"' if is_hebrew else ''
     st.markdown(
         f'<div class="mini-card mini-card-idea">'
@@ -239,7 +257,7 @@ st.markdown(minify(f"""
     </div>
   </div>
   <div class="recs-hero-right mono">
-    {n_analysts} analysts per stock · Generated {updated}
+    {n_analysts} analysts per stock · Generated {updated} {_freshness_html}
   </div>
 </section>
 """), unsafe_allow_html=True)

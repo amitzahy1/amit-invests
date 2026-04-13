@@ -140,28 +140,10 @@ with st.form("settings_form"):
     tg_daily = st.checkbox("Send daily digest", value=bool(tg.get("send_daily_digest", True)))
     tg_alerts = st.checkbox("Send immediate alert on STRONG BUY / STRONG SELL", value=bool(tg.get("send_alerts_on_strong_verdicts", True)))
 
-    st.markdown("**How to receive Telegram messages** — 5-minute setup, one time.")
-    st.markdown("""
-1. Open Telegram and search for **@BotFather** (the official bot that creates bots).
-2. Send `/newbot`. Follow the prompts: pick a name (e.g. *Amit Portfolio*) and a username ending in `bot` (e.g. `amit_portfolio_bot`).
-3. BotFather replies with a **token** that looks like `1234567890:ABCdefGHIjklMNOpqrSTUvwxYZ`. Copy it.
-4. In the project folder, copy `.env.example` → `.env` and paste the token:
-   ```
-   TELEGRAM_BOT_TOKEN=1234567890:ABCdefGHIjklMNOpqrSTUvwxYZ
-   ```
-5. Open a chat with your new bot in Telegram and send it **any message** (e.g. "hi"). This is required — Telegram won't let a bot message you until you've messaged it first.
-6. In a browser visit:
-   `https://api.telegram.org/bot<TOKEN>/getUpdates` (replace `<TOKEN>` with yours).
-7. Find `"chat":{"id": 123456789, …}` in the JSON response. That number is your **chat ID**. Paste it into `.env`:
-   ```
-   TELEGRAM_CHAT_ID=123456789
-   ```
-8. Tick **Enable Telegram delivery** above and click Save. Test with:
-   ```
-   python scripts/telegram_digest.py --once
-   ```
-You should receive the daily digest in your Telegram chat. After this, the launchd scheduler sends it automatically every morning.
-""")
+    st.markdown(
+        "**Telegram credentials** are stored in environment secrets (Streamlit Cloud Secrets or local `.env`). "
+        "Set `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` there — not here."
+    )
 
     st.markdown("")
     submitted = st.form_submit_button("💾 Save settings", use_container_width=True, type="primary")

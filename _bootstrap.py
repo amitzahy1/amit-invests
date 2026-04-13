@@ -15,10 +15,29 @@ if str(ROOT) not in sys.path:
 import streamlit as st  # noqa: E402
 
 
+_FAVICON_SVG = (
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">'
+    '<rect width="32" height="32" rx="4" fill="#0a0a0a"/>'
+    '<text x="16" y="22" text-anchor="middle" '
+    'font-family="Helvetica Neue,Arial,sans-serif" '
+    'font-weight="700" font-size="14" letter-spacing="-0.5" fill="#ffffff">AC</text>'
+    '</svg>'
+)
+
+
 def inject_css() -> None:
+    import base64
     css_path = ROOT / "style.css"
+    fav_b64 = base64.b64encode(_FAVICON_SVG.encode()).decode()
+    favicon_tag = (
+        f'<link rel="icon" type="image/svg+xml" '
+        f'href="data:image/svg+xml;base64,{fav_b64}">'
+    )
     if css_path.exists():
-        st.markdown(f"<style>{css_path.read_text()}</style>", unsafe_allow_html=True)
+        st.markdown(
+            f"<style>{css_path.read_text()}</style>{favicon_tag}",
+            unsafe_allow_html=True,
+        )
 
 
 def minify(html: str) -> str:
@@ -328,6 +347,15 @@ def _ai_runner_body() -> None:
             st.rerun()
 
 
+@st.cache_data(ttl=300)
+def _cached_usd_ils() -> float:
+    try:
+        from data_loader import fetch_usd_ils_rate
+        return fetch_usd_ils_rate() or 3.67
+    except Exception:
+        return 3.67
+
+
 def inject_header(current: str = "") -> None:
     """
     Render the demo's topbar 1:1: brand + nav + meta + Refresh + Run analysis.
@@ -336,14 +364,7 @@ def inject_header(current: str = "") -> None:
     portfolio = load_json("portfolio.json")
     holdings_count = len(portfolio.get("holdings", []))
     last_updated = portfolio.get("last_updated") or "—"
-
-    # USD/ILS rate is fetched live on portfolio page; here we use a cached/last-known value
-    # Try live rate (cached); fall back to 3.06 default.
-    try:
-        from data_loader import fetch_usd_ils_rate
-        usd_ils = fetch_usd_ils_rate() or 3.06
-    except Exception:
-        usd_ils = 3.06
+    usd_ils = _cached_usd_ils()
 
     nav_html = "".join(
         f'<a href="/{slug}" target="_self" class="nav-link {"active" if slug == current else ""}">{label}</a>'

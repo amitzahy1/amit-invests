@@ -264,8 +264,9 @@ html { scroll-behavior: smooth; }
     display: flex !important;
     align-items: center !important;
     gap: 32px !important;
-    flex: 0 1 auto !important;
+    flex: 1 1 0 !important;
     min-width: 0 !important;
+    overflow: hidden !important;       /* clip nav that doesn't fit — prevents bleed into right side */
 }
 .topbar-wrap .brand {
     font-weight: 700 !important;
@@ -290,6 +291,8 @@ html { scroll-behavior: smooth; }
     display: flex !important;
     align-items: center !important;
     gap: 24px !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
 }
 
 /* Nuke ALL default link styling inside topbar — Streamlit's link CSS is aggressive */
@@ -490,15 +493,36 @@ html { scroll-behavior: smooth; }
 }
 .recs-votes-count { font-size: 11px; color: var(--text-dim); font-weight: 500; }
 
-.recs-persona-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 8px; }
+.recs-persona-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
+.recs-persona-grid hr { display: none !important; }  /* kill any Streamlit-injected dividers */
 .recs-persona {
-    background: #FFFFFF; border: 1px solid var(--hair-soft);
-    border-left: 3px solid #6B7280; padding: 10px 12px;
+    background: #FAFAFA; border: 1px solid var(--hair-soft);
+    border-left: 3px solid #6B7280; padding: 12px 14px; border-radius: 2px;
 }
-.recs-persona-head { display: flex; justify-content: space-between; align-items: center; gap: 6px; margin-bottom: 6px; }
+.recs-persona-head { display: flex; justify-content: space-between; align-items: center; gap: 6px; margin-bottom: 8px; }
 .recs-persona-name { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
-.recs-persona-body { font-size: 12px; color: var(--text); line-height: 1.65; }
-.recs-idea-body { font-size: 12.5px; color: var(--text); line-height: 1.7; padding: 8px 2px 4px; }
+.recs-persona-body {
+    font-size: 13px; color: var(--text); line-height: 1.7;
+    font-family: "Inter", "Helvetica Neue", sans-serif;
+}
+.recs-persona-body[dir="rtl"] {
+    text-align: right;
+    direction: rtl;
+    font-size: 13px;
+    line-height: 1.75;
+}
+.recs-idea-body { font-size: 13px; color: var(--text); line-height: 1.7; padding: 8px 2px 4px; }
+.recs-idea-body[dir="rtl"] { text-align: right; direction: rtl; }
+
+/* Freshness badge */
+.recs-fresh {
+    display: inline-block; padding: 1px 6px; border-radius: 2px;
+    font-size: 10px; font-weight: 600; letter-spacing: 0.06em;
+    text-transform: uppercase; vertical-align: middle; margin-left: 6px;
+}
+.recs-fresh-green { background: #d1fae5; color: #065f46; }
+.recs-fresh-yellow { background: #fef3c7; color: #92400e; }
+.recs-fresh-red { background: #fef2f2; color: #991b1b; }
 
 .recs-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; }
 .recs-table thead th {
@@ -888,13 +912,20 @@ div[role="dialog"] div[data-testid="stProgress"] p {
 @media (max-width: 1280px) {
     .topbar-wrap .topbar-meta { display: none !important; }
 }
-@media (max-width: 1024px) {
-    .topbar-wrap .topbar-nav { gap: 16px !important; }
+/* Hide Settings + How It Works at medium widths */
+@media (max-width: 1150px) {
+    .topbar-nav a:nth-child(n+5) { display: none !important; }
+    .topbar-wrap .topbar-nav { gap: 20px !important; }
     .topbar-wrap a.nav-link { font-size: 13px !important; }
+}
+/* Hide Import + Inbox too at narrow widths — keep Portfolio + Recommendations */
+@media (max-width: 860px) {
+    .topbar-nav a:nth-child(n+3) { display: none !important; }
+    .topbar-wrap .topbar-left { gap: 20px !important; }
 }
 @media (max-width: 768px) {
     .topbar-wrap .topbar { padding: 0 16px !important; }
-    .topbar-wrap .topbar-nav { gap: 12px !important; }
+    .topbar-wrap .topbar-nav { gap: 14px !important; }
     .topbar-wrap a.btn { padding: 6px 10px !important; font-size: 11px !important; }
 }
 

@@ -53,7 +53,7 @@ def load_all_data():
     h_df = get_holdings_df(portfolio)
     us = [t for t in h_df["ticker"] if t not in ISRAELI_TICKERS]
     usd_ils = fetch_usd_ils_rate()
-    lq = fetch_live_quotes(us)
+    lq = fetch_live_quotes(list(h_df["ticker"]))   # include Israeli tickers for live prices
     hist = fetch_historical_data(us + ["SPY"], "1y")
     fx_h = fetch_usd_ils_history("1y")
     pf = build_portfolio_df(h_df, lq, usd_ils)

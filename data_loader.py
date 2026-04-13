@@ -73,8 +73,6 @@ def _yf_chart(ticker: str, range_: str = "1d", interval: str = "1d") -> dict | N
 
 def _fetch_single_quote(ticker: str) -> dict | None:
     """Fetch a single ticker's live quote (for parallel execution)."""
-    if ticker in ISRAELI_TICKERS:
-        return None
     data = _yf_chart(ticker, range_="5d", interval="1d")
     if not data:
         return None
@@ -183,7 +181,13 @@ def build_portfolio_df(holdings_df: pd.DataFrame, live_quotes: pd.DataFrame,
     for idx, row in df.iterrows():
         ticker = row["ticker"]
         if row["is_israeli"]:
-            price_ils = row.get("current_price_ils") or row["cost_price"]
+            # Use live price from Yahoo Finance if available; fall back to stored price
+            if ticker in live_quotes.index and live_quotes.loc[ticker].get("price"):
+                price_ils = live_quotes.loc[ticker]["price"]
+                df.at[idx, "daily_change_pct"] = live_quotes.loc[ticker].get("daily_change_pct", 0)
+            else:
+                price_ils = row.get("current_price_ils") or row["cost_price"]
+                df.at[idx, "daily_change_pct"] = 0
             df.at[idx, "live_price"] = price_ils
             df.at[idx, "value_ils"] = price_ils * row["quantity"]
             df.at[idx, "value_usd"] = (price_ils * row["quantity"]) / usd_ils
@@ -192,7 +196,6 @@ def build_portfolio_df(holdings_df: pd.DataFrame, live_quotes: pd.DataFrame,
             df.at[idx, "pnl_ils"] = df.at[idx, "value_ils"] - df.at[idx, "cost_total_ils"]
             df.at[idx, "pnl_usd"] = df.at[idx, "pnl_ils"] / usd_ils
             df.at[idx, "pnl_pct"] = ((price_ils / row["cost_price"]) - 1) * 100 if row["cost_price"] else 0
-            df.at[idx, "daily_change_pct"] = 0
             df.at[idx, "currency"] = "ILS"
         elif ticker in live_quotes.index:
             quote = live_quotes.loc[ticker]
