@@ -13,7 +13,7 @@ from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from config import (
     YF_CHART_URL, YF_HEADERS, USDILS_TICKER, SECTOR_MAP,
-    ASSET_TYPE_MAP, DISPLAY_NAMES, ISRAELI_TICKERS,
+    ASSET_TYPE_MAP, DISPLAY_NAMES, ISRAELI_TICKERS, AGOROT_TICKERS,
 )
 
 logger = logging.getLogger(__name__)
@@ -88,6 +88,13 @@ def _fetch_single_quote(ticker: str) -> dict | None:
     if current_price and prev_close and prev_close > 0:
         daily_change = ((current_price / prev_close) - 1) * 100
 
+    # TASE bond ETFs (KSM-F34/F77) are quoted in agorot — convert to ILS
+    if ticker in AGOROT_TICKERS:
+        if current_price:
+            current_price = current_price / 100
+        if prev_close:
+            prev_close = prev_close / 100
+
     return {
         "ticker": ticker,
         "price": current_price,
@@ -98,7 +105,7 @@ def _fetch_single_quote(ticker: str) -> dict | None:
         "fifty_two_week_high": meta.get("fiftyTwoWeekHigh"),
         "fifty_two_week_low": meta.get("fiftyTwoWeekLow"),
         "volume": meta.get("regularMarketVolume"),
-        "currency": meta.get("currency", "USD"),
+        "currency": meta.get("currency", "ILS") if ticker in AGOROT_TICKERS else meta.get("currency", "USD"),
     }
 
 

@@ -136,4 +136,7 @@ RISK_FREE_RATE = 0.045
 TRADING_DAYS_YEAR = 252
 
 # ─── Israeli ETF ─────────────────────────────────────────────────────────────
-ISRAELI_TICKERS = {"5108.TA", "KSM-F34.TA", "KSM-F77.TA"}
+ISRAELI_TICKERS = {"KSM-F34.TA", "KSM-F77.TA"}
+
+# Yahoo Finance returns prices in agorot (1/100 ILS) for these tickers — divide by 100
+AGOROT_TICKERS = {"KSM-F34.TA", "KSM-F77.TA"}
