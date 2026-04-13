@@ -147,7 +147,24 @@ def _ai_runner_body() -> None:
         unsafe_allow_html=True,
     )
     stepper_slot.markdown(_ai_stepper_html("init", set()), unsafe_allow_html=True)
-    progress_bar = progress_slot.progress(0, text="Starting…")
+
+    def render_progress(pct: float, primary: str, secondary: str, state: str = "running"):
+        pct_i = max(0, min(100, int(pct * 100)))
+        progress_slot.markdown(
+            f'<div class="ai-progress ai-progress-{state}">'
+            f'  <div class="ai-progress-top">'
+            f'    <div class="ai-progress-label">{primary}</div>'
+            f'    <div class="ai-progress-pct">{pct_i}%</div>'
+            f'  </div>'
+            f'  <div class="ai-progress-track">'
+            f'    <div class="ai-progress-fill" style="width:{pct_i}%;"></div>'
+            f'  </div>'
+            f'  <div class="ai-progress-sub">{secondary}</div>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+
+    render_progress(0, "Starting", "Initializing subprocess", "running")
 
     try:
         proc = subprocess.Popen(
@@ -224,16 +241,18 @@ def _ai_runner_body() -> None:
                 per = elapsed / max(1, done)
                 remaining = int(per * max(0, n_total - done))
                 eta_txt = f" · ETA ~{remaining}s"
-            progress_text = (f"Analyzing holding {min(done + 1, n_total)} of {n_total}"
-                             f"{eta_txt}")
+            primary = f"Analyzing holding {min(done + 1, n_total)} of {n_total}"
+            secondary = f"{done} complete · {n_total - done} remaining{eta_txt}"
         elif phase == "load":
             pct = 0.15
-            progress_text = "Fetching market data…"
+            primary = "Fetching market data"
+            secondary = "Pulling prices & historical data from Yahoo Finance"
         else:
             pct = 0.05
-            progress_text = "Initializing…"
+            primary = "Initializing"
+            secondary = "Loading API key & portfolio"
 
-        progress_bar.progress(pct, text=progress_text)
+        render_progress(pct, primary, secondary, "running")
 
         pct_display = int(pct * 100)
         meta_slot.markdown(

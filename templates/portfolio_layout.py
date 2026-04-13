@@ -32,19 +32,22 @@ def minify(html: str) -> str:
 def render_pie(sectors_dict: dict, holdings_by_sector: dict, size: int = 260) -> str:
     """
     Render a pie chart as inline SVG with labels on each slice.
-    Large slices (>=5%) show: percentage + small category name.
-    Small slices (<5%) show: just percentage (or nothing if very tiny).
-    Hover: tooltip with full holdings list.
+    Large slices (>=12%) show: percentage + short category name.
+    Hover shows a small floating tooltip with the holdings list (CSS-only,
+    self-contained inside the SVG via <style>).
     """
     total = sum(sectors_dict.values())
     if total <= 0:
         return ""
-    cx, cy = size / 2, size / 2
+    svg_w = size
+    svg_h = size
+    cx = size / 2
+    cy = size / 2
     r = size / 2 - 6
-    label_r = r * 0.65  # position labels inside each slice
-    angle = -90.0  # start at top
+    label_r = r * 0.65
+    angle = -90.0
 
-    paths, labels = [], []
+    groups, labels = [], []
     for sec, val in sectors_dict.items():
         pct = val / total * 100
         sweep_deg = (val / total) * 360
@@ -71,14 +74,14 @@ def render_pie(sectors_dict: dict, holdings_by_sector: dict, size: int = 260) ->
         def _esc(s: str) -> str:
             return (s.replace("&", "&amp;").replace('"', "&quot;")
                      .replace("<", "&lt;").replace(">", "&gt;"))
-        # Native SVG <title> gives us a browser tooltip on hover (no JS needed)
-        plain = (f"{sec} — {pct:.1f}% (${val:,.0f})\n"
-                 f"{n_holdings} holding{'s' if n_holdings != 1 else ''}:\n"
-                 + "\n".join(f"  • {h}" for h in holdings_list))
-        paths.append(
+        # Native SVG <title> → browser shows a tooltip on hover. Simple, reliable.
+        plain = (f"{sec} — {pct:.0f}% (${val:,.0f})\n"
+                 + "\n".join(f"• {h}" for h in holdings_list))
+        groups.append(
             f'<path d="{d}" fill="{color}" stroke="white" stroke-width="2" '
             f'class="pie-slice" style="cursor:pointer;">'
-            f'<title>{_esc(plain)}</title></path>'
+            f'<title>{_esc(plain)}</title>'
+            f'</path>'
         )
 
         # Labels ONLY on large slices (>=12%) to keep the chart clean
@@ -94,7 +97,7 @@ def render_pie(sectors_dict: dict, holdings_by_sector: dict, size: int = 260) ->
                 f'<text x="{lx:.2f}" y="{ly - 3:.2f}" text-anchor="middle" '
                 f'font-size="15" font-weight="600" fill="white" '
                 f'style="pointer-events:none;font-family:\'IBM Plex Mono\',monospace;">'
-                f'{pct:.1f}%</text>'
+                f'{pct:.0f}%</text>'
                 f'<text x="{lx:.2f}" y="{ly + 12:.2f}" text-anchor="middle" '
                 f'font-size="10" fill="white" opacity="0.95" '
                 f'style="pointer-events:none;font-family:\'Inter\',sans-serif;">'
@@ -103,9 +106,10 @@ def render_pie(sectors_dict: dict, holdings_by_sector: dict, size: int = 260) ->
         angle = end_angle
 
     return (
-        f'<svg viewBox="0 0 {size} {size}" '
-        f'style="width:100%;max-width:{size}px;height:auto;display:block;margin:0 auto;">'
-        f'{"".join(paths)}'
+        f'<svg viewBox="0 0 {svg_w} {svg_h}" '
+        f'class="pie-svg" '
+        f'style="width:100%;max-width:{svg_w}px;height:auto;display:block;margin:0 auto;overflow:visible;">'
+        f'{"".join(groups)}'
         f'{"".join(labels)}'
         f'</svg>'
     )

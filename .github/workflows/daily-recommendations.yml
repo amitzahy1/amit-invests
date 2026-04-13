@@ -1,0 +1,76 @@
+name: Daily AI recommendations
+
+on:
+  schedule:
+    # 13:35 UTC = 16:35 Israel (summer). Also 14:35 UTC as a winter fallback.
+    - cron: "35 13 * * 1-5"
+    - cron: "35 14 * * 1-5"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write   # needed to commit the updated JSON back
+
+concurrency:
+  group: daily-recommendations
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install langchain-google-genai
+
+      - name: Run multi-persona AI analysis
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          PYTHONUNBUFFERED: "1"
+        run: python scripts/run_recommendations.py --once
+
+      - name: Snapshot portfolio value (for history chart)
+        if: success()
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+        run: python scripts/snapshot_portfolio.py || true
+
+      - name: Send Telegram digest (optional)
+        if: success() && env.TELEGRAM_BOT_TOKEN != ''
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python scripts/telegram_digest.py || true
+
+      - name: Commit updated recommendations & snapshots
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add recommendations.json snapshots.jsonl 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: daily AI recommendations [skip ci]"
+            git push
+          fi
+
+      - name: Upload run log artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: last-run-log
+          path: logs/last_run.log
+          if-no-files-found: ignore
