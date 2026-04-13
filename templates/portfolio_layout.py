@@ -256,7 +256,7 @@ def render_above_fold(
     hero = minify(f"""
 <section class="hero">
 <div class="hero-top">
-<div class="lbl">Portfolio — Amit Zahy</div>
+<div class="lbl">Portfolio</div>
 <div class="mono" style="font-size:12px;color:var(--text-mute);">As of {today_str}</div>
 </div>
 <div class="hero-grid">

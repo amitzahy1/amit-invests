@@ -8,11 +8,11 @@
     <key>ProgramArguments</key>
     <array>
         <string>/bin/bash</string>
-        <string>/Users/amitzahy/Documents/Draft/Amit Invests/scripts/run_daily.sh</string>
+        <string>/absolute/path/to/amit-invests/scripts/run_daily.sh</string>
     </array>
 
     <key>WorkingDirectory</key>
-    <string>/Users/amitzahy/Documents/Draft/Amit Invests</string>
+    <string>/absolute/path/to/amit-invests</string>
 
     <!--
         Runs daily at 16:35 Israel local time = 5 minutes after US market open
@@ -35,9 +35,9 @@
     <false/>
 
     <key>StandardOutPath</key>
-    <string>/Users/amitzahy/Documents/Draft/Amit Invests/logs/launchd.out</string>
+    <string>/absolute/path/to/amit-invests/logs/launchd.out</string>
     <key>StandardErrorPath</key>
-    <string>/Users/amitzahy/Documents/Draft/Amit Invests/logs/launchd.err</string>
+    <string>/absolute/path/to/amit-invests/logs/launchd.err</string>
 
     <!-- Inherit PATH so `python3`, `poetry`, etc. resolve -->
     <key>EnvironmentVariables</key>

@@ -3,7 +3,8 @@
 # Invoked daily by launchd at 16:35 Israel time (5 min after US market open).
 set -e
 
-PROJECT="/Users/amitzahy/Documents/Draft/Amit Invests"
+# Resolve project root from this script's location (portable across machines)
+PROJECT="${PROJECT:-$(cd "$(dirname "$0")/.." && pwd)}"
 PYTHON="$PROJECT/.venv/bin/python"   # Use the project's venv (Python 3.12)
 LOG_DIR="$PROJECT/logs"
 mkdir -p "$LOG_DIR"

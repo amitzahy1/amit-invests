@@ -1,5 +1,5 @@
 {
-  "profile_name": "Amit — Conservative AI Bull (default)",
+  "profile_name": "Conservative AI Bull",
   "style": "conservative",
   "horizon_years": 4,
   "trading_frequency": "bi-monthly",
@@ -27,15 +27,7 @@
   "crypto_cap_pct": 3,
   "risk_level": "medium",
   "personas_active": [
-    "warren_buffett",
-    "charlie_munger",
-    "cathie_wood",
-    "peter_lynch",
-    "risk_manager",
-    "sentiment",
-    "technical_analyst",
-    "fundamentals_analyst",
-    "macro"
+    "technical_analyst"
   ],
   "telegram": {
     "enabled": true,
