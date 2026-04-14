@@ -361,12 +361,6 @@ def _generate_candlestick(ticker: str, name: str, conviction: int,
     rs = gain / loss.replace(0, np.nan)
     df["rsi"] = 100 - (100 / (1 + rs))
 
-    # Bollinger Bands (20-day, 2 std)
-    df["bb_mid"] = df["close"].rolling(20).mean()
-    bb_std = df["close"].rolling(20).std()
-    df["bb_upper"] = df["bb_mid"] + 2 * bb_std
-    df["bb_lower"] = df["bb_mid"] - 2 * bb_std
-
     # Performance stats
     last_price = df["close"].iloc[-1]
     chg_1d = ((last_price / df["close"].iloc[-2]) - 1) * 100 if len(df) >= 2 else 0
@@ -400,7 +394,7 @@ def _generate_candlestick(ticker: str, name: str, conviction: int,
         ax.spines["bottom"].set_color(GRID)
         ax.grid(axis="y", color=GRID, linewidth=0.4)
 
-    # ── Price panel: candles + MA50 + MA200 + Bollinger ──
+    # ── Price panel: candles + MA50 + MA200 ──
     width = 0.6
     up = df_disp[df_disp["close"] >= df_disp["open"]]
     down = df_disp[df_disp["close"] < df_disp["open"]]
@@ -419,14 +413,6 @@ def _generate_candlestick(ticker: str, name: str, conviction: int,
     if df_disp["ma200"].notna().sum() > 0:
         ax_price.plot(df_disp.index, df_disp["ma200"], color="#d97706",
                       linewidth=1.3, label="MA200")
-
-    # Bollinger Bands (shaded)
-    bb_valid = df_disp["bb_upper"].notna()
-    ax_price.fill_between(df_disp.index[bb_valid],
-                          df_disp["bb_lower"][bb_valid], df_disp["bb_upper"][bb_valid],
-                          alpha=0.08, color="#6366f1", label="Bollinger")
-    ax_price.plot(df_disp.index, df_disp["bb_upper"], color="#6366f1", linewidth=0.6, alpha=0.5)
-    ax_price.plot(df_disp.index, df_disp["bb_lower"], color="#6366f1", linewidth=0.6, alpha=0.5)
 
     # Price label
     ax_price.annotate(
@@ -520,9 +506,6 @@ def _build_analysis_caption(ticker: str, name: str, conviction: int, verdict: st
 
     ma50 = df["ma50"].dropna().iloc[-1] if df["ma50"].notna().sum() > 0 else None
     ma200 = df["ma200"].dropna().iloc[-1] if df["ma200"].notna().sum() > 0 else None
-    bb_lower = df["bb_lower"].dropna().iloc[-1] if df["bb_lower"].notna().sum() > 0 else None
-    bb_upper = df["bb_upper"].dropna().iloc[-1] if df["bb_upper"].notna().sum() > 0 else None
-
     # Price vs MAs
     if ma50 and ma200:
         if price > ma50 > ma200:
@@ -550,18 +533,6 @@ def _build_analysis_caption(ticker: str, name: str, conviction: int, verdict: st
         lines.append(f"{RLM}📊 RSI {rsi:.0f} — מומנטום חיובי, עדיין לא באזור קניית יתר.")
     else:
         lines.append(f"{RLM}📊 RSI {rsi:.0f} — אזור ניטרלי, ללא לחץ קיצוני.")
-
-    # Bollinger
-    if bb_lower and bb_upper:
-        bb_range = bb_upper - bb_lower
-        if bb_range > 0:
-            bb_position = (price - bb_lower) / bb_range
-            if bb_position < 0.15:
-                lines.append(f"{RLM}🔵 המחיר בתחתית רצועת Bollinger — פוטנציאל לריבאונד כלפי מעלה.")
-            elif bb_position > 0.85:
-                lines.append(f"{RLM}🟠 המחיר בראש רצועת Bollinger — עלול להיתקל בהתנגדות.")
-            else:
-                lines.append(f"{RLM}🔵 Bollinger — המחיר באמצע הרצועה, תנודתיות רגילה.")
 
     # Volume trend (last 10 vs previous 10)
     if len(df) >= 20 and df["volume"].notna().sum() >= 20:
