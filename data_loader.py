@@ -142,8 +142,6 @@ def fetch_usd_ils_history(period: str = "1y") -> pd.Series:
 
 def _fetch_single_historical(ticker: str, period: str) -> tuple[str, pd.DataFrame | None]:
     """Fetch historical data for one ticker (for parallel execution)."""
-    if ticker in ISRAELI_TICKERS:
-        return ticker, None
     data = _yf_chart(ticker, range_=period, interval="1d")
     if not data:
         return ticker, None
@@ -155,13 +153,18 @@ def _fetch_single_historical(ticker: str, period: str) -> tuple[str, pd.DataFram
     if not timestamps or not quote:
         return ticker, None
     dates = pd.to_datetime(timestamps, unit="s").normalize()
+    closes_raw = quote.get("close", [])
+    # TASE bond ETFs quoted in agorot — convert to ILS
+    if ticker in AGOROT_TICKERS:
+        closes_raw = [c / 100 if c is not None else None for c in closes_raw]
+        adjclose = [c / 100 if c is not None else None for c in (adjclose or closes_raw)]
     df = pd.DataFrame({
         "open": quote.get("open", []),
         "high": quote.get("high", []),
         "low": quote.get("low", []),
-        "close": quote.get("close", []),
+        "close": closes_raw,
         "volume": quote.get("volume", []),
-        "adjclose": adjclose if adjclose else quote.get("close", []),
+        "adjclose": adjclose if adjclose else closes_raw,
     }, index=dates)
     df = df.dropna(subset=["close"])
     return ticker, df if len(df) > 0 else None
@@ -266,7 +269,8 @@ def compute_period_changes(historical: dict[str, pd.DataFrame],
             ticker = row["ticker"]
             qty = row["quantity"]
 
-            if row["is_israeli"]:
+            if row["is_israeli"] and ticker not in historical:
+                # Fallback: no historical data — use static price for both
                 price_ils = row.get("current_price_ils") or row["cost_price"]
                 val_now = (price_ils * qty) / usd_ils_now
                 total_value_now_usd += val_now
@@ -284,8 +288,13 @@ def compute_period_changes(historical: dict[str, pd.DataFrame],
             idx = min(days_back, len(hist) - 1)
             price_then = hist["close"].iloc[-1 - idx] if idx < len(hist) else hist["close"].iloc[0]
 
-            total_value_now_usd += price_now * qty
-            total_value_then_usd += price_then * qty
+            if row["is_israeli"]:
+                # Prices are in ILS — convert to USD
+                total_value_now_usd += (price_now * qty) / usd_ils_now
+                total_value_then_usd += (price_then * qty) / usd_ils_now
+            else:
+                total_value_now_usd += price_now * qty
+                total_value_then_usd += price_then * qty
 
         pnl_usd = total_value_now_usd - total_value_then_usd
         pnl_pct = ((total_value_now_usd / total_value_then_usd) - 1) * 100 if total_value_then_usd > 0 else 0
