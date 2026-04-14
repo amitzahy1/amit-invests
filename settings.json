@@ -26,7 +26,7 @@
   ],
   "crypto_cap_pct": 3,
   "risk_level": "medium",
-  "recommendation_mode": "personas",
+  "recommendation_mode": "scoring",
   "scoring_strategy": "conservative_longterm",
   "scoring_weights": {
     "quality": 30,

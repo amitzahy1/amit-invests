@@ -75,6 +75,32 @@ if strong and recs.get("updated"):
              "Conviction ≥75%. This triggers a Telegram alert if enabled.", "alert")
         )
 
+# Verdict changes (compare current vs previous)
+prev_path = ROOT / "recommendations_prev.json"
+if prev_path.exists() and recs.get("updated"):
+    try:
+        import json as _json
+        prev = _json.loads(prev_path.read_text())
+        prev_map = {h["ticker"]: h for h in prev.get("holdings", [])}
+        ts = datetime.fromisoformat(recs["updated"].rstrip("Z")).timestamp()
+        for h in recs.get("holdings", []):
+            tk = h.get("ticker", "")
+            if tk in prev_map:
+                old_v = (prev_map[tk].get("verdict") or "hold").lower()
+                new_v = (h.get("verdict") or "hold").lower()
+                old_c = prev_map[tk].get("conviction", 0)
+                new_c = h.get("conviction", 0)
+                if old_v != new_v:
+                    arrow = "⬆️" if new_v == "buy" else "⬇️" if new_v == "sell" else "↔️"
+                    events.append((
+                        ts, "🔄",
+                        f"Verdict changed — {tk}: {old_v.upper()} → {new_v.upper()}",
+                        f"Conviction: {old_c}% → {new_c}%",
+                        "change",
+                    ))
+    except Exception:
+        pass
+
 # Daily log summaries
 if logs_dir.exists():
     for log_file in sorted(logs_dir.glob("*.log"), reverse=True)[:7]:

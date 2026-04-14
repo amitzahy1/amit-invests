@@ -708,54 +708,38 @@ def run_real(settings: dict, portfolio: dict) -> dict:
             _fundamentals.get(tk), _macro, _news.get(tk, []),
             tk_weight, tk_sec_weight)
 
-        rec_mode = settings.get("recommendation_mode", "personas")
+        # ── SCORING ENGINE: algorithmic scores + 1 Gemini synthesis call ──
         _scoring_weights = settings.get("scoring_weights")
-
-        if rec_mode == "scoring" and scores:
-            # ── SCORING MODE: 1 Gemini call per ticker ──────────────
+        if scores:
             from scoring_engine import scores_to_verdict as _s2v
             algo_v, algo_c = _s2v(scores, _scoring_weights)
             synth = _scoring_synthesis_call(
                 llm, tk, display, preamble, scores, _mkt_ctx)
-            # Use Gemini's verdict if it agrees with algo, else use algo
-            final_v = synth["verdict"] if synth["verdict"] == algo_v else algo_v
+            # Algo verdict is authoritative; Gemini provides rationale
+            final_v = algo_v
             final_c = (synth["conviction"] + algo_c) // 2
             holding = {
                 "ticker": tk, "verdict": final_v, "conviction": final_c,
                 "scores": scores,
                 "rationale": synth.get("rationale", ""),
-                "personas": [],  # no persona breakdown in scoring mode
+                "personas": [],
             }
         else:
-            # ── PERSONAS MODE (or HYBRID): N Gemini calls per ticker ─
-            persona_entries = []
-            with ThreadPoolExecutor(max_workers=max_workers) as pool:
-                futures = {
-                    pool.submit(
-                        _call_persona, llm, p, tk, display, preamble,
-                        _build_full_context(
-                            tk, p, _quotes.get(tk, {}), _technicals.get(tk, {}),
-                            _fundamentals.get(tk), _macro, _news.get(tk, []),
-                            tk_weight, tk_sec_weight)
-                    ): p
-                    for p in personas
-                }
-                for fut in as_completed(futures):
-                    persona_entries.append(fut.result())
-            _order = {p: idx for idx, p in enumerate(personas)}
-            persona_entries.sort(key=lambda e: _order.get(e.get("name", ""), 99))
-            agg_v, agg_c = _aggregate_verdict(persona_entries)
+            # Fallback if scoring failed — simple Gemini call
+            synth = _scoring_synthesis_call(
+                llm, tk, display, preamble, {}, _mkt_ctx)
             holding = {
-                "ticker": tk, "verdict": agg_v, "conviction": agg_c,
-                "personas": persona_entries,
+                "ticker": tk,
+                "verdict": synth.get("verdict", "hold"),
+                "conviction": synth.get("conviction", 50),
+                "rationale": synth.get("rationale", ""),
+                "personas": [],
             }
-            if scores:
-                holding["scores"] = scores
 
         holdings_out.append(holding)
         scores_str = " ".join(f"{k[:3].upper()}={v}" for k, v in scores.items()) if scores else ""
         print(f"  [{i}/{len(tickers)}] {tk}: {holding['verdict'].upper()} "
-              f"{holding['conviction']}%  {scores_str}  [{rec_mode}]",
+              f"{holding['conviction']}%  {scores_str}",
               flush=True)
 
     # Ask Gemini for 2-3 new ideas

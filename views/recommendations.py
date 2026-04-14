@@ -502,6 +502,61 @@ with fc2:
     )
 
 
+# ═══════════════════════════════════════════════════════════════════════════
+# 5. IDEAS ACCURACY — track how past suggestions performed
+# ═══════════════════════════════════════════════════════════════════════════
+try:
+    from accuracy_tracker import compute_ideas_accuracy
+    import json as _json
+    _ideas_path = load_json("ideas_history.json") if False else None  # use direct load
+    _ideas_hist_file = __import__("pathlib").Path(__file__).resolve().parent.parent / "ideas_history.json"
+    if _ideas_hist_file.exists():
+        _ideas_hist = _json.loads(_ideas_hist_file.read_text())
+        if _ideas_hist and len(_ideas_hist) >= 1:
+            # Fetch current prices for tracked ideas
+            try:
+                from data_loader import fetch_live_quotes
+                _idea_tickers = list({i["ticker"] for i in _ideas_hist if i.get("ticker")})
+                _idea_quotes = fetch_live_quotes(_idea_tickers)
+                _idea_prices = {}
+                if not _idea_quotes.empty:
+                    for _, row in _idea_quotes.iterrows():
+                        _idea_prices[row["ticker"]] = row.get("price", 0)
+                _accuracy = compute_ideas_accuracy(_ideas_hist, _idea_prices)
+                if _accuracy["total"] > 0:
+                    with st.expander(
+                        f"Ideas Scorecard — {_accuracy['total']} tracked, "
+                        f"{_accuracy['hit_rate']*100:.0f}% hit rate",
+                        expanded=False,
+                    ):
+                        _acc_rows = []
+                        for idea in _accuracy["ideas"]:
+                            _emoji = "✅" if idea["profitable"] else "❌"
+                            _acc_rows.append(
+                                f'<tr>'
+                                f'<td class="mono">{idea["ticker"]}</td>'
+                                f'<td>{idea["suggested_date"]}</td>'
+                                f'<td class="r mono">${idea["suggested_price"]:.1f}</td>'
+                                f'<td class="r mono">${idea["current_price"]:.1f}</td>'
+                                f'<td class="r mono" style="color:{"var(--up)" if idea["profitable"] else "var(--dn)"};">'
+                                f'{idea["return_pct"]:+.1f}%</td>'
+                                f'<td>{_emoji}</td>'
+                                f'</tr>'
+                            )
+                        st.markdown(
+                            '<table class="recs-table">'
+                            '<thead><tr><th>Ticker</th><th>Suggested</th>'
+                            '<th class="r">Entry</th><th class="r">Now</th>'
+                            '<th class="r">Return</th><th>Hit</th></tr></thead>'
+                            f'<tbody>{"".join(_acc_rows)}</tbody></table>',
+                            unsafe_allow_html=True,
+                        )
+            except Exception:
+                pass
+except Exception:
+    pass
+
+
 st.markdown("""
 <footer class="page-footer">
   <div>AMIT CAPITAL · Recommendations · Market commentary, not financial advice.</div>

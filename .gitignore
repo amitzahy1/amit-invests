@@ -36,5 +36,11 @@ Thumbs.db
 *.swp
 *.swo
 
+# ─── Data caches (regenerated on each run) ────────────────────────────────
+fundamentals_cache.json
+macro_cache.json
+news_cache.json
+earnings_cache.json
+
 # ─── Agent / local state ───────────────────────────────────────────────────
 .claude/

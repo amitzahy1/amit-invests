@@ -533,6 +533,54 @@ with tab_corr:
     st.plotly_chart(fig_correlation_heatmap(D["corr"]), use_container_width=True, config=PCFG)
 
 
+# ─── Earnings Calendar ──────────────────────────────────────────────────────
+try:
+    from earnings_calendar import get_upcoming_earnings
+    _earnings = get_upcoming_earnings(
+        [t for t in pf["ticker"] if not t.endswith(".TA")], days_ahead=60)
+    if _earnings:
+        st.markdown("""
+        <div class="below-section">
+          <div class="sect-head">
+            <div>
+              <h2>Upcoming Earnings</h2>
+              <div class="sect-sub">Next 60 days — earnings dates for your holdings</div>
+            </div>
+          </div>
+        </div>
+        """, unsafe_allow_html=True)
+        _earn_rows = []
+        for e in _earnings[:10]:
+            _surprise = e.get("surprise_pct", "")
+            _s_html = ""
+            if _surprise and _surprise != "None":
+                try:
+                    _s_val = float(_surprise)
+                    _s_color = "var(--up)" if _s_val >= 0 else "var(--dn)"
+                    _s_html = f'<span style="color:{_s_color};">{_s_val:+.1f}%</span>'
+                except (ValueError, TypeError):
+                    pass
+            _earn_rows.append(
+                f'<tr>'
+                f'<td class="mono" style="font-weight:500;">{e["ticker"]}</td>'
+                f'<td>{e.get("report_date", "—")}</td>'
+                f'<td class="r mono">{e.get("estimated_eps", "—")}</td>'
+                f'<td class="r mono">{e.get("reported_eps", "—")}</td>'
+                f'<td class="r">{_s_html or "—"}</td>'
+                f'</tr>'
+            )
+        st.markdown(
+            '<table class="recs-table">'
+            '<thead><tr><th>Ticker</th><th>Date</th>'
+            '<th class="r">Est. EPS</th><th class="r">Actual EPS</th>'
+            '<th class="r">Surprise</th></tr></thead>'
+            f'<tbody>{"".join(_earn_rows)}</tbody></table>',
+            unsafe_allow_html=True,
+        )
+except Exception:
+    pass  # earnings calendar is optional
+
+
 # ─── Drill-Down ─────────────────────────────────────────────────────────────
 st.markdown("""
 <div class="below-section">

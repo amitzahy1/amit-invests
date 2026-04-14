@@ -1,6 +1,6 @@
 """
-Settings — investment profile, scoring strategy, engine mode, and notifications.
-Saved to settings.json. Next scheduled run picks up changes automatically.
+Settings — 3 sections: Investor Profile, Scoring Strategy, Notifications.
+Saved to settings.json. The daily pipeline reads this on every run.
 """
 
 from _bootstrap import ROOT, inject_css, inject_header, handle_actions, minify
@@ -15,44 +15,44 @@ handle_actions()
 
 SETTINGS_PATH = ROOT / "settings.json"
 
-# ─── Scoring category definitions ────────────────────────────────────────────
+# ─── Scoring categories ──────────────────────────────────────────────────────
 
 SCORE_CATEGORIES = {
     "quality": {
         "label": "Quality", "icon": "🏛️",
-        "short": "Business quality",
-        "how_he": "ROE > 15%, שולי רווח > 20%, חוב/הון < 0.5, צמיחת הכנסות > 10%",
-        "how_en": "Profitability (ROE >15%, net margin >20%), financial health (debt/equity <0.5), revenue & EPS growth >10%.",
+        "short_he": "איכות עסקית",
+        "what_he": "האם העסק רווחי, יציב ובריא? ROE, שולי רווח, חוב, צמיחה.",
+        "what_en": "ROE >15%, margins >20%, debt/equity <0.5, revenue growth >10%.",
     },
     "valuation": {
         "label": "Valuation", "icon": "💰",
-        "short": "Is it cheap?",
-        "how_he": "P/E מול ממוצע סקטור, PEG, יעד אנליסטים, יחסי מחיר (P/E>25, P/B>3)",
-        "how_en": "4 sub-methods weighted 30/25/25/20: P/E vs sector avg, PEG ratio, analyst target upside, price ratio elevation.",
+        "short_he": "תמחור",
+        "what_he": "האם המניה זולה או יקרה? P/E מול סקטור, PEG, יעד אנליסטים.",
+        "what_en": "P/E vs sector, PEG, analyst target upside, price ratio check.",
     },
     "risk": {
         "label": "Risk", "icon": "🛡️",
-        "short": "Portfolio safety",
-        "how_he": "ריכוזיות > 15% = עודף משקל, Beta > 1.5 = תנודתי, סקטור > 35%, מדיניות קריפטו",
-        "how_en": "Concentration >15%, beta >1.5, sector >35%, crypto cap enforcement. Higher score = safer.",
+        "short_he": "סיכון תיק",
+        "what_he": "האם הפוזיציה גדולה מדי? ריכוזיות, Beta, סקטור, מדיניות קריפטו.",
+        "what_en": "Concentration >15%, beta >1.5, sector >35%, crypto cap.",
     },
     "macro": {
         "label": "Macro", "icon": "🌍",
-        "short": "Economic environment",
-        "how_he": "VIX (< 15 רגוע, > 25 פחד), עקום תשואות (הפוך = מיתון), ריבית פד, אינפלציה",
-        "how_en": "VIX regime, yield curve shape, Fed rate impact on stocks/bonds, inflation level.",
+        "short_he": "כלכלה",
+        "what_he": "מה המצב הכלכלי? ריבית, VIX, עקום תשואות, אינפלציה.",
+        "what_en": "Fed rate, VIX regime, yield curve, inflation level.",
     },
     "sentiment": {
         "label": "Sentiment", "icon": "📊",
-        "short": "Analyst consensus",
-        "how_he": "קונצנזוס וול סטריט: > 70% Buy = חיובי, > 30% Sell = שלילי, בונוס לכיסוי רחב (20+)",
-        "how_en": "Wall Street consensus: >70% Buy = bullish, >30% Sell = bearish. Coverage breadth bonus.",
+        "short_he": "קונצנזוס",
+        "what_he": "מה אומרים האנליסטים? אחוז Buy/Hold/Sell מוול סטריט.",
+        "what_en": "Wall Street consensus: >70% Buy = bullish, >30% Sell = bearish.",
     },
     "technical": {
         "label": "Trend", "icon": "📈",
-        "short": "Price momentum",
-        "how_he": "MA50/MA200 (Golden/Death Cross), RSI (< 30 oversold, > 70 overbought), סטייה מ-MA200",
-        "how_en": "Triple MA trend (40%), RSI momentum (35%), deviation from 200-day MA (25%). Weighted by confidence.",
+        "short_he": "מגמה",
+        "what_he": "לאיזה כיוון נע המחיר? ממוצעים נעים, RSI, סטייה מממוצע ארוך.",
+        "what_en": "MA50/MA200 crossovers, RSI momentum, distance from MA200.",
     },
 }
 SCORE_KEYS = list(SCORE_CATEGORIES.keys())
@@ -60,61 +60,46 @@ SCORE_KEYS = list(SCORE_CATEGORIES.keys())
 STRATEGY_PRESETS = {
     "conservative_longterm": {
         "label": "Conservative Long-Term (1+ years)",
-        "desc": "Quality businesses at fair prices. Minimal short-term noise.",
+        "desc_he": "מתמקד באיכות עסקית ותמחור הוגן. משקל מינימלי לאותות קצרי-טווח.",
         "weights": {"quality": 30, "valuation": 25, "risk": 20, "macro": 15, "sentiment": 5, "technical": 5},
     },
     "balanced": {
         "label": "Balanced",
-        "desc": "Even consideration across all dimensions.",
+        "desc_he": "שקלול שווה בין כל הפרמטרים.",
         "weights": {"quality": 20, "valuation": 20, "risk": 15, "macro": 15, "sentiment": 15, "technical": 15},
     },
     "value": {
         "label": "Deep Value (Buffett / Graham)",
-        "desc": "Cheap, high-quality businesses. Price is king.",
+        "desc_he": "עסקים איכותיים במחירים זולים. התמחור הוא המלך.",
         "weights": {"quality": 25, "valuation": 35, "risk": 15, "macro": 10, "sentiment": 5, "technical": 10},
     },
     "growth": {
         "label": "Growth (Cathie Wood / ARK)",
-        "desc": "High-growth with momentum. Tolerates high valuations.",
+        "desc_he": "חברות צמיחה עם מומנטום. סובל תמחור גבוה.",
         "weights": {"quality": 15, "valuation": 10, "risk": 15, "macro": 15, "sentiment": 20, "technical": 25},
     },
     "income": {
         "label": "Income / Defensive",
-        "desc": "Stable dividends, low volatility, capital preservation.",
+        "desc_he": "יציבות, דיבידנדים, שימור הון.",
         "weights": {"quality": 25, "valuation": 20, "risk": 30, "macro": 15, "sentiment": 5, "technical": 5},
     },
     "custom": {
         "label": "Custom",
-        "desc": "Set your own weights manually.",
+        "desc_he": "הגדר משקלות ידנית.",
         "weights": {"quality": 17, "valuation": 17, "risk": 17, "macro": 17, "sentiment": 16, "technical": 16},
     },
 }
 
 DEFAULT = {
     "profile_name": "Conservative AI Bull",
-    "style": "conservative", "horizon_years": 3, "trading_frequency": "bi-monthly",
+    "style": "conservative", "horizon_years": 4, "trading_frequency": "bi-monthly",
     "contribution_ils": 4000, "contribution_frequency_days": 60,
     "theses": [], "preferred_sectors": [], "avoid_sectors": [],
-    "crypto_cap_pct": 10, "risk_level": "medium-low",
-    "recommendation_mode": "personas",
+    "crypto_cap_pct": 3, "risk_level": "medium",
+    "recommendation_mode": "scoring",
     "scoring_strategy": "conservative_longterm",
     "scoring_weights": STRATEGY_PRESETS["conservative_longterm"]["weights"].copy(),
-    "personas_active": ["warren_buffett", "charlie_munger", "cathie_wood", "peter_lynch", "risk_manager"],
-    "telegram": {"enabled": False, "send_daily_digest": True, "send_alerts_on_strong_verdicts": True},
-}
-
-ALL_PERSONAS = [
-    "warren_buffett", "charlie_munger", "cathie_wood", "peter_lynch",
-    "michael_burry", "ben_graham",
-    "technical_analyst", "fundamentals_analyst", "valuation", "sentiment", "macro", "risk_manager",
-]
-PERSONA_LABELS = {
-    "warren_buffett": "Warren Buffett (Value)", "charlie_munger": "Charlie Munger (Quality)",
-    "cathie_wood": "Cathie Wood (Innovation)", "peter_lynch": "Peter Lynch (GARP)",
-    "michael_burry": "Michael Burry (Contrarian)", "ben_graham": "Ben Graham (Deep Value)",
-    "technical_analyst": "Technical Analyst", "fundamentals_analyst": "Fundamentals Analyst",
-    "valuation": "Valuation Analyst", "sentiment": "Sentiment Analyst",
-    "macro": "Macro Analyst", "risk_manager": "Risk Manager",
+    "telegram": {"enabled": True, "send_daily_digest": True, "send_alerts_on_strong_verdicts": True},
 }
 
 ALL_SECTORS = list(SECTOR_COLORS.keys())
@@ -133,53 +118,53 @@ def _load():
 
 s = _load()
 
-# ─── Hero strip ──────────────────────────────────────────────────────────────
+# ─── Hero ────────────────────────────────────────────────────────────────────
 _sw = s.get("scoring_weights", DEFAULT["scoring_weights"])
 _top = max(_sw.items(), key=lambda x: x[1]) if _sw else ("quality", 30)
+_cat_icon = SCORE_CATEGORIES.get(_top[0], {}).get("icon", "")
 _cat_label = SCORE_CATEGORIES.get(_top[0], {}).get("label", _top[0])
+_tg_status = "On" if s.get("telegram", {}).get("enabled") else "Off"
 
 st.markdown(minify(f"""
 <section class="hero">
 <div class="hero-top">
 <div class="lbl">Settings</div>
-<div class="mono" style="font-size:12px;color:var(--text-mute);">{s.get('profile_name', '—')}</div>
+<div class="mono" style="font-size:12px;color:var(--text-mute);">{s.get('profile_name','—')}</div>
 </div>
-<div class="hero-grid" style="grid-template-columns: repeat(4, 1fr);">
+<div class="hero-grid" style="grid-template-columns: repeat(3, 1fr);">
 <div class="hero-cell">
-<div class="lbl">Style</div>
+<div class="lbl">Profile</div>
 <div class="hero-value hero-value-light" style="font-size:22px;">{s.get('style','—').title()}</div>
-<div class="hero-sub">{s.get('horizon_years','—')} year horizon</div>
+<div class="hero-sub">{s.get('horizon_years','—')} year horizon · Risk: {s.get('risk_level','—')}</div>
 </div>
 <div class="hero-cell">
-<div class="lbl">Strategy</div>
-<div class="hero-value hero-value-light" style="font-size:14px;">{s.get('scoring_strategy','custom').replace('_',' ').title()}</div>
-<div class="hero-sub">Top weight: {_cat_label} ({_top[1]}%)</div>
+<div class="lbl">Scoring Strategy</div>
+<div class="hero-value hero-value-light" style="font-size:15px;">{s.get('scoring_strategy','custom').replace('_',' ').title()}</div>
+<div class="hero-sub">Top: {_cat_icon} {_cat_label} ({_top[1]}%)</div>
 </div>
 <div class="hero-cell">
-<div class="lbl">Engine</div>
-<div class="hero-value hero-value-light" style="font-size:18px;">{s.get('recommendation_mode','personas').title()}</div>
-<div class="hero-sub">{len(s.get('personas_active',[]))} personas</div>
-</div>
-<div class="hero-cell">
-<div class="lbl">Contribution</div>
-<div class="hero-value tab">₪{s.get('contribution_ils',0):,.0f}</div>
-<div class="hero-sub">Every {s.get('contribution_frequency_days',60)} days</div>
+<div class="lbl">Telegram</div>
+<div class="hero-value hero-value-light" style="font-size:22px;">{_tg_status}</div>
+<div class="hero-sub">Daily digest + alerts</div>
 </div>
 </div>
 </section>
 """), unsafe_allow_html=True)
 
+
 # ═══════════════════════════════════════════════════════════════════════════════
-# FORM
+# FORM — 3 clean sections
 # ═══════════════════════════════════════════════════════════════════════════════
 
 with st.form("settings_form"):
 
-    # ── Section 1: Profile ────────────────────────────────────────────────
+    # ══════════════════════════════════════════════════════════════════════
+    # SECTION 1: Investor Profile
+    # ══════════════════════════════════════════════════════════════════════
     st.markdown("""
     <div class="below-section"><div class="sect-head"><div>
     <h2>Investor Profile</h2>
-    <div class="sect-sub">Your investment personality drives every recommendation</div>
+    <div class="sect-sub">Who you are as an investor — drives every recommendation and score</div>
     </div></div></div>
     """, unsafe_allow_html=True)
 
@@ -191,53 +176,57 @@ with st.form("settings_form"):
             index=STYLES.index(s.get("style", "conservative")) if s.get("style") in STYLES else 0)
     with c2:
         horizon_years = st.number_input("Horizon (years)", min_value=1, max_value=50,
-            value=int(s.get("horizon_years", 3)))
+            value=int(s.get("horizon_years", 4)))
     with c3:
         risk_level = st.selectbox("Risk level", RISK_LEVELS,
-            index=RISK_LEVELS.index(s.get("risk_level", "medium-low")) if s.get("risk_level") in RISK_LEVELS else 1)
+            index=RISK_LEVELS.index(s.get("risk_level", "medium")) if s.get("risk_level") in RISK_LEVELS else 2)
 
     c4, c5, c6 = st.columns(3)
     with c4:
-        trading_frequency = st.selectbox("Trading frequency", FREQS,
+        trading_frequency = st.selectbox("Contribution frequency", FREQS,
             index=FREQS.index(s.get("trading_frequency", "bi-monthly")) if s.get("trading_frequency") in FREQS else 2)
     with c5:
         contribution_ils = st.number_input("Contribution (ILS)", min_value=0,
             value=int(s.get("contribution_ils", 4000)), step=500)
     with c6:
-        contribution_frequency_days = st.number_input("Every N days", min_value=1, max_value=365,
-            value=int(s.get("contribution_frequency_days", 60)))
-
-    crypto_cap_pct = st.slider("Crypto cap (% of portfolio)", 0, 100,
-        int(s.get("crypto_cap_pct", 10)), step=1)
-
-    # ── Section 2: Sectors & Theses ───────────────────────────────────────
-    st.markdown("""
-    <div class="below-section"><div class="sect-head"><div>
-    <h2>Sectors & Theses</h2>
-    <div class="sect-sub">Sector preferences and investment beliefs injected into every AI prompt</div>
-    </div></div></div>
-    """, unsafe_allow_html=True)
+        crypto_cap_pct = st.number_input("Crypto cap (%)", min_value=0, max_value=100,
+            value=int(s.get("crypto_cap_pct", 3)), step=1)
 
     sc1, sc2 = st.columns(2)
     with sc1:
-        preferred_sectors = st.multiselect("Preferred sectors (overweight)", ALL_SECTORS,
+        preferred_sectors = st.multiselect("Preferred sectors", ALL_SECTORS,
             default=[x for x in s.get("preferred_sectors", []) if x in ALL_SECTORS])
     with sc2:
-        avoid_sectors = st.multiselect("Avoid sectors (never recommend)", ALL_SECTORS,
+        avoid_sectors = st.multiselect("Avoid sectors", ALL_SECTORS,
             default=[x for x in s.get("avoid_sectors", []) if x in ALL_SECTORS])
 
     theses_raw = st.text_area("Investment theses (one per line)",
-        value="\n".join(s.get("theses", [])), height=120,
-        help="Each line is injected verbatim into the AI recommendation prompt.")
+        value="\n".join(s.get("theses", [])), height=100,
+        help="Injected into the AI prompt. Example: 'AI is the dominant growth story of the next 3 years'")
 
-    # ── Section 3: Scoring Engine ─────────────────────────────────────────
+    # ══════════════════════════════════════════════════════════════════════
+    # SECTION 2: Scoring Strategy
+    # ══════════════════════════════════════════════════════════════════════
     st.markdown("""
     <div class="below-section"><div class="sect-head"><div>
-    <h2>Scoring Engine</h2>
-    <div class="sect-sub">6 algorithmic scores rated 0-100 per holding — weights determine the final verdict</div>
+    <h2>Scoring Strategy</h2>
+    <div class="sect-sub">How the engine evaluates your holdings</div>
     </div></div></div>
     """, unsafe_allow_html=True)
 
+    # Explanation banner
+    st.markdown("""
+    <div style="background:#f0f4f8;border:1px solid #e2e8f0;border-radius:8px;padding:16px 20px;margin-bottom:16px;font-size:13px;line-height:1.7;color:#1e293b;">
+    <div style="font-weight:600;margin-bottom:6px;">How it works</div>
+    Every day, each holding gets <b>6 scores</b> (0-100): Quality, Valuation, Risk, Macro, Sentiment, and Trend.<br>
+    The <b>weights</b> below control how much each score influences the final <b>BUY / HOLD / SELL</b> verdict.<br><br>
+    <div style="font-size:12px;color:#64748b;">
+    This affects: <b>Recommendations page</b> (score bars + verdicts) · <b>Telegram messages</b> (daily verdicts) · <b>Charts</b> (which holdings get charted)
+    </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Strategy preset
     preset_keys = list(STRATEGY_PRESETS.keys())
     current_preset = s.get("scoring_strategy", "conservative_longterm")
     if current_preset not in preset_keys:
@@ -245,14 +234,16 @@ with st.form("settings_form"):
 
     scoring_strategy = st.selectbox("Strategy preset", preset_keys,
         index=preset_keys.index(current_preset),
-        format_func=lambda x: f"{STRATEGY_PRESETS[x]['label']}  —  {STRATEGY_PRESETS[x]['desc']}")
+        format_func=lambda x: STRATEGY_PRESETS[x]["label"])
 
+    st.caption(STRATEGY_PRESETS[scoring_strategy]["desc_he"])
+
+    # Weight sliders — 2 columns × 3 rows
     preset_weights = STRATEGY_PRESETS[scoring_strategy]["weights"]
     current_weights = s.get("scoring_weights", preset_weights)
     if scoring_strategy != "custom" and scoring_strategy != s.get("scoring_strategy"):
         current_weights = preset_weights
 
-    # Score weight sliders — 2 columns, 3 rows
     scoring_weights = {}
     for row_start in range(0, 6, 2):
         cols = st.columns(2)
@@ -260,59 +251,36 @@ with st.form("settings_form"):
             cat = SCORE_CATEGORIES[key]
             with cols[col_idx]:
                 val = st.slider(
-                    f"{cat['icon']} {cat['label']} — {cat['short']}",
+                    f"{cat['icon']} {cat['label']} — {cat['short_he']}",
                     0, 50, int(current_weights.get(key, preset_weights.get(key, 17))),
                     step=5, key=f"sw_{key}",
-                    help=cat["how_en"])
+                    help=cat["what_he"])
                 scoring_weights[key] = val
 
     total_w = sum(scoring_weights.values())
     if total_w == 100:
-        st.markdown(f'<div style="font-size:12px;color:var(--up);margin-top:-8px;">Weights: {total_w}%</div>',
-                    unsafe_allow_html=True)
+        st.markdown(
+            f'<div style="font-size:12px;color:#047857;margin-top:-4px;">'
+            f'Total: {total_w}%</div>', unsafe_allow_html=True)
     else:
-        st.warning(f"Weights sum to {total_w}% — should be 100%.")
+        st.warning(f"Total: {total_w}% — should be 100%. Adjust sliders.")
 
-    # How each score works
+    # How each score is calculated
     with st.expander("How is each score calculated?"):
         for key in SCORE_KEYS:
             cat = SCORE_CATEGORIES[key]
-            st.markdown(f"**{cat['icon']} {cat['label']}** — {cat['how_he']}")
-            st.caption(cat["how_en"])
+            st.markdown(
+                f"**{cat['icon']} {cat['label']}** — {cat['what_he']}\n\n"
+                f"<span style='font-size:12px;color:#6b7280;'>{cat['what_en']}</span>",
+                unsafe_allow_html=True)
 
-    # ── Section 4: Engine Mode + Personas ─────────────────────────────────
+    # ══════════════════════════════════════════════════════════════════════
+    # SECTION 3: Notifications
+    # ══════════════════════════════════════════════════════════════════════
     st.markdown("""
     <div class="below-section"><div class="sect-head"><div>
-    <h2>Recommendation Engine</h2>
-    <div class="sect-sub">Choose how recommendations are generated</div>
-    </div></div></div>
-    """, unsafe_allow_html=True)
-
-    REC_MODES = ["personas", "scoring", "hybrid"]
-    REC_LABELS = {
-        "personas": "Personas — 9 AI analysts × N holdings (detailed, slower)",
-        "scoring": "Scoring — algorithmic scores + 1 Gemini synthesis call (fast, data-driven)",
-        "hybrid": "Hybrid — scores first, then personas comment",
-    }
-    current_mode = s.get("recommendation_mode", "personas")
-    recommendation_mode = st.selectbox("Engine mode", REC_MODES,
-        index=REC_MODES.index(current_mode) if current_mode in REC_MODES else 0,
-        format_func=lambda x: REC_LABELS.get(x, x))
-
-    if recommendation_mode in ("personas", "hybrid"):
-        personas_active = st.multiselect("Active personas (used in personas/hybrid mode)",
-            ALL_PERSONAS,
-            default=[x for x in s.get("personas_active", []) if x in ALL_PERSONAS],
-            format_func=lambda x: PERSONA_LABELS.get(x, x))
-    else:
-        personas_active = s.get("personas_active", DEFAULT["personas_active"])
-        st.caption("Personas are not used in scoring mode — the engine uses algorithmic scores + 1 Gemini synthesis call per holding.")
-
-    # ── Section 5: Telegram ───────────────────────────────────────────────
-    st.markdown("""
-    <div class="below-section"><div class="sect-head"><div>
-    <h2>Telegram Notifications</h2>
-    <div class="sect-sub">Daily digest with market context, scores, and daily lesson</div>
+    <h2>Notifications</h2>
+    <div class="sect-sub">Daily Telegram messages with scores, market context, and lessons</div>
     </div></div></div>
     """, unsafe_allow_html=True)
 
@@ -325,10 +293,10 @@ with st.form("settings_form"):
     with tc3:
         tg_alerts = st.checkbox("Strong BUY/SELL alerts", value=bool(tg.get("send_alerts_on_strong_verdicts", True)))
 
-    st.caption("Credentials (`TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`) are in your `.env` file.")
+    st.caption("Bot credentials (TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID) are stored in your .env file.")
 
     # ── Save ──────────────────────────────────────────────────────────────
-    st.markdown('<div style="height:16px;"></div>', unsafe_allow_html=True)
+    st.markdown('<div style="height:12px;"></div>', unsafe_allow_html=True)
     submitted = st.form_submit_button("Save settings", use_container_width=True, type="primary")
 
     if submitted:
@@ -338,16 +306,15 @@ with st.form("settings_form"):
             "horizon_years": int(horizon_years),
             "trading_frequency": trading_frequency,
             "contribution_ils": int(contribution_ils),
-            "contribution_frequency_days": int(contribution_frequency_days),
+            "contribution_frequency_days": {"daily": 1, "weekly": 7, "bi-monthly": 60, "monthly": 30}.get(trading_frequency, 60),
             "theses": [line.strip() for line in theses_raw.splitlines() if line.strip()],
             "preferred_sectors": preferred_sectors,
             "avoid_sectors": avoid_sectors,
             "crypto_cap_pct": int(crypto_cap_pct),
             "risk_level": risk_level,
-            "recommendation_mode": recommendation_mode,
+            "recommendation_mode": "scoring",
             "scoring_strategy": scoring_strategy,
             "scoring_weights": scoring_weights,
-            "personas_active": personas_active,
             "telegram": {
                 "enabled": bool(tg_enabled),
                 "send_daily_digest": bool(tg_daily),
@@ -355,8 +322,4 @@ with st.form("settings_form"):
             },
         }
         SETTINGS_PATH.write_text(json.dumps(out, indent=2, ensure_ascii=False))
-        st.success("Saved. Next recommendation run will use these settings.")
-
-# ── Raw JSON (debug) ──────────────────────────────────────────────────────────
-with st.expander("Raw settings.json"):
-    st.code(json.dumps(s, indent=2, ensure_ascii=False), language="json")
+        st.success("Saved. Changes take effect on the next daily run (16:35).")
