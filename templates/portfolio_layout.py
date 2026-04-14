@@ -172,15 +172,19 @@ def _fmt_value(v: float, ccy: str = "USD") -> str:
 PILL_CLS = {"buy": "pill-buy", "sell": "pill-sell", "hold": "pill-hold", "new": "pill-new"}
 
 
-def _vote_dots(personas: list[dict]) -> str:
-    n_buy  = sum(1 for p in personas if (p.get("verdict") or "").lower() == "buy")
-    n_hold = sum(1 for p in personas if (p.get("verdict") or "").lower() == "hold")
-    n_sell = sum(1 for p in personas if (p.get("verdict") or "").lower() == "sell")
-    title = f"{n_buy} buy · {n_hold} hold · {n_sell} sell across {len(personas)} personas"
+def _vote_dots(rec: dict) -> str:
+    """Show score-based dots instead of persona votes."""
+    scores = rec.get("scores", {})
+    if not scores:
+        return ""
+    bullish = sum(1 for v in scores.values() if v > 60)
+    neutral = sum(1 for v in scores.values() if 40 <= v <= 60)
+    bearish = sum(1 for v in scores.values() if v < 40)
+    title = f"{bullish} bullish · {neutral} neutral · {bearish} bearish (6 scores)"
     dots = (
-        '<span class="pos-vote-dot buy"></span>' * n_buy +
-        '<span class="pos-vote-dot hold"></span>' * n_hold +
-        '<span class="pos-vote-dot sell"></span>' * n_sell
+        '<span class="pos-vote-dot buy"></span>' * bullish +
+        '<span class="pos-vote-dot hold"></span>' * neutral +
+        '<span class="pos-vote-dot sell"></span>' * bearish
     )
     return f'<div class="pos-votes" title="{title}">{dots}</div>'
 
@@ -300,8 +304,7 @@ def render_above_fold(
         rec = recs_by_ticker.get(tk, {})
         verdict = (rec.get("verdict") or "").lower()
         conf = int(rec.get("conviction", 0))
-        personas = rec.get("personas", [])
-        votes_html = _vote_dots(personas) if personas else ""
+        votes_html = _vote_dots(rec)
 
         if verdict:
             signal_html = f'<span class="pill {PILL_CLS.get(verdict, "pill-hold")}">{verdict.upper()} {conf}%</span>'
@@ -374,8 +377,7 @@ def render_above_fold(
             continue
         v = (h.get("verdict") or "").lower()
         if v in ("buy", "sell") and int(h.get("conviction", 0)) >= 70:
-            personas = h.get("personas", [])
-            first_rat = personas[0].get("rationale", "") if personas else ""
+            first_rat = h.get("rationale", "")
             insight_items.append({
                 "t": h["ticker"],
                 "name": DISPLAY_NAMES.get(h["ticker"], h["ticker"]),
@@ -527,7 +529,7 @@ def render_above_fold(
 <div class="insights-tag">AI · Gemini</div>
 </div>
 <div class="insights-summary">
-Generated {reviewed_when}. 5 personas reviewed {len(holdings_recs)} holdings. {strong_buys} strong buys, {strong_sells} sells, {len(new_ideas)} new ideas.
+Generated {reviewed_when}. Scoring engine analyzed {len(holdings_recs)} holdings. {strong_buys} strong buys, {strong_sells} sells, {len(new_ideas)} new ideas.
 </div>
 <div class="insights-list">{insights_html}</div>
 <a class="insights-cta" href="/recommendations">Open full recommendations →</a>

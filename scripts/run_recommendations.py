@@ -767,7 +767,7 @@ def _scoring_synthesis_call(llm, ticker: str, display_name: str,
                             market_context: str) -> dict:
     """Single Gemini call to synthesize algorithmic scores into a Hebrew verdict.
 
-    Used in 'scoring' mode — 1 call per ticker instead of 9 persona calls.
+    Single Gemini call to synthesize algorithmic scores into a Hebrew verdict.
     """
     scores_block = "\n".join(
         f"  {k.title():12s} {v}/100 {'(strong)' if v > 70 else '(weak)' if v < 30 else ''}"
@@ -891,7 +891,7 @@ def _generate_summary(llm, preamble: str, holdings: list[dict], new_ideas: list[
         return " ".join(parts)
 
 
-# ─── Dry-run mock (Hebrew rationales, 5 personas, settings-aware) ───────────
+# ─── Dry-run mock (Hebrew rationales, mock scores, settings-aware) ──────────
 
 # Persona display names in Hebrew
 PERSONA_NAMES_HE = {

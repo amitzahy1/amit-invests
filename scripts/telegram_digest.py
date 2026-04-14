@@ -3,7 +3,7 @@
 Telegram digest — reads recommendations.json and pushes a rich summary to Telegram.
 
 Sends up to N+2 messages:
-  1. Holdings with persona vote splits and dissenting opinions
+  1. Holdings with scores and verdicts
   2. New ideas (full rationale) + portfolio dashboard with sector bar chart
   3+. Candlestick chart for each new-idea ticker (OHLCV + MA20/MA50)
 
@@ -84,30 +84,6 @@ def _load_snapshots(n: int = 0) -> list[dict]:
     entries = [json.loads(line) for line in lines]
     return entries[-n:] if n > 0 else entries
 
-
-def _vote_split(personas: list[dict]) -> tuple[int, int, int]:
-    """Count buy/hold/sell votes from persona list → (buy, hold, sell)."""
-    b = h = s = 0
-    for p in personas:
-        v = (p.get("verdict") or "hold").lower()
-        if v == "buy":
-            b += 1
-        elif v == "sell":
-            s += 1
-        else:
-            h += 1
-    return b, h, s
-
-
-def _find_dissenter(personas: list[dict], majority: str) -> dict | None:
-    """Find the highest-conviction persona who disagrees with the majority."""
-    dissenters = [
-        p for p in personas
-        if (p.get("verdict") or "hold").lower() != majority.lower()
-    ]
-    if not dissenters:
-        return None
-    return max(dissenters, key=lambda p: p.get("conviction", 0))
 
 
 def _truncate(text: str, max_len: int = 55) -> str:
