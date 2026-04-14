@@ -313,11 +313,14 @@ def _format_dashboard_msg(recs: dict, snapshots: list[dict]) -> str:
 
 
 def _generate_candlestick(ticker: str, name: str, conviction: int,
-                          verdict: str = "BUY") -> bytes | None:
-    """Generate a professional candlestick chart with MA20/MA50 for a ticker."""
+                          verdict: str = "BUY") -> tuple[bytes | None, str]:
+    """Generate a professional candlestick chart + Hebrew analysis caption.
+
+    Returns (png_bytes, hebrew_caption). png_bytes is None if chart fails.
+    """
     data = _fetch_ohlcv(ticker, range_="6mo")
     if not data:
-        return None
+        return None, ""
 
     try:
         import matplotlib
@@ -327,12 +330,12 @@ def _generate_candlestick(ticker: str, name: str, conviction: int,
         import pandas as pd
         import numpy as np
     except ImportError:
-        return None
+        return None, ""
 
     timestamps = data.get("timestamp", [])
     quote = data.get("indicators", {}).get("quote", [{}])[0]
     if not timestamps or not quote.get("close"):
-        return None
+        return None, ""
 
     dates = pd.to_datetime(timestamps, unit="s")
     df = pd.DataFrame({
@@ -344,84 +347,120 @@ def _generate_candlestick(ticker: str, name: str, conviction: int,
     }, index=dates).dropna(subset=["close"])
 
     if len(df) < 20:
-        return None
+        return None, ""
 
-    # Moving averages
+    # ─── Technical Indicators ──────────────────────────────────────
     df["ma20"] = df["close"].rolling(20).mean()
     df["ma50"] = df["close"].rolling(50).mean()
 
-    # ─── Chart ──────────────────────────────────────────────────────
-    fig, (ax_price, ax_vol) = plt.subplots(
-        2, 1, figsize=(10, 6), dpi=150,
-        gridspec_kw={"height_ratios": [3, 1]}, sharex=True,
-    )
-    fig.patch.set_facecolor("#0f1117")
+    # RSI (14-day)
+    delta = df["close"].diff()
+    gain = delta.clip(lower=0).rolling(14).mean()
+    loss = (-delta.clip(upper=0)).rolling(14).mean()
+    rs = gain / loss.replace(0, np.nan)
+    df["rsi"] = 100 - (100 / (1 + rs))
 
-    for ax in (ax_price, ax_vol):
-        ax.set_facecolor("#0f1117")
-        ax.tick_params(colors="#94a3b8", labelsize=8)
+    # Bollinger Bands (20-day, 2 std)
+    df["bb_mid"] = df["close"].rolling(20).mean()
+    bb_std = df["close"].rolling(20).std()
+    df["bb_upper"] = df["bb_mid"] + 2 * bb_std
+    df["bb_lower"] = df["bb_mid"] - 2 * bb_std
+
+    # ─── Chart (light theme, 3 panels) ─────────────────────────────
+    BG = "#fafbfc"
+    GRID = "#e5e7eb"
+    TEXT = "#1f2937"
+    MUTE = "#6b7280"
+    GREEN = "#16a34a"
+    RED = "#dc2626"
+
+    fig, (ax_price, ax_rsi, ax_vol) = plt.subplots(
+        3, 1, figsize=(10, 7.5), dpi=150,
+        gridspec_kw={"height_ratios": [4, 1.5, 1]}, sharex=True,
+    )
+    fig.patch.set_facecolor(BG)
+
+    for ax in (ax_price, ax_rsi, ax_vol):
+        ax.set_facecolor(BG)
+        ax.tick_params(colors=MUTE, labelsize=8)
         ax.spines["top"].set_visible(False)
         ax.spines["right"].set_visible(False)
-        ax.spines["left"].set_color("#1e293b")
-        ax.spines["bottom"].set_color("#1e293b")
-        ax.grid(axis="y", color="#1e293b", linewidth=0.4)
+        ax.spines["left"].set_color(GRID)
+        ax.spines["bottom"].set_color(GRID)
+        ax.grid(axis="y", color=GRID, linewidth=0.4)
 
-    # Candlesticks
-    width = 0.6  # days
+    # ── Price panel: candles + MA + Bollinger ──
+    width = 0.6
     up = df[df["close"] >= df["open"]]
     down = df[df["close"] < df["open"]]
 
-    # Up candles (green)
     ax_price.bar(up.index, up["close"] - up["open"], width, bottom=up["open"],
-                 color="#22c55e", edgecolor="#22c55e", linewidth=0.5)
-    ax_price.vlines(up.index, up["low"], up["high"], color="#22c55e", linewidth=0.5)
-
-    # Down candles (red)
+                 color=GREEN, edgecolor=GREEN, linewidth=0.5)
+    ax_price.vlines(up.index, up["low"], up["high"], color=GREEN, linewidth=0.5)
     ax_price.bar(down.index, down["close"] - down["open"], width, bottom=down["open"],
-                 color="#ef4444", edgecolor="#ef4444", linewidth=0.5)
-    ax_price.vlines(down.index, down["low"], down["high"], color="#ef4444", linewidth=0.5)
+                 color=RED, edgecolor=RED, linewidth=0.5)
+    ax_price.vlines(down.index, down["low"], down["high"], color=RED, linewidth=0.5)
 
-    # Moving averages
-    ax_price.plot(df.index, df["ma20"], color="#3b82f6", linewidth=1.2, label="MA20", alpha=0.9)
+    ax_price.plot(df.index, df["ma20"], color="#2563eb", linewidth=1.3, label="MA20")
     if df["ma50"].notna().sum() > 0:
-        ax_price.plot(df.index, df["ma50"], color="#f59e0b", linewidth=1.2, label="MA50", alpha=0.9)
+        ax_price.plot(df.index, df["ma50"], color="#d97706", linewidth=1.3, label="MA50")
 
-    # Price annotation
+    # Bollinger Bands (shaded)
+    bb_valid = df["bb_upper"].notna()
+    ax_price.fill_between(df.index[bb_valid], df["bb_lower"][bb_valid], df["bb_upper"][bb_valid],
+                          alpha=0.08, color="#6366f1", label="Bollinger")
+    ax_price.plot(df.index, df["bb_upper"], color="#6366f1", linewidth=0.6, alpha=0.5)
+    ax_price.plot(df.index, df["bb_lower"], color="#6366f1", linewidth=0.6, alpha=0.5)
+
+    # Price label
     last_price = df["close"].iloc[-1]
     ax_price.annotate(
         f"${last_price:,.2f}",
         xy=(df.index[-1], last_price),
         xytext=(8, 8), textcoords="offset points",
-        color="white", fontsize=10, fontweight="bold",
-        bbox=dict(boxstyle="round,pad=0.3", facecolor="#1e293b", edgecolor="#334155"),
+        color=TEXT, fontsize=10, fontweight="bold",
+        bbox=dict(boxstyle="round,pad=0.3", facecolor="white", edgecolor=GRID),
     )
 
-    # Period change
     first_price = df["close"].iloc[0]
     change_pct = ((last_price / first_price) - 1) * 100
-    change_color = "#22c55e" if change_pct >= 0 else "#ef4444"
+    change_color = GREEN if change_pct >= 0 else RED
     change_sign = "+" if change_pct >= 0 else ""
 
     ax_price.set_title(
         f"{ticker} — {name}   |   {change_sign}{change_pct:.1f}% (6M)   |   {verdict.upper()} {conviction}%",
-        color="white", fontsize=13, fontweight="bold", pad=10, loc="left",
+        color=TEXT, fontsize=13, fontweight="bold", pad=10, loc="left",
     )
-    # Color the change in title
-    ax_price.text(
-        0.98, 1.02, f"{change_sign}{change_pct:.1f}%",
-        transform=ax_price.transAxes, ha="right", va="bottom",
-        color=change_color, fontsize=12, fontweight="bold",
-    )
+    ax_price.text(0.98, 1.02, f"{change_sign}{change_pct:.1f}%",
+                  transform=ax_price.transAxes, ha="right", va="bottom",
+                  color=change_color, fontsize=12, fontweight="bold")
 
-    ax_price.legend(loc="upper left", fontsize=8, framealpha=0.3,
-                    facecolor="#1e293b", edgecolor="#334155", labelcolor="white")
+    ax_price.legend(loc="upper left", fontsize=7, framealpha=0.8,
+                    facecolor="white", edgecolor=GRID, labelcolor=TEXT)
     ax_price.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f"${x:,.0f}"))
 
-    # Volume bars
-    vol_colors = ["#22c55e" if c >= o else "#ef4444"
-                  for c, o in zip(df["close"], df["open"])]
-    ax_vol.bar(df.index, df["volume"], width, color=vol_colors, alpha=0.5)
-    ax_vol.set_ylabel("Volume", color="#64748b", fontsize=8)
+    # ── RSI panel ──
+    rsi_valid = df["rsi"].notna()
+    ax_rsi.plot(df.index[rsi_valid], df["rsi"][rsi_valid], color="#7c3aed", linewidth=1.2)
+    ax_rsi.axhline(70, color=RED, linewidth=0.7, linestyle="--", alpha=0.6)
+    ax_rsi.axhline(30, color=GREEN, linewidth=0.7, linestyle="--", alpha=0.6)
+    ax_rsi.fill_between(df.index[rsi_valid], 30, df["rsi"][rsi_valid],
+                        where=df["rsi"][rsi_valid] < 30, alpha=0.15, color=GREEN)
+    ax_rsi.fill_between(df.index[rsi_valid], 70, df["rsi"][rsi_valid],
+                        where=df["rsi"][rsi_valid] > 70, alpha=0.15, color=RED)
+    ax_rsi.set_ylabel("RSI", color=MUTE, fontsize=8)
+    ax_rsi.set_ylim(10, 90)
+
+    last_rsi = df["rsi"].dropna().iloc[-1] if df["rsi"].notna().sum() > 0 else 50
+    rsi_color = GREEN if last_rsi < 35 else (RED if last_rsi > 65 else MUTE)
+    ax_rsi.text(0.98, 0.85, f"RSI {last_rsi:.0f}",
+                transform=ax_rsi.transAxes, ha="right", va="top",
+                color=rsi_color, fontsize=9, fontweight="bold")
+
+    # ── Volume panel ──
+    vol_colors = [GREEN if c >= o else RED for c, o in zip(df["close"], df["open"])]
+    ax_vol.bar(df.index, df["volume"], width, color=vol_colors, alpha=0.4)
+    ax_vol.set_ylabel("Vol", color=MUTE, fontsize=8)
     ax_vol.yaxis.set_major_formatter(plt.FuncFormatter(
         lambda x, _: f"{x/1e6:.0f}M" if x >= 1e6 else f"{x/1e3:.0f}K"
     ))
@@ -431,13 +470,92 @@ def _generate_candlestick(ticker: str, name: str, conviction: int,
     plt.xticks(rotation=0)
 
     fig.tight_layout()
-    fig.subplots_adjust(hspace=0.05)
+    fig.subplots_adjust(hspace=0.06)
 
     buf = io.BytesIO()
     fig.savefig(buf, format="png", bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close(fig)
     buf.seek(0)
-    return buf.read()
+    png = buf.read()
+
+    # ─── Generate Hebrew analysis caption ──────────────────────────
+    caption = _build_analysis_caption(ticker, name, conviction, verdict,
+                                      last_price, change_pct, last_rsi, df)
+    return png, caption
+
+
+def _build_analysis_caption(ticker: str, name: str, conviction: int, verdict: str,
+                            price: float, change_6m: float, rsi: float,
+                            df) -> str:
+    """Build a Hebrew technical analysis caption from chart data."""
+    import numpy as np
+
+    lines = [f"📊 *{ticker}* — {name} | {verdict.upper()} {conviction}%"]
+    lines.append("")
+
+    ma20 = df["ma20"].dropna().iloc[-1] if df["ma20"].notna().sum() > 0 else None
+    ma50 = df["ma50"].dropna().iloc[-1] if df["ma50"].notna().sum() > 0 else None
+    bb_lower = df["bb_lower"].dropna().iloc[-1] if df["bb_lower"].notna().sum() > 0 else None
+    bb_upper = df["bb_upper"].dropna().iloc[-1] if df["bb_upper"].notna().sum() > 0 else None
+
+    # Price vs MAs
+    if ma20 and ma50:
+        if price > ma20 > ma50:
+            lines.append(f"{RLM}📈 *מגמה עולה* — המחיר מעל MA20 ו-MA50, סדר ממוצעים חיובי.")
+        elif price > ma20 and price < ma50:
+            lines.append(f"{RLM}🔄 *התאוששות* — המחיר חצה את MA20 למעלה אך עדיין מתחת ל-MA50.")
+        elif price < ma20 < ma50:
+            lines.append(f"{RLM}📉 *מגמה יורדת* — המחיר מתחת לשני הממוצעים. הירידה מייצרת מחיר כניסה נמוך.")
+        elif price < ma20 and price > ma50:
+            lines.append(f"{RLM}⚡ *תיקון קצר-טווח* — מתחת ל-MA20 אך מעל MA50, סימן לתיקון זמני.")
+
+    # RSI
+    if rsi < 30:
+        lines.append(f"{RLM}🟢 RSI {rsi:.0f} — *אזור מכירת יתר* (Oversold). היסטורית, זו נקודת כניסה אטרקטיבית.")
+    elif rsi < 40:
+        lines.append(f"{RLM}🟡 RSI {rsi:.0f} — קרוב לאזור מכירת יתר. לחץ מכירה נחלש.")
+    elif rsi > 70:
+        lines.append(f"{RLM}🔴 RSI {rsi:.0f} — *אזור קניית יתר* (Overbought). סיכון לתיקון קצר-טווח.")
+    elif rsi > 60:
+        lines.append(f"{RLM}📊 RSI {rsi:.0f} — מומנטום חיובי, עדיין לא באזור קניית יתר.")
+    else:
+        lines.append(f"{RLM}📊 RSI {rsi:.0f} — אזור ניטרלי, ללא לחץ קיצוני.")
+
+    # Bollinger
+    if bb_lower and bb_upper:
+        bb_range = bb_upper - bb_lower
+        if bb_range > 0:
+            bb_position = (price - bb_lower) / bb_range
+            if bb_position < 0.15:
+                lines.append(f"{RLM}🔵 המחיר בתחתית רצועת Bollinger — פוטנציאל לריבאונד כלפי מעלה.")
+            elif bb_position > 0.85:
+                lines.append(f"{RLM}🟠 המחיר בראש רצועת Bollinger — עלול להיתקל בהתנגדות.")
+            else:
+                lines.append(f"{RLM}🔵 Bollinger — המחיר באמצע הרצועה, תנודתיות רגילה.")
+
+    # Volume trend (last 10 vs previous 10)
+    if len(df) >= 20 and df["volume"].notna().sum() >= 20:
+        recent_vol = df["volume"].iloc[-10:].mean()
+        prev_vol = df["volume"].iloc[-20:-10].mean()
+        if prev_vol > 0:
+            vol_change = ((recent_vol / prev_vol) - 1) * 100
+            if vol_change > 30:
+                lines.append(f"{RLM}📊 מחזורי מסחר עלו {vol_change:.0f}% — עניין גובר מצד משקיעים.")
+            elif vol_change < -30:
+                lines.append(f"{RLM}📊 מחזורי מסחר ירדו {abs(vol_change):.0f}% — לחץ המכירה נחלש.")
+
+    # 6M summary
+    sign = "+" if change_6m >= 0 else ""
+    if change_6m < -15:
+        lines.append(f"{RLM}💰 ירידה של {sign}{change_6m:.1f}% ב-6 חודשים — *מחיר כניסה אטרקטיבי* לטווח ארוך.")
+    elif change_6m < 0:
+        lines.append(f"{RLM}📉 ירידה מתונה של {sign}{change_6m:.1f}% ב-6 חודשים.")
+    elif change_6m > 20:
+        lines.append(f"{RLM}🚀 עלייה של {sign}{change_6m:.1f}% ב-6 חודשים — מומנטום חזק.")
+    else:
+        lines.append(f"{RLM}📈 עלייה של {sign}{change_6m:.1f}% ב-6 חודשים.")
+
+    return "\n".join(lines)
 
 
 # ─── Send ───────────────────────────────────────────────────────────────────
@@ -560,33 +678,57 @@ def main() -> None:
     send_telegram(msg2)
     print("[ok] dashboard message sent")
 
-    # Messages 3+: Candlestick charts
-    # 1) Existing holdings with BUY >=80% (excluding broad market ETFs + Israeli)
-    chart_items = []
-    holdings = recs.get("holdings", [])
-    for h in holdings:
-        v = (h.get("verdict") or "").lower()
-        c = h.get("conviction", 0)
-        tk = h.get("ticker", "")
-        sector = _get_sector(tk)
-        if (v == "buy" and c >= 80
-                and sector not in BROAD_MARKET_SECTORS
-                and not tk.endswith(".TA")):
-            chart_items.append((tk, h.get("name", tk), c, "BUY"))
+    # Messages 3+: Top 3 candlestick charts (smart selection)
+    # Priority: new ideas first → then best existing BUY holdings
+    MAX_CHARTS = 3
 
-    # 2) New ideas
+    # New ideas (highest priority — you don't own these yet)
+    chart_items = []
     for idea in recs.get("new_ideas", []):
-        tk = idea.get("ticker", "")
-        if tk not in {ci[0] for ci in chart_items}:  # avoid duplicates
-            chart_items.append((tk, idea.get("name", tk), idea.get("conviction", 0), "BUY"))
+        chart_items.append((
+            idea.get("ticker", ""),
+            idea.get("name", ""),
+            idea.get("conviction", 0),
+            "BUY",
+        ))
+
+    # Fill remaining from existing BUY >=80%, ranked by conviction × unanimity
+    if len(chart_items) < MAX_CHARTS:
+        holdings = recs.get("holdings", [])
+        scored = []
+        for h in holdings:
+            v = (h.get("verdict") or "").lower()
+            c = h.get("conviction", 0)
+            tk = h.get("ticker", "")
+            sector = _get_sector(tk)
+            if (v != "buy" or c < 80
+                    or sector in BROAD_MARKET_SECTORS
+                    or tk.endswith(".TA")):
+                continue
+            # Score: conviction × unanimity (9-0-0 scores higher)
+            personas = h.get("personas", [])
+            if personas:
+                buy_votes, _, _ = _vote_split(personas)
+                unanimity = buy_votes / len(personas)
+            else:
+                unanimity = 0.5
+            score = c * unanimity
+            scored.append((score, tk, h.get("name", tk), c))
+
+        scored.sort(reverse=True)
+        seen = {ci[0] for ci in chart_items}
+        for _, tk, nm, c in scored:
+            if tk not in seen and len(chart_items) < MAX_CHARTS:
+                chart_items.append((tk, nm, c, "BUY"))
+                seen.add(tk)
 
     if chart_items:
-        print(f"[info] generating {len(chart_items)} charts…")
-    for ticker, name, conv, verdict in chart_items:
+        print(f"[info] generating {len(chart_items)} charts (max {MAX_CHARTS})…")
+    for ticker, name, conv, verdict in chart_items[:MAX_CHARTS]:
         print(f"  {ticker}…", end=" ", flush=True)
-        chart = _generate_candlestick(ticker, name, conv, verdict)
-        if chart:
-            send_telegram_photo(chart, f"📊 {ticker} — {name} | {verdict} {conv}%")
+        chart_bytes, caption = _generate_candlestick(ticker, name, conv, verdict)
+        if chart_bytes:
+            send_telegram_photo(chart_bytes, caption)
             print("sent")
         else:
             print("skipped (no data)")
