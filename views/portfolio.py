@@ -51,10 +51,10 @@ PCFG = {"displayModeBar": False, "displaylogo": False}
 def load_all_data():
     portfolio = load_portfolio()
     h_df = get_holdings_df(portfolio)
-    us = [t for t in h_df["ticker"] if t not in ISRAELI_TICKERS]
+    all_tickers = list(h_df["ticker"])
     usd_ils = fetch_usd_ils_rate()
-    lq = fetch_live_quotes(list(h_df["ticker"]))   # include Israeli tickers for live prices
-    hist = fetch_historical_data(us + ["SPY"], "1y")
+    lq = fetch_live_quotes(all_tickers)
+    hist = fetch_historical_data(all_tickers + ["SPY"], "1y")
     fx_h = fetch_usd_ils_history("1y")
     pf = build_portfolio_df(h_df, lq, usd_ils)
     dr = compute_daily_returns(hist)
@@ -599,7 +599,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-avail = [t for t in pf["ticker"] if t not in ISRAELI_TICKERS and t in D["hist"]]
+avail = [t for t in pf["ticker"] if t in D["hist"]]
 sel = st.selectbox("Select a holding", avail,
                    format_func=lambda t: f"{DISPLAY_NAMES.get(t, t)} ({t})",
                    label_visibility="collapsed")
