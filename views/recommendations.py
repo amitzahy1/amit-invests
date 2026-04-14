@@ -121,6 +121,56 @@ def _conviction_bar(pct: int, verdict: str) -> str:
     )
 
 
+SCORE_LABELS = {
+    "quality": "Quality",
+    "valuation": "Valuation",
+    "risk": "Risk",
+    "macro": "Macro",
+    "sentiment": "Sentiment",
+    "technical": "Trend",
+}
+
+# Load scoring weights from settings for display
+_settings_for_weights = load_json("settings.json") or {}
+_SCORE_WEIGHTS = _settings_for_weights.get("scoring_weights", {
+    "quality": 30, "valuation": 25, "risk": 20,
+    "macro": 15, "sentiment": 5, "technical": 5,
+})
+# Sort categories by weight (most important first)
+_SCORE_ORDER = sorted(SCORE_LABELS.keys(), key=lambda k: -_SCORE_WEIGHTS.get(k, 0))
+
+
+def _score_color(val: int) -> str:
+    if val >= 65:
+        return "#047857"
+    elif val >= 40:
+        return "#b45309"
+    else:
+        return "#b91c1c"
+
+
+def _score_bars_html(scores: dict) -> str:
+    """Render 6 horizontal score bars, ordered by weight (most important first)."""
+    if not scores:
+        return ""
+    rows = []
+    for key in _SCORE_ORDER:
+        val = scores.get(key, 50)
+        color = _score_color(val)
+        label = SCORE_LABELS.get(key, key)
+        weight = _SCORE_WEIGHTS.get(key, 0)
+        # Show weight as subtle suffix if > 0
+        weight_html = f'<span class="score-weight">{weight}%</span>' if weight else ''
+        rows.append(
+            f'<div class="score-row">'
+            f'<span class="score-label">{label}{weight_html}</span>'
+            f'<div class="score-bar"><div class="score-fill" style="width:{val}%;background:{color};"></div></div>'
+            f'<span class="score-val" style="color:{color};">{val}</span>'
+            f'</div>'
+        )
+    return f'<div class="score-bars">{"".join(rows)}</div>'
+
+
 def persona_block_html(p):
     pkey = p.get("name", "")
     pname = _html.escape(p.get("display_name") or pkey)
@@ -150,6 +200,7 @@ def render_priority_card(h: dict, accent: str) -> None:
     v = (h.get("verdict") or "hold").lower()
     c = int(h.get("conviction", 0))
     personas = h.get("personas", [])
+    scores = h.get("scores", {})
     nb, nh, ns = _vote_breakdown(personas)
     total = max(1, nb + nh + ns)
     st.markdown(
@@ -160,6 +211,7 @@ def render_priority_card(h: dict, accent: str) -> None:
         f'  </div>'
         f'  <div class="priority-name txt-dim">{name}</div>'
         f'  <div class="priority-sector txt-mute">{sector}</div>'
+        f'  {_score_bars_html(scores)}'
         f'  {_conviction_bar(c, v)}'
         f'  <div class="priority-bottom">'
         f'    <div class="priority-pct mono">{c}<span class="txt-mute" style="font-size:11px;">%</span></div>'
@@ -185,6 +237,7 @@ def render_mini_card(h: dict, accent: str) -> None:
     v = (h.get("verdict") or "hold").lower()
     c = int(h.get("conviction", 0))
     personas = h.get("personas", [])
+    scores = h.get("scores", {})
     nb, nh, ns = _vote_breakdown(personas)
     st.markdown(
         f'<div class="mini-card mini-card-{accent}">'
@@ -193,6 +246,7 @@ def render_mini_card(h: dict, accent: str) -> None:
         f'    <span class="pill {VERDICT_CLS.get(v, "pill-hold")}">{v.upper()} {c}</span>'
         f'  </div>'
         f'  <div class="mini-name txt-dim">{name}</div>'
+        f'  {_score_bars_html(scores)}'
         f'  {_conviction_bar(c, v)}'
         f'  <div class="mini-votes mono txt-dim">{_vote_mono_html(nb, nh, ns)}</div>'
         f'</div>',
@@ -451,6 +505,6 @@ with fc2:
 st.markdown("""
 <footer class="page-footer">
   <div>AMIT CAPITAL · Recommendations · Market commentary, not financial advice.</div>
-  <div class="right">Powered by Gemini · multi-persona analyst consensus</div>
+  <div class="right">Powered by Gemini · Scoring Engine + AI Analyst Consensus</div>
 </footer>
 """, unsafe_allow_html=True)

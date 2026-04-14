@@ -26,6 +26,16 @@
   ],
   "crypto_cap_pct": 3,
   "risk_level": "medium",
+  "recommendation_mode": "personas",
+  "scoring_strategy": "conservative_longterm",
+  "scoring_weights": {
+    "quality": 30,
+    "valuation": 25,
+    "risk": 20,
+    "macro": 15,
+    "sentiment": 5,
+    "technical": 5
+  },
   "personas_active": [
     "warren_buffett",
     "charlie_munger",

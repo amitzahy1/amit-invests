@@ -24,16 +24,29 @@ fi
   echo "===== $(date +%Y-%m-%dT%H:%M:%S%z) ====="
   echo "(Portfolio sync is manual via CSV upload in the Streamlit UI — no browser automation.)"
 
-  echo "[1/3] run recommendations (real, using Gemini)"
+  echo "[1/4] pre-warm data caches (fundamentals + macro + news)"
+  "$PYTHON" -c "
+from dotenv import load_dotenv; load_dotenv()
+from data_loader_fundamentals import fetch_all_fundamentals, fetch_all_news
+from data_loader_macro import fetch_macro_snapshot
+import json
+tickers = [h['ticker'] for h in json.loads(open('portfolio.json').read()).get('holdings', [])]
+fetch_all_fundamentals(tickers)
+fetch_all_news(tickers)
+fetch_macro_snapshot()
+print('[ok] caches warm')
+" || echo "[warn] cache warm-up failed — recommendations will fetch on demand"
+
+  echo "[2/4] run recommendations (real, using Gemini + scoring engine)"
   "$PYTHON" scripts/run_recommendations.py --once || {
     echo "[warn] real run failed — falling back to dry-run"
     "$PYTHON" scripts/run_recommendations.py --dry-run
   }
 
-  echo "[2/3] snapshot portfolio value"
+  echo "[3/4] snapshot portfolio value"
   "$PYTHON" scripts/snapshot_portfolio.py || echo "[warn] snapshot failed"
 
-  echo "[3/3] push Telegram digest"
+  echo "[4/4] push Telegram digest (market context + lesson + charts)"
   "$PYTHON" scripts/telegram_digest.py --once || echo "[warn] telegram digest failed"
 
   echo "[done]"

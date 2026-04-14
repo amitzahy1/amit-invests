@@ -1,0 +1,23 @@
+[
+  {
+    "ticker": "MSFT",
+    "name": "Microsoft",
+    "suggested_date": "2026-04-14",
+    "suggested_price": 0,
+    "conviction": 82
+  },
+  {
+    "ticker": "TSM",
+    "name": "Taiwan Semiconductor",
+    "suggested_date": "2026-04-14",
+    "suggested_price": 0,
+    "conviction": 78
+  },
+  {
+    "ticker": "META",
+    "name": "Meta Platforms",
+    "suggested_date": "2026-04-14",
+    "suggested_price": 0,
+    "conviction": 70
+  }
+]

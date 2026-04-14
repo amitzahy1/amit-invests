@@ -17,10 +17,17 @@ import streamlit as st  # noqa: E402
 
 _FAVICON_SVG = (
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">'
-    '<rect width="32" height="32" rx="4" fill="#0a0a0a"/>'
-    '<text x="16" y="22" text-anchor="middle" '
-    'font-family="Helvetica Neue,Arial,sans-serif" '
-    'font-weight="700" font-size="14" letter-spacing="-0.5" fill="#ffffff">AC</text>'
+    '<defs>'
+    '<linearGradient id="g" x1="0" y1="0" x2="1" y2="1">'
+    '<stop offset="0%" stop-color="#1e293b"/>'
+    '<stop offset="100%" stop-color="#0f172a"/>'
+    '</linearGradient>'
+    '</defs>'
+    '<rect width="32" height="32" rx="6" fill="url(#g)"/>'
+    '<path d="M8 22 L16 8 L24 22" stroke="#22d3ee" stroke-width="2.5" '
+    'fill="none" stroke-linecap="round" stroke-linejoin="round"/>'
+    '<line x1="11" y1="17" x2="21" y2="17" stroke="#22d3ee" '
+    'stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>'
     '</svg>'
 )
 
@@ -367,7 +374,8 @@ def inject_header(current: str = "") -> None:
     usd_ils = _cached_usd_ils()
 
     nav_html = "".join(
-        f'<a href="/{slug}" target="_self" class="nav-link {"active" if slug == current else ""}">{label}</a>'
+        f'<a href="{"/" if slug == "portfolio" else "/" + slug}" target="_self" '
+        f'class="nav-link {"active" if slug == current else ""}">{label}</a>'
         for slug, label, _ in NAV_PAGES
     )
 

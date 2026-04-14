@@ -179,76 +179,77 @@ flagged with a red banner until you set it.
 - *Add/update only*: only touches tickers that appear in the CSV — other holdings stay.
 """)
 
-with st.expander("🎯 Recommendations engine — direct Gemini (multi-persona)", expanded=False):
+with st.expander("🎯 Recommendations engine — data-driven multi-persona analysis", expanded=False):
     st.markdown("""
-**What it does.** `scripts/run_recommendations.py` calls **Gemini directly** via
-`langchain-google-genai`. For each of your active personas × each of your holdings, it sends a
-tailored prompt and parses a structured JSON response (`{verdict, conviction, rationale}` in
-Hebrew). Then it aggregates per-persona votes into a single overall verdict per holding
-(weighted voting: the majority verdict wins, conviction averaged).
+**Architecture.** The system has three layers:
 
-**We do NOT use virattt/ai-hedge-fund.** We started with that plan — the personas are *inspired* by
-their list — but the persona prompts, rationale templates, and aggregation are all ours. One
-less dependency, one less venv, clean control over prompts, and we can call Gemini directly
-without shelling out.
+1. **Data Pipeline** — fetches real financial data from 4 sources:
+   - **Yahoo Finance** — live prices, OHLCV history, MA50/MA200, RSI(14)
+   - **Alpha Vantage** — fundamentals: P/E, PEG, ROE, margins, debt, analyst targets
+   - **FRED** — macro: Fed rate, 10Y yield, CPI, VIX
+   - **Google News RSS** — recent headlines per ticker
 
-**Model.** **`gemini-flash-latest`** — Google's auto-aliased pointer to the newest stable Gemini
-Flash. When Gemini 3 Flash goes GA, we inherit it automatically, no code change. Override with
-`GEMINI_MODEL` in `.env` (e.g. `gemini-2.5-pro` for higher quality at the cost of speed).
+2. **Scoring Engine** (`scoring_engine.py`) — computes 6 algorithmic scores (0-100) per holding:
+   - **Valuation** — P/E vs sector, PEG, analyst target upside
+   - **Technical** — MA crossovers, RSI zones, volume trend
+   - **Risk** — portfolio concentration, beta, sector weight, crypto cap
+   - **Sentiment** — analyst consensus (Buy/Hold/Sell counts)
+   - **Macro** — interest rates, VIX, inflation, yield curve
+   - **Quality** — ROE, profit margins, debt levels
 
-**Your profile injection.** Before each run the script reads `settings.json` and builds a
-system-prompt preamble:
+3. **Gemini Personas** — 9 AI analysts, each receiving **real data tailored to their expertise**:
+   - Technical Analyst gets: price, MA50, MA200, RSI, volume
+   - Fundamentals Analyst gets: P/E, margins, growth, debt, ROE
+   - Risk Manager gets: portfolio weights, sector concentration, beta
+   - Sentiment gets: news headlines, analyst consensus
+   - Macro gets: FRED data (rates, inflation, VIX)
 
-```
-PROFILE: Amit — Conservative AI Bull
-Trading style: conservative · Horizon: 4y · Risk: medium
-Crypto cap: 3% of portfolio
-Preferred sectors: Technology, Aerospace & Defense, Energy/Nuclear, Healthcare, ...
-Avoid sectors: Crypto
-Theses:
-  - AI is the dominant growth story of the next 3 years...
-  - Google/Alphabet is a core long-term AI winner...
-  - Israeli insurance sector is a defensive diversifier...
-Rationale language: WRITE ALL RATIONALE TEXT AND THE DAILY SUMMARY IN HEBREW.
-```
+**Modes** (configurable in Settings):
+- **Personas** — 9 personas × 16 holdings = ~144 Gemini calls (detailed, slower)
+- **Scoring** — algorithmic scores + 1 synthesis call/holding = ~18 calls (fast, data-driven)
+- **Hybrid** — scores first, then 2-3 personas comment on the scores
 
-This preamble is prepended to every single Gemini call. So when `warren_buffett` scores NVDA,
-it does so through the lens of **your** profile, not a generic Buffett.
+**Model.** **`gemini-flash-latest`** — auto-aliased to newest stable Flash. Override with
+`GEMINI_MODEL` in `.env`.
 
-**Available personas** (12 in `scripts/run_recommendations.py:PERSONA_SYSTEM_PROMPTS`):
-Warren Buffett, Charlie Munger, Cathie Wood, Peter Lynch, Michael Burry, Ben Graham,
-Technical Analyst, Fundamentals Analyst, Valuation, Sentiment, Macro, Risk Manager.
-Pick any subset in the Settings page — defaults to 5.
+**Anti-hallucination.** Every persona prompt includes real financial data and ends with:
+*"התבסס אך ורק על הנתונים שמסופקים. אל תמציא מספרים שלא ניתנו לך."*
+(Use ONLY the data provided. Do not invent numbers.)
 
-**Load.** 5 personas × 16 holdings = 80 calls + 1 for new ideas + 1 for summary = ~82 calls per
-daily run. Free tier is 1,500 calls/day → we use ~5%.
+**Available personas** (12): Warren Buffett, Charlie Munger, Cathie Wood, Peter Lynch,
+Michael Burry, Ben Graham, Technical Analyst, Fundamentals Analyst, Valuation, Sentiment,
+Macro, Risk Manager. Pick any subset in the Settings page.
 
-**Retries.** Each call wraps in `_invoke_with_retry` with exponential backoff on 503/429
-(Gemini occasionally overloads). Up to 5 attempts, 2→17s backoff.
+**Caching.** Fundamentals are cached 24h, macro 6h, news 4h. No unnecessary API calls.
 
-**Dry-run mode.** Without an API key, `--dry-run` produces Hebrew rationales from a hand-tuned
-lookup table. The Recommendations page renders identically — useful for development/UX tweaks
-without burning API quota.
+**Dry-run mode.** `--dry-run` produces mock scores + Hebrew rationales from a hand-tuned
+lookup table — useful for development without burning API quota.
 """)
 
 with st.expander("📲 Telegram digest — daily push (and strong-signal alerts)", expanded=False):
     st.markdown("""
-**What it sends.** Every morning after the recommendations are generated, a formatted digest:
+**What it sends.** Daily at 16:35, two messages + up to 3 candlestick charts:
 
-- Profile name + date
-- The Hebrew daily summary from the Risk Manager persona
-- One line per holding with the verdict emoji, ticker, verdict, and conviction %
-- All "new ideas" with their 1-line Hebrew rationale
-- Legal tagline: *market commentary — not financial advice*
+**Message 1 — Holdings:**
+- 📊 **Market Context** — S&P 500, Nasdaq, VIX, Fed Rate, 10Y, USD/ILS (live)
+- AI summary in Hebrew
+- 📚 **Daily Lesson** — rotating financial education (#1-30): P/E, RSI, Sharpe, DCA...
+  personalised with your portfolio data
+- Holdings list with verdict emojis, vote splits, and dissenting opinions
 
-**When alerts fire.** If any holding has a BUY or SELL verdict at ≥75% conviction, you also
-get an immediate push (not just the daily digest) — controlled by the
-*"Send immediate alert on STRONG BUY / STRONG SELL"* toggle in Settings.
+**Message 2 — Dashboard:**
+- New ideas with full Hebrew rationale
+- Portfolio value + P&L + sector bar chart
+- 🔄 **Change Tracking** — what changed since yesterday's run
+- 💡 **Ideas Scorecard** — performance of past suggested tickers
+
+**Messages 3-5 — Charts:**
+- Candlestick with MA50/MA200, RSI panel, volume panel
+- Hebrew caption: AI rationale + technical analysis
 
 **Credentials** are stored in environment secrets — `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`.
 
-**Privacy.** Messages go directly to Telegram's Bot API from your Mac. No third-party server
-in the middle.
+**Privacy.** Messages go directly to Telegram's Bot API from your Mac. No third-party server.
 """)
 
 
@@ -257,10 +258,12 @@ st.markdown('<div class="section-header">📡 Data Sources</div>', unsafe_allow_
 st.markdown("""
 | Source | What we read | How often | Notes |
 |---|---|---|---|
-| **Yahoo Finance v8 API** | Live prices, historical OHLCV, USD/ILS | Every 5 min (cached) | Public endpoint, no auth. Used for the Portfolio chart + drill-down. |
-| **CSV upload** (manual) | Your holdings list | When you upload it | Import tab. Parses English & Hebrew column headers. Diff + approve flow. |
-| **ai-hedge-fund internal sources** | Fundamentals, news, earnings | Daily at 07:31 | Wraps Financial Datasets API + news feeds. Rate-limited per persona. |
-| **Your `settings.json`** | Profile, theses, thresholds | On save | Injected into every recommendation run. |
+| **Yahoo Finance v8 API** | Live prices, OHLCV, MA50/200, RSI, USD/ILS, VIX, S&P, Nasdaq | Every 5 min (cached) | Public, no auth. Core data for portfolio + technicals. |
+| **Alpha Vantage API** | P/E, PEG, ROE, margins, debt/equity, analyst targets, EPS | Daily (24h cache) | Free tier: 25 calls/min. Fundamentals for scoring engine. |
+| **FRED API** | Fed Funds Rate, 10Y Treasury, CPI | Every 6h (cached) | Free, unlimited. Macro environment for macro persona + scoring. |
+| **Google News RSS** | Headlines per ticker (3-5 per holding) | Every 4h (cached) | Free, no auth. Feeds the Sentiment persona. |
+| **CSV upload** (manual) | Your holdings list | When you upload it | Import tab. Diff + approve flow. |
+| **Your `settings.json`** | Profile, theses, thresholds, mode | On save | Injected into every recommendation run. |
 """)
 
 
@@ -275,19 +278,28 @@ st.markdown("""
               │  launchd (16:35 IDT daily)  │   ← 5 min after US open
               └──────────────┬──────────────┘
                              ▼
-      ┌───────────────────────────────────────────┐
-      │ scripts/run_daily.sh                      │
-      │                                           │
-      │ 1. run_recommendations.py ───(Gemini)────▶│ gemini-flash-latest
-      │    (settings.json injected as system      │
-      │     prompt; 5 personas per holding)       │
-      │                                           │
-      │ 2. snapshot_portfolio.py                  │
-      │                                           │
-      │ 3. telegram_digest.py ─────(Bot API)─────▶│ Telegram
-      └──────┬───────────────┬──────────────┬─────┘
+      ┌───────────────────────────────────────────────────┐
+      │ scripts/run_daily.sh                              │
+      │                                                   │
+      │ 1. run_recommendations.py --once                  │
+      │    ├─ Yahoo Finance  ─→ prices, MA, RSI           │
+      │    ├─ Alpha Vantage  ─→ P/E, ROE, margins        │
+      │    ├─ FRED           ─→ rates, VIX, CPI          │
+      │    ├─ Google News    ─→ headlines                 │
+      │    ├─ Scoring Engine ─→ 6 scores per holding     │
+      │    └─ Gemini         ─→ persona verdicts + rationale
+      │                                                   │
+      │ 2. snapshot_portfolio.py                          │
+      │                                                   │
+      │ 3. telegram_digest.py ──────(Bot API)────▶ Telegram
+      │    ├─ Market context (S&P, VIX, rates)            │
+      │    ├─ Daily lesson                                │
+      │    ├─ Holdings + scores                           │
+      │    ├─ Change tracking                             │
+      │    └─ Ideas scorecard                             │
+      └──────┬───────────────┬──────────────┬─────────────┘
              ▼               ▼              ▼
-     snapshots.jsonl   recommendations.json  (message)
+     snapshots.jsonl   recommendations.json  (messages)
                              │
                              ▼
                      ┌──────────────┐

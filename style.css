@@ -220,11 +220,12 @@ html { scroll-behavior: smooth; }
     align-items: center;
     gap: 4px;
     font-size: 11px;
-    font-weight: 500;
-    padding: 2px 8px;
-    border-radius: 2px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 4px;
     border: 1px solid;
     line-height: 1.4;
+    letter-spacing: 0.03em;
 }
 .pill-buy  { background: var(--up-bg);   color: var(--up);   border-color: var(--up-border); }
 .pill-sell { background: var(--dn-bg);   color: var(--dn);   border-color: var(--dn-border); }
@@ -493,14 +494,19 @@ html { scroll-behavior: smooth; }
 }
 .recs-votes-count { font-size: 11px; color: var(--text-dim); font-weight: 500; }
 
-.recs-persona-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
+.recs-persona-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 12px; }
 .recs-persona-grid hr { display: none !important; }  /* kill any Streamlit-injected dividers */
 .recs-persona {
-    background: #FAFAFA; border: 1px solid var(--hair-soft);
-    border-left: 3px solid #6B7280; padding: 12px 14px; border-radius: 2px;
+    background: #FAFBFC; border: 1px solid var(--hair-soft);
+    border-left: 4px solid #6B7280; padding: 14px 16px; border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    transition: box-shadow 0.15s ease;
 }
-.recs-persona-head { display: flex; justify-content: space-between; align-items: center; gap: 6px; margin-bottom: 8px; }
-.recs-persona-name { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+.recs-persona:hover {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+.recs-persona-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 10px; }
+.recs-persona-name { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
 .recs-persona-body {
     font-size: 13px; color: var(--text); line-height: 1.7;
     font-family: "Inter", "Helvetica Neue", sans-serif;
@@ -583,33 +589,41 @@ html { scroll-behavior: smooth; }
 /* Conviction bar */
 .conv-bar {
     flex: 1;
-    height: 5px;
-    background: #EBEBEB;
-    border-radius: 0;
+    height: 6px;
+    background: #f0f0f0;
+    border-radius: 3px;
     overflow: hidden;
     min-width: 60px;
 }
 .conv-bar-fill {
     height: 100%;
-    transition: width 0.3s ease;
+    border-radius: 3px;
+    transition: width 0.4s cubic-bezier(.4,0,.2,1);
 }
 /* Thicker bar inside priority cards */
-.priority-card .conv-bar { height: 4px; background: #EBEBEB; width: 100%; flex: none; }
+.priority-card .conv-bar { height: 6px; background: #f0f0f0; width: 100%; flex: none; }
 
 /* ─── Priority card (top 3 action items — larger than mini-card) ────────── */
 .priority-card {
     border: 1px solid var(--hair);
-    border-left-width: 3px;
+    border-left-width: 4px;
+    border-radius: 6px;
     background: #ffffff;
-    padding: 18px 18px 16px;
+    padding: 20px 20px 18px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     height: 100%;
     box-sizing: border-box;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
-.priority-card-buy  { border-left-color: var(--up); }
-.priority-card-sell { border-left-color: var(--dn); border-top: 1px solid var(--dn-border); background: #fffafa; }
+.priority-card:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07), 0 8px 24px rgba(0,0,0,0.05);
+    transform: translateY(-1px);
+}
+.priority-card-buy  { border-left-color: var(--up); background: linear-gradient(135deg, #ffffff 0%, #f7fdf9 100%); }
+.priority-card-sell { border-left-color: var(--dn); background: linear-gradient(135deg, #ffffff 0%, #fef8f8 100%); }
 .priority-card-top {
     display: flex;
     justify-content: space-between;
@@ -618,7 +632,7 @@ html { scroll-behavior: smooth; }
 }
 .priority-ticker {
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--text);
     letter-spacing: -0.02em;
     line-height: 1;
@@ -643,8 +657,8 @@ html { scroll-behavior: smooth; }
     margin-top: 4px;
 }
 .priority-pct {
-    font-size: 22px;
-    font-weight: 600;
+    font-size: 24px;
+    font-weight: 700;
     color: var(--text);
     letter-spacing: -0.02em;
     line-height: 1;
@@ -654,17 +668,24 @@ html { scroll-behavior: smooth; }
 /* Mini card (sector grid + new ideas) */
 .mini-card {
     border: 1px solid var(--hair);
-    border-left-width: 3px;
+    border-left-width: 4px;
+    border-radius: 6px;
     background: #FFFFFF;
-    padding: 12px 14px 14px;
+    padding: 14px 16px 16px;
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03), 0 2px 8px rgba(0,0,0,0.02);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.mini-card:hover {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04);
+    transform: translateY(-1px);
 }
 .mini-card-sell { border-left-color: var(--dn); }
-.mini-card-buy  { border-left-color: var(--up); }
-.mini-card-idea { border-left-color: var(--up); background: #FAFCFA; }
+.mini-card-buy  { border-left-color: var(--up); background: linear-gradient(135deg, #ffffff 0%, #f9fcfa 100%); }
+.mini-card-idea { border-left-color: var(--up); background: linear-gradient(135deg, #ffffff 0%, #f6faf6 100%); }
 .mini-card-top {
     display: flex;
     justify-content: space-between;
@@ -672,7 +693,7 @@ html { scroll-behavior: smooth; }
     gap: 8px;
 }
 .mini-ticker {
-    font-size: 14px; font-weight: 500; color: var(--text);
+    font-size: 15px; font-weight: 600; color: var(--text);
     letter-spacing: 0;
 }
 .mini-name {
@@ -682,14 +703,40 @@ html { scroll-behavior: smooth; }
 }
 .mini-votes { font-size: 11px; margin-top: 2px; }
 
+/* ─── Score bars (6 algorithmic scores per holding) ──────────────────── */
+.score-bars { display: flex; flex-direction: column; gap: 3px; margin: 6px 0 4px; }
+.score-row { display: flex; align-items: center; gap: 6px; }
+.score-label {
+    font-size: 9px; width: 72px; color: var(--text-mute);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    font-family: "Inter", sans-serif; font-weight: 500;
+    flex-shrink: 0; display: flex; align-items: baseline; gap: 3px;
+}
+.score-weight {
+    font-size: 7px; color: var(--text-mute); opacity: 0.6;
+    font-family: "IBM Plex Mono", monospace;
+}
+.score-bar {
+    flex: 1; height: 4px; background: #f0f0f0;
+    border-radius: 2px; overflow: hidden; min-width: 40px;
+}
+.score-fill {
+    height: 100%; border-radius: 2px;
+    transition: width 0.4s cubic-bezier(.4,0,.2,1);
+}
+.score-val {
+    font-size: 10px; font-weight: 600; width: 22px; text-align: right;
+    font-family: "IBM Plex Mono", monospace; flex-shrink: 0;
+}
+
 /* Sector grouping heads */
 .sector-head {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    padding: 10px 0 6px;
+    padding: 10px 0 8px;
     border-bottom: 1px solid var(--hair-soft);
-    margin: 12px 0 8px;
+    margin: 16px 0 10px;
 }
 .sector-name {
     font-size: 11px;
@@ -1481,17 +1528,29 @@ div[role="dialog"] div[data-testid="stProgress"] p {
 
 details[data-testid="stExpander"] {
     border: 1px solid var(--hair);
-    border-radius: 0 !important;
-    margin-top: 10px;
+    border-radius: 6px !important;
+    margin-top: 8px;
+    overflow: hidden;
 }
 details[data-testid="stExpander"] summary {
-    font-size: 11px !important;
+    font-size: 12px !important;
     font-weight: 600 !important;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--text) !important;
-    padding: 12px 16px !important;
+    letter-spacing: 0.04em;
+    text-transform: none;
+    color: var(--text-dim) !important;
+    padding: 10px 16px !important;
     background: var(--bg-softer);
+    transition: background 0.15s ease, color 0.15s ease;
+    cursor: pointer;
+}
+details[data-testid="stExpander"] summary:hover {
+    background: #f0f4f8 !important;
+    color: var(--text) !important;
+}
+details[data-testid="stExpander"][open] summary {
+    background: #eef2f7 !important;
+    color: var(--text) !important;
+    border-bottom: 1px solid var(--hair);
 }
 
 /* Streamlit native buttons (only used in below-fold widgets) */

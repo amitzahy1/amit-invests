@@ -88,50 +88,312 @@ def _sector_of(ticker: str) -> str:
         return ""
 
 
+# ─── Technical indicator helpers ──────────────────────────────────────────────
+
+def _compute_technicals(df) -> dict:
+    """Compute MA50, MA200, RSI(14) from a historical OHLCV DataFrame."""
+    if df is None or len(df) < 20:
+        return {}
+    close = df["close"]
+    result = {}
+    if len(close) >= 50:
+        result["ma50"] = round(close.rolling(50).mean().iloc[-1], 2)
+    if len(close) >= 200:
+        result["ma200"] = round(close.rolling(200).mean().iloc[-1], 2)
+    # RSI(14)
+    delta = close.diff()
+    gain = delta.clip(lower=0).rolling(14).mean()
+    loss = (-delta.clip(upper=0)).rolling(14).mean()
+    rs = gain.iloc[-1] / max(loss.iloc[-1], 1e-9)
+    result["rsi14"] = round(100 - 100 / (1 + rs), 1)
+    return result
+
+
+def _build_market_data_block(ticker: str, quote: dict, technicals: dict) -> str:
+    """Build a MARKET DATA text block from Yahoo Finance data for injection into prompts."""
+    if not quote and not technicals:
+        return ""
+    lines = [f"MARKET DATA for {ticker} (live):"]
+    price = quote.get("price")
+    if price:
+        lines.append(f"  Price: {price:.2f} | Daily change: {quote.get('daily_change_pct', 0):+.1f}%")
+    hi52 = quote.get("fifty_two_week_high")
+    lo52 = quote.get("fifty_two_week_low")
+    if hi52 and lo52:
+        lines.append(f"  52-week range: {lo52:.2f} — {hi52:.2f}")
+    vol = quote.get("volume")
+    if vol:
+        lines.append(f"  Volume: {vol:,.0f}")
+    ma50 = technicals.get("ma50")
+    ma200 = technicals.get("ma200")
+    if ma50:
+        lines.append(f"  MA50: {ma50:.2f}" + (f" | MA200: {ma200:.2f}" if ma200 else ""))
+    if price and ma200:
+        pct_vs = ((price / ma200) - 1) * 100
+        lines.append(f"  Price vs MA200: {pct_vs:+.1f}%")
+    rsi = technicals.get("rsi14")
+    if rsi:
+        zone = "oversold" if rsi < 30 else "overbought" if rsi > 70 else "neutral"
+        lines.append(f"  RSI(14): {rsi:.0f} ({zone})")
+    return "\n".join(lines)
+
+
+def _build_full_context(ticker: str, persona: str, quote: dict,
+                        technicals: dict, fundamentals: dict | None,
+                        macro: dict, news: list[str],
+                        portfolio_weight: float = 0,
+                        sector_weight: float = 0) -> str:
+    """Build persona-specific market data block.
+
+    Each persona gets only the data relevant to their analysis style.
+    """
+    parts: list[str] = []
+
+    # Price data — everyone gets basic price info
+    price = quote.get("price")
+    if price:
+        parts.append(f"PRICE: {price:.2f} | Daily: {quote.get('daily_change_pct', 0):+.1f}%")
+        hi52 = quote.get("fifty_two_week_high")
+        lo52 = quote.get("fifty_two_week_low")
+        if hi52 and lo52:
+            parts.append(f"52-week range: {lo52:.2f} — {hi52:.2f}")
+
+    # Technical data — for technical, cathie_wood (momentum), peter_lynch
+    tech_personas = {"technical_analyst", "cathie_wood", "peter_lynch", "michael_burry"}
+    if persona in tech_personas or persona in {"warren_buffett", "charlie_munger",
+                                                "fundamentals_analyst", "ben_graham", "valuation"}:
+        ma50 = technicals.get("ma50")
+        ma200 = technicals.get("ma200")
+        rsi = technicals.get("rsi14")
+        if persona == "technical_analyst":
+            # Full technical data
+            if ma50:
+                parts.append(f"MA50: {ma50:.2f}" + (f" | MA200: {ma200:.2f}" if ma200 else ""))
+            if price and ma200:
+                parts.append(f"Price vs MA200: {((price/ma200)-1)*100:+.1f}%")
+            if rsi:
+                zone = "oversold" if rsi < 30 else "overbought" if rsi > 70 else "neutral"
+                parts.append(f"RSI(14): {rsi:.0f} ({zone})")
+            vol = quote.get("volume")
+            if vol:
+                parts.append(f"Volume: {vol:,.0f}")
+        else:
+            # Brief technical summary for non-technical personas
+            if ma50 and ma200 and price:
+                if price > ma50 > ma200:
+                    parts.append("Trend: Uptrend (Price > MA50 > MA200)")
+                elif price < ma50 < ma200:
+                    parts.append("Trend: Downtrend (Price < MA50 < MA200)")
+                else:
+                    parts.append(f"Trend: Mixed (MA50={ma50:.0f}, MA200={ma200:.0f})")
+
+    # Fundamental data — for value/fundamental personas
+    fund_personas = {"warren_buffett", "charlie_munger", "peter_lynch", "ben_graham",
+                     "fundamentals_analyst", "valuation", "cathie_wood"}
+    if persona in fund_personas and fundamentals:
+        f_lines = []
+        pe = fundamentals.get("pe")
+        if pe is not None:
+            f_lines.append(f"P/E: {pe:.1f}")
+        peg = fundamentals.get("peg")
+        if peg is not None:
+            f_lines.append(f"PEG: {peg:.2f}")
+        margin = fundamentals.get("profit_margin")
+        if margin is not None:
+            f_lines.append(f"Profit Margin: {margin:.1f}%")
+        roe = fundamentals.get("roe")
+        if roe is not None:
+            f_lines.append(f"ROE: {roe:.1f}%")
+        de = fundamentals.get("debt_equity")
+        if de is not None:
+            f_lines.append(f"Debt/Equity: {de:.2f}")
+        eps = fundamentals.get("eps")
+        if eps is not None:
+            f_lines.append(f"EPS: {eps:.2f}")
+        target = fundamentals.get("analyst_target")
+        if target and price:
+            upside = ((target / price) - 1) * 100
+            f_lines.append(f"Analyst Target: {target:.0f} ({upside:+.0f}% vs price)")
+        dy = fundamentals.get("dividend_yield")
+        if dy is not None and dy > 0:
+            f_lines.append(f"Dividend Yield: {dy:.2f}%")
+        mcap = fundamentals.get("market_cap")
+        if mcap:
+            if mcap > 1e12:
+                f_lines.append(f"Market Cap: ${mcap/1e12:.1f}T")
+            elif mcap > 1e9:
+                f_lines.append(f"Market Cap: ${mcap/1e9:.0f}B")
+        if f_lines:
+            parts.append("FUNDAMENTALS: " + " | ".join(f_lines))
+
+    # Analyst consensus — for sentiment, fundamentals, valuation
+    consensus_personas = {"sentiment", "fundamentals_analyst", "valuation",
+                          "warren_buffett", "charlie_munger"}
+    if persona in consensus_personas and fundamentals:
+        ab = fundamentals.get("analyst_buy", 0)
+        ah = fundamentals.get("analyst_hold", 0)
+        asl = fundamentals.get("analyst_sell", 0)
+        total = ab + ah + asl
+        if total > 0:
+            parts.append(f"ANALYST CONSENSUS: {ab} Buy / {ah} Hold / {asl} Sell "
+                         f"({ab/total*100:.0f}% bullish)")
+
+    # Macro data — for macro, risk_manager
+    macro_personas = {"macro", "risk_manager", "warren_buffett", "michael_burry"}
+    if persona in macro_personas and macro:
+        m_parts = []
+        if macro.get("fed_rate") is not None:
+            m_parts.append(f"Fed Rate: {macro['fed_rate']:.2f}%")
+        if macro.get("ten_year_yield") is not None:
+            m_parts.append(f"10Y Yield: {macro['ten_year_yield']:.2f}%")
+        if macro.get("vix") is not None:
+            m_parts.append(f"VIX: {macro['vix']:.1f}")
+        if macro.get("sp500_change") is not None:
+            m_parts.append(f"S&P 500 today: {macro['sp500_change']:+.1f}%")
+        if m_parts:
+            parts.append("MACRO: " + " | ".join(m_parts))
+
+    # News headlines — for sentiment, cathie_wood, michael_burry
+    news_personas = {"sentiment", "cathie_wood", "michael_burry", "macro"}
+    if persona in news_personas and news:
+        parts.append("RECENT NEWS:\n  " + "\n  ".join(f"• {h}" for h in news[:3]))
+
+    # Risk / portfolio context — for risk_manager
+    if persona == "risk_manager":
+        parts.append(f"PORTFOLIO: This holding = {portfolio_weight:.1f}% of portfolio. "
+                     f"Sector = {sector_weight:.1f}% of portfolio.")
+
+    if not parts:
+        # Fallback to basic market data block
+        return _build_market_data_block(ticker, quote, technicals)
+    return f"MARKET DATA for {ticker}:\n" + "\n".join(parts)
+
+
 # ─── Real run — direct Gemini calls, one per (ticker × persona) ─────────────
+
+_DATA_RULE = "התבסס אך ורק על הנתונים שמסופקים בפרומפט. אל תמציא מספרים שלא ניתנו לך."
 
 PERSONA_SYSTEM_PROMPTS = {
     "warren_buffett": (
-        "אתה וורן באפט, הכלל שלך: השקע רק בעסקים עם חפיר תחרותי עמוק, הנהלה איכותית, "
-        "ותזרים מזומנים יציב. אתה שונא חברות ללא ערך פנימי ניתן להערכה (DCF). "
-        "מעריך יציבות על פני זוהר."
+        "אתה וורן באפט. מסגרת ההחלטות שלך:\n"
+        "1. חפיר תחרותי (MOAT): מותג, עלויות מעבר, אפקט רשת, יתרון עלות. אם אין חפיר — SELL.\n"
+        "2. הנהלה: רקורד הקצאת הון חכמה, יושרה, חשיבה ארוכת-טווח.\n"
+        "3. תמחור: P/E < 20 לעסק איכותי, P/E < 15 לעסק ממוצע. מעל 30 — זהירות.\n"
+        "4. שולי בטיחות: קנה רק אם המחיר נמוך מהערכת השווי. מחיר גבוה = HOLD.\n"
+        "5. תזרים מזומנים: FCF חיובי ויציב. חברות שורפות מזומנים = SELL.\n"
+        "6. חוב: Debt/Equity > 1.5 מדאיג. > 2.5 = SELL.\n"
+        "7. נכסים ספקולטיביים (קריפטו, חברות ללא רווח): SELL.\n"
+        "8. ETF מדדי (SPY/VOO): BUY כעוגן לכל משקיע. אג״ח ממשלתי: HOLD כהגנה.\n"
+        f"{_DATA_RULE}"
     ),
     "charlie_munger": (
-        "אתה צ'ארלי מנגר: חשוב בהיפוך, עסקים איכותיים במחיר הוגן עדיפים על עסקים בינוניים במחיר זול. "
-        "שולי בטיחות (Margin of Safety) הוא העיקרון הכי חשוב. אתה שונא ספקולציה."
+        "אתה צ'ארלי מנגר. מסגרת ההחלטות שלך:\n"
+        "1. חשוב בהיפוך: מה יכול להרוס את העסק? אם התשובה 'הרבה דברים' — SELL.\n"
+        "2. עסק איכותי במחיר הוגן > עסק בינוני במחיר זול.\n"
+        "3. שולי בטיחות (Margin of Safety) הם העיקרון הכי חשוב.\n"
+        "4. ROE > 15% באופן עקבי = עסק איכותי. ROE < 8% = בינוני.\n"
+        "5. Profit Margin יציב לאורך שנים = חפיר. מרווחים יורדים = אזהרה.\n"
+        "6. ספקולציה (קריפטו, meme stocks): 'אל תעשה שטויות' — SELL.\n"
+        "7. כפילויות בתיק (QQQM + GOOGL + NVDA): מיותר — מכור את המיותר.\n"
+        f"{_DATA_RULE}"
     ),
     "cathie_wood": (
-        "את קתי ווד: מחפשת חברות חדשניות בתחומי AI, גנומיקה, פינטק, רובוטיקה. "
-        "רואה מגמות 5 שנים קדימה. טרייד-אוף איכות-מחיר פחות קריטי לך מקצב חדשנות."
+        "את קתי ווד. מסגרת ההחלטות שלך:\n"
+        "1. חדשנות דיסרפטיבית: AI, גנומיקה, רובוטיקה, פינטק, אנרגיה נקייה.\n"
+        "2. ראייה ל-5 שנים קדימה: TAM (Total Addressable Market) גדול = BUY.\n"
+        "3. צמיחת הכנסות > 25% שנתית = חיובי. האטה = אזהרה.\n"
+        "4. P/E גבוה מקובל אם צמיחה מצדיקה. PEG < 2 = סביר.\n"
+        "5. חברות ישנות/מסורתיות ללא חדשנות: לא מעניינות — HOLD במקרה הטוב.\n"
+        "6. ביטחון, אג״ח, ביטוח: לא במוקד תזת החדשנות.\n"
+        f"{_DATA_RULE}"
     ),
     "peter_lynch": (
-        "אתה פיטר לינץ': 'Invest in what you know'. GARP (Growth At Reasonable Price). "
-        "מחפש צמיחה רבעונית עקבית, סיפורים ברורים, PE סביר יחסית לקצב הצמיחה."
+        "אתה פיטר לינץ'. מסגרת ההחלטות שלך:\n"
+        "1. 'Invest in what you know' — סיפור ברור שאפשר להסביר בדקה.\n"
+        "2. GARP: PEG < 1.0 = BUY מובהק. PEG 1-2 = סביר. PEG > 2 = יקר.\n"
+        "3. צמיחת EPS רבעונית עקבית = חיובי. האטה = אזהרה.\n"
+        "4. P/E סביר ביחס לקצב הצמיחה. P/E > 40 ללא צמיחה מספקת = SELL.\n"
+        "5. עסקים משעממים ורווחיים (ביטוח, ביטחון) = מצוינים.\n"
+        "6. מדדים רחבים (SPY/VOO): אין 'סיפור' — מעדיף סיפורים ספציפיים.\n"
+        f"{_DATA_RULE}"
     ),
     "michael_burry": (
-        "אתה מייקל בורי: מחפש פוזיציות קונטריאניות, בועות, מחירים מעוותים. "
-        "אתה רואה מה שאחרים מפספסים; קצר על חברות מנופחות."
+        "אתה מייקל בורי. מסגרת ההחלטות שלך:\n"
+        "1. קונטריאני: אם כולם אומרים BUY, חפש סיבות ל-SELL.\n"
+        "2. בועות: P/E מנופח, ציפיות מוגזמות, leverage גבוה = SELL.\n"
+        "3. עיוותי מחיר: חברות טובות שנענשו יתר על המידה = BUY.\n"
+        "4. מאקרו: ריבית עולה, אינפלציה גבוהה, חוב ממשלתי = סיכון מערכתי.\n"
+        "5. קריפטו: ספקולציה טהורה — SELL.\n"
+        f"{_DATA_RULE}"
     ),
     "technical_analyst": (
-        "אתה ניתוח טכני טהור. אין לך עניין בפונדמנטלים. אתה מסתכל על: "
-        "מגמה (MA50/MA200), RSI, תמיכה והתנגדות, תבניות (גביע-וידית, ראש-וכתפיים), מומנטום."
+        "אתה אנליסט טכני. כללים:\n"
+        "1. מגמה: Price > MA50 > MA200 = uptrend = BUY. Price < MA50 < MA200 = downtrend = SELL.\n"
+        "2. Golden Cross (MA50 חוצה מעל MA200) = BUY חזק. Death Cross = SELL חזק.\n"
+        "3. RSI < 30 = oversold = הזדמנות כניסה. RSI > 70 = overbought = זהירות.\n"
+        "4. RSI 40-60 = ניטרלי. אין איתות = HOLD.\n"
+        "5. Volume עולה + מחיר עולה = אישור מגמה. Volume יורד = חולשה.\n"
+        "6. Price מעל MA200 אבל מתחת MA50 = תיקון קצר, לא שינוי מגמה.\n"
+        "7. אג״ח/קרנות סל ישראליות: תנודתיות נמוכה מאוד = HOLD כברירת מחדל.\n"
+        f"{_DATA_RULE}"
     ),
     "fundamentals_analyst": (
-        "אתה ניתוח פונדמנטלי: P/E, P/B, EPS growth, דיבידנדים, יחסי חוב, ROE, "
-        "מרווחים גולמיים ותפעוליים. אין עניין בטכני או בסנטימנט."
+        "אתה אנליסט פונדמנטלי. כללים:\n"
+        "1. P/E: < 15 = זול, 15-25 = הוגן, > 25 = יקר (תלוי בצמיחה).\n"
+        "2. Profit Margin: > 20% = מצוין, 10-20% = טוב, < 5% = בעייתי.\n"
+        "3. ROE: > 20% = עסק איכותי, 10-20% = סביר, < 10% = חלש.\n"
+        "4. Debt/Equity: < 0.5 = בריא, 0.5-1.5 = סביר, > 1.5 = מסוכן.\n"
+        "5. EPS Growth: > 15% = צמיחה חזקה, 5-15% = יציב, < 0% = אזהרה.\n"
+        "6. Analyst Target > Price+15% = BUY. Target < Price = SELL.\n"
+        "7. ETF/אג״ח: בדוק TER (דמי ניהול) ותשואה לפדיון, לא P/E.\n"
+        f"{_DATA_RULE}"
     ),
     "ben_graham": (
-        "אתה בן גראהם: ערך עמוק, שולי בטיחות מוחלטים, Net-Nets. "
-        "PE מתחת ל-15, P/B מתחת ל-1.5, חברות יציבות."
+        "אתה בן גראהם. כללים:\n"
+        "1. ערך עמוק בלבד: P/E < 15, P/B < 1.5.\n"
+        "2. שולי בטיחות מוחלטים: קנה רק מתחת לערך פנימי.\n"
+        "3. יציבות רווחים: 10 שנות רווחים חיוביים רצופים.\n"
+        "4. דיבידנד: עדיף חברות שמחלקות.\n"
+        "5. חברות צמיחה עם P/E > 25: מחוץ למעגל הכשירות.\n"
+        f"{_DATA_RULE}"
     ),
     "risk_manager": (
-        "אתה מנהל סיכונים: המטרה שלך להגן על התיק מחשיפה מרוכזת, תנודתיות יתר, "
-        "וחריגה ממדיניות המשקיע (תקרות סקטור, תקרת קריפטו). לא מעניין אותך אלפא, "
-        "אלא שימור הון."
+        "אתה מנהל סיכונים. כללים:\n"
+        "1. ריכוזיות: אחזקה > 15% מהתיק = overweight = SELL חלק. > 20% = SELL מיידי.\n"
+        "2. ריכוזיות סקטורית: סקטור > 30% = סיכון. > 40% = SELL.\n"
+        "3. קריפטו: אם חורג מתקרת הקריפטו של המשתמש = SELL.\n"
+        "4. כפילויות: SPY + VOO + QQQM = חשיפה כפולה. צמצם.\n"
+        "5. תנודתיות: Beta > 1.5 = תנודתי מדי לפרופיל שמרני.\n"
+        "6. אג״ח ממשלתי / אחזקות הגנתיות: BUY/HOLD — מפחיתות סיכון כולל.\n"
+        "7. התמקד בשימור הון, לא בתשואה מקסימלית.\n"
+        f"{_DATA_RULE}"
     ),
-    "valuation": "אתה מעריך שווי: DCF, EV/EBITDA, SOTP. רק מחירים מדברים אליך.",
-    "sentiment": "אתה סנטימנט שוק: רגש, סוציאל, חדשות, סנטימנט אנליסטים.",
-    "macro": "אתה מאקרו: ריבית, אינפלציה, צמיחה עולמית, גיאופוליטיקה.",
+    "valuation": (
+        "אתה מעריך שווי. כללים:\n"
+        "1. DCF: אמוד ערך פנימי מתזרים מזומנים. Price < Fair Value = BUY.\n"
+        "2. EV/EBITDA: < 10 = זול לרוב הסקטורים. > 20 = יקר.\n"
+        "3. P/E vs צמיחה: PEG < 1 = undervalued. PEG > 2 = overvalued.\n"
+        "4. Analyst Target Price: משקף ציפיות קונצנזוס.\n"
+        f"{_DATA_RULE}"
+    ),
+    "sentiment": (
+        "אתה אנליסט סנטימנט. כללים:\n"
+        "1. קונצנזוס אנליסטים: > 70% BUY = חיובי. > 50% SELL = שלילי.\n"
+        "2. כותרות חדשות: חדשות שליליות + מחיר יורד = SELL. חדשות חיוביות = BUY.\n"
+        "3. פער בין סנטימנט למחיר: אם הסנטימנט שלילי אבל המחיר עולה = חוזק.\n"
+        "4. Fear & Greed: פחד קיצוני = הזדמנות. חמדנות קיצונית = זהירות.\n"
+        f"{_DATA_RULE}"
+    ),
+    "macro": (
+        "אתה אנליסט מאקרו. כללים:\n"
+        "1. ריבית: Fed Rate עולה = לחץ על מניות צמיחה. יורדת = תמיכה.\n"
+        "2. אינפלציה: CPI > 4% = סיכון. < 2% = סביבה תומכת מניות.\n"
+        "3. VIX: < 15 = שוק רגוע. 15-25 = נורמלי. > 25 = פחד. > 35 = פאניקה.\n"
+        "4. עקום תשואות הפוך (10Y < Fed Rate) = אות מיתון.\n"
+        "5. אג״ח: ריבית עולה = פוגע באג״ח ארוך (F77 > F34). ריבית יורדת = טוב לאג״ח.\n"
+        "6. דולר/שקל: שקל חלש = טוב לתיק דולרי. שקל חזק = שוחק תשואה.\n"
+        f"{_DATA_RULE}"
+    ),
 }
 
 PERSONA_DISPLAY_HE = {
@@ -153,6 +415,29 @@ PER_TICKER_SCHEMA = (
     'החזר JSON בלבד בפורמט הבא (ללא markdown fences):\n'
     '{"verdict": "buy|hold|sell", "conviction": 0-100, "rationale": "2-3 משפטים בעברית"}'
 )
+
+# Brief asset descriptions injected into the Gemini prompt so the model
+# knows what each ticker actually is — especially obscure Israeli ETFs.
+TICKER_DESCRIPTIONS = {
+    "GOOGL": "Alphabet Inc (Google) — US mega-cap tech, search & cloud & AI",
+    "AMZN": "Amazon — US e-commerce + AWS cloud",
+    "BAM": "Brookfield Asset Management — alternative asset manager",
+    "BN": "Brookfield Corporation — parent holding of Brookfield ecosystem",
+    "CPNG": "Coupang — South Korean e-commerce",
+    "ETHA": "iShares Ethereum Trust ETF — spot Ethereum ETF",
+    "XLV": "Health Care Select Sector SPDR — US healthcare sector ETF",
+    "IBIT": "iShares Bitcoin Trust ETF — spot Bitcoin ETF",
+    "QQQM": "Invesco Nasdaq 100 ETF — tracks the Nasdaq-100 index",
+    "ITA": "iShares US Aerospace & Defense ETF",
+    "NVDA": "Nvidia — GPU & AI chip maker",
+    "SPY": "SPDR S&P 500 ETF Trust — tracks the S&P 500 index (USD)",
+    "URNM": "Sprott Uranium Miners ETF — uranium mining companies",
+    "NLR": "VanEck Uranium+Nuclear Energy ETF — nuclear energy sector",
+    "VOO": "Vanguard S&P 500 ETF — tracks the S&P 500 index (USD)",
+    "5108.TA": "Kesem TA-Insurance Index ETF — tracks the Tel Aviv Insurance sector index, traded on TASE in ILS",
+    "KSM-F34.TA": "Kesem F34 — Israeli government bond fund (אג״ח ממשלתי שקלי), medium-term duration, traded on TASE in agorot. NOT an equity fund.",
+    "KSM-F77.TA": "Kesem F77 — Israeli government bond fund (אג״ח ממשלתי שקלי), long-term duration, traded on TASE in agorot. NOT an equity/S&P 500 fund.",
+}
 
 
 def _gemini() -> object:
@@ -212,13 +497,20 @@ def _parse_persona_json(text: str) -> dict | None:
         return None
 
 
-def _call_persona(llm, persona: str, ticker: str, display_name: str, preamble: str) -> dict:
+def _call_persona(llm, persona: str, ticker: str, display_name: str,
+                   preamble: str, market_context: str = "") -> dict:
     """Single Gemini call for one (persona × ticker). Returns persona entry dict."""
     system = PERSONA_SYSTEM_PROMPTS.get(persona, "אתה אנליסט השקעות מקצועי.")
+    desc = TICKER_DESCRIPTIONS.get(ticker, "")
+    desc_line = f"\nAsset description: {desc}\n" if desc else "\n"
+    mkt_block = f"\n{market_context}\n" if market_context else ""
     user = (
         f"{preamble}\n\n"
-        f"עכשיו תן ניתוח לחברה: **{display_name} ({ticker})**.\n"
-        f"התבסס על הפרופיל של המשתמש למעלה. {PER_TICKER_SCHEMA}"
+        f"עכשיו תן ניתוח לנכס: **{display_name} ({ticker})**.\n"
+        f"{desc_line}"
+        f"{mkt_block}"
+        f"התבסס על הפרופיל של המשתמש ועל הנתונים למעלה. אל תמציא מספרים שלא ניתנו לך. "
+        f"{PER_TICKER_SCHEMA}"
     )
     try:
         resp = _invoke_with_retry(llm, [("system", system), ("user", user)])
@@ -258,19 +550,28 @@ def _call_persona(llm, persona: str, ticker: str, display_name: str, preamble: s
 
 
 def _aggregate_verdict(persona_entries: list[dict]) -> tuple[str, int]:
-    """Aggregate persona verdicts into a single (verdict, conviction) using weighted voting."""
+    """Aggregate persona verdicts into a single (verdict, conviction).
+
+    Uses weighted voting across ALL personas — dissenters pull conviction
+    down, and a unanimity bonus rewards strong consensus.
+    """
     scores = {"buy": 0, "hold": 0, "sell": 0}
-    total_weight = 0
+    counts = {"buy": 0, "hold": 0, "sell": 0}
     for p in persona_entries:
         v = p.get("verdict", "hold")
         c = int(p.get("conviction", 0))
         scores[v] = scores.get(v, 0) + c
-        total_weight += c
-    if total_weight == 0:
+        counts[v] = counts.get(v, 0) + 1
+    total_personas = max(1, sum(counts.values()))
+    if sum(scores.values()) == 0:
         return "hold", 0
-    top = max(scores.items(), key=lambda kv: kv[1])
-    avg = int(top[1] / max(1, len([p for p in persona_entries if p["verdict"] == top[0]])))
-    return top[0], min(100, avg)
+    top_verdict = max(scores, key=scores.get)
+    # Average conviction across ALL personas (not just agreeing ones)
+    avg_conviction = sum(scores.values()) / total_personas
+    # Unanimity factor: 1.0 if all agree, lower if split
+    unanimity = counts[top_verdict] / total_personas
+    adjusted = int(avg_conviction * (0.7 + 0.3 * unanimity))
+    return top_verdict, min(100, max(0, adjusted))
 
 
 def run_real(settings: dict, portfolio: dict) -> dict:
@@ -307,27 +608,155 @@ def run_real(settings: dict, portfolio: dict) -> dict:
           f"({len(tickers)} holdings × {len(personas)} personas) "
           f"— up to {max_workers} in parallel")
 
+    # ── Fetch ALL market data so personas get REAL numbers ──────────────
+    print("[info] fetching market data (quotes, technicals, fundamentals, macro, news)…",
+          file=sys.stderr, flush=True)
+
+    # 1. Yahoo Finance: live quotes + historical OHLCV + technicals
+    try:
+        from data_loader import fetch_live_quotes, fetch_historical_data
+        _quotes_df = fetch_live_quotes(tickers)
+        _quotes = {row["ticker"]: row.to_dict()
+                   for _, row in _quotes_df.iterrows()} if not _quotes_df.empty else {}
+        _historical = fetch_historical_data(tickers, period="1y")
+        _technicals = {tk: _compute_technicals(_historical.get(tk))
+                       for tk in tickers}
+    except Exception as e:
+        print(f"[warn] YF data fetch failed ({e}); proceeding without",
+              file=sys.stderr)
+        _quotes, _technicals = {}, {}
+
+    # 2. Alpha Vantage: fundamentals (P/E, margins, analyst targets)
+    try:
+        from data_loader_fundamentals import fetch_all_fundamentals, fetch_all_news
+        _fundamentals = fetch_all_fundamentals(tickers)
+        _news = fetch_all_news(tickers, max_items=3)
+    except Exception as e:
+        print(f"[warn] fundamentals/news fetch failed ({e}); proceeding without",
+              file=sys.stderr)
+        _fundamentals, _news = {}, {}
+
+    # 3. Macro: FRED + Yahoo Finance (VIX, indices)
+    try:
+        from data_loader_macro import fetch_macro_snapshot
+        _macro = fetch_macro_snapshot()
+    except Exception as e:
+        print(f"[warn] macro fetch failed ({e}); proceeding without",
+              file=sys.stderr)
+        _macro = {}
+
+    # 4. Compute portfolio weights for risk_manager persona
+    try:
+        _total_value = sum(
+            (_quotes.get(tk, {}).get("price", 0) or 0) *
+            (h.get("quantity", 0) or 0)
+            for h in portfolio.get("holdings", [])
+            for tk in [h.get("ticker", "")]
+        )
+        _weights = {
+            h.get("ticker", ""): (
+                (_quotes.get(h.get("ticker", ""), {}).get("price", 0) or 0)
+                * (h.get("quantity", 0) or 0) / max(1, _total_value) * 100
+            ) for h in portfolio.get("holdings", [])
+        }
+    except Exception:
+        _weights = {}
+
+    # Sector weights
+    try:
+        from config import SECTOR_MAP
+        _sector_weights: dict[str, float] = {}
+        for tk, w in _weights.items():
+            sec = SECTOR_MAP.get(tk, "Other")
+            _sector_weights[sec] = _sector_weights.get(sec, 0) + w
+    except Exception:
+        _sector_weights = {}
+
+    # ── Compute algorithmic scores per ticker ──────────────────────────
+    try:
+        from scoring_engine import compute_all_scores as _score_all
+        from config import ASSET_TYPE_MAP
+    except ImportError:
+        _score_all = None
+        ASSET_TYPE_MAP = {}
+
     from concurrent.futures import ThreadPoolExecutor, as_completed
     holdings_out = []
     for i, tk in enumerate(tickers, 1):
         display = DISPLAY_NAMES.get(tk, tk)
-        persona_entries = []
-        with ThreadPoolExecutor(max_workers=max_workers) as pool:
-            futures = {
-                pool.submit(_call_persona, llm, p, tk, display, preamble): p
-                for p in personas
+        tk_sector = _sector_of(tk)
+        tk_weight = _weights.get(tk, 0)
+        tk_sec_weight = _sector_weights.get(tk_sector, 0)
+
+        # Scoring engine: compute 6 data-driven scores
+        scores = {}
+        if _score_all:
+            try:
+                scores = _score_all(
+                    tk, _quotes.get(tk, {}), _technicals.get(tk, {}),
+                    _fundamentals.get(tk), _macro, _news.get(tk, []),
+                    tk_weight, tk_sec_weight,
+                    ASSET_TYPE_MAP.get(tk, ""),
+                    settings.get("crypto_cap_pct", 10))
+            except Exception as e:
+                print(f"  [warn] scoring failed for {tk}: {e}", file=sys.stderr)
+
+        # Build market context for this ticker
+        _mkt_ctx = _build_full_context(
+            tk, "fundamentals_analyst",  # generic context
+            _quotes.get(tk, {}), _technicals.get(tk, {}),
+            _fundamentals.get(tk), _macro, _news.get(tk, []),
+            tk_weight, tk_sec_weight)
+
+        rec_mode = settings.get("recommendation_mode", "personas")
+        _scoring_weights = settings.get("scoring_weights")
+
+        if rec_mode == "scoring" and scores:
+            # ── SCORING MODE: 1 Gemini call per ticker ──────────────
+            from scoring_engine import scores_to_verdict as _s2v
+            algo_v, algo_c = _s2v(scores, _scoring_weights)
+            synth = _scoring_synthesis_call(
+                llm, tk, display, preamble, scores, _mkt_ctx)
+            # Use Gemini's verdict if it agrees with algo, else use algo
+            final_v = synth["verdict"] if synth["verdict"] == algo_v else algo_v
+            final_c = (synth["conviction"] + algo_c) // 2
+            holding = {
+                "ticker": tk, "verdict": final_v, "conviction": final_c,
+                "scores": scores,
+                "rationale": synth.get("rationale", ""),
+                "personas": [],  # no persona breakdown in scoring mode
             }
-            for fut in as_completed(futures):
-                persona_entries.append(fut.result())
-        # Preserve the user's configured persona order in the output
-        _order = {p: idx for idx, p in enumerate(personas)}
-        persona_entries.sort(key=lambda e: _order.get(e.get("name", ""), 99))
-        agg_v, agg_c = _aggregate_verdict(persona_entries)
-        holdings_out.append({
-            "ticker": tk, "verdict": agg_v, "conviction": agg_c,
-            "personas": persona_entries,
-        })
-        print(f"  [{i}/{len(tickers)}] {tk}: {agg_v.upper()} {agg_c}%", flush=True)
+        else:
+            # ── PERSONAS MODE (or HYBRID): N Gemini calls per ticker ─
+            persona_entries = []
+            with ThreadPoolExecutor(max_workers=max_workers) as pool:
+                futures = {
+                    pool.submit(
+                        _call_persona, llm, p, tk, display, preamble,
+                        _build_full_context(
+                            tk, p, _quotes.get(tk, {}), _technicals.get(tk, {}),
+                            _fundamentals.get(tk), _macro, _news.get(tk, []),
+                            tk_weight, tk_sec_weight)
+                    ): p
+                    for p in personas
+                }
+                for fut in as_completed(futures):
+                    persona_entries.append(fut.result())
+            _order = {p: idx for idx, p in enumerate(personas)}
+            persona_entries.sort(key=lambda e: _order.get(e.get("name", ""), 99))
+            agg_v, agg_c = _aggregate_verdict(persona_entries)
+            holding = {
+                "ticker": tk, "verdict": agg_v, "conviction": agg_c,
+                "personas": persona_entries,
+            }
+            if scores:
+                holding["scores"] = scores
+
+        holdings_out.append(holding)
+        scores_str = " ".join(f"{k[:3].upper()}={v}" for k, v in scores.items()) if scores else ""
+        print(f"  [{i}/{len(tickers)}] {tk}: {holding['verdict'].upper()} "
+              f"{holding['conviction']}%  {scores_str}  [{rec_mode}]",
+              flush=True)
 
     # Ask Gemini for 2-3 new ideas
     new_ideas = _generate_new_ideas(llm, preamble, tickers)
@@ -342,6 +771,59 @@ def run_real(settings: dict, portfolio: dict) -> dict:
         "holdings": holdings_out,
         "new_ideas": new_ideas,
         "dry_run": False,
+    }
+
+
+def _scoring_synthesis_call(llm, ticker: str, display_name: str,
+                            preamble: str, scores: dict,
+                            market_context: str) -> dict:
+    """Single Gemini call to synthesize algorithmic scores into a Hebrew verdict.
+
+    Used in 'scoring' mode — 1 call per ticker instead of 9 persona calls.
+    """
+    scores_block = "\n".join(
+        f"  {k.title():12s} {v}/100 {'(strong)' if v > 70 else '(weak)' if v < 30 else ''}"
+        for k, v in scores.items()
+    )
+    avg = sum(scores.values()) / max(1, len(scores))
+    system = (
+        "אתה אנליסט השקעות מקצועי. אתה מקבל ציונים אלגוריתמיים (0-100) לכל קטגוריה "
+        "ונתוני שוק אמיתיים. תפקידך: לסנתז את הכל לדירוג סופי + נימוק בעברית. "
+        "אל תמציא מספרים — השתמש רק בנתונים שמסופקים."
+    )
+    desc = TICKER_DESCRIPTIONS.get(ticker, "")
+    user = (
+        f"{preamble}\n\n"
+        f"נכס: **{display_name} ({ticker})**\n"
+        f"{'Asset: ' + desc if desc else ''}\n\n"
+        f"ALGORITHMIC SCORES:\n{scores_block}\n"
+        f"  Average: {avg:.0f}/100\n\n"
+        f"{market_context}\n\n"
+        f"בהתבסס על הציונים והנתונים, תן ניתוח. {PER_TICKER_SCHEMA}"
+    )
+    try:
+        resp = _invoke_with_retry(llm, [("system", system), ("user", user)])
+        content = resp.content if hasattr(resp, "content") else str(resp)
+        if isinstance(content, list):
+            content = "\n".join(
+                p.get("text", "") if isinstance(p, dict)
+                else p.text if hasattr(p, "text") else str(p)
+                for p in content
+            )
+        if not isinstance(content, str):
+            content = str(content)
+    except Exception as e:
+        return {"verdict": "hold", "conviction": 50,
+                "rationale": f"[שגיאת Gemini: {str(e)[:120]}]"}
+
+    parsed = _parse_persona_json(content) or {}
+    verdict = (parsed.get("verdict") or "hold").lower()
+    if verdict not in ("buy", "hold", "sell"):
+        verdict = "hold"
+    return {
+        "verdict": verdict,
+        "conviction": int(parsed.get("conviction", 50)),
+        "rationale": parsed.get("rationale") or content[:400],
     }
 
 
@@ -657,10 +1139,27 @@ def _dry_run(settings: dict, tickers: list[str], note: str = "") -> dict:
                 "rationale": _persona_rationale(p, tk, pv, settings),
             })
 
+        # Generate plausible mock scores based on verdict
+        if v == "buy":
+            _mock_scores = {"valuation": 65, "technical": 70, "risk": 60,
+                            "sentiment": 68, "macro": 55, "quality": 72}
+        elif v == "sell":
+            _mock_scores = {"valuation": 30, "technical": 35, "risk": 25,
+                            "sentiment": 32, "macro": 45, "quality": 28}
+        else:
+            _mock_scores = {"valuation": 50, "technical": 52, "risk": 55,
+                            "sentiment": 48, "macro": 50, "quality": 50}
+        # Add some variance per ticker
+        import hashlib
+        _h = int(hashlib.md5(tk.encode()).hexdigest()[:4], 16) % 15
+        _mock_scores = {k: max(0, min(100, sc + _h - 7))
+                        for k, sc in _mock_scores.items()}
+
         holdings_out.append({
             "ticker": tk,
             "verdict": v,
             "conviction": c,
+            "scores": _mock_scores,
             "personas": persona_entries,
         })
 
@@ -733,6 +1232,41 @@ def main() -> None:
         recs = _dry_run(settings, _tickers(portfolio))
     else:
         recs = run_real(settings, portfolio)
+
+    # Save previous recommendations for change tracking (Phase 2)
+    _prev_path = _ROOT / "recommendations_prev.json"
+    if RECS_PATH.exists():
+        try:
+            import shutil
+            shutil.copy2(RECS_PATH, _prev_path)
+        except Exception:
+            pass
+
+    # Save new ideas to history for scorecard tracking (Phase 2)
+    _ideas_hist_path = _ROOT / "ideas_history.json"
+    try:
+        _hist = json.loads(_ideas_hist_path.read_text()) if _ideas_hist_path.exists() else []
+    except Exception:
+        _hist = []
+    _existing_ideas = {e.get("ticker") for e in _hist}
+    for idea in recs.get("new_ideas", []):
+        tk = idea.get("ticker", "")
+        if tk and tk not in _existing_ideas:
+            _hist.append({
+                "ticker": tk,
+                "name": idea.get("name", ""),
+                "suggested_date": datetime.now().strftime("%Y-%m-%d"),
+                "suggested_price": idea.get("suggested_price", 0),
+                "conviction": idea.get("conviction", 0),
+            })
+    _ideas_hist_path.write_text(json.dumps(_hist, indent=2, ensure_ascii=False))
+
+    # Record verdicts for accuracy tracking
+    try:
+        from accuracy_tracker import record_verdicts
+        record_verdicts(recs)
+    except Exception:
+        pass
 
     RECS_PATH.write_text(json.dumps(recs, indent=2, ensure_ascii=False))
     print(f"[ok] wrote {RECS_PATH} ({len(recs.get('holdings', []))} holdings, "

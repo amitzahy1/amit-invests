@@ -46,6 +46,7 @@ RLM = "\u200f"
 SECTOR_SHORT = {
     "Broad Market": "S&P/Nasdaq",
     "Broad Market (Israel)": "Israel Bnd",
+    "Fixed Income (Israel)": "Israel Bnd",
     "Aerospace & Defense": "Defense",
     "Energy / Uranium": "Uranium",
     "Energy / Nuclear": "Nuclear",
@@ -153,6 +154,177 @@ def _get_sector(ticker: str) -> str:
         return NEW_IDEA_SECTORS.get(ticker, "Other")
 
 
+# ─── New Mentor Blocks ────────────────────────────────────────────────────
+
+def _format_market_context() -> str:
+    """Block 1: Today's market snapshot — S&P, Nasdaq, VIX, rates, USD/ILS."""
+    try:
+        sys.path.insert(0, str(_ROOT))
+        from data_loader_macro import fetch_macro_snapshot
+        m = fetch_macro_snapshot()
+    except Exception:
+        return ""
+    if not m or not m.get("vix"):
+        return ""
+
+    lines = ["📊 *שוק היום*"]
+
+    idx_parts = []
+    if m.get("sp500_change") is not None:
+        idx_parts.append(f"S&P 500 {m['sp500_change']:+.1f}%")
+    if m.get("nasdaq_change") is not None:
+        idx_parts.append(f"Nasdaq {m['nasdaq_change']:+.1f}%")
+    if m.get("vix") is not None:
+        fear = "פחד" if m["vix"] > 25 else "נמוך" if m["vix"] < 15 else "נורמלי"
+        idx_parts.append(f"VIX {m['vix']:.0f} ({fear})")
+    if idx_parts:
+        lines.append("`" + "  ·  ".join(idx_parts) + "`")
+
+    rate_parts = []
+    if m.get("fed_rate") is not None:
+        rate_parts.append(f"Fed {m['fed_rate']:.2f}%")
+    if m.get("ten_year_yield") is not None:
+        rate_parts.append(f"10Y {m['ten_year_yield']:.2f}%")
+    if m.get("usd_ils") is not None:
+        rate_parts.append(f"USD/ILS {m['usd_ils']:.3f}")
+    if rate_parts:
+        lines.append("`" + "  ·  ".join(rate_parts) + "`")
+
+    return "\n".join(lines)
+
+
+def _format_daily_lesson(recs: dict) -> str:
+    """Block 2: Rotating daily financial lesson with portfolio examples."""
+    lessons_path = _ROOT / "lessons.json"
+    if not lessons_path.exists():
+        return ""
+    try:
+        lessons = json.loads(lessons_path.read_text())
+    except Exception:
+        return ""
+    if not lessons:
+        return ""
+
+    from datetime import datetime
+    day = datetime.now().timetuple().tm_yday
+    lesson = lessons[day % len(lessons)]
+
+    title = lesson.get("title_he", "")
+    body = lesson.get("body_he", "")
+    if not title:
+        return ""
+
+    idx = lesson.get("id", day % len(lessons) + 1)
+    lines = [
+        f"📚 *שיעור יומי #{idx}: {title}*",
+        f"{RLM}_{body}_",
+    ]
+
+    # Try to personalise with portfolio data
+    example_tpl = lesson.get("example_template", "")
+    if example_tpl:
+        try:
+            from data_loader_fundamentals import load_fundamentals_cache
+            cache = load_fundamentals_cache()
+            tickers_data = cache.get("tickers", {})
+            relevant = lesson.get("tickers_relevant", [])
+            for tk in relevant:
+                if tk in tickers_data:
+                    fd = tickers_data[tk]
+                    example = example_tpl.format(
+                        ticker=tk,
+                        pe=fd.get("pe", "N/A"),
+                        peg=fd.get("peg", "N/A"),
+                        roe=fd.get("roe", "N/A"),
+                        margin=fd.get("profit_margin", "N/A"),
+                        sector_pe="22",
+                    )
+                    lines.append(f"{RLM}📌 _{example}_")
+                    break
+        except Exception:
+            pass
+
+    return "\n".join(lines)
+
+
+def _format_changes(recs: dict) -> str:
+    """Block 3: Verdict changes compared to previous run."""
+    prev_path = _ROOT / "recommendations_prev.json"
+    if not prev_path.exists():
+        return ""
+    try:
+        prev = json.loads(prev_path.read_text())
+    except Exception:
+        return ""
+
+    prev_map = {h["ticker"]: h for h in prev.get("holdings", [])}
+    changes = []
+    for h in recs.get("holdings", []):
+        tk = h.get("ticker", "")
+        if tk not in prev_map:
+            continue
+        old_v = (prev_map[tk].get("verdict") or "hold").lower()
+        new_v = (h.get("verdict") or "hold").lower()
+        old_c = prev_map[tk].get("conviction", 0)
+        new_c = h.get("conviction", 0)
+        if old_v != new_v or abs(old_c - new_c) >= 10:
+            arrow = "⬆️" if new_c > old_c else "⬇️"
+            changes.append(
+                f"{arrow} `{tk}` {old_v.upper()} {old_c}% → {new_v.upper()} {new_c}%"
+            )
+    if not changes:
+        return ""
+    return "*🔄 שינויים מאתמול:*\n" + "\n".join(changes)
+
+
+def _format_ideas_scorecard() -> str:
+    """Block 4: Performance of past suggested ideas."""
+    hist_path = _ROOT / "ideas_history.json"
+    if not hist_path.exists():
+        return ""
+    try:
+        history = json.loads(hist_path.read_text())
+    except Exception:
+        return ""
+    if not history:
+        return ""
+
+    import requests
+    lines = ["*💡 כרטיס ציון — רעיונות קודמים:*"]
+    hits = 0
+    total = 0
+    for idea in history[-6:]:  # last 6 ideas
+        tk = idea.get("ticker", "")
+        suggested_price = idea.get("suggested_price", 0)
+        date = idea.get("suggested_date", "?")
+        if not tk or not suggested_price:
+            continue
+        # Fetch current price
+        try:
+            r = requests.get(
+                f"https://query1.finance.yahoo.com/v8/finance/chart/{tk}",
+                params={"range": "1d", "interval": "1d"},
+                headers={"User-Agent": "Mozilla/5.0"},
+                timeout=8, verify=False,
+            )
+            if r.status_code == 200:
+                current = r.json()["chart"]["result"][0]["meta"]["regularMarketPrice"]
+                pct = ((current / suggested_price) - 1) * 100
+                emoji = "✅" if pct > 0 else "❌"
+                lines.append(f"{emoji} `{tk}` ({date}): {pct:+.1f}%")
+                total += 1
+                if pct > 0:
+                    hits += 1
+        except Exception:
+            continue
+
+    if total == 0:
+        return ""
+    rate = hits / total * 100
+    lines.append(f"\n{RLM}_Hit rate: {hits}/{total} ({rate:.0f}%)_")
+    return "\n".join(lines)
+
+
 # ─── Yahoo Finance (lightweight, for chart data) ───────────────────────────
 
 def _fetch_ohlcv(ticker: str, range_: str = "6mo") -> dict | None:
@@ -185,6 +357,12 @@ def _format_holdings_msg(recs: dict) -> str:
     date_str = recs.get("updated", "")[:10]
     lines.append(f"📊 *Portfolio Digest — {date_str}*")
     lines.append("")
+
+    # Market context (new: Phase 2)
+    mkt_ctx = _format_market_context()
+    if mkt_ctx:
+        lines.append(mkt_ctx)
+        lines.append("")
 
     # AI summary (first 2 sentences from the model's Hebrew summary)
     summary = recs.get("summary", "")
@@ -225,6 +403,12 @@ def _format_holdings_msg(recs: dict) -> str:
         lines.append(f"{RLM}💡 רעיונות חדשים: {idea_tickers}")
 
     lines.append("")
+
+    # Daily lesson (new: Phase 2)
+    lesson = _format_daily_lesson(recs)
+    if lesson:
+        lines.append(lesson)
+        lines.append("")
 
     # Sort holdings: 🟢 BUY >=80% → 🟡 BUY <80% / HOLD → 🔴 SELL
     def _sort_key(h):
@@ -327,6 +511,18 @@ def _format_dashboard_msg(recs: dict, snapshots: list[dict]) -> str:
             lines.append("*סקטורים*")
             lines.append(_sector_bar(sector_weights))
             lines.append("")
+
+    # Change tracking (new: Phase 2)
+    changes = _format_changes(recs)
+    if changes:
+        lines.append(changes)
+        lines.append("")
+
+    # Ideas scorecard (new: Phase 2)
+    scorecard = _format_ideas_scorecard()
+    if scorecard:
+        lines.append(scorecard)
+        lines.append("")
 
     lines.append(f"{RLM}_סקירת שוק — אינה המלצה פיננסית._")
     return "\n".join(lines)

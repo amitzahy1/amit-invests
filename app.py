@@ -13,9 +13,23 @@ if str(_ROOT) not in sys.path:
 
 import streamlit as st
 
+_FAVICON_SVG = (
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">'
+    '<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">'
+    '<stop offset="0%" stop-color="#1e293b"/>'
+    '<stop offset="100%" stop-color="#0f172a"/>'
+    '</linearGradient></defs>'
+    '<rect width="32" height="32" rx="6" fill="url(#g)"/>'
+    '<path d="M8 22 L16 8 L24 22" stroke="#22d3ee" stroke-width="2.5" '
+    'fill="none" stroke-linecap="round" stroke-linejoin="round"/>'
+    '<line x1="11" y1="17" x2="21" y2="17" stroke="#22d3ee" '
+    'stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>'
+    '</svg>'
+)
+
 st.set_page_config(
-    page_title="Portfolio — Amit",
-    page_icon="📊",
+    page_title="Amit Capital",
+    page_icon=_FAVICON_SVG,
     layout="wide",
     initial_sidebar_state="collapsed",
 )

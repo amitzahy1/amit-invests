@@ -1,0 +1,242 @@
+[
+  {
+    "id": 1,
+    "topic": "valuation",
+    "title_he": "מה זה יחס P/E?",
+    "body_he": "יחס מחיר-לרווח (P/E) מודד כמה אתה משלם על כל שקל רווח. P/E נמוך = זול יחסית, P/E גבוה = יקר או שהשוק מצפה לצמיחה. ממוצע S&P 500 הוא סביב 22.",
+    "example_template": "ה-P/E של {ticker} הוא {pe}. ממוצע הסקטור הוא {sector_pe}.",
+    "tickers_relevant": ["GOOGL", "NVDA", "AMZN"]
+  },
+  {
+    "id": 2,
+    "topic": "risk",
+    "title_he": "מה זה Sharpe Ratio?",
+    "body_he": "יחס שארפ מודד כמה תשואה אתה מקבל על כל יחידת סיכון. נוסחה: (תשואה - ריבית חסרת סיכון) / תנודתיות. מעל 1.0 = טוב, מעל 2.0 = מצוין.",
+    "example_template": "",
+    "tickers_relevant": []
+  },
+  {
+    "id": 3,
+    "topic": "technical",
+    "title_he": "מה זה RSI?",
+    "body_he": "RSI (Relative Strength Index) מודד מומנטום על סקאלה 0-100. מתחת ל-30 = oversold (הזדמנות קנייה). מעל 70 = overbought (זהירות). 40-60 = ניטרלי.",
+    "example_template": "",
+    "tickers_relevant": ["NVDA", "GOOGL"]
+  },
+  {
+    "id": 4,
+    "topic": "valuation",
+    "title_he": "מה זה PEG Ratio?",
+    "body_he": "PEG = P/E חלקי שיעור הצמיחה. PEG < 1 = המניה זולה ביחס לצמיחה. PEG > 2 = יקרה. פיטר לינץ' חיפש תמיד מניות עם PEG נמוך — זה GARP.",
+    "example_template": "ה-PEG של {ticker} הוא {peg}.",
+    "tickers_relevant": ["GOOGL", "AMZN"]
+  },
+  {
+    "id": 5,
+    "topic": "risk",
+    "title_he": "מה זה Beta?",
+    "body_he": "Beta מודד כמה הנכס שלך זז ביחס לשוק (S&P 500). Beta 1.0 = זז כמו השוק. Beta 1.5 = תנודתי 50% יותר. Beta 0.5 = חצי תנודתי. אג״ח ממשלתי = Beta קרוב ל-0.",
+    "example_template": "",
+    "tickers_relevant": ["NVDA", "XLV"]
+  },
+  {
+    "id": 6,
+    "topic": "technical",
+    "title_he": "מה זה Moving Average?",
+    "body_he": "ממוצע נע (MA) מחליק רעש במחיר. MA50 = ממוצע 50 יום (טרנד קצר). MA200 = 200 יום (טרנד ארוך). כשמחיר מעל שניהם = uptrend. כשמתחת = downtrend.",
+    "example_template": "",
+    "tickers_relevant": ["SPY", "VOO"]
+  },
+  {
+    "id": 7,
+    "topic": "portfolio",
+    "title_he": "מה זה גיוון (Diversification)?",
+    "body_he": "גיוון = פיזור השקעות בין סקטורים, מדינות וסוגי נכסים כדי להפחית סיכון. הרעיון: כשמניות יורדות, אג״ח עולה. כשארה״ב חלשה, שווקים אחרים עשויים לפצות.",
+    "example_template": "",
+    "tickers_relevant": []
+  },
+  {
+    "id": 8,
+    "topic": "valuation",
+    "title_he": "מה זה ROE?",
+    "body_he": "Return on Equity — כמה רווח החברה מייצרת על כל שקל הון עצמי. ROE > 20% = עסק איכותי. ROE < 8% = חלש. באפט מחפש חברות עם ROE גבוה ועקבי לאורך שנים.",
+    "example_template": "ה-ROE של {ticker} הוא {roe}%.",
+    "tickers_relevant": ["GOOGL", "NVDA", "AMZN"]
+  },
+  {
+    "id": 9,
+    "topic": "behavioral",
+    "title_he": "מה זה Loss Aversion?",
+    "body_he": "שנאת הפסד: הפסד של 1,000₪ כואב פי 2.5 יותר ממה שרווח של 1,000₪ משמח. זה גורם לנו למכור מוקדם מדי ברווח ולהחזיק הפסדים זמן רב מדי.",
+    "example_template": "",
+    "tickers_relevant": []
+  },
+  {
+    "id": 10,
+    "topic": "macro",
+    "title_he": "מה זה ריבית הפד?",
+    "body_he": "ריבית הפדרל ריזרב קובעת את מחיר הכסף. ריבית גבוהה = הלוואות יקרות = חברות צמיחה נפגעות. ריבית נמוכה = כסף זול = מניות עולות. הפד משנה ריבית כדי לשלוט באינפלציה.",
+    "example_template": "",
+    "tickers_relevant": []
+  },
+  {
+    "id": 11,
+    "topic": "valuation",
+    "title_he": "מה זה Profit Margin?",
+    "body_he": "שולי רווח = כמה מכל שקל הכנסות נשאר כרווח. Margin > 25% = עסק מצוין (בד״כ טכנולוגיה). Margin < 5% = עסק תחרותי עם רווחיות דקה (קמעונאות).",
+    "example_template": "ה-Profit Margin של {ticker} הוא {margin}%.",
+    "tickers_relevant": ["GOOGL", "AMZN", "CPNG"]
+  },
+  {
+    "id": 12,
+    "topic": "technical",
+    "title_he": "מה זה Golden Cross?",
+    "body_he": "Golden Cross קורה כש-MA50 חוצה מעלה את MA200. זה סימן טכני חזק לתחילת uptrend. ההפך — Death Cross (MA50 יורד מתחת MA200) = סימן לירידות.",
+    "example_template": "",
+    "tickers_relevant": ["SPY"]
+  },
+  {
+    "id": 13,
+    "topic": "risk",
+    "title_he": "מה זה Max Drawdown?",
+    "body_he": "Max Drawdown = הירידה הגדולה ביותר מפסגה לשפל בהיסטוריה. S&P 500 ירד 34% בקורונה (2020). אם אתה לא יכול לישון בירידה של 30% — יש לך יותר מדי מניות.",
+    "example_template": "",
+    "tickers_relevant": []
+  },
+  {
+    "id": 14,
+    "topic": "strategy",
+    "title_he": "מה זה DCA?",
+    "body_he": "Dollar Cost Averaging = הפקדה קבועה בתדירות קבועה (למשל 4,000₪ כל חודשיים). יתרון: קונה יותר יחידות כשהשוק יורד ופחות כשהוא עולה. מפחית סיכון של תזמון שוק.",
+    "example_template": "",
+    "tickers_relevant": []
+  },
+  {
+    "id": 15,
+    "topic": "valuation",
+    "title_he": "מה זה Debt/Equity?",
+    "body_he": "יחס חוב להון עצמי מודד כמה החברה ממונפת. D/E < 0.5 = בריא. D/E 0.5-1.5 = סביר. D/E > 2.0 = מסוכן. חברות עם חוב גבוה רגישות יותר לעליית ריבית.",
+    "example_template": "",
+    "tickers_relevant": ["BN", "BAM"]
+  },
+  {
+    "id": 16,
+    "topic": "behavioral",
+    "title_he": "מה זה FOMO?",
+    "body_he": "Fear Of Missing Out — הפחד לפספס. כשמניה עולה 50% ואתה קונה בשיא כי 'כולם מרוויחים'. FOMO הוא האויב מספר 1 של המשקיע השמרני. הפתרון: DCA + תוכנית מוגדרת מראש.",
+    "example_template": "",
+    "tickers_relevant": []
+  },
+  {
+    "id": 17,
+    "topic": "macro",
+    "title_he": "מה זה VIX?",
+    "body_he": "VIX = 'מדד הפחד'. מודד תנודתיות צפויה ב-S&P 500. VIX < 15 = שלווה. 15-25 = נורמלי. > 25 = חשש. > 35 = פאניקה. בזמן פאניקה, משקיעים שמרניים לא מוכרים — הם קונים.",
+    "example_template": "",
+    "tickers_relevant": []
+  },
+  {
+    "id": 18,
+    "topic": "israeli",
+    "title_he": "מה זה אג״ח ממשלתי?",
+    "body_he": "אג״ח ממשלתי = הלוואה למדינה. ישראל מנפיקה אג״ח שקלי בריביות שונות. KSM-F34 = טווח בינוני, KSM-F77 = טווח ארוך. יתרון: יציבות + הגנה מפני דולר חלש. חיסרון: תשואה נמוכה.",
+    "example_template": "",
+    "tickers_relevant": ["KSM-F34.TA", "KSM-F77.TA"]
+  },
+  {
+    "id": 19,
+    "topic": "strategy",
+    "title_he": "מה זה Rebalancing?",
+    "body_he": "איזון מחדש = להחזיר את התיק להקצאה המקורית. אם הקצית 30% ל-S&P 500 ועכשיו זה 40% כי עלה — מכור חלק וקנה מה שירד. זה כופה 'קנה בזול, מכור ביוקר'.",
+    "example_template": "",
+    "tickers_relevant": []
+  },
+  {
+    "id": 20,
+    "topic": "risk",
+    "title_he": "מה זה Correlation?",
+    "body_he": "קורלציה מודדת כמה שני נכסים זזים ביחד. 1.0 = זזים ביחד. 0 = לא קשורים. -1 = הפוכים. SPY ו-VOO = קורלציה ~1.0 (כפילות!). מניות ואג״ח = קורלציה נמוכה (גיוון).",
+    "example_template": "",
+    "tickers_relevant": ["SPY", "VOO"]
+  },
+  {
+    "id": 21,
+    "topic": "valuation",
+    "title_he": "מה זה Market Cap?",
+    "body_he": "שווי שוק = מחיר מניה × מספר מניות. Mega-cap > $200B (GOOGL, NVDA). Large-cap $10-200B. Mid-cap $2-10B. Small-cap < $2B. Mega-cap = יציבות, Small-cap = צמיחה + סיכון.",
+    "example_template": "",
+    "tickers_relevant": ["GOOGL", "NVDA"]
+  },
+  {
+    "id": 22,
+    "topic": "behavioral",
+    "title_he": "מה זה Anchoring Bias?",
+    "body_he": "עיגון = ההטיה להיצמד למספר ראשון ששמעת. 'קניתי ב-$150, אמכור רק ב-$150'. המחיר שקנית לא רלוונטי — מה שחשוב הוא האם ההשקעה טובה *היום* במחיר *היום*.",
+    "example_template": "",
+    "tickers_relevant": []
+  },
+  {
+    "id": 23,
+    "topic": "technical",
+    "title_he": "מה זה Volume?",
+    "body_he": "נפח מסחר = כמה מניות נסחרו ביום. Volume גבוה + מחיר עולה = אישור מגמה חזקה. Volume נמוך + מחיר עולה = חולשה — העלייה לא נתמכת.",
+    "example_template": "",
+    "tickers_relevant": []
+  },
+  {
+    "id": 24,
+    "topic": "strategy",
+    "title_he": "Value vs Growth",
+    "body_he": "Value = קניית חברות 'זולות' (P/E נמוך, דיבידנד). Growth = קניית חברות צומחות (הכנסות +20%/שנה). באפט = Value. קתי ווד = Growth. שניהם עובדים — השאלה היא מתי.",
+    "example_template": "",
+    "tickers_relevant": ["GOOGL", "NVDA"]
+  },
+  {
+    "id": 25,
+    "topic": "macro",
+    "title_he": "מה זה עקום תשואות?",
+    "body_he": "עקום תשואות = ריביות אג״ח לפי טווח (2Y, 5Y, 10Y, 30Y). נורמלי: ריביות ארוכות > קצרות. הפוך: קצרות > ארוכות = סימן מיתון. עקום הפוך צדק ב-85% מהפעמים.",
+    "example_template": "",
+    "tickers_relevant": []
+  },
+  {
+    "id": 26,
+    "topic": "israeli",
+    "title_he": "מה זה אגורות?",
+    "body_he": "קרנות ישראליות מסוימות (KSM-F34, KSM-F77) נסחרות באגורות — 1/100 שקל. מחיר של 10,500 = 105 ₪ ליחידה. המערכת ממירה אוטומטית. אל תיבהל ממספרים גדולים!",
+    "example_template": "",
+    "tickers_relevant": ["KSM-F34.TA", "KSM-F77.TA"]
+  },
+  {
+    "id": 27,
+    "topic": "behavioral",
+    "title_he": "מה זה Confirmation Bias?",
+    "body_he": "הטיית אישור = לחפש רק מידע שתומך בדעה שלך. אם אתה אוהב NVDA, תתעלם מחדשות שליליות. הפתרון: הקשב דווקא ל'מנתח שלא מסכים' (הדיסנטר בהודעות שלנו).",
+    "example_template": "",
+    "tickers_relevant": []
+  },
+  {
+    "id": 28,
+    "topic": "risk",
+    "title_he": "מה זה Sortino Ratio?",
+    "body_he": "דומה ל-Sharpe אבל מודד רק סיכון כלפי מטה (ירידות). Sortino > 2 = מצוין — הנכס עולה הרבה ויורד מעט. טוב יותר מ-Sharpe למשקיע שמרני שמפחד בעיקר מירידות.",
+    "example_template": "",
+    "tickers_relevant": []
+  },
+  {
+    "id": 29,
+    "topic": "strategy",
+    "title_he": "מה זה Moat (חפיר)?",
+    "body_he": "חפיר תחרותי = יתרון שמגן על החברה מתחרות. סוגים: מותג (Apple), אפקט רשת (Google), עלויות מעבר (Microsoft), יתרון עלות (Amazon). באפט קונה רק חברות עם חפיר עמוק.",
+    "example_template": "",
+    "tickers_relevant": ["GOOGL", "AMZN"]
+  },
+  {
+    "id": 30,
+    "topic": "israeli",
+    "title_he": "מה זה דמי ניהול (TER)?",
+    "body_he": "TER = Total Expense Ratio — כמה הקרן גובה ממך בשנה. VOO = 0.03% (זול מאוד). קרנות ישראליות = 0.2-0.5% (יקרות יותר). הבדל של 0.5% על 20 שנה = עשרות אלפי שקלים.",
+    "example_template": "",
+    "tickers_relevant": ["VOO", "SPY"]
+  }
+]

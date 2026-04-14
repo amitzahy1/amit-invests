@@ -42,8 +42,8 @@ SECTOR_MAP = {
     "NLR": "Energy / Nuclear",
     "VOO": "Broad Market",
     "5108.TA": "Insurance (Israel)",
-    "KSM-F34.TA": "Broad Market (Israel)",
-    "KSM-F77.TA": "Broad Market (Israel)",
+    "KSM-F34.TA": "Fixed Income (Israel)",
+    "KSM-F77.TA": "Fixed Income (Israel)",
 }
 
 # ─── Asset Type Classification (English) ────────────────────────────────────
