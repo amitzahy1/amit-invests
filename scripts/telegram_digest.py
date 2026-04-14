@@ -200,16 +200,16 @@ def _format_holdings_msg(recs: dict) -> str:
         sell_tickers = ", ".join(f"`{h['ticker']}`" for h in sells)
         lines.append(f"{RLM}⚠️ מכירה: {sell_tickers}")
 
-    # Highlight strong buys (>=90%) — exclude broad market ETFs
-    strong_buys = [
+    # Top picks: BUY >=80% — exclude broad market ETFs (index funds aren't picks)
+    top_picks = [
         h for h in holdings
         if (h.get("verdict") or "").lower() == "buy"
-        and h.get("conviction", 0) >= 90
+        and h.get("conviction", 0) >= 80
         and _get_sector(h.get("ticker", "")) not in BROAD_MARKET_SECTORS
     ]
-    if strong_buys:
-        sb_tickers = ", ".join(f"`{h['ticker']}`" for h in strong_buys)
-        lines.append(f"{RLM}🔥 שכנוע גבוה: {sb_tickers}")
+    if top_picks:
+        tp_tickers = ", ".join(f"`{h['ticker']}`" for h in top_picks)
+        lines.append(f"{RLM}🎯 Top Picks: {tp_tickers}")
 
     # New ideas teaser
     if new_ideas:
@@ -312,7 +312,8 @@ def _format_dashboard_msg(recs: dict, snapshots: list[dict]) -> str:
     return "\n".join(lines)
 
 
-def _generate_candlestick(ticker: str, name: str, conviction: int) -> bytes | None:
+def _generate_candlestick(ticker: str, name: str, conviction: int,
+                          verdict: str = "BUY") -> bytes | None:
     """Generate a professional candlestick chart with MA20/MA50 for a ticker."""
     data = _fetch_ohlcv(ticker, range_="6mo")
     if not data:
@@ -402,7 +403,7 @@ def _generate_candlestick(ticker: str, name: str, conviction: int) -> bytes | No
     change_sign = "+" if change_pct >= 0 else ""
 
     ax_price.set_title(
-        f"{ticker} — {name}   |   {change_sign}{change_pct:.1f}% (6M)   |   BUY {conviction}%",
+        f"{ticker} — {name}   |   {change_sign}{change_pct:.1f}% (6M)   |   {verdict.upper()} {conviction}%",
         color="white", fontsize=13, fontweight="bold", pad=10, loc="left",
     )
     # Color the change in title
@@ -559,16 +560,33 @@ def main() -> None:
     send_telegram(msg2)
     print("[ok] dashboard message sent")
 
-    # Messages 3+: Candlestick charts for new ideas
-    new_ideas = recs.get("new_ideas", [])
-    for idea in new_ideas:
-        ticker = idea.get("ticker", "")
-        name = idea.get("name", "")
-        conv = idea.get("conviction", 0)
-        print(f"[info] generating chart for {ticker}…", end=" ", flush=True)
-        chart = _generate_candlestick(ticker, name, conv)
+    # Messages 3+: Candlestick charts
+    # 1) Existing holdings with BUY >=80% (excluding broad market ETFs + Israeli)
+    chart_items = []
+    holdings = recs.get("holdings", [])
+    for h in holdings:
+        v = (h.get("verdict") or "").lower()
+        c = h.get("conviction", 0)
+        tk = h.get("ticker", "")
+        sector = _get_sector(tk)
+        if (v == "buy" and c >= 80
+                and sector not in BROAD_MARKET_SECTORS
+                and not tk.endswith(".TA")):
+            chart_items.append((tk, h.get("name", tk), c, "BUY"))
+
+    # 2) New ideas
+    for idea in recs.get("new_ideas", []):
+        tk = idea.get("ticker", "")
+        if tk not in {ci[0] for ci in chart_items}:  # avoid duplicates
+            chart_items.append((tk, idea.get("name", tk), idea.get("conviction", 0), "BUY"))
+
+    if chart_items:
+        print(f"[info] generating {len(chart_items)} charts…")
+    for ticker, name, conv, verdict in chart_items:
+        print(f"  {ticker}…", end=" ", flush=True)
+        chart = _generate_candlestick(ticker, name, conv, verdict)
         if chart:
-            send_telegram_photo(chart, f"📊 {ticker} — {name} | BUY {conv}%")
+            send_telegram_photo(chart, f"📊 {ticker} — {name} | {verdict} {conv}%")
             print("sent")
         else:
             print("skipped (no data)")
