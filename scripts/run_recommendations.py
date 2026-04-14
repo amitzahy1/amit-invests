@@ -749,6 +749,44 @@ def run_real(settings: dict, portfolio: dict) -> dict:
     # Ask Gemini for 2-3 new ideas
     new_ideas = _generate_new_ideas(llm, preamble, tickers)
 
+    # Score new ideas — fetch their data and compute scores
+    if new_ideas and _score_all:
+        idea_tickers = [i["ticker"] for i in new_ideas if i.get("ticker")]
+        print(f"[info] scoring {len(idea_tickers)} new idea tickers…", flush=True)
+        try:
+            from data_loader import fetch_live_quotes as _flq, fetch_historical_data as _fhd
+            _iq_df = _flq(idea_tickers)
+            _iq = {row["ticker"]: row.to_dict()
+                   for _, row in _iq_df.iterrows()} if not _iq_df.empty else {}
+            _ih = _fhd(idea_tickers, period="1y")
+            _it = {tk: _compute_technicals(_ih.get(tk)) for tk in idea_tickers}
+            try:
+                from data_loader_fundamentals import fetch_all_fundamentals as _faf
+                _if = _faf(idea_tickers)
+            except Exception:
+                _if = {}
+            for idea in new_ideas:
+                itk = idea.get("ticker", "")
+                if not itk:
+                    continue
+                try:
+                    i_scores = _score_all(
+                        itk, _iq.get(itk, {}), _it.get(itk, {}),
+                        _if.get(itk), _macro, _news.get(itk, []),
+                        0, 0, "", settings.get("crypto_cap_pct", 10))
+                    idea["scores"] = i_scores
+                    # Also store the current price for ideas tracking
+                    idea["suggested_price"] = _iq.get(itk, {}).get("price", 0)
+                    # Generate explanations
+                    from scoring_engine import explain_scores as _iexplain
+                    idea["score_details"] = _iexplain(
+                        i_scores, _iq.get(itk, {}), _it.get(itk, {}),
+                        _if.get(itk), _macro, 0, 0)
+                except Exception as e:
+                    print(f"  [warn] scoring failed for idea {itk}: {e}", file=sys.stderr)
+        except Exception as e:
+            print(f"[warn] idea scoring data fetch failed: {e}", file=sys.stderr)
+
     # Generate a 2-4 sentence Hebrew daily summary from the aggregate
     summary = _generate_summary(llm, preamble, holdings_out, new_ideas)
 
@@ -1153,11 +1191,14 @@ def _dry_run(settings: dict, tickers: list[str], note: str = "") -> dict:
 
     new_ideas = [
         {"ticker": "MSFT", "name": "Microsoft", "conviction": 82,
-         "rationale": "מוביל נוסף בגל ה-AI (Azure + OpenAI + Copilot) — משלים את גוגל בצד ה-enterprise. מרווחים גבוהים, דיבידנד צומח, פונדמנטלים מעולים."},
+         "rationale": "מוביל נוסף בגל ה-AI (Azure + OpenAI + Copilot) — משלים את גוגל בצד ה-enterprise. מרווחים גבוהים, דיבידנד צומח, פונדמנטלים מעולים.",
+         "scores": {"quality": 78, "valuation": 58, "risk": 70, "macro": 55, "sentiment": 75, "technical": 68}},
         {"ticker": "TSM", "name": "Taiwan Semiconductor", "conviction": 78,
-         "rationale": "משחק 'מכוש ואת' על AI — חברת הייצור המובילה בעולם. סיכון גיאופוליטי, אך חפיר תחרותי גדול מאוד."},
+         "rationale": "משחק 'מכוש ואת' על AI — חברת הייצור המובילה בעולם. סיכון גיאופוליטי, אך חפיר תחרותי גדול מאוד.",
+         "scores": {"quality": 82, "valuation": 65, "risk": 50, "macro": 48, "sentiment": 70, "technical": 72}},
         {"ticker": "META", "name": "Meta Platforms", "conviction": 70,
-         "rationale": "השקעות ענק ב-AI, מודלי Llama הופכים סטנדרט קוד-פתוח; פונדמנטלים חזקים והפחתת הוצאות משמעותית."},
+         "rationale": "השקעות ענק ב-AI, מודלי Llama הופכים סטנדרט קוד-פתוח; פונדמנטלים חזקים והפחתת הוצאות משמעותית.",
+         "scores": {"quality": 75, "valuation": 52, "risk": 65, "macro": 55, "sentiment": 68, "technical": 60}},
     ]
 
     # Dynamic Hebrew summary — inspects the actual verdicts we just produced
