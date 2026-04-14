@@ -186,6 +186,14 @@ def _format_holdings_msg(recs: dict) -> str:
     lines.append(f"📊 *Portfolio Digest — {date_str}*")
     lines.append("")
 
+    # AI summary (first 2 sentences from the model's Hebrew summary)
+    summary = recs.get("summary", "")
+    if summary:
+        sentences = [s.strip() for s in summary.replace(". ", ".\n").split("\n") if s.strip()]
+        short_summary = ". ".join(sentences[:2]).rstrip(".").replace("..", ".")
+        lines.append(f"{RLM}_{short_summary}._")
+        lines.append("")
+
     # Data-driven Key Takeaways
     buy_count = sum(1 for h in holdings if (h.get("verdict") or "").lower() == "buy")
     sell_count = sum(1 for h in holdings if (h.get("verdict") or "").lower() == "sell")
@@ -217,6 +225,18 @@ def _format_holdings_msg(recs: dict) -> str:
         lines.append(f"{RLM}💡 רעיונות חדשים: {idea_tickers}")
 
     lines.append("")
+
+    # Sort holdings: 🟢 BUY >=80% → 🟡 BUY <80% / HOLD → 🔴 SELL
+    def _sort_key(h):
+        v = (h.get("verdict") or "hold").lower()
+        c = h.get("conviction", 0)
+        if v == "buy" and c >= 80:
+            return (0, -c)   # green first, highest conviction first
+        if v == "sell":
+            return (2, -c)   # red last
+        return (1, -c)       # yellow in middle
+
+    holdings = sorted(holdings, key=_sort_key)
 
     # Holdings with vote split + skeptic
     lines.append(f"*Holdings* ({len(holdings)})")
