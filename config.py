@@ -21,7 +21,6 @@ TICKER_MAP = {
     "VANGUARD S&P 500 ETF": "VOO",
     "KESEM ETF 4A TA-INSURANCE": "5108.TA",
     "KESEM KSM-F34": "KSM-F34.TA",
-    "KESEM KSM-F77": "KSM-F77.TA",
 }
 
 # ─── Sector Classification (English) ────────────────────────────────────────
@@ -43,7 +42,6 @@ SECTOR_MAP = {
     "VOO": "Broad Market",
     "5108.TA": "Insurance (Israel)",
     "KSM-F34.TA": "Fixed Income (Israel)",
-    "KSM-F77.TA": "Fixed Income (Israel)",
 }
 
 # ─── Asset Type Classification (English) ────────────────────────────────────
@@ -65,7 +63,6 @@ ASSET_TYPE_MAP = {
     "VOO": "Broad Market ETF",
     "5108.TA": "Israeli ETF",
     "KSM-F34.TA": "Israeli ETF",
-    "KSM-F77.TA": "Israeli ETF",
 }
 
 # ─── Display Names (English) ─────────────────────────────────────────────────
@@ -85,9 +82,8 @@ DISPLAY_NAMES = {
     "URNM": "Uranium Miners ETF",
     "NLR": "Nuclear Energy ETF",
     "VOO": "S&P 500 ETF (VOO)",
-    "5108.TA": "Israel Insurance Index",
-    "KSM-F34.TA": "Kesem F34 (Israel)",
-    "KSM-F77.TA": "Kesem F77 (Israel)",
+    "5108.TA": "TA-Insurance Index ETF",
+    "KSM-F34.TA": "Israel Gov Bond (Medium)",
 }
 
 # ─── Sector Colors ───────────────────────────────────────────────────────────
@@ -136,7 +132,7 @@ RISK_FREE_RATE = 0.045
 TRADING_DAYS_YEAR = 252
 
 # ─── Israeli ETF ─────────────────────────────────────────────────────────────
-ISRAELI_TICKERS = {"KSM-F34.TA", "KSM-F77.TA"}
+ISRAELI_TICKERS = {"KSM-F34.TA"}
 
 # Yahoo Finance returns prices in agorot (1/100 ILS) for these tickers — divide by 100
-AGOROT_TICKERS = {"KSM-F34.TA", "KSM-F77.TA"}
+AGOROT_TICKERS = {"KSM-F34.TA"}

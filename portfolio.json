@@ -84,7 +84,7 @@
       "ticker": "ITA",
       "name": "iShares US Aerospace & Defense ETF",
       "quantity": 6,
-      "cost_price_usd": 187.70,
+      "cost_price_usd": 187.7,
       "ai_recommendation": "-",
       "ai_rating": "-",
       "notes": ""
@@ -130,17 +130,7 @@
       "name": "Kesem F34 Bond ETF (TASE)",
       "quantity": 13,
       "cost_price_ils": 480.86,
-      "current_price_ils": 1331.80,
-      "ai_recommendation": "-",
-      "ai_rating": "-",
-      "notes": "Israeli bond ETF. Prices in ILS (Yahoo Finance returns agorot — divided by 100)."
-    },
-    {
-      "ticker": "KSM-F77.TA",
-      "name": "Kesem F77 Bond ETF (TASE)",
-      "quantity": 7,
-      "cost_price_ils": 505.80,
-      "current_price_ils": 746.90,
+      "current_price_ils": 1331.8,
       "ai_recommendation": "-",
       "ai_rating": "-",
       "notes": "Israeli bond ETF. Prices in ILS (Yahoo Finance returns agorot — divided by 100)."
@@ -149,7 +139,7 @@
       "ticker": "VOO",
       "name": "Vanguard S&P 500 ETF",
       "quantity": 3,
-      "cost_price_usd": 624.60,
+      "cost_price_usd": 624.6,
       "ai_recommendation": "-",
       "ai_rating": "-",
       "notes": "Cost placeholder = current market price. P&L will read ~0% until you overwrite with your real cost basis."

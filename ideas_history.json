@@ -19,5 +19,19 @@
     "suggested_date": "2026-04-14",
     "suggested_price": 0,
     "conviction": 70
+  },
+  {
+    "ticker": "LMT",
+    "name": "Lockheed Martin Corporation",
+    "suggested_date": "2026-04-14",
+    "suggested_price": 0,
+    "conviction": 85
+  },
+  {
+    "ticker": "ASML",
+    "name": "ASML Holding N.V.",
+    "suggested_date": "2026-04-14",
+    "suggested_price": 0,
+    "conviction": 88
   }
 ]

@@ -7,6 +7,9 @@ from __future__ import annotations
 import json
 import logging
 import requests
+import urllib3
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -56,7 +59,7 @@ def _yf_chart(ticker: str, range_: str = "1d", interval: str = "1d") -> dict | N
     try:
         url = YF_CHART_URL.format(ticker=ticker)
         params = {"range": range_, "interval": interval}
-        r = requests.get(url, headers=YF_HEADERS, params=params, timeout=15)
+        r = requests.get(url, headers=YF_HEADERS, params=params, timeout=15, verify=False)
         if r.status_code == 200:
             data = r.json()
             result = data.get("chart", {}).get("result")

@@ -434,9 +434,8 @@ TICKER_DESCRIPTIONS = {
     "URNM": "Sprott Uranium Miners ETF — uranium mining companies",
     "NLR": "VanEck Uranium+Nuclear Energy ETF — nuclear energy sector",
     "VOO": "Vanguard S&P 500 ETF — tracks the S&P 500 index (USD)",
-    "5108.TA": "Kesem TA-Insurance Index ETF — tracks the Tel Aviv Insurance sector index, traded on TASE in ILS",
-    "KSM-F34.TA": "Kesem F34 — Israeli government bond fund (אג״ח ממשלתי שקלי), medium-term duration, traded on TASE in agorot. NOT an equity fund.",
-    "KSM-F77.TA": "Kesem F77 — Israeli government bond fund (אג״ח ממשלתי שקלי), long-term duration, traded on TASE in agorot. NOT an equity/S&P 500 fund.",
+    "5108.TA": "TA-Insurance Index ETF — tracks the Tel Aviv Insurance sector index, traded on TASE in ILS",
+    "KSM-F34.TA": "Israel Government Bond Fund (medium-term) — אג״ח ממשלתי שקלי, traded on TASE in agorot. NOT an equity fund.",
 }
 
 
@@ -581,15 +580,6 @@ def run_real(settings: dict, portfolio: dict) -> dict:
         print("[error] portfolio.json has no holdings", file=sys.stderr)
         sys.exit(2)
 
-    personas = list(settings.get("personas_active") or [
-        "warren_buffett", "cathie_wood", "technical_analyst",
-        "fundamentals_analyst", "risk_manager",
-    ])
-    # ALWAYS include technical + fundamentals analysts so the Recommendations page
-    # can render the joint consensus view, regardless of user's chosen persona set.
-    for required in ("technical_analyst", "fundamentals_analyst"):
-        if required not in personas:
-            personas.append(required)
     preamble = _build_profile_preamble(settings)
 
     # Resolve display names from config for prompt clarity
@@ -600,13 +590,9 @@ def run_real(settings: dict, portfolio: dict) -> dict:
         DISPLAY_NAMES = {}
 
     llm = _gemini()
-    n_calls = len(tickers) * len(personas)
-    # Parallelism: run multiple persona calls concurrently. Gemini Flash
-    # tolerates ~8 concurrent requests per key before 429s; we stay conservative.
     max_workers = int(os.environ.get("GEMINI_CONCURRENCY", "6"))
-    print(f"[info] calling Gemini {n_calls} times "
-          f"({len(tickers)} holdings × {len(personas)} personas) "
-          f"— up to {max_workers} in parallel")
+    print(f"[info] scoring {len(tickers)} holdings "
+          f"(1 Gemini synthesis call each + summary + new ideas)")
 
     # ── Fetch ALL market data so personas get REAL numbers ──────────────
     print("[info] fetching market data (quotes, technicals, fundamentals, macro, news)…",
@@ -1126,7 +1112,6 @@ def _dry_run(settings: dict, tickers: list[str], note: str = "") -> dict:
         "URNM":       ("buy", 73),
         "NLR":        ("buy", 72),
         "KSM-F34.TA": ("hold", 68),
-        "KSM-F77.TA": ("hold", 66),
     }
 
     personas_active = settings.get("personas_active") or [
