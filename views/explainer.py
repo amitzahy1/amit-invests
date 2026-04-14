@@ -30,9 +30,9 @@ st.markdown("""
       <div class="hero-sub mono">flash-latest auto-alias</div>
     </div>
     <div class="hero-cell">
-      <div class="lbl">Personas</div>
-      <div class="hero-value tab">12</div>
-      <div class="hero-sub">5 active by default</div>
+      <div class="lbl">Scoring</div>
+      <div class="hero-value tab">6</div>
+      <div class="hero-sub">Algorithmic categories</div>
     </div>
     <div class="hero-cell">
       <div class="lbl">Schedule</div>
@@ -138,7 +138,7 @@ The plist lives at `launchd/com.amit.invest.daily.plist` and is loaded into
 
 | Time (local) | Agent | What it does | Output |
 |---|---|---|---|
-| **16:35** (5 min after US open) | `run_recommendations.py` | Calls Gemini 75+ times (15 holdings × 5 personas + summary + new ideas), tuned to your profile | `recommendations.json` |
+| **16:35** (5 min after US open) | `run_recommendations.py` | Fetches data (Yahoo, Alpha Vantage, FRED, News) → scores 6 categories → 1 Gemini synthesis call per holding | `recommendations.json` |
 | **16:35** | `snapshot_portfolio.py` | Records today's total value, sector weights, top holdings | appends to `snapshots.jsonl` |
 | **16:35** | `telegram_digest.py` | Reads the fresh `recommendations.json`, formats a digest, sends to Telegram | Telegram message |
 
@@ -179,51 +179,39 @@ flagged with a red banner until you set it.
 - *Add/update only*: only touches tickers that appear in the CSV — other holdings stay.
 """)
 
-with st.expander("🎯 Recommendations engine — data-driven multi-persona analysis", expanded=False):
+with st.expander("🎯 Scoring Engine — data-driven analysis", expanded=False):
     st.markdown("""
-**Architecture.** The system has three layers:
+**Architecture.** The system has two layers:
 
-1. **Data Pipeline** — fetches real financial data from 4 sources:
-   - **Yahoo Finance** — live prices, OHLCV history, MA50/MA200, RSI(14)
-   - **Alpha Vantage** — fundamentals: P/E, PEG, ROE, margins, debt, analyst targets
-   - **FRED** — macro: Fed rate, 10Y yield, CPI, VIX
-   - **Google News RSS** — recent headlines per ticker
+**Layer 1 — Data Pipeline** (fetches real financial data from 4 sources):
+- **Yahoo Finance** — live prices, OHLCV history, MA50/MA200, RSI(14)
+- **Alpha Vantage** — fundamentals: P/E, PEG, ROE, margins, debt, analyst targets
+- **FRED** — macro: Fed rate, 10Y yield, CPI, VIX
+- **Google News RSS** — recent headlines per ticker
 
-2. **Scoring Engine** (`scoring_engine.py`) — computes 6 algorithmic scores (0-100) per holding:
-   - **Valuation** — P/E vs sector, PEG, analyst target upside
-   - **Technical** — MA crossovers, RSI zones, volume trend
-   - **Risk** — portfolio concentration, beta, sector weight, crypto cap
-   - **Sentiment** — analyst consensus (Buy/Hold/Sell counts)
-   - **Macro** — interest rates, VIX, inflation, yield curve
-   - **Quality** — ROE, profit margins, debt levels
+**Layer 2 — Scoring Engine** (`scoring_engine.py`) — computes 6 scores (0-100) per holding:
+- **Quality** (30%) — ROE, profit margins, debt, growth
+- **Valuation** (25%) — P/E vs sector, PEG, analyst target upside
+- **Risk** (20%) — portfolio concentration, beta, sector weight, crypto cap
+- **Macro** (15%) — interest rates, VIX, inflation, yield curve
+- **Sentiment** (5%) — analyst consensus (Buy/Hold/Sell counts)
+- **Trend** (5%) — MA crossovers, RSI zones
 
-3. **Gemini Personas** — 9 AI analysts, each receiving **real data tailored to their expertise**:
-   - Technical Analyst gets: price, MA50, MA200, RSI, volume
-   - Fundamentals Analyst gets: P/E, margins, growth, debt, ROE
-   - Risk Manager gets: portfolio weights, sector concentration, beta
-   - Sentiment gets: news headlines, analyst consensus
-   - Macro gets: FRED data (rates, inflation, VIX)
+Weights come from your strategy preset (configurable in Settings).
 
-**Modes** (configurable in Settings):
-- **Personas** — 9 personas × 16 holdings = ~144 Gemini calls (detailed, slower)
-- **Scoring** — algorithmic scores + 1 synthesis call/holding = ~18 calls (fast, data-driven)
-- **Hybrid** — scores first, then 2-3 personas comment on the scores
+**Verdict.** The weighted average of 6 scores determines BUY/HOLD/SELL.
+Then **one Gemini call per holding** synthesizes all scores + data into a Hebrew rationale.
 
 **Model.** **`gemini-flash-latest`** — auto-aliased to newest stable Flash. Override with
 `GEMINI_MODEL` in `.env`.
 
-**Anti-hallucination.** Every persona prompt includes real financial data and ends with:
-*"התבסס אך ורק על הנתונים שמסופקים. אל תמציא מספרים שלא ניתנו לך."*
-(Use ONLY the data provided. Do not invent numbers.)
+**Anti-hallucination.** Gemini receives all real data and is instructed:
+*"Use ONLY the data provided. Do not invent numbers."*
 
-**Available personas** (12): Warren Buffett, Charlie Munger, Cathie Wood, Peter Lynch,
-Michael Burry, Ben Graham, Technical Analyst, Fundamentals Analyst, Valuation, Sentiment,
-Macro, Risk Manager. Pick any subset in the Settings page.
+**Caching.** Fundamentals 24h, macro 6h, news 4h. No unnecessary API calls.
 
-**Caching.** Fundamentals are cached 24h, macro 6h, news 4h. No unnecessary API calls.
-
-**Dry-run mode.** `--dry-run` produces mock scores + Hebrew rationales from a hand-tuned
-lookup table — useful for development without burning API quota.
+**Load.** ~18 Gemini calls per run (1 per holding + summary + new ideas).
+Free tier is 1,500/day → we use ~1%.
 """)
 
 with st.expander("📲 Telegram digest — daily push (and strong-signal alerts)", expanded=False):
@@ -260,8 +248,8 @@ st.markdown("""
 |---|---|---|---|
 | **Yahoo Finance v8 API** | Live prices, OHLCV, MA50/200, RSI, USD/ILS, VIX, S&P, Nasdaq | Every 5 min (cached) | Public, no auth. Core data for portfolio + technicals. |
 | **Alpha Vantage API** | P/E, PEG, ROE, margins, debt/equity, analyst targets, EPS | Daily (24h cache) | Free tier: 25 calls/min. Fundamentals for scoring engine. |
-| **FRED API** | Fed Funds Rate, 10Y Treasury, CPI | Every 6h (cached) | Free, unlimited. Macro environment for macro persona + scoring. |
-| **Google News RSS** | Headlines per ticker (3-5 per holding) | Every 4h (cached) | Free, no auth. Feeds the Sentiment persona. |
+| **FRED API** | Fed Funds Rate, 10Y Treasury, CPI | Every 6h (cached) | Free, unlimited. Feeds the Macro score. |
+| **Google News RSS** | Headlines per ticker (3-5 per holding) | Every 4h (cached) | Free, no auth. Feeds the Sentiment score. |
 | **CSV upload** (manual) | Your holdings list | When you upload it | Import tab. Diff + approve flow. |
 | **Your `settings.json`** | Profile, theses, thresholds, mode | On save | Injected into every recommendation run. |
 """)
@@ -287,7 +275,7 @@ st.markdown("""
       │    ├─ FRED           ─→ rates, VIX, CPI          │
       │    ├─ Google News    ─→ headlines                 │
       │    ├─ Scoring Engine ─→ 6 scores per holding     │
-      │    └─ Gemini         ─→ persona verdicts + rationale
+      │    └─ Gemini         ─→ 1 synthesis call per holding
       │                                                   │
       │ 2. snapshot_portfolio.py                          │
       │                                                   │

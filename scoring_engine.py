@@ -595,3 +595,178 @@ def score_color(val: int) -> str:
         return "#b45309"
     else:
         return "#b91c1c"
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SCORE EXPLANATIONS — human-readable reasons for each score
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def explain_scores(
+    scores: dict[str, int],
+    quote: dict,
+    technicals: dict,
+    fundamentals: dict | None,
+    macro_data: dict,
+    portfolio_weight: float = 0,
+    sector_weight: float = 0,
+) -> dict[str, list[str]]:
+    """Generate bullet-point explanations for each score.
+
+    Returns {score_name: [reason1, reason2, ...]}.
+    """
+    f = fundamentals or {}
+    explanations: dict[str, list[str]] = {}
+
+    # ── Quality ──────────────────────────────────────────────────────────
+    q_reasons = []
+    roe = f.get("roe")
+    if roe is not None:
+        if roe > 20:
+            q_reasons.append(f"ROE {roe:.1f}% — excellent profitability (>20%)")
+        elif roe > 15:
+            q_reasons.append(f"ROE {roe:.1f}% — strong (>15%)")
+        elif roe > 0:
+            q_reasons.append(f"ROE {roe:.1f}% — below institutional threshold of 15%")
+        else:
+            q_reasons.append(f"ROE {roe:.1f}% — negative, burning equity")
+    margin = f.get("profit_margin")
+    if margin is not None:
+        if margin > 25:
+            q_reasons.append(f"Profit margin {margin:.1f}% — wide moat indicator (>25%)")
+        elif margin > 15:
+            q_reasons.append(f"Profit margin {margin:.1f}% — healthy")
+        elif margin > 0:
+            q_reasons.append(f"Profit margin {margin:.1f}% — thin, competitive pressure")
+        else:
+            q_reasons.append(f"Profit margin {margin:.1f}% — unprofitable")
+    de = f.get("debt_equity")
+    if de is not None:
+        if de < 0.3:
+            q_reasons.append(f"Debt/Equity {de:.2f} — very low debt, strong balance sheet")
+        elif de < 1.0:
+            q_reasons.append(f"Debt/Equity {de:.2f} — manageable")
+        elif de < 2.0:
+            q_reasons.append(f"Debt/Equity {de:.2f} — elevated leverage")
+        else:
+            q_reasons.append(f"Debt/Equity {de:.2f} — high debt risk")
+    if not q_reasons:
+        q_reasons.append("No fundamental data available for this ticker")
+    explanations["quality"] = q_reasons
+
+    # ── Valuation ────────────────────────────────────────────────────────
+    v_reasons = []
+    pe = f.get("pe")
+    if pe is not None and pe > 0:
+        if pe < 15:
+            v_reasons.append(f"P/E {pe:.1f} — cheap by most standards (<15)")
+        elif pe < 22:
+            v_reasons.append(f"P/E {pe:.1f} — near market average (~22)")
+        elif pe < 30:
+            v_reasons.append(f"P/E {pe:.1f} — moderately expensive")
+        else:
+            v_reasons.append(f"P/E {pe:.1f} — expensive, needs high growth to justify")
+    peg = f.get("peg")
+    if peg is not None and peg > 0:
+        if peg < 1.0:
+            v_reasons.append(f"PEG {peg:.2f} — growth at a discount (Peter Lynch target <1)")
+        elif peg < 2.0:
+            v_reasons.append(f"PEG {peg:.2f} — fairly priced for growth")
+        else:
+            v_reasons.append(f"PEG {peg:.2f} — expensive relative to growth rate")
+    target = f.get("analyst_target")
+    price = quote.get("price")
+    if target and price and price > 0:
+        upside = ((target / price) - 1) * 100
+        v_reasons.append(f"Analyst target ${target:.0f} vs price ${price:.0f} → {upside:+.0f}% {'upside' if upside > 0 else 'downside'}")
+    if not v_reasons:
+        v_reasons.append("No valuation data — scored neutral (50)")
+    explanations["valuation"] = v_reasons
+
+    # ── Risk ─────────────────────────────────────────────────────────────
+    r_reasons = []
+    if portfolio_weight > 15:
+        r_reasons.append(f"Portfolio weight {portfolio_weight:.1f}% — overweight (>15%)")
+    elif portfolio_weight > 10:
+        r_reasons.append(f"Portfolio weight {portfolio_weight:.1f}% — moderate position")
+    else:
+        r_reasons.append(f"Portfolio weight {portfolio_weight:.1f}% — well-sized")
+    beta = f.get("beta")
+    if beta is not None:
+        if beta > 1.5:
+            r_reasons.append(f"Beta {beta:.2f} — significantly more volatile than S&P 500")
+        elif beta > 1.0:
+            r_reasons.append(f"Beta {beta:.2f} — slightly above market volatility")
+        elif beta > 0:
+            r_reasons.append(f"Beta {beta:.2f} — defensive, less volatile than market")
+    if sector_weight > 30:
+        r_reasons.append(f"Sector weight {sector_weight:.0f}% — high concentration risk")
+    explanations["risk"] = r_reasons
+
+    # ── Macro ────────────────────────────────────────────────────────────
+    m_reasons = []
+    vix = macro_data.get("vix")
+    if vix is not None:
+        if vix < 15:
+            m_reasons.append(f"VIX {vix:.0f} — low fear, calm market")
+        elif vix < 25:
+            m_reasons.append(f"VIX {vix:.0f} — normal volatility")
+        else:
+            m_reasons.append(f"VIX {vix:.0f} — elevated fear in market")
+    fed = macro_data.get("fed_rate")
+    if fed is not None:
+        m_reasons.append(f"Fed rate {fed:.2f}%")
+    ty = macro_data.get("ten_year_yield")
+    if ty is not None and fed is not None:
+        spread = ty - fed
+        if spread < 0:
+            m_reasons.append(f"Yield curve inverted ({spread:+.2f}%) — recession indicator")
+        else:
+            m_reasons.append(f"Yield curve normal (10Y-Fed = +{spread:.2f}%)")
+    if not m_reasons:
+        m_reasons.append("No macro data available")
+    explanations["macro"] = m_reasons
+
+    # ── Sentiment ────────────────────────────────────────────────────────
+    s_reasons = []
+    ab = f.get("analyst_buy", 0)
+    ah = f.get("analyst_hold", 0)
+    asl = f.get("analyst_sell", 0)
+    total_a = ab + ah + asl
+    if total_a > 0:
+        buy_pct = ab / total_a * 100
+        s_reasons.append(f"Analyst consensus: {ab} Buy / {ah} Hold / {asl} Sell ({buy_pct:.0f}% bullish)")
+        if total_a >= 20:
+            s_reasons.append(f"Well-covered stock ({total_a} analysts)")
+        elif total_a < 5:
+            s_reasons.append(f"Low coverage ({total_a} analysts) — less reliable")
+    else:
+        s_reasons.append("No analyst coverage data available")
+    explanations["sentiment"] = s_reasons
+
+    # ── Technical ────────────────────────────────────────────────────────
+    t_reasons = []
+    p = quote.get("price", 0)
+    ma50 = technicals.get("ma50")
+    ma200 = technicals.get("ma200")
+    rsi = technicals.get("rsi14")
+    if p and ma50 and ma200:
+        if p > ma50 > ma200:
+            t_reasons.append(f"Price ${p:.0f} > MA50 ${ma50:.0f} > MA200 ${ma200:.0f} — strong uptrend (golden cross zone)")
+        elif p < ma50 < ma200:
+            t_reasons.append(f"Price ${p:.0f} < MA50 ${ma50:.0f} < MA200 ${ma200:.0f} — downtrend (death cross zone)")
+        elif p > ma200:
+            t_reasons.append(f"Price above MA200 but below MA50 — short-term pullback in uptrend")
+        else:
+            t_reasons.append(f"Price below MA200 — long-term trend is bearish")
+    if rsi is not None:
+        if rsi < 30:
+            t_reasons.append(f"RSI {rsi:.0f} — oversold, potential bounce opportunity")
+        elif rsi > 70:
+            t_reasons.append(f"RSI {rsi:.0f} — overbought, potential pullback ahead")
+        else:
+            t_reasons.append(f"RSI {rsi:.0f} — neutral zone")
+    if not t_reasons:
+        t_reasons.append("Insufficient price history for technical analysis")
+    explanations["technical"] = t_reasons
+
+    return explanations

@@ -422,39 +422,26 @@ def _format_holdings_msg(recs: dict) -> str:
 
     holdings = sorted(holdings, key=_sort_key)
 
-    # Holdings with vote split + skeptic
+    # Holdings with scores
     lines.append(f"*Holdings* ({len(holdings)})")
     for h in holdings:
         verdict = (h.get("verdict") or "hold").lower()
         conviction = h.get("conviction", 0)
         ticker = h.get("ticker", "")
-        personas = h.get("personas", [])
+        scores = h.get("scores", {})
 
         emoji = _holding_emoji(verdict, conviction)
 
-        if personas:
-            b, ho, s = _vote_split(personas)
-            vote_str = f" · {b}-{ho}-{s}"
+        # Show top 3 scores inline
+        if scores:
+            top3 = sorted(scores.items(), key=lambda x: -x[1])[:3]
+            score_str = " · " + " ".join(f"{k[:3].upper()}{v}" for k, v in top3)
         else:
-            vote_str = ""
+            score_str = ""
 
         lines.append(
-            f"{emoji} `{ticker}` *{verdict.upper()}* {conviction}%{vote_str}"
+            f"{emoji} `{ticker}` *{verdict.upper()}* {conviction}%{score_str}"
         )
-
-        # Skeptic line: only when not unanimous
-        if personas and (b < len(personas) and ho < len(personas) and s < len(personas)):
-            dissenter = _find_dissenter(personas, verdict)
-            if dissenter:
-                d_display = dissenter.get("display_name", "")
-                d_verdict_heb = {"buy": "קנייה", "sell": "מכירה", "hold": "החזקה"}.get(
-                    (dissenter.get("verdict") or "hold").lower(), "החזקה"
-                )
-                d_conv = dissenter.get("conviction", 0)
-                d_rationale = _truncate(dissenter.get("rationale", ""), 50)
-                lines.append(
-                    f"   {RLM}⚠️ _{d_display} ({d_verdict_heb} {d_conv}%): {d_rationale}_"
-                )
 
     return "\n".join(lines)
 
@@ -913,20 +900,9 @@ def main() -> None:
                     or sector in BROAD_MARKET_SECTORS
                     or tk.endswith(".TA")):
                 continue
-            # Score: conviction × unanimity (9-0-0 scores higher)
-            personas = h.get("personas", [])
-            if personas:
-                buy_votes, _, _ = _vote_split(personas)
-                unanimity = buy_votes / len(personas)
-            else:
-                unanimity = 0.5
-            score = c * unanimity
-            # Get top rationale from highest-conviction BUY persona
-            top_rationale = ""
-            buy_personas = [p for p in personas if (p.get("verdict") or "").lower() == "buy"]
-            if buy_personas:
-                top_p = max(buy_personas, key=lambda p: p.get("conviction", 0))
-                top_rationale = top_p.get("rationale", "")
+            # Score for chart priority: conviction (higher = charted first)
+            score = c
+            top_rationale = h.get("rationale", "")
             scored.append((score, tk, h.get("name", tk), c, top_rationale))
 
         scored.sort(reverse=True)

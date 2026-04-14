@@ -172,7 +172,8 @@ def _show_detail(item: dict, is_idea: bool = False):
             unsafe_allow_html=True,
         )
 
-    # Score breakdown
+    # Score breakdown with explanations
+    details = item.get("score_details", {})
     if scores:
         st.markdown(
             '<div style="font-size:11px;font-weight:600;color:var(--text-dim);text-transform:uppercase;'
@@ -186,25 +187,40 @@ def _show_detail(item: dict, is_idea: bool = False):
             label = SCORE_LABELS.get(key, key)
             weight = _SCORE_WEIGHTS.get(key, 0)
             signal = "Bullish" if val > 60 else "Bearish" if val < 40 else "Neutral"
-            signal_color = _score_color(val)
             bar_w = max(2, val)
+
+            # Score header row
             st.markdown(
-                f'<div style="display:flex;align-items:center;gap:10px;padding:8px 0;'
+                f'<div style="display:flex;align-items:center;gap:10px;padding:10px 0 4px;'
                 f'border-bottom:1px solid #f0f0f0;">'
                 f'<div style="width:28px;text-align:center;font-size:16px;">{icon}</div>'
-                f'<div style="width:80px;">'
-                f'<div style="font-size:12px;font-weight:600;color:var(--text);">{label}</div>'
-                f'<div style="font-size:10px;color:var(--text-mute);">Weight: {weight}%</div>'
+                f'<div style="flex:1;">'
+                f'<div style="display:flex;align-items:baseline;gap:8px;">'
+                f'<span style="font-size:13px;font-weight:600;color:var(--text);">{label}</span>'
+                f'<span style="font-size:10px;color:var(--text-mute);">Weight: {weight}%</span>'
                 f'</div>'
+                f'<div style="display:flex;align-items:center;gap:8px;margin-top:4px;">'
                 f'<div style="flex:1;height:8px;background:#f0f0f0;border-radius:4px;overflow:hidden;">'
                 f'<div style="width:{bar_w}%;height:100%;background:{color};border-radius:4px;"></div>'
                 f'</div>'
-                f'<div style="width:32px;text-align:right;font-size:14px;font-weight:700;'
-                f'color:{color};font-family:\'IBM Plex Mono\',monospace;">{val}</div>'
-                f'<div style="width:52px;font-size:10px;color:{signal_color};font-weight:500;">{signal}</div>'
+                f'<span style="font-size:15px;font-weight:700;color:{color};'
+                f'font-family:\'IBM Plex Mono\',monospace;min-width:28px;text-align:right;">{val}</span>'
+                f'<span style="font-size:10px;color:{color};font-weight:500;min-width:48px;">{signal}</span>'
+                f'</div>'
+                f'</div>'
                 f'</div>',
                 unsafe_allow_html=True,
             )
+
+            # Explanation bullets
+            reasons = details.get(key, [])
+            if reasons:
+                bullets_html = "".join(
+                    f'<div style="font-size:12px;color:#475569;padding:2px 0 2px 36px;line-height:1.5;">'
+                    f'• {_html.escape(r)}</div>'
+                    for r in reasons
+                )
+                st.markdown(bullets_html, unsafe_allow_html=True)
 
         # Weighted average
         total_w = sum(_SCORE_WEIGHTS.get(k, 0) for k in scores)

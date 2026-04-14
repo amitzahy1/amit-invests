@@ -711,16 +711,20 @@ def run_real(settings: dict, portfolio: dict) -> dict:
         # ── SCORING ENGINE: algorithmic scores + 1 Gemini synthesis call ──
         _scoring_weights = settings.get("scoring_weights")
         if scores:
-            from scoring_engine import scores_to_verdict as _s2v
+            from scoring_engine import scores_to_verdict as _s2v, explain_scores as _explain
             algo_v, algo_c = _s2v(scores, _scoring_weights)
             synth = _scoring_synthesis_call(
                 llm, tk, display, preamble, scores, _mkt_ctx)
             # Algo verdict is authoritative; Gemini provides rationale
             final_v = algo_v
             final_c = (synth["conviction"] + algo_c) // 2
+            # Generate human-readable explanations per score
+            details = _explain(scores, _quotes.get(tk, {}), _technicals.get(tk, {}),
+                               _fundamentals.get(tk), _macro, tk_weight, tk_sec_weight)
             holding = {
                 "ticker": tk, "verdict": final_v, "conviction": final_c,
                 "scores": scores,
+                "score_details": details,
                 "rationale": synth.get("rationale", ""),
                 "personas": [],
             }

@@ -99,7 +99,7 @@ def handle_actions() -> None:
 _AI_PHASES = [
     ("init",   "Init",        "Load API key & config"),
     ("load",   "Load data",   "Portfolio & market data"),
-    ("gemini", "Call Gemini", "Multi-persona analysis"),
+    ("gemini", "Call Gemini", "Scoring + synthesis"),
     ("write",  "Finalize",    "Aggregate & write JSON"),
 ]
 
@@ -166,16 +166,17 @@ def _ai_runner_body() -> None:
     meta_slot = st.empty()
     action_slot = st.empty()
 
-    # Pull persona count from settings so the subtitle matches reality
+    # Estimate run time based on number of holdings (scoring mode: 1 call per holding)
     try:
         _settings = load_json("settings.json") or {}
-        _n_personas = max(2, len(_settings.get("personas_active") or []))  # script forces ≥2
+        _portfolio = load_json("portfolio.json") or {}
+        _n_holdings = len(_portfolio.get("holdings", []))
     except Exception:
-        _n_personas = 5
-    _eta_min = max(2, int(round(15 * _n_personas * 4 / 60)))  # rough: 4s/call avg
+        _n_holdings = 16
+    _eta_min = max(1, int(round(_n_holdings * 8 / 60)))  # ~8s per holding in scoring mode
     header_slot.markdown(
-        _ai_header_html("running", "Running AI Analysis",
-                        f"Calling Gemini for each holding across {_n_personas} personas. "
+        _ai_header_html("running", "Running Analysis",
+                        f"Scoring {_n_holdings} holdings + Gemini synthesis. "
                         f"Expect roughly {_eta_min}–{_eta_min*2} minutes."),
         unsafe_allow_html=True,
     )
@@ -389,7 +390,7 @@ def inject_header(current: str = "") -> None:
 <div class="topbar-right">
 <div class="topbar-meta">USD/ILS {usd_ils:.2f} · {holdings_count} holdings · Updated {last_updated}</div>
 <a href="?action=refresh" target="_self" class="btn btn-secondary">Refresh</a>
-<a href="?action=run_ai" target="_self" class="btn btn-primary" title="Run the multi-persona Gemini analysis on your portfolio"><span class="btn-label">Run analysis</span><span class="btn-arrow">→</span></a>
+<a href="?action=run_ai" target="_self" class="btn btn-primary" title="Run scoring engine + Gemini synthesis on your portfolio"><span class="btn-label">Run analysis</span><span class="btn-arrow">→</span></a>
 </div>
 </div>
 </div>

@@ -310,10 +310,10 @@ all_tickers = set(current_by_ticker) | set(new_by_ticker)
 for tk in sorted(all_tickers):
     old = current_by_ticker.get(tk)
     new = new_by_ticker.get(tk)
-    if old and not new:
+    if old is not None and new is None:
         removed.append({"ticker": tk, "name": old.get("name", tk),
                         "quantity": old.get("quantity")})
-    elif new and not old:
+    elif new is not None and old is None:
         added.append({
             "ticker": tk, "name": new["name"],
             "quantity": new["quantity"],
