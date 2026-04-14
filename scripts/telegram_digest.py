@@ -333,7 +333,8 @@ def _format_dashboard_msg(recs: dict, snapshots: list[dict]) -> str:
 
 
 def _generate_candlestick(ticker: str, name: str, conviction: int,
-                          verdict: str = "BUY") -> tuple[bytes | None, str]:
+                          verdict: str = "BUY",
+                          rationale: str = "") -> tuple[bytes | None, str]:
     """Generate a professional candlestick chart + Hebrew analysis caption.
 
     Returns (png_bytes, hebrew_caption). png_bytes is None if chart fails.
@@ -450,19 +451,21 @@ def _generate_candlestick(ticker: str, name: str, conviction: int,
         color=TEXT, fontsize=13, fontweight="bold", pad=10, loc="left",
     )
 
-    # Performance stats box (top-right)
-    def _fmt(v):
+    # Performance stats (top-right, colored, bigger)
+    def _fmt_c(v):
         s = "+" if v >= 0 else ""
-        return f"{s}{v:.1f}%"
+        return f"{s}{v:.1f}%", (GREEN if v >= 0 else RED)
 
-    perf_text = f"1D: {_fmt(chg_1d)}  |  1M: {_fmt(chg_1m)}  |  6M: {_fmt(chg_6m)}"
-    chg_6m_color = GREEN if chg_6m >= 0 else RED
-    ax_price.text(
-        0.99, 1.02, perf_text,
-        transform=ax_price.transAxes, ha="right", va="bottom",
-        fontsize=9, fontfamily="monospace", color=MUTE,
-        bbox=dict(boxstyle="round,pad=0.4", facecolor="white", edgecolor=GRID),
-    )
+    stats_items = [("1D", chg_1d), ("1M", chg_1m), ("6M", chg_6m)]
+    x_pos = 0.99
+    for label, val in reversed(stats_items):
+        txt, clr = _fmt_c(val)
+        ax_price.text(x_pos, 1.03, txt, transform=ax_price.transAxes,
+                      ha="right", va="bottom", fontsize=11, fontweight="bold",
+                      color=clr, fontfamily="monospace")
+        ax_price.text(x_pos - 0.001, 1.10, label, transform=ax_price.transAxes,
+                      ha="right", va="bottom", fontsize=7, color=MUTE)
+        x_pos -= 0.12
 
     ax_price.legend(loc="upper left", fontsize=7, framealpha=0.8,
                     facecolor="white", edgecolor=GRID, labelcolor=TEXT)
@@ -511,70 +514,57 @@ def _generate_candlestick(ticker: str, name: str, conviction: int,
 
     # ─── Generate Hebrew analysis caption ──────────────────────────
     caption = _build_analysis_caption(ticker, name, conviction, verdict,
-                                      last_price, chg_6m, last_rsi, df)
+                                      last_price, chg_6m, last_rsi, df,
+                                      rationale)
     return png, caption
 
 
 def _build_analysis_caption(ticker: str, name: str, conviction: int, verdict: str,
                             price: float, change_6m: float, rsi: float,
-                            df) -> str:
-    """Build a Hebrew technical analysis caption from chart data."""
-    import numpy as np
+                            df, rationale: str = "") -> str:
+    """Build a Hebrew caption: AI rationale first, then technical context."""
 
     lines = [f"📊 *{ticker}* — {name} | {verdict.upper()} {conviction}%"]
     lines.append("")
 
+    # ── AI rationale (the WHY — fundamentals, not chart) ──
+    if rationale:
+        lines.append(f"{RLM}💡 *למה {verdict.upper()}?*")
+        lines.append(f"{RLM}_{rationale}_")
+        lines.append("")
+
+    # ── Technical context (supporting data from chart) ──
+    lines.append(f"{RLM}📉 *ניתוח טכני:*")
+
     ma50 = df["ma50"].dropna().iloc[-1] if df["ma50"].notna().sum() > 0 else None
     ma200 = df["ma200"].dropna().iloc[-1] if df["ma200"].notna().sum() > 0 else None
-    # Price vs MAs
+
     if ma50 and ma200:
         if price > ma50 > ma200:
-            lines.append(f"{RLM}📈 *מגמה עולה* — המחיר מעל MA50 ו-MA200, סדר ממוצעים חיובי (Golden Cross).")
+            lines.append(f"{RLM}• מגמה עולה — מעל MA50 ו-MA200 (Golden Cross)")
         elif price > ma50 and price < ma200:
-            lines.append(f"{RLM}🔄 *התאוששות* — המחיר חצה את MA50 למעלה אך עדיין מתחת ל-MA200.")
+            lines.append(f"{RLM}• התאוששות — חצה MA50 למעלה, עדיין מתחת MA200")
         elif price < ma50 < ma200:
-            lines.append(f"{RLM}📉 *מגמה יורדת* — המחיר מתחת ל-MA50 ול-MA200. הירידה מייצרת מחיר כניסה נמוך.")
+            lines.append(f"{RLM}• מגמה יורדת — מתחת ל-MA50 ו-MA200")
         elif price < ma50 and price > ma200:
-            lines.append(f"{RLM}⚡ *תיקון קצר-טווח* — מתחת ל-MA50 אך מעל MA200, סימן לתיקון זמני.")
+            lines.append(f"{RLM}• תיקון קצר — מתחת MA50 אך מעל MA200")
     elif ma50:
-        if price > ma50:
-            lines.append(f"{RLM}📈 המחיר מעל MA50 — מגמה בינונית חיובית.")
-        else:
-            lines.append(f"{RLM}📉 המחיר מתחת ל-MA50 — לחץ שלילי בטווח הבינוני.")
+        pos = "מעל" if price > ma50 else "מתחת"
+        lines.append(f"{RLM}• המחיר {pos} MA50")
 
-    # RSI
+    # RSI — short
     if rsi < 30:
-        lines.append(f"{RLM}🟢 RSI {rsi:.0f} — *אזור מכירת יתר* (Oversold). היסטורית, זו נקודת כניסה אטרקטיבית.")
+        lines.append(f"{RLM}• RSI {rsi:.0f} — מכירת יתר (Oversold) ⟵ נקודת כניסה")
     elif rsi < 40:
-        lines.append(f"{RLM}🟡 RSI {rsi:.0f} — קרוב לאזור מכירת יתר. לחץ מכירה נחלש.")
+        lines.append(f"{RLM}• RSI {rsi:.0f} — קרוב למכירת יתר")
     elif rsi > 70:
-        lines.append(f"{RLM}🔴 RSI {rsi:.0f} — *אזור קניית יתר* (Overbought). סיכון לתיקון קצר-טווח.")
-    elif rsi > 60:
-        lines.append(f"{RLM}📊 RSI {rsi:.0f} — מומנטום חיובי, עדיין לא באזור קניית יתר.")
+        lines.append(f"{RLM}• RSI {rsi:.0f} — קניית יתר (Overbought) ⟵ זהירות")
     else:
-        lines.append(f"{RLM}📊 RSI {rsi:.0f} — אזור ניטרלי, ללא לחץ קיצוני.")
+        lines.append(f"{RLM}• RSI {rsi:.0f} — אזור ניטרלי")
 
-    # Volume trend (last 10 vs previous 10)
-    if len(df) >= 20 and df["volume"].notna().sum() >= 20:
-        recent_vol = df["volume"].iloc[-10:].mean()
-        prev_vol = df["volume"].iloc[-20:-10].mean()
-        if prev_vol > 0:
-            vol_change = ((recent_vol / prev_vol) - 1) * 100
-            if vol_change > 30:
-                lines.append(f"{RLM}📊 מחזורי מסחר עלו {vol_change:.0f}% — עניין גובר מצד משקיעים.")
-            elif vol_change < -30:
-                lines.append(f"{RLM}📊 מחזורי מסחר ירדו {abs(vol_change):.0f}% — לחץ המכירה נחלש.")
-
-    # 6M summary
+    # 6M — short
     sign = "+" if change_6m >= 0 else ""
-    if change_6m < -15:
-        lines.append(f"{RLM}💰 ירידה של {sign}{change_6m:.1f}% ב-6 חודשים — *מחיר כניסה אטרקטיבי* לטווח ארוך.")
-    elif change_6m < 0:
-        lines.append(f"{RLM}📉 ירידה מתונה של {sign}{change_6m:.1f}% ב-6 חודשים.")
-    elif change_6m > 20:
-        lines.append(f"{RLM}🚀 עלייה של {sign}{change_6m:.1f}% ב-6 חודשים — מומנטום חזק.")
-    else:
-        lines.append(f"{RLM}📈 עלייה של {sign}{change_6m:.1f}% ב-6 חודשים.")
+    lines.append(f"{RLM}• שינוי 6M: {sign}{change_6m:.1f}%")
 
     return "\n".join(lines)
 
@@ -704,13 +694,14 @@ def main() -> None:
     MAX_CHARTS = 3
 
     # New ideas (highest priority — you don't own these yet)
-    chart_items = []
+    chart_items = []  # (ticker, name, conviction, verdict, rationale)
     for idea in recs.get("new_ideas", []):
         chart_items.append((
             idea.get("ticker", ""),
             idea.get("name", ""),
             idea.get("conviction", 0),
             "BUY",
+            idea.get("rationale", ""),
         ))
 
     # Fill remaining from existing BUY >=80%, ranked by conviction × unanimity
@@ -734,20 +725,26 @@ def main() -> None:
             else:
                 unanimity = 0.5
             score = c * unanimity
-            scored.append((score, tk, h.get("name", tk), c))
+            # Get top rationale from highest-conviction BUY persona
+            top_rationale = ""
+            buy_personas = [p for p in personas if (p.get("verdict") or "").lower() == "buy"]
+            if buy_personas:
+                top_p = max(buy_personas, key=lambda p: p.get("conviction", 0))
+                top_rationale = top_p.get("rationale", "")
+            scored.append((score, tk, h.get("name", tk), c, top_rationale))
 
         scored.sort(reverse=True)
         seen = {ci[0] for ci in chart_items}
-        for _, tk, nm, c in scored:
+        for _, tk, nm, c, rat in scored:
             if tk not in seen and len(chart_items) < MAX_CHARTS:
-                chart_items.append((tk, nm, c, "BUY"))
+                chart_items.append((tk, nm, c, "BUY", rat))
                 seen.add(tk)
 
     if chart_items:
         print(f"[info] generating {len(chart_items)} charts (max {MAX_CHARTS})…")
-    for ticker, name, conv, verdict in chart_items[:MAX_CHARTS]:
+    for ticker, name, conv, verdict, rationale in chart_items[:MAX_CHARTS]:
         print(f"  {ticker}…", end=" ", flush=True)
-        chart_bytes, caption = _generate_candlestick(ticker, name, conv, verdict)
+        chart_bytes, caption = _generate_candlestick(ticker, name, conv, verdict, rationale)
         if chart_bytes:
             send_telegram_photo(chart_bytes, caption)
             print("sent")
