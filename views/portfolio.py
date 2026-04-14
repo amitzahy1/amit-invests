@@ -439,17 +439,23 @@ with reb1:
 with reb2:
     st.markdown('<div class="lbl" style="margin-bottom:10px;">Action Items</div>',
                 unsafe_allow_html=True)
+    _total_value = pf["value_usd"].sum() if "value_usd" in pf.columns else 0
     actions = sorted(rows, key=lambda r: -abs(r[3]))[:5]
     for sec, cur, tgt, drift in actions:
+        if abs(drift) < 1:
+            continue  # skip trivial drifts
         arrow = "↓" if drift > 0 else "↑"
         verb = "Reduce" if drift > 0 else "Add to"
         color = "#B91C1C" if drift > 0 else "#047857"
+        amount = abs(drift) / 100 * _total_value if _total_value else 0
+        amount_str = f" (~${amount:,.0f})" if amount > 10 else ""
         st.markdown(
             f"<div style='padding:10px 14px;border-left:3px solid {color};"
-            f"background:#FAFAFA;border:1px solid #F0F0F0;border-left-width:3px;margin-bottom:6px;font-size:12px;'>"
+            f"background:#FAFAFA;border:1px solid #F0F0F0;border-left-width:3px;"
+            f"border-radius:4px;margin-bottom:6px;font-size:12px;'>"
             f"<b style='color:{color};'>{arrow} {verb}</b> — {sec}: "
             f"<span class='mono'>{cur:.1f}%</span> vs target <span class='mono'>{tgt:.1f}%</span> "
-            f"<span class='mono' style='color:{color};'>({drift:+.1f}pp)</span>"
+            f"<span class='mono' style='color:{color};'>({drift:+.1f}pp{amount_str})</span>"
             f"</div>",
             unsafe_allow_html=True,
         )

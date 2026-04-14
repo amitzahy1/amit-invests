@@ -130,12 +130,14 @@ def _show_detail(item: dict, is_idea: bool = False):
     """Modal with full analysis: rationale, score breakdown, sector context."""
     tk = item.get("ticker", "")
     name = DISPLAY_NAMES.get(tk, item.get("name", tk))
-    v = (item.get("verdict") or "hold").lower()
+    v = (item.get("verdict") or ("buy" if is_idea else "hold")).lower()
     c = int(item.get("conviction", 0))
     scores = item.get("scores", {})
     rationale = item.get("rationale", "")
     sector = _sector_of(tk) if not is_idea else "New Idea"
     asset_type = ASSET_TYPE_MAP.get(tk, "")
+    if is_idea and not asset_type:
+        asset_type = "Suggested"
 
     verdict_label = {"buy": "BUY — Recommended", "sell": "SELL — Reduce/Exit",
                      "hold": "HOLD — No Action"}.get(v, v.upper())

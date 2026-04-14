@@ -1297,6 +1297,13 @@ def main() -> None:
     except Exception:
         pass
 
+    # Record score history for trend analysis
+    try:
+        from score_history import record_scores
+        record_scores(recs)
+    except Exception:
+        pass
+
     RECS_PATH.write_text(json.dumps(recs, indent=2, ensure_ascii=False))
     print(f"[ok] wrote {RECS_PATH} ({len(recs.get('holdings', []))} holdings, "
           f"{len(recs.get('new_ideas', []))} new ideas)")
