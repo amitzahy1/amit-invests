@@ -87,8 +87,8 @@ def _should_send(recs: dict, strong_only: bool) -> bool:
 
 
 def send_telegram(text: str) -> None:
-    token = os.environ.get("TELEGRAM_BOT_TOKEN")
-    chat_id = os.environ.get("TELEGRAM_CHAT_ID")
+    token = (os.environ.get("TELEGRAM_BOT_TOKEN") or "").strip()
+    chat_id = (os.environ.get("TELEGRAM_CHAT_ID") or "").strip()
     if not token or not chat_id:
         print("[error] TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID must be set "
               "(via environment or .env)", file=sys.stderr)
