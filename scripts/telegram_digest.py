@@ -2,10 +2,10 @@
 """
 Telegram digest — reads recommendations.json and pushes a rich summary to Telegram.
 
-Sends up to three messages:
+Sends up to N+2 messages:
   1. Holdings with persona vote splits and dissenting opinions
-  2. New ideas + portfolio dashboard with sector bar chart
-  3. Portfolio value chart (PNG image, last 6 months)
+  2. New ideas (full rationale) + portfolio dashboard with sector bar chart
+  3+. Candlestick chart for each new-idea ticker (OHLCV + MA20/MA50)
 
 Environment:
     TELEGRAM_BOT_TOKEN   from @BotFather
@@ -51,6 +51,18 @@ SECTOR_SHORT = {
     "Energy / Nuclear": "Nuclear",
     "Consumer Discretionary": "Consumer",
     "Insurance (Israel)": "Insurance",
+}
+
+# Sectors that are "boring" index funds — excluded from high-conviction highlight
+BROAD_MARKET_SECTORS = {"Broad Market", "Broad Market (Israel)"}
+
+# Sector map for new-idea tickers (not in config.py since they're suggestions)
+NEW_IDEA_SECTORS = {
+    "MSFT": "Technology",
+    "CEG": "Energy / Nuclear",
+    "UNH": "Healthcare",
+    "PLTR": "Technology",
+    "LLY": "Healthcare",
 }
 
 
@@ -131,6 +143,36 @@ def _sector_bar(sector_weights: dict, width: int = 10) -> str:
     return "\n".join(lines)
 
 
+def _get_sector(ticker: str) -> str:
+    """Get sector for a ticker (from config.py or local fallback)."""
+    try:
+        sys.path.insert(0, str(_ROOT))
+        from config import SECTOR_MAP
+        return SECTOR_MAP.get(ticker, NEW_IDEA_SECTORS.get(ticker, "Other"))
+    except Exception:
+        return NEW_IDEA_SECTORS.get(ticker, "Other")
+
+
+# ─── Yahoo Finance (lightweight, for chart data) ───────────────────────────
+
+def _fetch_ohlcv(ticker: str, range_: str = "6mo") -> dict | None:
+    """Fetch OHLCV data from Yahoo Finance for candlestick charts."""
+    import requests
+    try:
+        url = f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker}"
+        params = {"range": range_, "interval": "1d"}
+        r = requests.get(url, headers={"User-Agent": "Mozilla/5.0"},
+                         params=params, timeout=15)
+        if r.status_code == 200:
+            data = r.json()
+            result = data.get("chart", {}).get("result")
+            if result:
+                return result[0]
+    except Exception as e:
+        print(f"[warn] failed to fetch {ticker} OHLCV: {e}", file=sys.stderr)
+    return None
+
+
 # ─── Message Formatters ────────────────────────────────────────────────────
 
 def _format_holdings_msg(recs: dict) -> str:
@@ -144,7 +186,7 @@ def _format_holdings_msg(recs: dict) -> str:
     lines.append(f"📊 *Portfolio Digest — {date_str}*")
     lines.append("")
 
-    # Data-driven Key Takeaways (avoids RTL/LTR mixing)
+    # Data-driven Key Takeaways
     buy_count = sum(1 for h in holdings if (h.get("verdict") or "").lower() == "buy")
     sell_count = sum(1 for h in holdings if (h.get("verdict") or "").lower() == "sell")
     hold_count = len(holdings) - buy_count - sell_count
@@ -158,9 +200,13 @@ def _format_holdings_msg(recs: dict) -> str:
         sell_tickers = ", ".join(f"`{h['ticker']}`" for h in sells)
         lines.append(f"{RLM}⚠️ מכירה: {sell_tickers}")
 
-    # Highlight strong buys (>=90%)
-    strong_buys = [h for h in holdings
-                   if (h.get("verdict") or "").lower() == "buy" and h.get("conviction", 0) >= 90]
+    # Highlight strong buys (>=90%) — exclude broad market ETFs
+    strong_buys = [
+        h for h in holdings
+        if (h.get("verdict") or "").lower() == "buy"
+        and h.get("conviction", 0) >= 90
+        and _get_sector(h.get("ticker", "")) not in BROAD_MARKET_SECTORS
+    ]
     if strong_buys:
         sb_tickers = ", ".join(f"`{h['ticker']}`" for h in strong_buys)
         lines.append(f"{RLM}🔥 שכנוע גבוה: {sb_tickers}")
@@ -196,7 +242,6 @@ def _format_holdings_msg(recs: dict) -> str:
         if personas and (b < len(personas) and ho < len(personas) and s < len(personas)):
             dissenter = _find_dissenter(personas, verdict)
             if dissenter:
-                # Use Hebrew display_name for RTL-friendly rendering
                 d_display = dissenter.get("display_name", "")
                 d_verdict_heb = {"buy": "קנייה", "sell": "מכירה", "hold": "החזקה"}.get(
                     (dissenter.get("verdict") or "hold").lower(), "החזקה"
@@ -211,10 +256,10 @@ def _format_holdings_msg(recs: dict) -> str:
 
 
 def _format_dashboard_msg(recs: dict, snapshots: list[dict]) -> str:
-    """Message 2: new ideas + portfolio dashboard + sector bar chart."""
+    """Message 2: new ideas (full rationale) + portfolio dashboard."""
     lines = []
 
-    # New Ideas
+    # New Ideas — FULL rationale, not truncated
     new_ideas = recs.get("new_ideas", [])
     if new_ideas:
         lines.append("*רעיונות חדשים*")
@@ -223,10 +268,10 @@ def _format_dashboard_msg(recs: dict, snapshots: list[dict]) -> str:
             name = idea.get("name", "")
             conv = idea.get("conviction", 0)
             lines.append(f"🚀 `{ticker}` — {name} ({conv}%)")
-            rationale = _truncate(idea.get("rationale", ""), 70)
+            rationale = idea.get("rationale", "")
             if rationale:
-                lines.append(f"   {RLM}_{rationale}_")
-        lines.append("")
+                lines.append(f"{RLM}_{rationale}_")
+            lines.append("")
 
     # Portfolio Dashboard (from snapshots)
     if snapshots:
@@ -267,74 +312,126 @@ def _format_dashboard_msg(recs: dict, snapshots: list[dict]) -> str:
     return "\n".join(lines)
 
 
-def _generate_chart(snapshots: list[dict]) -> bytes | None:
-    """Generate a portfolio value chart PNG from snapshot history."""
-    if len(snapshots) < 3:
-        return None  # need at least 3 data points for a meaningful chart
+def _generate_candlestick(ticker: str, name: str, conviction: int) -> bytes | None:
+    """Generate a professional candlestick chart with MA20/MA50 for a ticker."""
+    data = _fetch_ohlcv(ticker, range_="6mo")
+    if not data:
+        return None
 
     try:
         import matplotlib
-        matplotlib.use("Agg")  # non-interactive backend
+        matplotlib.use("Agg")
         import matplotlib.pyplot as plt
         import matplotlib.dates as mdates
+        import pandas as pd
+        import numpy as np
     except ImportError:
-        print("[warn] matplotlib not installed — skipping chart", file=sys.stderr)
         return None
 
-    dates = []
-    values_usd = []
-    values_ils = []
-
-    for s in snapshots:
-        try:
-            d = datetime.strptime(s["date"], "%Y-%m-%d")
-            dates.append(d)
-            values_usd.append(s.get("value_usd", 0))
-            values_ils.append(s.get("value_ils", 0))
-        except (KeyError, ValueError):
-            continue
-
-    if len(dates) < 3:
+    timestamps = data.get("timestamp", [])
+    quote = data.get("indicators", {}).get("quote", [{}])[0]
+    if not timestamps or not quote.get("close"):
         return None
 
-    # Dark theme matching the app
-    fig, ax = plt.subplots(figsize=(8, 4), dpi=150)
-    fig.patch.set_facecolor("#0a0a0a")
-    ax.set_facecolor("#0a0a0a")
+    dates = pd.to_datetime(timestamps, unit="s")
+    df = pd.DataFrame({
+        "open": quote.get("open", []),
+        "high": quote.get("high", []),
+        "low": quote.get("low", []),
+        "close": quote.get("close", []),
+        "volume": quote.get("volume", []),
+    }, index=dates).dropna(subset=["close"])
 
-    # Plot USD value
-    ax.plot(dates, values_usd, color="#22c55e", linewidth=2, label="USD")
-    ax.fill_between(dates, values_usd, alpha=0.15, color="#22c55e")
+    if len(df) < 20:
+        return None
 
-    # Labels and formatting
-    ax.set_title("Portfolio Value (USD)", color="white", fontsize=14, fontweight="bold", pad=12)
-    ax.tick_params(colors="#94a3b8", labelsize=9)
-    ax.spines["top"].set_visible(False)
-    ax.spines["right"].set_visible(False)
-    ax.spines["left"].set_color("#334155")
-    ax.spines["bottom"].set_color("#334155")
-    ax.grid(axis="y", color="#1e293b", linewidth=0.5)
-    ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f"${x:,.0f}"))
-    ax.xaxis.set_major_formatter(mdates.DateFormatter("%b %d"))
-    ax.xaxis.set_major_locator(mdates.AutoDateLocator(minticks=4, maxticks=10))
-    plt.xticks(rotation=30)
+    # Moving averages
+    df["ma20"] = df["close"].rolling(20).mean()
+    df["ma50"] = df["close"].rolling(50).mean()
 
-    # Latest value annotation
-    if values_usd:
-        latest_val = values_usd[-1]
-        ax.annotate(
-            f"${latest_val:,.0f}",
-            xy=(dates[-1], latest_val),
-            xytext=(10, 10),
-            textcoords="offset points",
-            color="#22c55e",
-            fontsize=11,
-            fontweight="bold",
-        )
+    # ─── Chart ──────────────────────────────────────────────────────
+    fig, (ax_price, ax_vol) = plt.subplots(
+        2, 1, figsize=(10, 6), dpi=150,
+        gridspec_kw={"height_ratios": [3, 1]}, sharex=True,
+    )
+    fig.patch.set_facecolor("#0f1117")
+
+    for ax in (ax_price, ax_vol):
+        ax.set_facecolor("#0f1117")
+        ax.tick_params(colors="#94a3b8", labelsize=8)
+        ax.spines["top"].set_visible(False)
+        ax.spines["right"].set_visible(False)
+        ax.spines["left"].set_color("#1e293b")
+        ax.spines["bottom"].set_color("#1e293b")
+        ax.grid(axis="y", color="#1e293b", linewidth=0.4)
+
+    # Candlesticks
+    width = 0.6  # days
+    up = df[df["close"] >= df["open"]]
+    down = df[df["close"] < df["open"]]
+
+    # Up candles (green)
+    ax_price.bar(up.index, up["close"] - up["open"], width, bottom=up["open"],
+                 color="#22c55e", edgecolor="#22c55e", linewidth=0.5)
+    ax_price.vlines(up.index, up["low"], up["high"], color="#22c55e", linewidth=0.5)
+
+    # Down candles (red)
+    ax_price.bar(down.index, down["close"] - down["open"], width, bottom=down["open"],
+                 color="#ef4444", edgecolor="#ef4444", linewidth=0.5)
+    ax_price.vlines(down.index, down["low"], down["high"], color="#ef4444", linewidth=0.5)
+
+    # Moving averages
+    ax_price.plot(df.index, df["ma20"], color="#3b82f6", linewidth=1.2, label="MA20", alpha=0.9)
+    if df["ma50"].notna().sum() > 0:
+        ax_price.plot(df.index, df["ma50"], color="#f59e0b", linewidth=1.2, label="MA50", alpha=0.9)
+
+    # Price annotation
+    last_price = df["close"].iloc[-1]
+    ax_price.annotate(
+        f"${last_price:,.2f}",
+        xy=(df.index[-1], last_price),
+        xytext=(8, 8), textcoords="offset points",
+        color="white", fontsize=10, fontweight="bold",
+        bbox=dict(boxstyle="round,pad=0.3", facecolor="#1e293b", edgecolor="#334155"),
+    )
+
+    # Period change
+    first_price = df["close"].iloc[0]
+    change_pct = ((last_price / first_price) - 1) * 100
+    change_color = "#22c55e" if change_pct >= 0 else "#ef4444"
+    change_sign = "+" if change_pct >= 0 else ""
+
+    ax_price.set_title(
+        f"{ticker} — {name}   |   {change_sign}{change_pct:.1f}% (6M)   |   BUY {conviction}%",
+        color="white", fontsize=13, fontweight="bold", pad=10, loc="left",
+    )
+    # Color the change in title
+    ax_price.text(
+        0.98, 1.02, f"{change_sign}{change_pct:.1f}%",
+        transform=ax_price.transAxes, ha="right", va="bottom",
+        color=change_color, fontsize=12, fontweight="bold",
+    )
+
+    ax_price.legend(loc="upper left", fontsize=8, framealpha=0.3,
+                    facecolor="#1e293b", edgecolor="#334155", labelcolor="white")
+    ax_price.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f"${x:,.0f}"))
+
+    # Volume bars
+    vol_colors = ["#22c55e" if c >= o else "#ef4444"
+                  for c, o in zip(df["close"], df["open"])]
+    ax_vol.bar(df.index, df["volume"], width, color=vol_colors, alpha=0.5)
+    ax_vol.set_ylabel("Volume", color="#64748b", fontsize=8)
+    ax_vol.yaxis.set_major_formatter(plt.FuncFormatter(
+        lambda x, _: f"{x/1e6:.0f}M" if x >= 1e6 else f"{x/1e3:.0f}K"
+    ))
+
+    ax_vol.xaxis.set_major_formatter(mdates.DateFormatter("%b '%y"))
+    ax_vol.xaxis.set_major_locator(mdates.MonthLocator())
+    plt.xticks(rotation=0)
 
     fig.tight_layout()
+    fig.subplots_adjust(hspace=0.05)
 
-    # Save to bytes
     buf = io.BytesIO()
     fig.savefig(buf, format="png", bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close(fig)
@@ -396,18 +493,15 @@ def send_telegram_photo(photo_bytes: bytes, caption: str = "") -> None:
     boundary = "----TelegramBoundary"
     body_parts = []
 
-    # chat_id field
     body_parts.append(f"--{boundary}\r\n".encode())
     body_parts.append(b'Content-Disposition: form-data; name="chat_id"\r\n\r\n')
     body_parts.append(f"{chat_id}\r\n".encode())
 
-    # caption field
     if caption:
         body_parts.append(f"--{boundary}\r\n".encode())
         body_parts.append(b'Content-Disposition: form-data; name="caption"\r\n\r\n')
         body_parts.append(f"{caption}\r\n".encode())
 
-    # photo file
     body_parts.append(f"--{boundary}\r\n".encode())
     body_parts.append(b'Content-Disposition: form-data; name="photo"; filename="chart.png"\r\n')
     body_parts.append(b"Content-Type: image/png\r\n\r\n")
@@ -453,26 +547,31 @@ def main() -> None:
         print("[info] no strong verdicts — skipping (use without --strong-only to force)")
         return
 
-    all_snapshots = _load_snapshots(0)  # all for chart
-    recent_snapshots = all_snapshots[-2:] if len(all_snapshots) >= 2 else all_snapshots
+    recent_snapshots = _load_snapshots(2)
 
     # Message 1: Holdings
     msg1 = _format_holdings_msg(recs)
     send_telegram(msg1)
     print("[ok] holdings message sent")
 
-    # Message 2: Dashboard
+    # Message 2: Dashboard + New Ideas (full rationale)
     msg2 = _format_dashboard_msg(recs, recent_snapshots)
     send_telegram(msg2)
     print("[ok] dashboard message sent")
 
-    # Message 3: Chart (only if enough history)
-    chart_bytes = _generate_chart(all_snapshots)
-    if chart_bytes:
-        send_telegram_photo(chart_bytes, "📈 Portfolio — last 6 months")
-        print("[ok] chart sent")
-    else:
-        print(f"[info] chart skipped — need ≥3 snapshots (have {len(all_snapshots)})")
+    # Messages 3+: Candlestick charts for new ideas
+    new_ideas = recs.get("new_ideas", [])
+    for idea in new_ideas:
+        ticker = idea.get("ticker", "")
+        name = idea.get("name", "")
+        conv = idea.get("conviction", 0)
+        print(f"[info] generating chart for {ticker}…", end=" ", flush=True)
+        chart = _generate_candlestick(ticker, name, conv)
+        if chart:
+            send_telegram_photo(chart, f"📊 {ticker} — {name} | BUY {conv}%")
+            print("sent")
+        else:
+            print("skipped (no data)")
 
 
 if __name__ == "__main__":
