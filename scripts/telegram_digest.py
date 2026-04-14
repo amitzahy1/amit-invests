@@ -318,7 +318,8 @@ def _generate_candlestick(ticker: str, name: str, conviction: int,
 
     Returns (png_bytes, hebrew_caption). png_bytes is None if chart fails.
     """
-    data = _fetch_ohlcv(ticker, range_="6mo")
+    # Fetch 1Y data (need 200+ trading days for MA200)
+    data = _fetch_ohlcv(ticker, range_="1y")
     if not data:
         return None, ""
 
@@ -349,9 +350,9 @@ def _generate_candlestick(ticker: str, name: str, conviction: int,
     if len(df) < 20:
         return None, ""
 
-    # ─── Technical Indicators ──────────────────────────────────────
-    df["ma20"] = df["close"].rolling(20).mean()
+    # ─── Technical Indicators (computed on full 1Y data) ───────────
     df["ma50"] = df["close"].rolling(50).mean()
+    df["ma200"] = df["close"].rolling(200).mean()
 
     # RSI (14-day)
     delta = df["close"].diff()
@@ -365,6 +366,16 @@ def _generate_candlestick(ticker: str, name: str, conviction: int,
     bb_std = df["close"].rolling(20).std()
     df["bb_upper"] = df["bb_mid"] + 2 * bb_std
     df["bb_lower"] = df["bb_mid"] - 2 * bb_std
+
+    # Performance stats
+    last_price = df["close"].iloc[-1]
+    chg_1d = ((last_price / df["close"].iloc[-2]) - 1) * 100 if len(df) >= 2 else 0
+    chg_1m = ((last_price / df["close"].iloc[-22]) - 1) * 100 if len(df) >= 22 else 0
+    chg_6m = ((last_price / df["close"].iloc[-126]) - 1) * 100 if len(df) >= 126 else 0
+
+    # Trim to last 6 months for display (keep indicators from 1Y calc)
+    display_days = min(126, len(df))
+    df_disp = df.iloc[-display_days:]
 
     # ─── Chart (light theme, 3 panels) ─────────────────────────────
     BG = "#fafbfc"
@@ -389,10 +400,10 @@ def _generate_candlestick(ticker: str, name: str, conviction: int,
         ax.spines["bottom"].set_color(GRID)
         ax.grid(axis="y", color=GRID, linewidth=0.4)
 
-    # ── Price panel: candles + MA + Bollinger ──
+    # ── Price panel: candles + MA50 + MA200 + Bollinger ──
     width = 0.6
-    up = df[df["close"] >= df["open"]]
-    down = df[df["close"] < df["open"]]
+    up = df_disp[df_disp["close"] >= df_disp["open"]]
+    down = df_disp[df_disp["close"] < df_disp["open"]]
 
     ax_price.bar(up.index, up["close"] - up["open"], width, bottom=up["open"],
                  color=GREEN, edgecolor=GREEN, linewidth=0.5)
@@ -401,53 +412,66 @@ def _generate_candlestick(ticker: str, name: str, conviction: int,
                  color=RED, edgecolor=RED, linewidth=0.5)
     ax_price.vlines(down.index, down["low"], down["high"], color=RED, linewidth=0.5)
 
-    ax_price.plot(df.index, df["ma20"], color="#2563eb", linewidth=1.3, label="MA20")
-    if df["ma50"].notna().sum() > 0:
-        ax_price.plot(df.index, df["ma50"], color="#d97706", linewidth=1.3, label="MA50")
+    # Moving averages
+    if df_disp["ma50"].notna().sum() > 0:
+        ax_price.plot(df_disp.index, df_disp["ma50"], color="#2563eb",
+                      linewidth=1.3, label="MA50")
+    if df_disp["ma200"].notna().sum() > 0:
+        ax_price.plot(df_disp.index, df_disp["ma200"], color="#d97706",
+                      linewidth=1.3, label="MA200")
 
     # Bollinger Bands (shaded)
-    bb_valid = df["bb_upper"].notna()
-    ax_price.fill_between(df.index[bb_valid], df["bb_lower"][bb_valid], df["bb_upper"][bb_valid],
+    bb_valid = df_disp["bb_upper"].notna()
+    ax_price.fill_between(df_disp.index[bb_valid],
+                          df_disp["bb_lower"][bb_valid], df_disp["bb_upper"][bb_valid],
                           alpha=0.08, color="#6366f1", label="Bollinger")
-    ax_price.plot(df.index, df["bb_upper"], color="#6366f1", linewidth=0.6, alpha=0.5)
-    ax_price.plot(df.index, df["bb_lower"], color="#6366f1", linewidth=0.6, alpha=0.5)
+    ax_price.plot(df_disp.index, df_disp["bb_upper"], color="#6366f1", linewidth=0.6, alpha=0.5)
+    ax_price.plot(df_disp.index, df_disp["bb_lower"], color="#6366f1", linewidth=0.6, alpha=0.5)
 
     # Price label
-    last_price = df["close"].iloc[-1]
     ax_price.annotate(
         f"${last_price:,.2f}",
-        xy=(df.index[-1], last_price),
+        xy=(df_disp.index[-1], last_price),
         xytext=(8, 8), textcoords="offset points",
         color=TEXT, fontsize=10, fontweight="bold",
         bbox=dict(boxstyle="round,pad=0.3", facecolor="white", edgecolor=GRID),
     )
 
-    first_price = df["close"].iloc[0]
-    change_pct = ((last_price / first_price) - 1) * 100
-    change_color = GREEN if change_pct >= 0 else RED
-    change_sign = "+" if change_pct >= 0 else ""
-
+    # Title
+    change_sign_6m = "+" if chg_6m >= 0 else ""
     ax_price.set_title(
-        f"{ticker} — {name}   |   {change_sign}{change_pct:.1f}% (6M)   |   {verdict.upper()} {conviction}%",
+        f"{ticker} — {name}   |   {verdict.upper()} {conviction}%",
         color=TEXT, fontsize=13, fontweight="bold", pad=10, loc="left",
     )
-    ax_price.text(0.98, 1.02, f"{change_sign}{change_pct:.1f}%",
-                  transform=ax_price.transAxes, ha="right", va="bottom",
-                  color=change_color, fontsize=12, fontweight="bold")
+
+    # Performance stats box (top-right)
+    def _fmt(v):
+        s = "+" if v >= 0 else ""
+        return f"{s}{v:.1f}%"
+
+    perf_text = f"1D: {_fmt(chg_1d)}  |  1M: {_fmt(chg_1m)}  |  6M: {_fmt(chg_6m)}"
+    chg_6m_color = GREEN if chg_6m >= 0 else RED
+    ax_price.text(
+        0.99, 1.02, perf_text,
+        transform=ax_price.transAxes, ha="right", va="bottom",
+        fontsize=9, fontfamily="monospace", color=MUTE,
+        bbox=dict(boxstyle="round,pad=0.4", facecolor="white", edgecolor=GRID),
+    )
 
     ax_price.legend(loc="upper left", fontsize=7, framealpha=0.8,
                     facecolor="white", edgecolor=GRID, labelcolor=TEXT)
     ax_price.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f"${x:,.0f}"))
 
     # ── RSI panel ──
-    rsi_valid = df["rsi"].notna()
-    ax_rsi.plot(df.index[rsi_valid], df["rsi"][rsi_valid], color="#7c3aed", linewidth=1.2)
+    rsi_valid = df_disp["rsi"].notna()
+    ax_rsi.plot(df_disp.index[rsi_valid], df_disp["rsi"][rsi_valid],
+                color="#7c3aed", linewidth=1.2)
     ax_rsi.axhline(70, color=RED, linewidth=0.7, linestyle="--", alpha=0.6)
     ax_rsi.axhline(30, color=GREEN, linewidth=0.7, linestyle="--", alpha=0.6)
-    ax_rsi.fill_between(df.index[rsi_valid], 30, df["rsi"][rsi_valid],
-                        where=df["rsi"][rsi_valid] < 30, alpha=0.15, color=GREEN)
-    ax_rsi.fill_between(df.index[rsi_valid], 70, df["rsi"][rsi_valid],
-                        where=df["rsi"][rsi_valid] > 70, alpha=0.15, color=RED)
+    ax_rsi.fill_between(df_disp.index[rsi_valid], 30, df_disp["rsi"][rsi_valid],
+                        where=df_disp["rsi"][rsi_valid] < 30, alpha=0.15, color=GREEN)
+    ax_rsi.fill_between(df_disp.index[rsi_valid], 70, df_disp["rsi"][rsi_valid],
+                        where=df_disp["rsi"][rsi_valid] > 70, alpha=0.15, color=RED)
     ax_rsi.set_ylabel("RSI", color=MUTE, fontsize=8)
     ax_rsi.set_ylim(10, 90)
 
@@ -458,8 +482,9 @@ def _generate_candlestick(ticker: str, name: str, conviction: int,
                 color=rsi_color, fontsize=9, fontweight="bold")
 
     # ── Volume panel ──
-    vol_colors = [GREEN if c >= o else RED for c, o in zip(df["close"], df["open"])]
-    ax_vol.bar(df.index, df["volume"], width, color=vol_colors, alpha=0.4)
+    vol_colors = [GREEN if c >= o else RED
+                  for c, o in zip(df_disp["close"], df_disp["open"])]
+    ax_vol.bar(df_disp.index, df_disp["volume"], width, color=vol_colors, alpha=0.4)
     ax_vol.set_ylabel("Vol", color=MUTE, fontsize=8)
     ax_vol.yaxis.set_major_formatter(plt.FuncFormatter(
         lambda x, _: f"{x/1e6:.0f}M" if x >= 1e6 else f"{x/1e3:.0f}K"
@@ -480,7 +505,7 @@ def _generate_candlestick(ticker: str, name: str, conviction: int,
 
     # ─── Generate Hebrew analysis caption ──────────────────────────
     caption = _build_analysis_caption(ticker, name, conviction, verdict,
-                                      last_price, change_pct, last_rsi, df)
+                                      last_price, chg_6m, last_rsi, df)
     return png, caption
 
 
@@ -493,21 +518,26 @@ def _build_analysis_caption(ticker: str, name: str, conviction: int, verdict: st
     lines = [f"📊 *{ticker}* — {name} | {verdict.upper()} {conviction}%"]
     lines.append("")
 
-    ma20 = df["ma20"].dropna().iloc[-1] if df["ma20"].notna().sum() > 0 else None
     ma50 = df["ma50"].dropna().iloc[-1] if df["ma50"].notna().sum() > 0 else None
+    ma200 = df["ma200"].dropna().iloc[-1] if df["ma200"].notna().sum() > 0 else None
     bb_lower = df["bb_lower"].dropna().iloc[-1] if df["bb_lower"].notna().sum() > 0 else None
     bb_upper = df["bb_upper"].dropna().iloc[-1] if df["bb_upper"].notna().sum() > 0 else None
 
     # Price vs MAs
-    if ma20 and ma50:
-        if price > ma20 > ma50:
-            lines.append(f"{RLM}📈 *מגמה עולה* — המחיר מעל MA20 ו-MA50, סדר ממוצעים חיובי.")
-        elif price > ma20 and price < ma50:
-            lines.append(f"{RLM}🔄 *התאוששות* — המחיר חצה את MA20 למעלה אך עדיין מתחת ל-MA50.")
-        elif price < ma20 < ma50:
-            lines.append(f"{RLM}📉 *מגמה יורדת* — המחיר מתחת לשני הממוצעים. הירידה מייצרת מחיר כניסה נמוך.")
-        elif price < ma20 and price > ma50:
-            lines.append(f"{RLM}⚡ *תיקון קצר-טווח* — מתחת ל-MA20 אך מעל MA50, סימן לתיקון זמני.")
+    if ma50 and ma200:
+        if price > ma50 > ma200:
+            lines.append(f"{RLM}📈 *מגמה עולה* — המחיר מעל MA50 ו-MA200, סדר ממוצעים חיובי (Golden Cross).")
+        elif price > ma50 and price < ma200:
+            lines.append(f"{RLM}🔄 *התאוששות* — המחיר חצה את MA50 למעלה אך עדיין מתחת ל-MA200.")
+        elif price < ma50 < ma200:
+            lines.append(f"{RLM}📉 *מגמה יורדת* — המחיר מתחת ל-MA50 ול-MA200. הירידה מייצרת מחיר כניסה נמוך.")
+        elif price < ma50 and price > ma200:
+            lines.append(f"{RLM}⚡ *תיקון קצר-טווח* — מתחת ל-MA50 אך מעל MA200, סימן לתיקון זמני.")
+    elif ma50:
+        if price > ma50:
+            lines.append(f"{RLM}📈 המחיר מעל MA50 — מגמה בינונית חיובית.")
+        else:
+            lines.append(f"{RLM}📉 המחיר מתחת ל-MA50 — לחץ שלילי בטווח הבינוני.")
 
     # RSI
     if rsi < 30:
