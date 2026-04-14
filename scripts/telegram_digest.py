@@ -2,9 +2,10 @@
 """
 Telegram digest — reads recommendations.json and pushes a rich summary to Telegram.
 
-Sends two messages:
+Sends up to three messages:
   1. Holdings with persona vote splits and dissenting opinions
   2. New ideas + portfolio dashboard with sector bar chart
+  3. Portfolio value chart (PNG image, last 6 months)
 
 Environment:
     TELEGRAM_BOT_TOKEN   from @BotFather
@@ -18,9 +19,11 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import io
 import json
 import os
 import sys
+from datetime import datetime
 from pathlib import Path
 
 try:
@@ -35,6 +38,9 @@ SETTINGS_PATH = _ROOT / "settings.json"
 SNAPSHOTS_PATH = _ROOT / "snapshots.jsonl"
 
 VERDICT_EMOJI = {"buy": "🟢", "sell": "🔴", "hold": "🟡"}
+
+# Right-to-Left mark — forces correct bidi rendering for Hebrew after English
+RLM = "\u200f"
 
 # Short names for sectors (must fit ~10 chars for bar chart alignment)
 SECTOR_SHORT = {
@@ -54,15 +60,16 @@ def _load_json(p: Path) -> dict:
     return json.loads(p.read_text()) if p.exists() else {}
 
 
-def _load_snapshots(n: int = 2) -> list[dict]:
-    """Read last N entries from snapshots.jsonl."""
+def _load_snapshots(n: int = 0) -> list[dict]:
+    """Read last N entries from snapshots.jsonl (0 = all)."""
     if not SNAPSHOTS_PATH.exists():
         return []
     text = SNAPSHOTS_PATH.read_text().strip()
     if not text:
         return []
     lines = text.split("\n")
-    return [json.loads(line) for line in lines[-n:]]
+    entries = [json.loads(line) for line in lines]
+    return entries[-n:] if n > 0 else entries
 
 
 def _vote_split(personas: list[dict]) -> tuple[int, int, int]:
@@ -110,32 +117,13 @@ def _holding_emoji(verdict: str, conviction: int) -> str:
     return "🟡"
 
 
-def _dissenter_short_name(name: str) -> str:
-    """Shorten persona name for the skeptic line."""
-    short = {
-        "warren_buffett": "Buffett",
-        "charlie_munger": "Munger",
-        "cathie_wood": "C. Wood",
-        "peter_lynch": "Lynch",
-        "michael_burry": "Burry",
-        "risk_manager": "Risk Mgr",
-        "technical_analyst": "Technical",
-        "fundamentals_analyst": "Fundament.",
-        "sentiment": "Sentiment",
-        "macro": "Macro",
-        "ben_graham": "Graham",
-        "valuation": "Valuation",
-    }
-    return short.get(name, name)
-
-
 def _sector_bar(sector_weights: dict, width: int = 10) -> str:
     """Build a Unicode bar chart from sector weights."""
     lines = []
     sorted_sectors = sorted(sector_weights.items(), key=lambda x: -x[1])
     for sector, weight in sorted_sectors:
         if weight < 2:
-            continue  # skip tiny sectors
+            continue
         short = SECTOR_SHORT.get(sector, sector)[:10].ljust(10)
         filled = max(1, round(weight / (100 / width))) if weight >= 2 else 0
         bar = "\u2588" * filled + "\u2591" * (width - filled)
@@ -143,72 +131,81 @@ def _sector_bar(sector_weights: dict, width: int = 10) -> str:
     return "\n".join(lines)
 
 
-def _summary_bullets(summary: str, max_bullets: int = 3) -> list[str]:
-    """Split the Hebrew summary paragraph into short bullet points."""
-    if not summary:
-        return []
-    # Split on period followed by space (Hebrew sentence boundary)
-    parts = [s.strip() for s in summary.replace(". ", ".\n").split("\n") if s.strip()]
-    bullets = []
-    for p in parts[:max_bullets]:
-        # Remove trailing period for cleaner bullet
-        p = p.rstrip(".")
-        bullets.append(f" • {_truncate(p, 80)}")
-    return bullets
-
-
 # ─── Message Formatters ────────────────────────────────────────────────────
 
 def _format_holdings_msg(recs: dict) -> str:
-    """Message 1: header + key takeaways + holdings with vote splits."""
+    """Message 1: header + data-driven summary + holdings with vote splits."""
     lines = []
+    holdings = recs.get("holdings", [])
+    new_ideas = recs.get("new_ideas", [])
 
     # Header
     date_str = recs.get("updated", "")[:10]
     lines.append(f"📊 *Portfolio Digest — {date_str}*")
     lines.append("")
 
-    # Key Takeaways (summary → bullets)
-    summary = recs.get("summary", "")
-    bullets = _summary_bullets(summary)
-    if bullets:
-        lines.append("*Key Takeaways*")
-        lines.extend(bullets)
-        lines.append("")
+    # Data-driven Key Takeaways (avoids RTL/LTR mixing)
+    buy_count = sum(1 for h in holdings if (h.get("verdict") or "").lower() == "buy")
+    sell_count = sum(1 for h in holdings if (h.get("verdict") or "").lower() == "sell")
+    hold_count = len(holdings) - buy_count - sell_count
+
+    lines.append("*סיכום*")
+    lines.append(f"🟢 {buy_count} קנייה  ·  🔴 {sell_count} מכירה  ·  🟡 {hold_count} החזקה")
+
+    # Highlight sells
+    sells = [h for h in holdings if (h.get("verdict") or "").lower() == "sell"]
+    if sells:
+        sell_tickers = ", ".join(f"`{h['ticker']}`" for h in sells)
+        lines.append(f"{RLM}⚠️ מכירה: {sell_tickers}")
+
+    # Highlight strong buys (>=90%)
+    strong_buys = [h for h in holdings
+                   if (h.get("verdict") or "").lower() == "buy" and h.get("conviction", 0) >= 90]
+    if strong_buys:
+        sb_tickers = ", ".join(f"`{h['ticker']}`" for h in strong_buys)
+        lines.append(f"{RLM}🔥 שכנוע גבוה: {sb_tickers}")
+
+    # New ideas teaser
+    if new_ideas:
+        idea_tickers = ", ".join(f"`{i['ticker']}`" for i in new_ideas)
+        lines.append(f"{RLM}💡 רעיונות חדשים: {idea_tickers}")
+
+    lines.append("")
 
     # Holdings with vote split + skeptic
-    holdings = recs.get("holdings", [])
-    if holdings:
-        lines.append(f"*Holdings* ({len(holdings)})")
-        for h in holdings:
-            verdict = (h.get("verdict") or "hold").lower()
-            conviction = h.get("conviction", 0)
-            ticker = h.get("ticker", "")
-            personas = h.get("personas", [])
+    lines.append(f"*Holdings* ({len(holdings)})")
+    for h in holdings:
+        verdict = (h.get("verdict") or "hold").lower()
+        conviction = h.get("conviction", 0)
+        ticker = h.get("ticker", "")
+        personas = h.get("personas", [])
 
-            emoji = _holding_emoji(verdict, conviction)
+        emoji = _holding_emoji(verdict, conviction)
 
-            if personas:
-                b, ho, s = _vote_split(personas)
-                vote_str = f" · {b}-{ho}-{s}"
-            else:
-                vote_str = ""
+        if personas:
+            b, ho, s = _vote_split(personas)
+            vote_str = f" · {b}-{ho}-{s}"
+        else:
+            vote_str = ""
 
-            lines.append(
-                f"{emoji} `{ticker}` *{verdict.upper()}* {conviction}%{vote_str}"
-            )
+        lines.append(
+            f"{emoji} `{ticker}` *{verdict.upper()}* {conviction}%{vote_str}"
+        )
 
-            # Skeptic line: only when not unanimous
-            if personas and (b < len(personas) and ho < len(personas) and s < len(personas)):
-                dissenter = _find_dissenter(personas, verdict)
-                if dissenter:
-                    d_name = _dissenter_short_name(dissenter.get("name", ""))
-                    d_verdict = (dissenter.get("verdict") or "hold").upper()
-                    d_conv = dissenter.get("conviction", 0)
-                    d_rationale = _truncate(dissenter.get("rationale", ""), 50)
-                    lines.append(
-                        f"   ⚠️ _{d_name} ({d_verdict} {d_conv}%): {d_rationale}_"
-                    )
+        # Skeptic line: only when not unanimous
+        if personas and (b < len(personas) and ho < len(personas) and s < len(personas)):
+            dissenter = _find_dissenter(personas, verdict)
+            if dissenter:
+                # Use Hebrew display_name for RTL-friendly rendering
+                d_display = dissenter.get("display_name", "")
+                d_verdict_heb = {"buy": "קנייה", "sell": "מכירה", "hold": "החזקה"}.get(
+                    (dissenter.get("verdict") or "hold").lower(), "החזקה"
+                )
+                d_conv = dissenter.get("conviction", 0)
+                d_rationale = _truncate(dissenter.get("rationale", ""), 50)
+                lines.append(
+                    f"   {RLM}⚠️ _{d_display} ({d_verdict_heb} {d_conv}%): {d_rationale}_"
+                )
 
     return "\n".join(lines)
 
@@ -220,7 +217,7 @@ def _format_dashboard_msg(recs: dict, snapshots: list[dict]) -> str:
     # New Ideas
     new_ideas = recs.get("new_ideas", [])
     if new_ideas:
-        lines.append("*New Ideas*")
+        lines.append("*רעיונות חדשים*")
         for idea in new_ideas:
             ticker = idea.get("ticker", "")
             name = idea.get("name", "")
@@ -228,19 +225,19 @@ def _format_dashboard_msg(recs: dict, snapshots: list[dict]) -> str:
             lines.append(f"🚀 `{ticker}` — {name} ({conv}%)")
             rationale = _truncate(idea.get("rationale", ""), 70)
             if rationale:
-                lines.append(f"   _{rationale}_")
+                lines.append(f"   {RLM}_{rationale}_")
         lines.append("")
 
     # Portfolio Dashboard (from snapshots)
     if snapshots:
         latest = snapshots[-1]
-        lines.append("*Portfolio*")
+        lines.append("*תיק השקעות*")
 
         val_usd = latest.get("value_usd", 0)
         val_ils = latest.get("value_ils", 0)
         usd_ils = latest.get("usd_ils", 0)
 
-        # Daily change (compare to previous snapshot)
+        # Daily change
         if len(snapshots) >= 2:
             prev = snapshots[-2]
             delta_usd = val_usd - prev.get("value_usd", val_usd)
@@ -262,12 +259,87 @@ def _format_dashboard_msg(recs: dict, snapshots: list[dict]) -> str:
         # Sector bar chart
         sector_weights = latest.get("sector_weights", {})
         if sector_weights:
-            lines.append("*Sectors*")
+            lines.append("*סקטורים*")
             lines.append(_sector_bar(sector_weights))
             lines.append("")
 
-    lines.append("_Market commentary — not financial advice._")
+    lines.append(f"{RLM}_סקירת שוק — אינה המלצה פיננסית._")
     return "\n".join(lines)
+
+
+def _generate_chart(snapshots: list[dict]) -> bytes | None:
+    """Generate a portfolio value chart PNG from snapshot history."""
+    if len(snapshots) < 3:
+        return None  # need at least 3 data points for a meaningful chart
+
+    try:
+        import matplotlib
+        matplotlib.use("Agg")  # non-interactive backend
+        import matplotlib.pyplot as plt
+        import matplotlib.dates as mdates
+    except ImportError:
+        print("[warn] matplotlib not installed — skipping chart", file=sys.stderr)
+        return None
+
+    dates = []
+    values_usd = []
+    values_ils = []
+
+    for s in snapshots:
+        try:
+            d = datetime.strptime(s["date"], "%Y-%m-%d")
+            dates.append(d)
+            values_usd.append(s.get("value_usd", 0))
+            values_ils.append(s.get("value_ils", 0))
+        except (KeyError, ValueError):
+            continue
+
+    if len(dates) < 3:
+        return None
+
+    # Dark theme matching the app
+    fig, ax = plt.subplots(figsize=(8, 4), dpi=150)
+    fig.patch.set_facecolor("#0a0a0a")
+    ax.set_facecolor("#0a0a0a")
+
+    # Plot USD value
+    ax.plot(dates, values_usd, color="#22c55e", linewidth=2, label="USD")
+    ax.fill_between(dates, values_usd, alpha=0.15, color="#22c55e")
+
+    # Labels and formatting
+    ax.set_title("Portfolio Value (USD)", color="white", fontsize=14, fontweight="bold", pad=12)
+    ax.tick_params(colors="#94a3b8", labelsize=9)
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.spines["left"].set_color("#334155")
+    ax.spines["bottom"].set_color("#334155")
+    ax.grid(axis="y", color="#1e293b", linewidth=0.5)
+    ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f"${x:,.0f}"))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%b %d"))
+    ax.xaxis.set_major_locator(mdates.AutoDateLocator(minticks=4, maxticks=10))
+    plt.xticks(rotation=30)
+
+    # Latest value annotation
+    if values_usd:
+        latest_val = values_usd[-1]
+        ax.annotate(
+            f"${latest_val:,.0f}",
+            xy=(dates[-1], latest_val),
+            xytext=(10, 10),
+            textcoords="offset points",
+            color="#22c55e",
+            fontsize=11,
+            fontweight="bold",
+        )
+
+    fig.tight_layout()
+
+    # Save to bytes
+    buf = io.BytesIO()
+    fig.savefig(buf, format="png", bbox_inches="tight", facecolor=fig.get_facecolor())
+    plt.close(fig)
+    buf.seek(0)
+    return buf.read()
 
 
 # ─── Send ───────────────────────────────────────────────────────────────────
@@ -312,6 +384,50 @@ def send_telegram(text: str) -> None:
         sys.exit(3)
 
 
+def send_telegram_photo(photo_bytes: bytes, caption: str = "") -> None:
+    """Send a photo (PNG bytes) to Telegram via sendPhoto API."""
+    token = (os.environ.get("TELEGRAM_BOT_TOKEN") or "").strip()
+    chat_id = (os.environ.get("TELEGRAM_CHAT_ID") or "").strip()
+    if not token or not chat_id:
+        return
+
+    import urllib.request
+
+    boundary = "----TelegramBoundary"
+    body_parts = []
+
+    # chat_id field
+    body_parts.append(f"--{boundary}\r\n".encode())
+    body_parts.append(b'Content-Disposition: form-data; name="chat_id"\r\n\r\n')
+    body_parts.append(f"{chat_id}\r\n".encode())
+
+    # caption field
+    if caption:
+        body_parts.append(f"--{boundary}\r\n".encode())
+        body_parts.append(b'Content-Disposition: form-data; name="caption"\r\n\r\n')
+        body_parts.append(f"{caption}\r\n".encode())
+
+    # photo file
+    body_parts.append(f"--{boundary}\r\n".encode())
+    body_parts.append(b'Content-Disposition: form-data; name="photo"; filename="chart.png"\r\n')
+    body_parts.append(b"Content-Type: image/png\r\n\r\n")
+    body_parts.append(photo_bytes)
+    body_parts.append(f"\r\n--{boundary}--\r\n".encode())
+
+    body = b"".join(body_parts)
+
+    url = f"https://api.telegram.org/bot{token}/sendPhoto"
+    req = urllib.request.Request(url, data=body, method="POST")
+    req.add_header("Content-Type", f"multipart/form-data; boundary={boundary}")
+
+    try:
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            if resp.status != 200:
+                print(f"[warn] sendPhoto returned {resp.status}", file=sys.stderr)
+    except Exception as e:
+        print(f"[warn] sendPhoto failed: {e}", file=sys.stderr)
+
+
 # ─── Main ───────────────────────────────────────────────────────────────────
 
 def main() -> None:
@@ -337,15 +453,26 @@ def main() -> None:
         print("[info] no strong verdicts — skipping (use without --strong-only to force)")
         return
 
-    snapshots = _load_snapshots(2)
+    all_snapshots = _load_snapshots(0)  # all for chart
+    recent_snapshots = all_snapshots[-2:] if len(all_snapshots) >= 2 else all_snapshots
 
+    # Message 1: Holdings
     msg1 = _format_holdings_msg(recs)
-    msg2 = _format_dashboard_msg(recs, snapshots)
-
     send_telegram(msg1)
     print("[ok] holdings message sent")
+
+    # Message 2: Dashboard
+    msg2 = _format_dashboard_msg(recs, recent_snapshots)
     send_telegram(msg2)
     print("[ok] dashboard message sent")
+
+    # Message 3: Chart (only if enough history)
+    chart_bytes = _generate_chart(all_snapshots)
+    if chart_bytes:
+        send_telegram_photo(chart_bytes, "📈 Portfolio — last 6 months")
+        print("[ok] chart sent")
+    else:
+        print(f"[info] chart skipped — need ≥3 snapshots (have {len(all_snapshots)})")
 
 
 if __name__ == "__main__":
