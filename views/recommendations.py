@@ -1,23 +1,25 @@
 """
-Recommendations — decision-first institutional view.
+Recommendations — clean card grid with click-to-modal detail view.
 
-Design principles (research-backed, Bloomberg + Morningstar pattern):
-  1. Answer the user's real question FIRST: "what should I do right now?"
-     → Priority Actions strip at top: highest-conviction SELL + strong BUYS,
-       each with a conviction bar and a single row — scannable in 2 seconds.
-  2. Group the rest by sector so the user reasons at portfolio level.
-  3. Rationale on demand (expanders).  No always-visible text walls.
-  4. Tight information density — hairlines, mono numerals, color-coded pills,
-     small typography. Match the Portfolio page's visual language 1:1.
-  5. A compact "All holdings" table collapsed at the bottom for completeness.
+Layout order:
+  1. Hero strip (stats)
+  2. Strong BUY holdings (highest conviction first)
+  3. New Ideas (outside portfolio)
+  4. SELL signals
+  5. Everything else (HOLD + lower conviction BUY)
+  6. Filter slider
+  7. Ideas accuracy scorecard
+
+Click any card → modal with full analysis: rationale, score breakdown, sector.
 """
 
 from _bootstrap import inject_css, inject_header, handle_actions, load_json, minify
 
 import html as _html
 from datetime import datetime, timezone
+from pathlib import Path
 import streamlit as st
-from config import DISPLAY_NAMES
+from config import DISPLAY_NAMES, SECTOR_MAP, ASSET_TYPE_MAP
 
 inject_css()
 inject_header("recommendations")
@@ -27,12 +29,10 @@ recs = load_json("recommendations.json")
 if not recs:
     st.markdown("""
     <div class="below-section">
-      <div class="sect-head">
-        <div>
-          <h2>Recommendations</h2>
-          <div class="sect-sub">No recommendations yet</div>
-        </div>
-      </div>
+      <div class="sect-head"><div>
+        <h2>Recommendations</h2>
+        <div class="sect-sub">No recommendations yet</div>
+      </div></div>
       <div style="border:1px solid var(--hair);padding:24px;background:var(--bg-softer);font-size:13px;">
         Click <b>Run analysis →</b> in the topbar to generate recommendations.
       </div>
@@ -40,8 +40,7 @@ if not recs:
     """, unsafe_allow_html=True)
     st.stop()
 
-
-# ─── Parse input ──────────────────────────────────────────────────────────
+# ─── Parse ───────────────────────────────────────────────────────────────────
 profile = recs.get("profile_name", "—")
 holdings = recs.get("holdings", [])
 new_ideas = recs.get("new_ideas", [])
@@ -49,16 +48,14 @@ updated_raw = recs.get("updated") or ""
 updated = updated_raw[:16].replace("T", " ") if updated_raw else "—"
 is_dry_run = bool(recs.get("dry_run", False))
 
-# Freshness badge
+# Freshness
 _freshness_html = ""
 if updated_raw:
     try:
         _ts = datetime.fromisoformat(updated_raw.replace("Z", "+00:00"))
         _age_h = (datetime.now(timezone.utc) - _ts).total_seconds() / 3600
-        if _age_h < 1:
-            _fl, _fc = "Just now", "fresh-green"
-        elif _age_h < 12:
-            _fl, _fc = f"{int(_age_h)}h ago", "fresh-green"
+        if _age_h < 12:
+            _fl, _fc = f"{int(_age_h)}h ago" if _age_h >= 1 else "Just now", "fresh-green"
         elif _age_h < 48:
             _fl, _fc = f"{int(_age_h)}h ago", "fresh-yellow"
         else:
@@ -70,87 +67,33 @@ if updated_raw:
 n_buy = sum(1 for h in holdings if (h.get("verdict") or "").lower() == "buy")
 n_hold = sum(1 for h in holdings if (h.get("verdict") or "").lower() == "hold")
 n_sell = sum(1 for h in holdings if (h.get("verdict") or "").lower() == "sell")
-n_analysts = max((len(h.get("personas", [])) for h in holdings), default=0)
-
-
-# Load sectors once (portfolio.json has .sector)
-_portfolio = load_json("portfolio.json") or {}
-_SECTORS = {h.get("ticker"): (h.get("sector") or "Other")
-            for h in _portfolio.get("holdings", [])}
 
 VERDICT_CLS = {"buy": "pill-buy", "sell": "pill-sell", "hold": "pill-hold"}
 VERDICT_COLOR = {"buy": "#047857", "sell": "#B91C1C", "hold": "#92400E"}
-PERSONA_COLORS = {
-    "warren_buffett": "#1E3A8A", "charlie_munger": "#475569",
-    "cathie_wood": "#BE185D", "peter_lynch": "#EA580C",
-    "michael_burry": "#991B1B", "ben_graham": "#0369A1",
-    "technical_analyst": "#0891B2", "fundamentals_analyst": "#15803D",
-    "risk_manager": "#6D28D9", "valuation": "#4338CA",
-    "sentiment": "#B45309", "macro": "#1F2937",
-}
 
-
-def _sector_of(ticker: str) -> str:
-    return _SECTORS.get(ticker, "Other")
-
-
-def _vote_breakdown(personas):
-    nb = sum(1 for p in personas if (p.get("verdict") or "").lower() == "buy")
-    nh = sum(1 for p in personas if (p.get("verdict") or "").lower() == "hold")
-    ns = sum(1 for p in personas if (p.get("verdict") or "").lower() == "sell")
-    return nb, nh, ns
-
-
-def _vote_mono_html(nb, nh, ns):
-    return (
-        f'<span class="up mono">{nb}</span>'
-        f'<span class="txt-mute mono">/</span>'
-        f'<span class="mono" style="color:var(--hold);">{nh}</span>'
-        f'<span class="txt-mute mono">/</span>'
-        f'<span class="dn mono">{ns}</span>'
-    )
-
-
-def _conviction_bar(pct: int, verdict: str) -> str:
-    color = VERDICT_COLOR.get(verdict, "#6B7280")
-    pct = max(0, min(100, int(pct)))
-    return (
-        f'<div class="conv-bar" title="Conviction {pct}%">'
-        f'<div class="conv-bar-fill" style="width:{pct}%;background:{color};"></div>'
-        f'</div>'
-    )
-
-
-SCORE_LABELS = {
-    "quality": "Quality",
-    "valuation": "Valuation",
-    "risk": "Risk",
-    "macro": "Macro",
-    "sentiment": "Sentiment",
-    "technical": "Trend",
-}
-
-# Load scoring weights from settings for display
-_settings_for_weights = load_json("settings.json") or {}
-_SCORE_WEIGHTS = _settings_for_weights.get("scoring_weights", {
-    "quality": 30, "valuation": 25, "risk": 20,
-    "macro": 15, "sentiment": 5, "technical": 5,
+# Load scoring weights
+_sw_settings = load_json("settings.json") or {}
+_SCORE_WEIGHTS = _sw_settings.get("scoring_weights", {
+    "quality": 30, "valuation": 25, "risk": 20, "macro": 15, "sentiment": 5, "technical": 5,
 })
-# Sort categories by weight (most important first)
-_SCORE_ORDER = sorted(SCORE_LABELS.keys(), key=lambda k: -_SCORE_WEIGHTS.get(k, 0))
+_SCORE_ORDER = sorted(
+    ["quality", "valuation", "risk", "macro", "sentiment", "technical"],
+    key=lambda k: -_SCORE_WEIGHTS.get(k, 0),
+)
+
+SCORE_LABELS = {"quality": "Quality", "valuation": "Valuation", "risk": "Risk",
+                "macro": "Macro", "sentiment": "Sentiment", "technical": "Trend"}
+SCORE_ICONS = {"quality": "🏛️", "valuation": "💰", "risk": "🛡️",
+               "macro": "🌍", "sentiment": "📊", "technical": "📈"}
 
 
 def _score_color(val: int) -> str:
-    if val >= 65:
-        return "#047857"
-    elif val >= 40:
-        return "#b45309"
-    else:
-        return "#b91c1c"
+    if val >= 65: return "#047857"
+    elif val >= 40: return "#b45309"
+    return "#b91c1c"
 
 
 def _score_bars_html(scores: dict) -> str:
-    """Render 6 horizontal score bars, ordered by weight (most important first)."""
     if not scores:
         return ""
     rows = []
@@ -159,139 +102,159 @@ def _score_bars_html(scores: dict) -> str:
         color = _score_color(val)
         label = SCORE_LABELS.get(key, key)
         weight = _SCORE_WEIGHTS.get(key, 0)
-        # Show weight as subtle suffix if > 0
-        weight_html = f'<span class="score-weight">{weight}%</span>' if weight else ''
+        whtml = f'<span class="score-weight">{weight}%</span>' if weight else ''
         rows.append(
             f'<div class="score-row">'
-            f'<span class="score-label">{label}{weight_html}</span>'
+            f'<span class="score-label">{label}{whtml}</span>'
             f'<div class="score-bar"><div class="score-fill" style="width:{val}%;background:{color};"></div></div>'
             f'<span class="score-val" style="color:{color};">{val}</span>'
-            f'</div>'
-        )
+            f'</div>')
     return f'<div class="score-bars">{"".join(rows)}</div>'
 
 
-def persona_block_html(p):
-    pkey = p.get("name", "")
-    pname = _html.escape(p.get("display_name") or pkey)
-    pv = (p.get("verdict") or "hold").lower()
-    pc = int(p.get("conviction", 0))
-    pcol = PERSONA_COLORS.get(pkey, "#6B7280")
-    cls = VERDICT_CLS.get(pv, "pill-hold")
-    rationale = _html.escape(p.get("rationale", ""))
-    is_hebrew = any('\u0590' <= c <= '\u05FF' for c in (p.get("rationale") or "")[:80])
-    dir_attr = ' dir="rtl"' if is_hebrew else ''
-    return (
-        f'<div class="recs-persona" style="border-left-color:{pcol};">'
-        f'<div class="recs-persona-head">'
-        f'<div class="recs-persona-name" style="color:{pcol};">{pname}</div>'
-        f'<span class="pill {cls}" style="font-size:10px;">{pv.upper()} {pc}</span>'
-        f'</div>'
-        f'<div{dir_attr} class="recs-persona-body">{rationale}</div>'
-        f'</div>'
-    )
+def _conviction_bar(pct: int, verdict: str) -> str:
+    color = VERDICT_COLOR.get(verdict, "#6B7280")
+    pct = max(0, min(100, int(pct)))
+    return (f'<div class="conv-bar" title="Conviction {pct}%">'
+            f'<div class="conv-bar-fill" style="width:{pct}%;background:{color};"></div></div>')
 
 
-def render_priority_card(h: dict, accent: str) -> None:
-    """Prominent card for Priority Actions — same grid as sector cards but slightly larger."""
-    tk = h.get("ticker", "")
-    name = DISPLAY_NAMES.get(tk, tk)
-    sector = _sector_of(tk)
-    v = (h.get("verdict") or "hold").lower()
-    c = int(h.get("conviction", 0))
-    personas = h.get("personas", [])
-    scores = h.get("scores", {})
-    nb, nh, ns = _vote_breakdown(personas)
-    total = max(1, nb + nh + ns)
+def _sector_of(ticker: str) -> str:
+    return SECTOR_MAP.get(ticker, "Other")
+
+
+# ─── Detail Modal ────────────────────────────────────────────────────────────
+
+@st.dialog("Analysis", width="large")
+def _show_detail(item: dict, is_idea: bool = False):
+    """Modal with full analysis: rationale, score breakdown, sector context."""
+    tk = item.get("ticker", "")
+    name = DISPLAY_NAMES.get(tk, item.get("name", tk))
+    v = (item.get("verdict") or "hold").lower()
+    c = int(item.get("conviction", 0))
+    scores = item.get("scores", {})
+    rationale = item.get("rationale", "")
+    sector = _sector_of(tk) if not is_idea else "New Idea"
+    asset_type = ASSET_TYPE_MAP.get(tk, "")
+
+    verdict_label = {"buy": "BUY — Recommended", "sell": "SELL — Reduce/Exit",
+                     "hold": "HOLD — No Action"}.get(v, v.upper())
+    verdict_color = VERDICT_COLOR.get(v, "#6B7280")
+
+    # Header
     st.markdown(
-        f'<div class="priority-card priority-card-{accent}">'
-        f'  <div class="priority-card-top">'
-        f'    <div class="priority-ticker mono">{tk}</div>'
-        f'    <span class="pill {VERDICT_CLS.get(v, "pill-hold")}">{v.upper()}</span>'
-        f'  </div>'
-        f'  <div class="priority-name txt-dim">{name}</div>'
-        f'  <div class="priority-sector txt-mute">{sector}</div>'
-        f'  {_score_bars_html(scores)}'
-        f'  {_conviction_bar(c, v)}'
-        f'  <div class="priority-bottom">'
-        f'    <div class="priority-pct mono">{c}<span class="txt-mute" style="font-size:11px;">%</span></div>'
-        f'    <div class="priority-votes mono txt-dim">{_vote_mono_html(nb, nh, ns)} <span class="txt-mute">/ {total}</span></div>'
-        f'  </div>'
+        f'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;">'
+        f'<div>'
+        f'<div style="font-size:28px;font-weight:700;font-family:\'IBM Plex Mono\',monospace;color:var(--text);">{tk}</div>'
+        f'<div style="font-size:14px;color:var(--text-dim);margin-top:2px;">{_html.escape(name)}</div>'
+        f'<div style="font-size:11px;color:var(--text-mute);text-transform:uppercase;letter-spacing:0.1em;margin-top:4px;">{sector} · {asset_type}</div>'
+        f'</div>'
+        f'<div style="text-align:right;">'
+        f'<div style="font-size:14px;font-weight:700;color:{verdict_color};letter-spacing:0.04em;">{verdict_label}</div>'
+        f'<div style="font-size:32px;font-weight:700;color:var(--text);font-family:\'IBM Plex Mono\',monospace;">{c}%</div>'
+        f'<div style="font-size:10px;color:var(--text-mute);">CONVICTION</div>'
+        f'</div>'
         f'</div>',
         unsafe_allow_html=True,
     )
-    if personas:
-        with st.expander(f"Why {tk}? — {len(personas)} analysts", expanded=False):
+
+    # Rationale
+    if rationale:
+        is_hebrew = any('\u0590' <= ch <= '\u05FF' for ch in rationale[:80])
+        rtl = ' dir="rtl" style="text-align:right;"' if is_hebrew else ''
+        st.markdown(
+            f'<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;'
+            f'padding:16px 20px;margin-bottom:20px;font-size:14px;line-height:1.8;">'
+            f'<div style="font-size:11px;font-weight:600;color:var(--text-dim);text-transform:uppercase;'
+            f'letter-spacing:0.12em;margin-bottom:8px;">Analysis</div>'
+            f'<div{rtl}>{_html.escape(rationale)}</div>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+
+    # Score breakdown
+    if scores:
+        st.markdown(
+            '<div style="font-size:11px;font-weight:600;color:var(--text-dim);text-transform:uppercase;'
+            'letter-spacing:0.12em;margin-bottom:10px;">Score Breakdown</div>',
+            unsafe_allow_html=True,
+        )
+        for key in _SCORE_ORDER:
+            val = scores.get(key, 50)
+            color = _score_color(val)
+            icon = SCORE_ICONS.get(key, "")
+            label = SCORE_LABELS.get(key, key)
+            weight = _SCORE_WEIGHTS.get(key, 0)
+            signal = "Bullish" if val > 60 else "Bearish" if val < 40 else "Neutral"
+            signal_color = _score_color(val)
+            bar_w = max(2, val)
             st.markdown(
-                '<div class="recs-persona-grid">'
-                + "".join(persona_block_html(p) for p in personas)
-                + '</div>',
+                f'<div style="display:flex;align-items:center;gap:10px;padding:8px 0;'
+                f'border-bottom:1px solid #f0f0f0;">'
+                f'<div style="width:28px;text-align:center;font-size:16px;">{icon}</div>'
+                f'<div style="width:80px;">'
+                f'<div style="font-size:12px;font-weight:600;color:var(--text);">{label}</div>'
+                f'<div style="font-size:10px;color:var(--text-mute);">Weight: {weight}%</div>'
+                f'</div>'
+                f'<div style="flex:1;height:8px;background:#f0f0f0;border-radius:4px;overflow:hidden;">'
+                f'<div style="width:{bar_w}%;height:100%;background:{color};border-radius:4px;"></div>'
+                f'</div>'
+                f'<div style="width:32px;text-align:right;font-size:14px;font-weight:700;'
+                f'color:{color};font-family:\'IBM Plex Mono\',monospace;">{val}</div>'
+                f'<div style="width:52px;font-size:10px;color:{signal_color};font-weight:500;">{signal}</div>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+
+        # Weighted average
+        total_w = sum(_SCORE_WEIGHTS.get(k, 0) for k in scores)
+        if total_w > 0:
+            wavg = sum(scores.get(k, 50) * _SCORE_WEIGHTS.get(k, 0) for k in scores) / total_w
+            st.markdown(
+                f'<div style="display:flex;justify-content:space-between;align-items:baseline;'
+                f'margin-top:12px;padding-top:12px;border-top:2px solid var(--hair);">'
+                f'<div style="font-size:12px;font-weight:600;color:var(--text);">Weighted Average</div>'
+                f'<div style="font-size:20px;font-weight:700;color:{_score_color(int(wavg))};'
+                f'font-family:\'IBM Plex Mono\',monospace;">{wavg:.0f}</div>'
+                f'</div>',
                 unsafe_allow_html=True,
             )
 
 
-def render_mini_card(h: dict, accent: str) -> None:
-    """Tight 3-column-grid card for sector groupings."""
-    tk = h.get("ticker", "")
-    name = DISPLAY_NAMES.get(tk, tk)
-    v = (h.get("verdict") or "hold").lower()
-    c = int(h.get("conviction", 0))
-    personas = h.get("personas", [])
-    scores = h.get("scores", {})
-    nb, nh, ns = _vote_breakdown(personas)
+# ─── Card renderer (no expander, just a button) ─────────────────────────────
+
+def _render_card(item: dict, accent: str, is_idea: bool = False) -> None:
+    """Render a card + 'Details' button that opens the modal."""
+    tk = item.get("ticker", "")
+    name = DISPLAY_NAMES.get(tk, item.get("name", tk))
+    v = (item.get("verdict") or ("buy" if is_idea else "hold")).lower()
+    c = int(item.get("conviction", 0))
+    scores = item.get("scores", {})
+    sector = _sector_of(tk) if not is_idea else ""
+
+    pill_cls = VERDICT_CLS.get(v, "pill-hold") if not is_idea else "pill-new"
+    pill_text = f"{v.upper()} {c}" if not is_idea else f"NEW {c}"
+
     st.markdown(
         f'<div class="mini-card mini-card-{accent}">'
         f'  <div class="mini-card-top">'
         f'    <div class="mini-ticker mono">{tk}</div>'
-        f'    <span class="pill {VERDICT_CLS.get(v, "pill-hold")}">{v.upper()} {c}</span>'
+        f'    <span class="pill {pill_cls}">{pill_text}</span>'
         f'  </div>'
-        f'  <div class="mini-name txt-dim">{name}</div>'
+        f'  <div class="mini-name txt-dim">{_html.escape(name)}</div>'
+        f'  {"<div class=\"priority-sector txt-mute\">" + sector + "</div>" if sector else ""}'
         f'  {_score_bars_html(scores)}'
         f'  {_conviction_bar(c, v)}'
-        f'  <div class="mini-votes mono txt-dim">{_vote_mono_html(nb, nh, ns)}</div>'
         f'</div>',
         unsafe_allow_html=True,
     )
-    if personas:
-        with st.expander(f"Why {tk}?", expanded=False):
-            st.markdown(
-                '<div class="recs-persona-grid">'
-                + "".join(persona_block_html(p) for p in personas)
-                + '</div>',
-                unsafe_allow_html=True,
-            )
+    if st.button("View analysis", key=f"btn_{tk}_{accent}", use_container_width=True):
+        _show_detail(item, is_idea)
 
 
-def render_new_idea_card(idea: dict):
-    tk = idea.get("ticker", "")
-    name = _html.escape(idea.get("name", tk))
-    conv = int(idea.get("conviction", 0))
-    rationale_raw = idea.get("rationale", "")
-    rationale = _html.escape(rationale_raw)
-    is_hebrew = any('\u0590' <= c <= '\u05FF' for c in rationale_raw[:80])
-    rtl = ' dir="rtl"' if is_hebrew else ''
-    st.markdown(
-        f'<div class="mini-card mini-card-idea">'
-        f'  <div class="mini-card-top">'
-        f'    <div class="mini-ticker mono">{tk}</div>'
-        f'    <span class="pill pill-new">NEW {conv}</span>'
-        f'  </div>'
-        f'  <div class="mini-name txt-dim">{name}</div>'
-        f'  {_conviction_bar(conv, "buy")}'
-        f'</div>',
-        unsafe_allow_html=True,
-    )
-    if rationale:
-        with st.expander(f"Why {tk}?", expanded=False):
-            st.markdown(
-                f'<div{rtl} class="recs-idea-body">{rationale}</div>',
-                unsafe_allow_html=True,
-            )
-
-
-# ═══════════════════════════════════════════════════════════════════════════
-# Hero strip — one line, dense, scannable
-# ═══════════════════════════════════════════════════════════════════════════
+# ═══════════════════════════════════════════════════════════════════════════════
+# HERO
+# ═══════════════════════════════════════════════════════════════════════════════
 st.markdown(minify(f"""
 <section class="recs-hero">
   <div class="recs-hero-left">
@@ -307,7 +270,7 @@ st.markdown(minify(f"""
     </div>
   </div>
   <div class="recs-hero-right mono">
-    {n_analysts} analysts per stock · Generated {updated} {_freshness_html}
+    Generated {updated} {_freshness_html}
   </div>
 </section>
 """), unsafe_allow_html=True)
@@ -315,251 +278,159 @@ st.markdown(minify(f"""
 if is_dry_run:
     st.markdown(
         '<div class="recs-dry-note">'
-        'Dry-run data — rationales are local placeholders, not live Gemini output. '
-        'Click <b>Run analysis →</b> for real output.'
-        '</div>',
-        unsafe_allow_html=True,
-    )
+        'Dry-run data — click <b>Run analysis →</b> for live Gemini output.'
+        '</div>', unsafe_allow_html=True)
+
+min_conv: int = st.session_state.get("min_conv", 0)
 
 
-# Slider lives at the bottom of the page; read the persisted value here.
-min_conv: int = st.session_state.get("min_conv", 75)
+# ─── Sort all holdings into ordered groups ───────────────────────────────────
 
-
-# ═══════════════════════════════════════════════════════════════════════════
-# 1. PRIORITY ACTIONS
-# ═══════════════════════════════════════════════════════════════════════════
-sells = sorted(
-    [h for h in holdings
-     if (h.get("verdict") or "").lower() == "sell"
+buys = sorted(
+    [h for h in holdings if (h.get("verdict") or "").lower() == "buy"
      and int(h.get("conviction", 0)) >= min_conv],
     key=lambda h: -int(h.get("conviction", 0)),
 )
-strong_buys = sorted(
-    [h for h in holdings
-     if (h.get("verdict") or "").lower() == "buy"
-     and int(h.get("conviction", 0)) >= max(min_conv, 75)],
+sells = sorted(
+    [h for h in holdings if (h.get("verdict") or "").lower() == "sell"
+     and int(h.get("conviction", 0)) >= min_conv],
     key=lambda h: -int(h.get("conviction", 0)),
 )
-priority_count = len(sells) + min(len(strong_buys), 3)
-
-st.markdown(
-    f'<div class="below-section">'
-    f'<div class="sect-head">'
-    f'<div>'
-    f'<h2>Priority Actions</h2>'
-    f'<div class="sect-sub">Sells first, then strongest buys (≥ 75%)</div>'
-    f'</div>'
-    f'<div class="sect-side">{priority_count} actionable</div>'
-    f'</div>'
-    f'</div>',
-    unsafe_allow_html=True,
+rest = sorted(
+    [h for h in holdings if (h.get("verdict") or "").lower() == "hold"
+     and int(h.get("conviction", 0)) >= min_conv],
+    key=lambda h: -int(h.get("conviction", 0)),
 )
-
-if priority_count == 0:
-    st.markdown(
-        '<div class="recs-empty-lg">'
-        '<div class="recs-empty-title">✓ No urgent actions</div>'
-        '<div class="recs-empty-sub">Your positions are balanced at this threshold. '
-        'Lower the slider or review the Buy Signals below.</div>'
-        '</div>',
-        unsafe_allow_html=True,
-    )
-else:
-    priority_items = [(h, "sell") for h in sells] + [(h, "buy") for h in strong_buys[:3]]
-    rows = [priority_items[i:i+3] for i in range(0, len(priority_items), 3)]
-    for row in rows:
-        cols = st.columns(len(row) if len(row) < 3 else 3, gap="small")
-        for ci, (h, accent) in enumerate(row):
-            with cols[ci]:
-                render_priority_card(h, accent)
-
-
-# ═══════════════════════════════════════════════════════════════════════════
-# 2. BUY SIGNALS BY SECTOR
-# ═══════════════════════════════════════════════════════════════════════════
-top_3_buy_tickers = {h.get("ticker") for h in strong_buys[:3]}
-remaining_buys = [h for h in holdings
-                  if (h.get("verdict") or "").lower() == "buy"
-                  and int(h.get("conviction", 0)) >= min_conv
-                  and h.get("ticker") not in top_3_buy_tickers]
-
-by_sector = {}
-for h in remaining_buys:
-    sec = _sector_of(h.get("ticker", ""))
-    by_sector.setdefault(sec, []).append(h)
-
-if by_sector:
-    st.markdown(
-        f'<div class="below-section">'
-        f'<div class="sect-head">'
-        f'<div>'
-        f'<h2>Buy Signals by Sector</h2>'
-        f'<div class="sect-sub">Grouped for portfolio-level reasoning</div>'
-        f'</div>'
-        f'<div class="sect-side">{len(remaining_buys)} holdings</div>'
-        f'</div>'
-        f'</div>',
-        unsafe_allow_html=True,
-    )
-    for sec in sorted(by_sector.keys(), key=lambda s: -len(by_sector[s])):
-        stocks = sorted(by_sector[sec], key=lambda h: -int(h.get("conviction", 0)))
-        st.markdown(
-            f'<div class="sector-head">'
-            f'<span class="sector-name">{sec}</span>'
-            f'<span class="sector-count mono txt-dim">{len(stocks)}</span>'
-            f'</div>',
-            unsafe_allow_html=True,
-        )
-        rows = [stocks[i:i + 3] for i in range(0, len(stocks), 3)]
-        for row in rows:
-            cols = st.columns(3, gap="small")
-            for ci, h in enumerate(row):
-                with cols[ci]:
-                    render_mini_card(h, "buy")
-
-
-# ═══════════════════════════════════════════════════════════════════════════
-# 3. NEW IDEAS
-# ═══════════════════════════════════════════════════════════════════════════
-filtered_ideas = sorted(
+ideas_filtered = sorted(
     [i for i in new_ideas if int(i.get("conviction", 0)) >= min_conv],
     key=lambda x: -int(x.get("conviction", 0)),
 )
-if filtered_ideas:
-    st.markdown(
-        f'<div class="below-section">'
-        f'<div class="sect-head">'
-        f'<div>'
-        f'<h2>New Ideas</h2>'
-        f'<div class="sect-sub">Outside your portfolio · fits your profile</div>'
-        f'</div>'
-        f'<div class="sect-side">{len(filtered_ideas)}</div>'
-        f'</div>'
-        f'</div>',
-        unsafe_allow_html=True,
-    )
-    top_ideas = filtered_ideas[:6]
-    rows = [top_ideas[i:i + 3] for i in range(0, len(top_ideas), 3)]
-    for row in rows:
+
+
+def _render_grid(items: list, accent: str, is_idea: bool = False):
+    """Render items in a 3-column grid."""
+    for i in range(0, len(items), 3):
+        row = items[i:i + 3]
         cols = st.columns(3, gap="small")
-        for ci, idea in enumerate(row):
+        for ci, item in enumerate(row):
             with cols[ci]:
-                render_new_idea_card(idea)
+                _render_card(item, accent, is_idea)
 
 
-# ═══════════════════════════════════════════════════════════════════════════
-# 4. ALL HOLDINGS — compact table
-# ═══════════════════════════════════════════════════════════════════════════
-with st.expander(f"All {len(holdings)} holdings — full review table", expanded=False):
-    rows_html = []
-    for h in sorted(holdings, key=lambda x: -int(x.get("conviction", 0))):
-        tk = h.get("ticker", "")
-        name = DISPLAY_NAMES.get(tk, tk)
-        sec = _sector_of(tk)
-        v = (h.get("verdict") or "hold").lower()
-        c = int(h.get("conviction", 0))
-        personas = h.get("personas", [])
-        nb, nh, ns = _vote_breakdown(personas)
-        rows_html.append(
-            f'<tr>'
-            f'<td class="recs-tbl-tkr mono">{tk}</td>'
-            f'<td class="recs-tbl-name">{name}</td>'
-            f'<td class="txt-dim" style="font-size:11px;">{sec}</td>'
-            f'<td class="r"><span class="pill {VERDICT_CLS.get(v, "pill-hold")}" '
-            f'style="font-size:10px;">{v.upper()}</span></td>'
-            f'<td class="r mono" style="font-weight:500;">{c}%</td>'
-            f'<td class="r mono">{_vote_mono_html(nb, nh, ns)}</td>'
-            f'</tr>'
-        )
+# ═══════════════════════════════════════════════════════════════════════════════
+# 1. BUY — strongest recommendations first
+# ═══════════════════════════════════════════════════════════════════════════════
+if buys:
     st.markdown(
-        '<table class="recs-table">'
-        '<thead><tr>'
-        '<th>Ticker</th><th>Name</th><th>Sector</th>'
-        '<th class="r">Verdict</th>'
-        '<th class="r">Conv.</th>'
-        '<th class="r">B/H/S</th>'
-        '</tr></thead>'
-        f'<tbody>{"".join(rows_html)}</tbody>'
-        '</table>',
-        unsafe_allow_html=True,
-    )
+        f'<div class="below-section"><div class="sect-head"><div>'
+        f'<h2>Buy Recommendations</h2>'
+        f'<div class="sect-sub">Strongest conviction first — click any card for full analysis</div>'
+        f'</div><div class="sect-side">{len(buys)}</div></div></div>',
+        unsafe_allow_html=True)
+    _render_grid(buys, "buy")
 
 
-# ═══════════════════════════════════════════════════════════════════════════
-# FILTER — lives at the bottom so it doesn't push content down
-# ═══════════════════════════════════════════════════════════════════════════
+# ═══════════════════════════════════════════════════════════════════════════════
+# 2. NEW IDEAS — outside portfolio
+# ═══════════════════════════════════════════════════════════════════════════════
+if ideas_filtered:
+    st.markdown(
+        f'<div class="below-section"><div class="sect-head"><div>'
+        f'<h2>New Ideas</h2>'
+        f'<div class="sect-sub">Outside your portfolio — fits your profile</div>'
+        f'</div><div class="sect-side">{len(ideas_filtered)}</div></div></div>',
+        unsafe_allow_html=True)
+    _render_grid(ideas_filtered[:6], "idea", is_idea=True)
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# 3. SELL — reduce or exit
+# ═══════════════════════════════════════════════════════════════════════════════
+if sells:
+    st.markdown(
+        f'<div class="below-section"><div class="sect-head"><div>'
+        f'<h2>Sell Signals</h2>'
+        f'<div class="sect-sub">Consider reducing or exiting these positions</div>'
+        f'</div><div class="sect-side">{len(sells)}</div></div></div>',
+        unsafe_allow_html=True)
+    _render_grid(sells, "sell")
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# 4. HOLD — no action needed
+# ═══════════════════════════════════════════════════════════════════════════════
+if rest:
+    st.markdown(
+        f'<div class="below-section"><div class="sect-head"><div>'
+        f'<h2>Hold</h2>'
+        f'<div class="sect-sub">No action recommended — continue holding</div>'
+        f'</div><div class="sect-side">{len(rest)}</div></div></div>',
+        unsafe_allow_html=True)
+    _render_grid(rest, "hold")
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# FILTER
+# ═══════════════════════════════════════════════════════════════════════════════
 st.markdown('<div style="height:24px;"></div>', unsafe_allow_html=True)
 fc1, fc2 = st.columns([2, 5], gap="small")
 with fc1:
     st.slider("Minimum conviction", min_value=0, max_value=100,
-              value=75, step=5, label_visibility="collapsed", key="min_conv")
+              value=0, step=5, label_visibility="collapsed", key="min_conv")
 with fc2:
     st.markdown(
         f'<div class="recs-filter-caption" style="margin-top:8px;">'
         f'Filter · showing items with conviction ≥ <b>{min_conv}%</b></div>',
-        unsafe_allow_html=True,
-    )
+        unsafe_allow_html=True)
 
 
-# ═══════════════════════════════════════════════════════════════════════════
-# 5. IDEAS ACCURACY — track how past suggestions performed
-# ═══════════════════════════════════════════════════════════════════════════
+# ═══════════════════════════════════════════════════════════════════════════════
+# IDEAS ACCURACY
+# ═══════════════════════════════════════════════════════════════════════════════
 try:
     from accuracy_tracker import compute_ideas_accuracy
     import json as _json
-    _ideas_path = load_json("ideas_history.json") if False else None  # use direct load
-    _ideas_hist_file = __import__("pathlib").Path(__file__).resolve().parent.parent / "ideas_history.json"
-    if _ideas_hist_file.exists():
-        _ideas_hist = _json.loads(_ideas_hist_file.read_text())
-        if _ideas_hist and len(_ideas_hist) >= 1:
-            # Fetch current prices for tracked ideas
+    _hist_file = Path(__file__).resolve().parent.parent / "ideas_history.json"
+    if _hist_file.exists():
+        _hist = _json.loads(_hist_file.read_text())
+        if _hist:
             try:
                 from data_loader import fetch_live_quotes
-                _idea_tickers = list({i["ticker"] for i in _ideas_hist if i.get("ticker")})
-                _idea_quotes = fetch_live_quotes(_idea_tickers)
-                _idea_prices = {}
-                if not _idea_quotes.empty:
-                    for _, row in _idea_quotes.iterrows():
-                        _idea_prices[row["ticker"]] = row.get("price", 0)
-                _accuracy = compute_ideas_accuracy(_ideas_hist, _idea_prices)
-                if _accuracy["total"] > 0:
+                _tks = list({i["ticker"] for i in _hist if i.get("ticker")})
+                _quotes = fetch_live_quotes(_tks)
+                _prices = {}
+                if not _quotes.empty:
+                    for _, row in _quotes.iterrows():
+                        _prices[row["ticker"]] = row.get("price", 0)
+                _acc = compute_ideas_accuracy(_hist, _prices)
+                if _acc["total"] > 0:
                     with st.expander(
-                        f"Ideas Scorecard — {_accuracy['total']} tracked, "
-                        f"{_accuracy['hit_rate']*100:.0f}% hit rate",
-                        expanded=False,
-                    ):
-                        _acc_rows = []
-                        for idea in _accuracy["ideas"]:
-                            _emoji = "✅" if idea["profitable"] else "❌"
-                            _acc_rows.append(
-                                f'<tr>'
-                                f'<td class="mono">{idea["ticker"]}</td>'
+                        f"Ideas Scorecard — {_acc['total']} tracked, "
+                        f"{_acc['hit_rate']*100:.0f}% profitable", expanded=False):
+                        _rows = []
+                        for idea in _acc["ideas"]:
+                            e = "✅" if idea["profitable"] else "❌"
+                            _rows.append(
+                                f'<tr><td class="mono">{idea["ticker"]}</td>'
                                 f'<td>{idea["suggested_date"]}</td>'
                                 f'<td class="r mono">${idea["suggested_price"]:.1f}</td>'
                                 f'<td class="r mono">${idea["current_price"]:.1f}</td>'
                                 f'<td class="r mono" style="color:{"var(--up)" if idea["profitable"] else "var(--dn)"};">'
-                                f'{idea["return_pct"]:+.1f}%</td>'
-                                f'<td>{_emoji}</td>'
-                                f'</tr>'
-                            )
+                                f'{idea["return_pct"]:+.1f}%</td><td>{e}</td></tr>')
                         st.markdown(
-                            '<table class="recs-table">'
-                            '<thead><tr><th>Ticker</th><th>Suggested</th>'
-                            '<th class="r">Entry</th><th class="r">Now</th>'
-                            '<th class="r">Return</th><th>Hit</th></tr></thead>'
-                            f'<tbody>{"".join(_acc_rows)}</tbody></table>',
-                            unsafe_allow_html=True,
-                        )
+                            '<table class="recs-table"><thead><tr>'
+                            '<th>Ticker</th><th>Date</th><th class="r">Entry</th>'
+                            '<th class="r">Now</th><th class="r">Return</th><th>Hit</th>'
+                            f'</tr></thead><tbody>{"".join(_rows)}</tbody></table>',
+                            unsafe_allow_html=True)
             except Exception:
                 pass
 except Exception:
     pass
 
-
 st.markdown("""
 <footer class="page-footer">
   <div>AMIT CAPITAL · Recommendations · Market commentary, not financial advice.</div>
-  <div class="right">Powered by Gemini · Scoring Engine + AI Analyst Consensus</div>
+  <div class="right">Scoring Engine + Gemini Synthesis</div>
 </footer>
 """, unsafe_allow_html=True)

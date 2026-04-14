@@ -1553,20 +1553,24 @@ details[data-testid="stExpander"][open] summary {
     border-bottom: 1px solid var(--hair);
 }
 
-/* Streamlit native buttons (only used in below-fold widgets) */
+/* Streamlit native buttons */
 .stButton > button {
-    border-radius: 0 !important;
+    border-radius: 4px !important;
     border: 1px solid var(--hair) !important;
     background: #ffffff !important;
-    color: var(--text) !important;
-    font-size: 12px !important;
+    color: var(--text-dim) !important;
+    font-size: 11px !important;
     font-weight: 500 !important;
-    padding: 7px 14px !important;
+    padding: 6px 12px !important;
     font-family: inherit !important;
+    letter-spacing: 0.02em;
+    transition: all 0.15s ease;
+    margin-top: 4px;
 }
 .stButton > button:hover {
-    background: var(--bg-soft) !important;
-    border-color: var(--text) !important;
+    background: #f0f4f8 !important;
+    border-color: var(--text-dim) !important;
+    color: var(--text) !important;
 }
 .stButton > button[kind="primary"] {
     background: var(--black) !important;
