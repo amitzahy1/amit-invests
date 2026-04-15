@@ -386,6 +386,14 @@ def macro_score(fed_rate: float | None = None,
                 signals.append(("bullish", 0.5))
             else:
                 signals.append(("neutral", 0.3))
+        elif asset_type == "crypto":
+            # Crypto thrives on cheap money + risk-on sentiment
+            if fed_rate < 3.0:
+                signals.append(("bullish", 0.7))  # very favorable
+            elif fed_rate > 5.5:
+                signals.append(("bearish", 0.7))  # very unfavorable
+            else:
+                signals.append(("neutral", 0.3))
         else:
             if fed_rate < 3.0:
                 signals.append(("bullish", 0.5))  # cheap money
@@ -523,6 +531,68 @@ def quality_score(fundamentals: dict | None) -> int:
 # AGGREGATION
 # ═══════════════════════════════════════════════════════════════════════════════
 
+def _crypto_valuation_score(technicals: dict, news: list, macro: dict) -> int:
+    """Crypto doesn't have earnings. Use momentum + market context as proxy."""
+    score = 50
+    # Crypto is a risk-on asset — favors low VIX, low rates
+    vix = macro.get("vix")
+    if vix is not None:
+        if vix < 15:
+            score += 10
+        elif vix > 25:
+            score -= 10
+    # Price vs MA200 momentum
+    rsi = technicals.get("rsi14", 50)
+    if rsi < 30:
+        score += 15  # oversold = opportunity
+    elif rsi > 75:
+        score -= 15  # overbought = caution
+    return max(0, min(100, score))
+
+
+def _bond_valuation_score(fed_rate: float | None, ten_year: float | None) -> int:
+    """Bonds valued by yield environment. Higher yields > 4% = attractive entry."""
+    score = 50
+    if ten_year is not None:
+        if ten_year > 5:
+            score += 20  # high yields — lock them in
+        elif ten_year > 4:
+            score += 10
+        elif ten_year < 2:
+            score -= 15  # low yields = poor entry
+    if fed_rate is not None and ten_year is not None:
+        spread = ten_year - fed_rate
+        if spread < 0:
+            score += 10  # inverted curve = flight to safety = bond tailwind
+    return max(0, min(100, score))
+
+
+def _crypto_quality_score(price: float, ma200: float) -> int:
+    """Crypto quality = long-term trend strength (no balance sheet to analyze)."""
+    if not ma200 or ma200 == 0:
+        return 50
+    deviation = (price - ma200) / ma200
+    if deviation > 0.10:
+        return 70  # solid uptrend
+    elif deviation > 0:
+        return 60
+    elif deviation > -0.10:
+        return 50
+    elif deviation > -0.25:
+        return 40
+    else:
+        return 30  # far below MA200 = broken trend
+
+
+def _bond_quality_score(ticker: str) -> int:
+    """Government bonds = high quality by default (sovereign credit)."""
+    # KSM-F34 = Israeli Gov Bond — high quality
+    # F77 also gov, 5108.TA is insurance index (different)
+    if "KSM" in ticker or "government" in ticker.lower():
+        return 85  # government bonds = very high quality
+    return 70  # other fixed income = decent
+
+
 def compute_all_scores(
     ticker: str,
     quote: dict,
@@ -535,7 +605,12 @@ def compute_all_scores(
     asset_type: str,
     crypto_cap: float = 10,
 ) -> dict[str, int]:
-    """Compute all 6 scores for a ticker. Returns {score_name: 0-100}."""
+    """Compute all 6 scores for a ticker — asset-class-aware.
+
+    Stocks/ETFs: P/E, PEG, ROE, margins (classic fundamentals)
+    Crypto: momentum + macro (no earnings to analyze)
+    Bonds: yield environment + sovereign credit (not P/E-based)
+    """
     price = quote.get("price", 0) or 0
     is_bond = "Fixed Income" in (asset_type or "")
     is_crypto = "Crypto" in (asset_type or "")
@@ -543,8 +618,26 @@ def compute_all_scores(
     # Extract sector for valuation comparison
     sector = asset_type or ""
 
+    # Valuation — asset-class-specific
+    if is_crypto:
+        val_score = _crypto_valuation_score(technicals, news or [], macro_data)
+    elif is_bond:
+        val_score = _bond_valuation_score(
+            macro_data.get("fed_rate"),
+            macro_data.get("ten_year_yield"))
+    else:
+        val_score = valuation_score(fundamentals, price, sector)
+
+    # Quality — asset-class-specific
+    if is_crypto:
+        qual_score = _crypto_quality_score(price, technicals.get("ma200", 0))
+    elif is_bond:
+        qual_score = _bond_quality_score(ticker)
+    else:
+        qual_score = quality_score(fundamentals)
+
     return {
-        "valuation": valuation_score(fundamentals, price, sector),
+        "valuation": val_score,
         "technical": technical_score(
             price,
             technicals.get("ma50", 0),
@@ -566,8 +659,8 @@ def compute_all_scores(
             macro_data.get("ten_year_yield"),
             macro_data.get("vix"),
             macro_data.get("cpi_yoy"),
-            "bond" if is_bond else "stock"),
-        "quality": quality_score(fundamentals),
+            "bond" if is_bond else "crypto" if is_crypto else "stock"),
+        "quality": qual_score,
     }
 
 

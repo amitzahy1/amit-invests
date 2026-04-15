@@ -62,7 +62,7 @@ ASSET_TYPE_MAP = {
     "NLR": "Sector ETF",
     "VOO": "Broad Market ETF",
     "5108.TA": "Israeli ETF",
-    "KSM-F34.TA": "Israeli ETF",
+    "KSM-F34.TA": "Fixed Income (Israel)",
 }
 
 # ─── Display Names (English) ─────────────────────────────────────────────────
