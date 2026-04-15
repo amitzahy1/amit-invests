@@ -305,41 +305,49 @@ def risk_score(portfolio_weight: float = 0, beta: float = 1.0,
 
 def sentiment_score(analyst_buy: int = 0, analyst_hold: int = 0,
                     analyst_sell: int = 0,
-                    news_headlines: list | None = None) -> int:
-    """Compute sentiment score (0-100) from analyst consensus.
+                    news_headlines: list | None = None,
+                    social_sentiment: dict | None = None) -> int:
+    """Compute sentiment score (0-100) from analyst consensus + social sentiment.
 
-    Requires MIN_COVERAGE=3 analysts to emit a signal. Below that → neutral.
-    Coverage bonus is smoothed (not a cliff at 20 analysts).
+    Blend:
+      - 70% analyst consensus (hard data from Alpha Vantage)
+      - 30% social sentiment (Twitter/X via Perplexity) if available
+
+    Requires MIN_COVERAGE=3 analysts to emit an analyst signal.
     """
-    score = 50
+    analyst_score = 50
     total = analyst_buy + analyst_hold + analyst_sell
-    MIN_COVERAGE = 3  # don't trust signals from 1-2 analysts
+    MIN_COVERAGE = 3
 
     if total >= MIN_COVERAGE:
         buy_pct = analyst_buy / total
         sell_pct = analyst_sell / total
 
-        # Buy consensus (thresholds from ai-hedge-fund)
         if buy_pct > 0.80:
-            score += 25       # overwhelming buy consensus
+            analyst_score += 25
         elif buy_pct > 0.60:
-            score += 15
+            analyst_score += 15
         elif buy_pct > 0.50:
-            score += 5
+            analyst_score += 5
 
-        # Sell pressure
         if sell_pct > 0.30:
-            score -= 20
+            analyst_score -= 20
         elif sell_pct > 0.15:
-            score -= 10
+            analyst_score -= 10
 
-        # Smooth coverage adjustment: 0 at <3 analysts, full effect at 25+
-        # Dampen extreme scores when coverage is low
         coverage_factor = min(1.0, (total - MIN_COVERAGE) / 22.0 + 0.5)
-        # Pull score toward 50 proportional to coverage
-        score = int(50 + (score - 50) * coverage_factor)
+        analyst_score = int(50 + (analyst_score - 50) * coverage_factor)
 
-    return max(0, min(100, score))
+    analyst_score = max(0, min(100, analyst_score))
+
+    # Blend with social sentiment if available
+    if social_sentiment and "sentiment_score" in social_sentiment:
+        social_score = int(social_sentiment["sentiment_score"])
+        # 70% analyst (more reliable) + 30% social
+        blended = int(analyst_score * 0.7 + social_score * 0.3)
+        return max(0, min(100, blended))
+
+    return analyst_score
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -604,6 +612,7 @@ def compute_all_scores(
     sector_weight: float,
     asset_type: str,
     crypto_cap: float = 10,
+    social_sentiment: dict | None = None,
 ) -> dict[str, int]:
     """Compute all 6 scores for a ticker — asset-class-aware.
 
@@ -653,7 +662,8 @@ def compute_all_scores(
             (fundamentals or {}).get("analyst_buy", 0),
             (fundamentals or {}).get("analyst_hold", 0),
             (fundamentals or {}).get("analyst_sell", 0),
-            news),
+            news,
+            social_sentiment),
         "macro": macro_score(
             macro_data.get("fed_rate"),
             macro_data.get("ten_year_yield"),

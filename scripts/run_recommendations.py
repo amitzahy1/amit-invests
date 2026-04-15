@@ -676,6 +676,15 @@ def run_real(settings: dict, portfolio: dict) -> dict:
               file=sys.stderr)
         _macro = {}
 
+    # 3b. Social sentiment via Perplexity (optional — skips if PERPLEXITY_API_KEY unset)
+    try:
+        from data_loader_social import fetch_all_social_sentiment
+        _social = fetch_all_social_sentiment(tickers)
+    except Exception as e:
+        print(f"[warn] social sentiment fetch failed ({e}); proceeding without",
+              file=sys.stderr)
+        _social = {}
+
     # 4. Compute portfolio weights for risk_manager persona
     try:
         _total_value = sum(
@@ -728,7 +737,8 @@ def run_real(settings: dict, portfolio: dict) -> dict:
                     _fundamentals.get(tk), _macro, _news.get(tk, []),
                     tk_weight, tk_sec_weight,
                     ASSET_TYPE_MAP.get(tk, ""),
-                    settings.get("crypto_cap_pct", 10))
+                    settings.get("crypto_cap_pct", 10),
+                    social_sentiment=_social.get(tk))
             except Exception as e:
                 print(f"  [warn] scoring failed for {tk}: {e}", file=sys.stderr)
 
@@ -788,6 +798,7 @@ def run_real(settings: dict, portfolio: dict) -> dict:
                 "scores": scores,
                 "score_details": details,
                 "analyst_consensus": analyst_data,
+                "social_sentiment": _social.get(tk),  # Twitter/X data from Perplexity
                 "position_sizing": position_rec,
                 "exit_triggers": exit_triggers,
                 "rationale": synth.get("rationale", ""),

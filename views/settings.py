@@ -258,4 +258,41 @@ with st.form("settings_form"):
             },
         }
         SETTINGS_PATH.write_text(json.dumps(out, indent=2, ensure_ascii=False))
-        st.success("Saved. Next daily run (16:35) will use these settings.")
+
+        # Invalidate recommendations + smart insights caches so they regenerate
+        # with the new weights on the next page load (or daily run).
+        # We don't re-call Gemini here (expensive) — just mark existing recs stale.
+        import datetime as _dt
+        stale_marker = ROOT / ".settings_changed"
+        stale_marker.write_text(_dt.datetime.now().isoformat())
+
+        # Re-run scoring on cached data if we already have recommendations
+        recs_path = ROOT / "recommendations.json"
+        if recs_path.exists():
+            try:
+                recs_data = json.loads(recs_path.read_text())
+                # Re-derive verdict + conviction for each holding with new weights
+                from scoring_engine import scores_to_verdict as _s2v
+                new_weights = sel["weights"]
+                for h in recs_data.get("holdings", []):
+                    if h.get("scores"):
+                        v, c = _s2v(h["scores"], new_weights)
+                        h["verdict"] = v
+                        h["conviction"] = c
+                for idea in recs_data.get("new_ideas", []):
+                    if idea.get("scores"):
+                        _, c = _s2v(idea["scores"], new_weights)
+                        idea["conviction"] = c
+                recs_data["updated_reason"] = "weights_changed"
+                recs_path.write_text(json.dumps(recs_data, indent=2, ensure_ascii=False))
+                st.success(
+                    "✅ Saved. Verdicts & conviction re-computed with new weights. "
+                    "Smart Insights will refresh on the next daily run (16:35)."
+                )
+            except Exception as e:
+                st.success(
+                    f"Saved. Could not re-score existing recs ({e}). "
+                    "Next daily run (16:35) will pick up the changes."
+                )
+        else:
+            st.success("Saved. Next daily run (16:35) will use these settings.")

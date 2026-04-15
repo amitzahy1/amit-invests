@@ -378,6 +378,189 @@ proj_summary_html = f"""
 st.markdown(proj_summary_html, unsafe_allow_html=True)
 
 
+# ─── Tax Efficiency (Israeli 25% flat) ──────────────────────────────────────
+try:
+    from tax_efficiency import get_portfolio_tax_summary
+    portfolio_data = load_json("portfolio.json")
+    live_prices = dict(zip(pf["ticker"], pf["live_price"]))
+    tax_summary = get_portfolio_tax_summary(portfolio_data, live_prices, jurisdiction="israel")
+    if tax_summary.get("total_unrealized_gain", 0) > 0 or tax_summary.get("total_unrealized_loss", 0) > 0:
+        st.markdown("""
+        <div class="below-section">
+          <div class="sect-head"><div>
+            <h2>Tax Implications</h2>
+            <div class="sect-sub">If you sold everything today — Israeli tax treatment (25% flat)</div>
+          </div></div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        gain = tax_summary.get("total_unrealized_gain", 0)
+        loss = tax_summary.get("total_unrealized_loss", 0)
+        tax = tax_summary.get("total_tax_if_sold_all", 0)
+        harvest = tax_summary.get("loss_harvest_candidates", [])
+
+        net_after_tax = gain - tax
+
+        tax_cols = st.columns(4, gap="small")
+        with tax_cols[0]:
+            st.markdown(
+                f'<div style="border:1px solid var(--hair);border-left:3px solid #047857;'
+                f'border-radius:6px;padding:12px 14px;background:#fff;">'
+                f'<div style="font-size:10px;color:var(--text-mute);text-transform:uppercase;'
+                f'letter-spacing:0.1em;">Unrealized Gain</div>'
+                f'<div style="font-size:20px;font-weight:700;color:#047857;'
+                f'font-family:\'IBM Plex Mono\',monospace;">${gain:,.0f}</div>'
+                f'</div>', unsafe_allow_html=True)
+        with tax_cols[1]:
+            st.markdown(
+                f'<div style="border:1px solid var(--hair);border-left:3px solid #b91c1c;'
+                f'border-radius:6px;padding:12px 14px;background:#fff;">'
+                f'<div style="font-size:10px;color:var(--text-mute);text-transform:uppercase;'
+                f'letter-spacing:0.1em;">Tax If Sold (25%)</div>'
+                f'<div style="font-size:20px;font-weight:700;color:#b91c1c;'
+                f'font-family:\'IBM Plex Mono\',monospace;">-${tax:,.0f}</div>'
+                f'</div>', unsafe_allow_html=True)
+        with tax_cols[2]:
+            st.markdown(
+                f'<div style="border:1px solid var(--hair);border-left:3px solid var(--text);'
+                f'border-radius:6px;padding:12px 14px;background:#fff;">'
+                f'<div style="font-size:10px;color:var(--text-mute);text-transform:uppercase;'
+                f'letter-spacing:0.1em;">Net After Tax</div>'
+                f'<div style="font-size:20px;font-weight:700;color:var(--text);'
+                f'font-family:\'IBM Plex Mono\',monospace;">${net_after_tax:,.0f}</div>'
+                f'</div>', unsafe_allow_html=True)
+        with tax_cols[3]:
+            harvest_label = f"{len(harvest)} positions" if harvest else "None"
+            st.markdown(
+                f'<div style="border:1px solid var(--hair);border-left:3px solid #b45309;'
+                f'border-radius:6px;padding:12px 14px;background:#fff;">'
+                f'<div style="font-size:10px;color:var(--text-mute);text-transform:uppercase;'
+                f'letter-spacing:0.1em;">Loss Harvesting</div>'
+                f'<div style="font-size:20px;font-weight:700;color:#b45309;'
+                f'font-family:\'IBM Plex Mono\',monospace;">{harvest_label}</div>'
+                f'<div style="font-size:10px;color:var(--text-mute);">Total loss: ${loss:,.0f}</div>'
+                f'</div>', unsafe_allow_html=True)
+
+        if harvest:
+            st.caption(
+                "💡 **Tax-loss harvesting opportunities:** "
+                + ", ".join(f"{h['ticker']} (-${abs(h['loss']):,.0f})" for h in harvest[:5])
+                + ". Realizing these losses offsets capital gains tax on other positions."
+            )
+except Exception:
+    pass  # tax section is optional
+
+
+# ─── Factor Exposure ────────────────────────────────────────────────────────
+try:
+    from factor_exposure import compute_portfolio_factors
+    import json as _json_fx
+    _recs_path = ROOT / "recommendations.json"
+    if _recs_path.exists():
+        _recs_data = _json_fx.loads(_recs_path.read_text())
+        _fund_cache_path = ROOT / "fundamentals_cache.json"
+        _fund_cache = _json_fx.loads(_fund_cache_path.read_text()) if _fund_cache_path.exists() else {}
+        _fund_data = _fund_cache.get("tickers", {})
+
+        # Build per-holding data for factor calc
+        holdings_with_data = []
+        for _, row in pf.iterrows():
+            tk = row["ticker"]
+            _rec_h = next((h for h in _recs_data.get("holdings", []) if h.get("ticker") == tk), {})
+            holdings_with_data.append({
+                "ticker": tk,
+                "weight_pct": row.get("weight", 0),
+                "fundamentals": _fund_data.get(tk),
+                "quote": {"price": row.get("live_price", 0)},
+                "technicals": {},  # not in pf, would need another lookup
+            })
+        factor_result = compute_portfolio_factors(holdings_with_data)
+        if factor_result.get("factors"):
+            st.markdown("""
+            <div class="below-section">
+              <div class="sect-head"><div>
+                <h2>Factor Exposure</h2>
+                <div class="sect-sub">How your portfolio tilts across classic investment factors</div>
+              </div></div>
+            </div>
+            """, unsafe_allow_html=True)
+
+            factors = factor_result["factors"]
+            FACTOR_META = {
+                "quality":  ("🏛️", "Quality",  "ROE, margins, low debt"),
+                "value":    ("💰", "Value",    "Low P/E, P/B vs sector"),
+                "momentum": ("📈", "Momentum", "Rising price, above MA200"),
+                "size":     ("🔬", "Size",     "Small-cap tilt"),
+                "low_vol":  ("🛡️", "Low Vol",  "Defensive (beta < 1)"),
+                "yield":    ("💸", "Yield",    "Dividend payers"),
+                "growth":   ("🚀", "Growth",   "Rev/EPS growth"),
+            }
+
+            # Render factor bars
+            fact_cols = st.columns(4, gap="small")
+            factor_keys = list(factors.keys())
+            for i, fk in enumerate(factor_keys):
+                icon, label, desc = FACTOR_META.get(fk, ("", fk, ""))
+                val = factors[fk]
+                if val >= 65:
+                    fcolor = "#047857"
+                elif val >= 40:
+                    fcolor = "#b45309"
+                else:
+                    fcolor = "#b91c1c"
+
+                top_c = factor_result.get("top_contributors", {}).get(fk, [])[:2]
+                contrib_html = ""
+                if top_c:
+                    contrib_html = (
+                        '<div style="font-size:10px;color:var(--text-mute);margin-top:6px;'
+                        'border-top:1px solid var(--hair-soft);padding-top:6px;">'
+                    )
+                    for c in top_c:
+                        contrib_html += (
+                            f'<div style="font-family:\'IBM Plex Mono\',monospace;">'
+                            f'{c["ticker"]}: {c["exposure"]}/100</div>'
+                        )
+                    contrib_html += '</div>'
+
+                with fact_cols[i % 4]:
+                    st.markdown(
+                        f'<div style="border:1px solid var(--hair);border-left:3px solid {fcolor};'
+                        f'border-radius:6px;padding:12px 14px;background:#fff;margin-bottom:10px;">'
+                        f'<div style="font-size:11px;color:var(--text-mute);'
+                        f'text-transform:uppercase;letter-spacing:0.1em;">{icon} {label}</div>'
+                        f'<div style="font-size:22px;font-weight:700;color:{fcolor};'
+                        f'font-family:\'IBM Plex Mono\',monospace;margin-top:4px;">{val:.0f}</div>'
+                        f'<div style="font-size:10px;color:var(--text-dim);margin-bottom:6px;">{desc}</div>'
+                        f'<div style="height:4px;background:#f0f0f0;border-radius:2px;overflow:hidden;">'
+                        f'<div style="width:{val:.0f}%;height:100%;background:{fcolor};"></div>'
+                        f'</div>'
+                        f'{contrib_html}'
+                        f'</div>',
+                        unsafe_allow_html=True,
+                    )
+
+            # Interpretations
+            insights = factor_result.get("interpretation", [])
+            if insights:
+                insights_html = "".join(
+                    f'<div style="font-size:13px;color:#334155;padding:4px 0;line-height:1.6;">'
+                    f'{insight}</div>' for insight in insights
+                )
+                st.markdown(
+                    f'<div style="margin-top:12px;padding:14px 18px;background:#f8fafc;'
+                    f'border:1px solid #e2e8f0;border-radius:6px;">'
+                    f'<div style="font-size:11px;font-weight:600;color:var(--text-dim);'
+                    f'text-transform:uppercase;letter-spacing:0.12em;margin-bottom:8px;">'
+                    f'Portfolio Style</div>'
+                    f'{insights_html}'
+                    f'</div>',
+                    unsafe_allow_html=True,
+                )
+except Exception as _e:
+    pass  # factor exposure is optional
+
+
 # ─── Rebalancing ────────────────────────────────────────────────────────────
 preferred = set(settings.get("preferred_sectors", []))
 avoid = set(settings.get("avoid_sectors", []))

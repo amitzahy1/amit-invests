@@ -295,6 +295,74 @@ def _show_detail(item: dict, is_idea: bool = False):
             unsafe_allow_html=True,
         )
 
+    # Social Sentiment (Twitter/X via Perplexity) — optional
+    social = item.get("social_sentiment", {})
+    if social and social.get("sentiment_score") is not None:
+        s_score = social.get("sentiment_score", 50)
+        label = social.get("label", "neutral").lower()
+        themes = social.get("top_themes", [])
+        accounts = social.get("key_accounts", [])
+
+        if label == "bullish":
+            s_color, s_emoji = "#047857", "🐂"
+        elif label == "bearish":
+            s_color, s_emoji = "#b91c1c", "🐻"
+        else:
+            s_color, s_emoji = "#b45309", "⚖️"
+
+        themes_html = ""
+        if themes:
+            themes_html = (
+                '<div style="margin-top:10px;padding-top:10px;border-top:1px solid #e2e8f0;">'
+                '<div style="font-size:10px;color:var(--text-mute);text-transform:uppercase;'
+                'letter-spacing:0.1em;margin-bottom:6px;">Top discussion themes</div>'
+            )
+            for t in themes:
+                themes_html += (
+                    f'<div style="font-size:12px;color:#334155;padding:2px 0;">'
+                    f'<span style="color:{s_color};margin-right:6px;">▸</span>'
+                    f'{_html.escape(str(t))}</div>'
+                )
+            themes_html += '</div>'
+
+        accounts_html = ""
+        if accounts:
+            accounts_html = (
+                f'<div style="margin-top:6px;font-size:11px;color:var(--text-dim);">'
+                f'Tracked by: <b>{", ".join(_html.escape(str(a)) for a in accounts)}</b>'
+                f'</div>'
+            )
+
+        st.markdown(
+            f'<div style="border:1px solid #e2e8f0;border-radius:8px;padding:16px 20px;'
+            f'margin-bottom:20px;background:#fafbfc;">'
+            # Header
+            f'<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;">'
+            f'<div style="display:flex;align-items:center;gap:8px;">'
+            f'<span style="font-size:18px;">{s_emoji}</span>'
+            f'<div>'
+            f'<div style="font-size:11px;font-weight:600;color:var(--text-dim);'
+            f'text-transform:uppercase;letter-spacing:0.12em;">Social Sentiment (X + News)</div>'
+            f'<div style="font-size:10px;color:var(--text-mute);margin-top:2px;">'
+            f'Past 48 hours · Perplexity</div>'
+            f'</div></div>'
+            f'<div style="text-align:right;">'
+            f'<div style="font-size:22px;font-weight:700;color:{s_color};'
+            f'font-family:\'IBM Plex Mono\',monospace;">{s_score}</div>'
+            f'<div style="font-size:11px;font-weight:600;color:{s_color};'
+            f'text-transform:uppercase;letter-spacing:0.08em;">{label}</div>'
+            f'</div>'
+            f'</div>'
+            # Score bar
+            f'<div style="height:6px;background:#f0f0f0;border-radius:3px;overflow:hidden;">'
+            f'<div style="width:{s_score}%;height:100%;background:{s_color};border-radius:3px;"></div>'
+            f'</div>'
+            f'{themes_html}'
+            f'{accounts_html}'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+
     # Position Sizing recommendation
     position = item.get("position_sizing", {})
     if position and position.get("target_pct") is not None:
