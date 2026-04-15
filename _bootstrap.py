@@ -67,6 +67,7 @@ def load_json(name: str) -> dict:
 NAV_PAGES = [
     ("portfolio",        "Portfolio",       "views/portfolio.py"),
     ("recommendations",  "Recommendations", "views/recommendations.py"),
+    ("performance",      "Performance",     "views/performance.py"),
     ("import_csv",       "Import",          "views/import_csv.py"),
     ("inbox",            "Inbox",           "views/inbox.py"),
     ("settings",         "Settings",        "views/settings.py"),

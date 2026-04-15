@@ -40,6 +40,8 @@ _pages = [
             url_path="portfolio", default=True),
     st.Page(_V / "recommendations.py", title="Recommendations", icon="🎯",
             url_path="recommendations"),
+    st.Page(_V / "performance.py",     title="Performance",     icon="🏆",
+            url_path="performance"),
     st.Page(_V / "import_csv.py",      title="Import",          icon="📥",
             url_path="import_csv"),
     st.Page(_V / "inbox.py",           title="Inbox",           icon="📬",

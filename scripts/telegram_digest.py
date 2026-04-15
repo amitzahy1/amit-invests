@@ -135,6 +135,38 @@ def _get_sector(ticker: str) -> str:
 
 # ─── New Mentor Blocks ────────────────────────────────────────────────────
 
+def _format_accuracy_summary() -> str:
+    """Show recent hit rate if we have enough history."""
+    try:
+        sys.path.insert(0, str(_ROOT))
+        from backtest_engine import get_or_compute_backtest
+        result = get_or_compute_backtest(days_elapsed=30)
+    except Exception:
+        return ""
+    if result.get("status") != "ok":
+        return ""
+    total = result.get("total", 0)
+    if total < 5:
+        return ""  # not enough history for meaningful stats
+
+    hit_rate = result.get("hit_rate", 0)
+    alpha = result.get("alpha_vs_spy_pct")
+    buy_ret = result.get("buy_portfolio_avg_return_pct", 0)
+
+    if hit_rate >= 65:
+        hr_emoji = "🎯"
+    elif hit_rate >= 55:
+        hr_emoji = "📊"
+    else:
+        hr_emoji = "📉"
+
+    lines = [f"{hr_emoji} *Track Record* — {total} verdicts, {hit_rate:.0f}% hit rate"]
+    if alpha is not None:
+        alpha_sign = "+" if alpha >= 0 else ""
+        lines.append(f"`BUY avg {buy_ret:+.1f}%  ·  Alpha vs SPY {alpha_sign}{alpha:.1f}%`")
+    return "\n".join(lines)
+
+
 def _format_market_context() -> str:
     """Block 1: Today's market snapshot — S&P, Nasdaq, VIX, rates, USD/ILS."""
     try:
@@ -341,6 +373,12 @@ def _format_holdings_msg(recs: dict) -> str:
     mkt_ctx = _format_market_context()
     if mkt_ctx:
         lines.append(mkt_ctx)
+        lines.append("")
+
+    # AI track record / hit rate (shown once we have ≥5 historical verdicts)
+    acc_summary = _format_accuracy_summary()
+    if acc_summary:
+        lines.append(acc_summary)
         lines.append("")
 
     # Smart Insights from senior analyst (1 Gemini call/day — deep analysis)
