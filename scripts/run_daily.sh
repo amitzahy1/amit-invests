@@ -3,6 +3,13 @@
 # Invoked daily by launchd at 16:35 Israel time (5 min after US market open).
 set -e
 
+# Skip weekends — US market is closed (Sat=6, Sun=0)
+DOW=$(date +%u)  # 1=Mon, 7=Sun
+if [ "$DOW" -ge 6 ]; then
+  echo "[skip] Weekend — US market closed, no run today (DOW=$DOW)"
+  exit 0
+fi
+
 # Resolve project root from this script's location (portable across machines)
 PROJECT="${PROJECT:-$(cd "$(dirname "$0")/.." && pwd)}"
 PYTHON="$PROJECT/.venv/bin/python"   # Use the project's venv (Python 3.12)

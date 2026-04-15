@@ -451,32 +451,73 @@ def _gemini() -> object:
         print("[error] langchain-google-genai not installed. Run: "
               "pip install langchain-google-genai", file=sys.stderr)
         sys.exit(2)
-    # gemini-2.5-flash-lite: cheapest production model at $0.10/$0.40 per 1M tokens.
-    # For synthesis tasks (formatting scores into Hebrew rationale), lite is sufficient.
-    # Override with GEMINI_MODEL env var if needed.
-    model_name = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash-lite")
+    # Tiered model strategy (configurable via env vars):
+    # - PRIMARY: best quality (e.g. gemini-3-flash-preview)
+    # - FALLBACK: free tier with high limits (gemini-2.5-flash-lite, 1000 RPD)
+    # On rate limit errors, _invoke_with_retry auto-falls back to fallback model.
+    model_name = os.environ.get("GEMINI_MODEL", "gemini-3-flash-preview")
     return ChatGoogleGenerativeAI(
         model=model_name, google_api_key=api_key,
         temperature=0.3, timeout=45, max_retries=0,  # we do our own retries below
     )
 
 
-def _invoke_with_retry(llm, messages, attempts: int = 5):
-    """Invoke with explicit backoff on 503/429/RESOURCE_EXHAUSTED."""
+def _gemini_fallback() -> object:
+    """Fallback model — cheaper with higher free-tier limits (1000 RPD)."""
+    api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+    if not api_key:
+        return None
+    try:
+        from langchain_google_genai import ChatGoogleGenerativeAI
+        model_name = os.environ.get("GEMINI_FALLBACK_MODEL", "gemini-2.5-flash-lite")
+        return ChatGoogleGenerativeAI(
+            model=model_name, google_api_key=api_key,
+            temperature=0.3, timeout=45, max_retries=0,
+        )
+    except Exception:
+        return None
+
+
+_fallback_llm_cache = [None]  # lazy-init fallback
+
+
+def _invoke_with_retry(llm, messages, attempts: int = 3):
+    """Invoke with smart fallback: on rate limit, switch to cheaper model.
+
+    Strategy:
+    1. Try primary model (e.g. gemini-3-flash-preview)
+    2. On 429/quota → switch to fallback (gemini-2.5-flash-lite, 1000 RPD free)
+    3. Retry on transient errors (5xx, timeouts)
+    """
     import time
     last_err = None
+    current_llm = llm
+    used_fallback = False
+
     for i in range(attempts):
         try:
-            return llm.invoke(messages)
+            return current_llm.invoke(messages)
         except Exception as e:
             err = str(e)
             last_err = e
-            # Retry on 5xx, rate limits, timeouts
-            retriable = any(s in err for s in ("503", "502", "504", "429", "RESOURCE_EXHAUSTED",
-                                               "UNAVAILABLE", "timeout", "Timeout", "DEADLINE"))
-            if not retriable or i == attempts - 1:
+            is_quota = any(s in err for s in ("429", "RESOURCE_EXHAUSTED", "quota"))
+            is_transient = any(s in err for s in ("503", "502", "504", "UNAVAILABLE",
+                                                    "timeout", "Timeout", "DEADLINE"))
+
+            # On quota error, switch to fallback model immediately
+            if is_quota and not used_fallback:
+                if _fallback_llm_cache[0] is None:
+                    _fallback_llm_cache[0] = _gemini_fallback()
+                if _fallback_llm_cache[0] is not None:
+                    print(f"  [fallback] primary model quota exceeded, "
+                          f"switching to fallback model", file=sys.stderr)
+                    current_llm = _fallback_llm_cache[0]
+                    used_fallback = True
+                    continue  # retry immediately with fallback
+
+            if not (is_quota or is_transient) or i == attempts - 1:
                 raise
-            wait = min(30, (2 ** i) + 1)  # 2, 3, 5, 9, 17s
+            wait = min(15, (2 ** i) + 1)
             print(f"  [retry {i+1}/{attempts}] transient error, waiting {wait}s: {err[:100]}",
                   file=sys.stderr)
             time.sleep(wait)

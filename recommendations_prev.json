@@ -1,155 +1,185 @@
 {
-  "updated": "2026-04-14T15:54:28Z",
+  "updated": "2026-04-15T05:37:36Z",
   "profile_name": "Conservative AI Bull",
-  "summary": "השוק מציג יציבות עם דירוגי HOLD גורפים לנכסי הליבה כמו VOO, SPY ו-GOOGL, מה שתואם את אסטרטגיית העוגן השמרנית שלך. לקראת ההפקדה הדו-חודשית הבאה, כדאי לבחון שילוב של רעיונות חדשים התומכים בתזת ה-AI והאנרגיה הגרעינית כגון MSFT, AVGO ו-CEG. יש להמשיך בשמירה על חשיפה מינימלית לקריפטו (IBIT, ETHA) בהתאם למגבלת ה-3% בתיק, תוך התמקדות בצמיחה טכנולוגית ארוכת טווח.",
+  "summary": "השוק נמצא כיום במגמת HOLD רוחבית על פני נכסי הליבה, כולל עוגני ה-AI כמו GOOGL ו-NVDA ומדדי ה-S&P 500, מה שתומך בהמשך אסטרטגיית ה\"המתנה\" השמרנית שלך. מומלץ לבחון את MSFT, UNH ו-LMT כתוספות פוטנציאליות לתיק לקראת ההפקדה הדו-חודשית הבאה, שכן הן מתכתבות היטב עם העדפות הסקטורים שלך בטכנולוגיה, בריאות וביטחון. הקפד לשמור על משמעת ביחס לחשיפה המוגבלת לקריפטו (IBIT/ETHA) כדי להישאר בטווח הסיכון הבינוני שהגדרת.",
   "holdings": [
     {
       "ticker": "GOOGL",
       "verdict": "hold",
-      "conviction": 53,
+      "conviction": 73,
       "scores": {
-        "valuation": 50,
-        "technical": 50,
+        "valuation": 47,
+        "technical": 42,
         "risk": 70,
-        "sentiment": 50,
+        "sentiment": 80,
         "macro": 50,
-        "quality": 50
+        "quality": 70
       },
       "score_details": {
         "quality": [
-          "No fundamental data available for this ticker"
+          "ROE 35.7% — excellent profitability (>20%)",
+          "Profit margin 32.8% — wide moat indicator (>25%)"
         ],
         "valuation": [
-          "No valuation data — scored neutral (50)"
+          "P/E 29.8 — moderately expensive",
+          "PEG 1.89 — fairly priced for growth",
+          "Analyst target $376 vs price $333 → +13% upside"
         ],
         "risk": [
-          "Portfolio weight 0.0% — well-sized"
+          "Portfolio weight 3.8% — well-sized",
+          "Beta 1.13 — slightly above market volatility"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
         ],
         "sentiment": [
-          "No analyst coverage data available"
+          "Analyst consensus: 61 Buy / 6 Hold / 0 Sell (91% bullish)",
+          "Well-covered stock (67 analysts)"
         ],
         "technical": [
-          "Insufficient price history for technical analysis"
+          "Price $333 > MA50 $308 > MA200 $270 — strong uptrend (golden cross zone)",
+          "RSI 76 — overbought, potential pullback ahead"
         ]
       },
-      "rationale": "אלפבית מהווה נכס ליבה בתזת ה-AI של המשקיע, והציון הגבוה במדד הסיכון (70) הולם את הגישה השמרנית שלו. למרות שהציונים הטכניים והפונדמנטליים ניטרליים כרגע (53), אופק ההשקעה ל-4 שנים מצדיק המשך צבירה של המניה כעוגן טכנולוגי יציב בתיק.",
+      "rationale": "אלפבית מהווה נכס ליבה בתזת ה-AI של המשקיע, עם רווחיות גבוהה (ROE של 35.7%) וקונצנזוס אנליסטים חזק מאוד (91% BUY). למרות תמחור מאתגר מעט, המגמה הטכנית חיובית והסיכון נמוך יחסית, מה שמתיישב עם אופק השקעה של 4 שנים וגישה שמרנית.",
       "personas": []
     },
     {
       "ticker": "AMZN",
       "verdict": "hold",
-      "conviction": 53,
+      "conviction": 55,
       "scores": {
-        "valuation": 50,
-        "technical": 50,
+        "valuation": 47,
+        "technical": 35,
         "risk": 70,
-        "sentiment": 50,
+        "sentiment": 80,
         "macro": 50,
         "quality": 50
       },
       "score_details": {
         "quality": [
-          "No fundamental data available for this ticker"
+          "ROE 22.3% — excellent profitability (>20%)",
+          "Profit margin 10.8% — thin, competitive pressure"
         ],
         "valuation": [
-          "No valuation data — scored neutral (50)"
+          "P/E 33.4 — expensive, needs high growth to justify",
+          "PEG 1.84 — fairly priced for growth",
+          "Analyst target $281 vs price $249 → +13% upside"
         ],
         "risk": [
-          "Portfolio weight 0.0% — well-sized"
+          "Portfolio weight 1.9% — well-sized",
+          "Beta 1.38 — slightly above market volatility"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
         ],
         "sentiment": [
-          "No analyst coverage data available"
+          "Analyst consensus: 64 Buy / 4 Hold / 0 Sell (94% bullish)",
+          "Well-covered stock (68 analysts)"
         ],
         "technical": [
-          "Insufficient price history for technical analysis"
+          "Price above MA200 but below MA50 — short-term pullback in uptrend",
+          "RSI 81 — overbought, potential pullback ahead"
         ]
       },
-      "rationale": "אמזון מהווה נכס אסטרטגי עבור משקיע הממוקד ב-AI בזכות חטיבת AWS, אך הציונים הנייטרליים ברוב הפרמטרים מעידים על תמחור הוגן כרגע ללא מומנטום חריג. בהתחשב באופק ההשקעה של 4 שנים ובפרופיל השמרני, מומלץ להחזיק בנכס כעוגן טכנולוגי אך להמתין להזדמנות קנייה נוחה יותר להגדלת הפוזיציה.",
+      "rationale": "אמזון מהווה נכס ליבה בתזת ה-AI של המשקיע דרך חטיבת AWS, עם סנטימנט אנליסטים חזק מאוד (94% Buy). למרות שהניקוד הטכני נמוך והמניה קרובה לשיא שנתי, אופק ההשקעה הארוך (4 שנים) והמכפילים הסבירים ביחס לצמיחה (PEG 1.84) תומכים בהמשך צבירה מתונה כחלק מאסטרטגיית ה-DCA של הפרופיל.",
       "personas": []
     },
     {
       "ticker": "BN",
       "verdict": "hold",
-      "conviction": 48,
+      "conviction": 50,
       "scores": {
-        "valuation": 50,
-        "technical": 50,
-        "risk": 70,
-        "sentiment": 50,
+        "valuation": 47,
+        "technical": 35,
+        "risk": 60,
+        "sentiment": 75,
         "macro": 50,
-        "quality": 50
+        "quality": 30
       },
       "score_details": {
         "quality": [
-          "No fundamental data available for this ticker"
+          "ROE 1.9% — below institutional threshold of 15%",
+          "Profit margin 1.7% — thin, competitive pressure"
         ],
         "valuation": [
-          "No valuation data — scored neutral (50)"
+          "P/E 89.2 — expensive, needs high growth to justify",
+          "PEG 1.27 — fairly priced for growth",
+          "Analyst target $54 vs price $46 → +18% upside"
         ],
         "risk": [
-          "Portfolio weight 0.0% — well-sized"
+          "Portfolio weight 2.8% — well-sized",
+          "Beta 1.83 — significantly more volatile than S&P 500"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
         ],
         "sentiment": [
-          "No analyst coverage data available"
+          "Analyst consensus: 9 Buy / 1 Hold / 1 Sell (82% bullish)"
         ],
         "technical": [
-          "Insufficient price history for technical analysis"
+          "Price above MA200 but below MA50 — short-term pullback in uptrend",
+          "RSI 84 — overbought, potential pullback ahead"
         ]
       },
-      "rationale": "למרות ש-Brookfield (BN) מציעה חשיפה איכותית לתחומי האנרגיה והתשתיות התואמים את העדפות המשתמש, הציונים הניטרליים (50) ברוב הקטגוריות מעידים על חוסר במומנטום ברור כרגע. עבור משקיע שמרני עם אופק של 4 שנים, הנכס מהווה החזקה יציבה אך אין הצדקה פונדמנטלית או טכנית לרכישה אגרסיבית במחיר הנוכחי.",
+      "rationale": "למרות סנטימנט שוק חיובי ויעד אנליסטים המצביע על אפסייד של 18%, המניה נסחרת במכפיל רווח גבוה מאוד (89.2) וציון איכות נמוך (30), מה שיוצר סיכון עבור משקיע שמרני. בהתחשב במגמה טכנית מעורבת ובחשיפה עקיפה בלבד לתזת ה-AI של הפרופיל, מומלץ להמתין לשיפור בנתוני הרווחיות או לתיקון במחיר לפני הגדלת פוזיציה.",
       "personas": []
     },
     {
       "ticker": "CPNG",
       "verdict": "hold",
-      "conviction": 48,
+      "conviction": 47,
       "scores": {
-        "valuation": 50,
-        "technical": 50,
+        "valuation": 60,
+        "technical": 19,
         "risk": 70,
-        "sentiment": 50,
+        "sentiment": 75,
         "macro": 50,
-        "quality": 50
+        "quality": 30
       },
       "score_details": {
         "quality": [
-          "No fundamental data available for this ticker"
+          "ROE 4.9% — below institutional threshold of 15%",
+          "Profit margin 0.6% — thin, competitive pressure"
         ],
         "valuation": [
-          "No valuation data — scored neutral (50)"
+          "P/E 183.2 — expensive, needs high growth to justify",
+          "PEG 0.45 — growth at a discount (Peter Lynch target <1)",
+          "Analyst target $27 vs price $21 → +32% upside"
         ],
         "risk": [
-          "Portfolio weight 0.0% — well-sized"
+          "Portfolio weight 1.2% — well-sized",
+          "Beta 1.16 — slightly above market volatility"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
         ],
         "sentiment": [
-          "No analyst coverage data available"
+          "Analyst consensus: 14 Buy / 2 Hold / 1 Sell (82% bullish)"
         ],
         "technical": [
-          "Insufficient price history for technical analysis"
+          "Price below MA200 — long-term trend is bearish",
+          "RSI 76 — overbought, potential pullback ahead"
         ]
       },
-      "rationale": "הנכס מציג ציונים בינוניים ברוב הקטגוריות (50/100), מה שמעיד על חוסר בזרז משמעותי לעליות בטווח הקצר עבור משקיע שמרני. בעוד שרמת הסיכון (70) מתאימה לפרופיל הסיכון הבינוני, CPNG אינה נמצאת בליבת הסקטורים המועדפים של המשתמש (כמו AI או אנרגיה), ולכן מומלץ להמתין לנקודת כניסה אטרקטיבית יותר או להתמקד בנכסי הליבה.",
+      "rationale": "למרות סנטימנט אנליסטים חיובי ומכפיל PEG אטרקטיבי המצביע על פוטנציאל צמיחה, איכות החברה (Quality 30) ושולי הרווח הדקים אינם עולים בקנה אחד עם הפרופיל השמרני של המשקיע. המגמה הטכנית חלשה מאוד (19/100) והנכס נמצא מתחת לממוצע הנע 200, מה שמרמז על סיכון גבוה מדי עבור תיק הממוקד ב-AI ובמדדים רחבים בשלב זה.",
       "personas": []
     },
     {
       "ticker": "ETHA",
       "verdict": "hold",
-      "conviction": 46,
+      "conviction": 42,
       "scores": {
         "valuation": 50,
-        "technical": 50,
+        "technical": 29,
         "risk": 70,
         "sentiment": 50,
         "macro": 50,
@@ -163,28 +193,31 @@
           "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 0.0% — well-sized"
+          "Portfolio weight 0.4% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Insufficient price history for technical analysis"
+          "Price below MA200 — long-term trend is bearish",
+          "RSI 63 — neutral zone"
         ]
       },
-      "rationale": "הנכס נמצא מחוץ לליבת ההשקעות של הפרופיל (AI ומדדים אמריקאיים) ומציג ציונים ניטרליים המעידים על חוסר במומנטום ברור. עבור משקיע שמרני עם רמת סיכון בינונית, מומלץ להחזיק בפוזיציה קיימת רק תחת מגבלת ה-3% ולא לחרוג ממנה בשל האופי הספקולטיבי של התחום.",
+      "rationale": "הנכס מציג חולשה טכנית משמעותית (ציון 29) ונסחר מתחת לממוצע נע 200 (24), מה שמעיד על מגמת ירידה ארוכת טווח שאינה מתאימה לכניסה חדשה עבור משקיע שמרני. לאור העובדה שקריפטו מוגדר כנכס ספקולטיבי המוגבל ל-3% מהתיק, מומלץ להמתין להתייצבות המחיר לפני הקצאת הון נוספת.",
       "personas": []
     },
     {
       "ticker": "XLV",
       "verdict": "hold",
-      "conviction": 48,
+      "conviction": 52,
       "scores": {
         "valuation": 50,
-        "technical": 50,
+        "technical": 34,
         "risk": 70,
         "sentiment": 50,
         "macro": 50,
@@ -198,29 +231,32 @@
           "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 0.0% — well-sized"
+          "Portfolio weight 1.9% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Insufficient price history for technical analysis"
+          "Price above MA200 but below MA50 — short-term pullback in uptrend",
+          "RSI 62 — neutral zone"
         ]
       },
-      "rationale": "מגזר הבריאות (XLV) מהווה מרכיב דפנסיבי התואם את העדפות המגזר של המשתמש ואת אופיו השמרני. למרות שהציונים האלגוריתמיים ניטרליים ברובם (50/100), רמת הסיכון הנמוכה יחסית (70/100) הופכת אותו לנכס עוגן יציב המתאים לאופק השקעה של 4 שנים.",
+      "rationale": "המגזר מהווה עוגן דפנסיבי המועדף על המשקיע, אך הנתונים הטכניים מצביעים על חולשה בטווח הקצר כאשר המחיר נסחר מתחת לממוצע נע 50. לאור הציון הממוצע (51) והמגמה המעורבת, מומלץ להמתין להתייצבות לפני הגדלת החשיפה, תוך שמירה על הנכס כחלק מהגיוון התיקי.",
       "personas": []
     },
     {
       "ticker": "IBIT",
       "verdict": "hold",
-      "conviction": 47,
+      "conviction": 39,
       "scores": {
         "valuation": 50,
-        "technical": 50,
-        "risk": 70,
+        "technical": 29,
+        "risk": 45,
         "sentiment": 50,
         "macro": 50,
         "quality": 50
@@ -233,29 +269,32 @@
           "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 0.0% — well-sized"
+          "Portfolio weight 3.9% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Insufficient price history for technical analysis"
+          "Price below MA200 — long-term trend is bearish",
+          "RSI 64 — neutral zone"
         ]
       },
-      "rationale": "הציונים האלגוריתמיים משקפים מצב ניטרלי ברוב הפרמטרים, ללא יתרון טכני או פונדמנטלי מובהק בעת הזו. לאור הפרופיל השמרני שלך והגדרת הקריפטו כרכיב ספקולטיבי המוגבל ל-3% מהתיק, מומלץ להמתין ולא להגדיל חשיפה מעבר להקצאה הקיימת לטובת התמקדות בעוגני ה-AI והמדדים הרחבים.",
+      "rationale": "הציון הטכני חלש מאוד (29/100) והנכס נסחר משמעותית מתחת לממוצע נע 200, מה שמעיד על מגמת ירידה ארוכת טווח למרות התאוששות קלה בטווח הקצר. בהתחשב בפרופיל השמרני ובהגבלת החשיפה לקריפטו ל-3% בלבד כנכס ספקולטיבי, מומלץ להמתין לשיפור במומנטום לפני הגדלת פוזיציה.",
       "personas": []
     },
     {
       "ticker": "QQQM",
       "verdict": "hold",
-      "conviction": 46,
+      "conviction": 52,
       "scores": {
         "valuation": 50,
-        "technical": 50,
-        "risk": 70,
+        "technical": 55,
+        "risk": 65,
         "sentiment": 50,
         "macro": 50,
         "quality": 50
@@ -268,28 +307,31 @@
           "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 0.0% — well-sized"
+          "Portfolio weight 7.2% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Insufficient price history for technical analysis"
+          "Price $259 > MA50 $247 > MA200 $246 — strong uptrend (golden cross zone)",
+          "RSI 72 — overbought, potential pullback ahead"
         ]
       },
-      "rationale": "המדד משקף את ליבת התזה של המשקיע בנוגע לבינה מלאכותית, אך הציונים הניטרליים (50) ברוב הפרמטרים מעידים על תמחור הוגן ללא מומנטום חריג כרגע. בהתחשב באסטרטגיית ההפקדות הדו-חודשית ובאופק ההשקעה הארוך, הנכס נותר עוגן טכנולוגי מרכזי, אך הנתונים אינם מצדיקים קנייה אגרסיבית מעבר לתכנון המקורי.",
+      "rationale": "QQQM תואם באופן מובהק את התזה של המשקיע לגבי דומיננטיות ה-AI והחשיפה לטכנולוגיה, במיוחד לאור המגמה החיובית (Uptrend) והחשיפה לחברות איכות. למרות שהתמחור והסנטימנט ניטרליים והמחיר קרוב לשיא שנתי, אופק ההשקעה של 4 שנים מצדיק המשך צבירה מתונה כחלק מתיק הליבה הטכנולוגי.",
       "personas": []
     },
     {
       "ticker": "ITA",
       "verdict": "hold",
-      "conviction": 53,
+      "conviction": 55,
       "scores": {
         "valuation": 50,
-        "technical": 50,
+        "technical": 71,
         "risk": 70,
         "sentiment": 50,
         "macro": 50,
@@ -303,64 +345,75 @@
           "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 0.0% — well-sized"
+          "Portfolio weight 3.6% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Insufficient price history for technical analysis"
+          "Price $235 > MA50 $233 > MA200 $214 — strong uptrend (golden cross zone)",
+          "RSI 62 — neutral zone"
         ]
       },
-      "rationale": "המגזר מהווה נדבך מועדף באסטרטגיה של המשתמש, אך הציונים האלגוריתמיים מצביעים על ניטרליות (50/100) ברוב הפרמטרים, מה שמעיד על היעדר נקודת כניסה אופטימלית כרגע. לאור ציון הסיכון היציב (70/100) והאופק השמרני, מומלץ להחזיק בנכס כחלק מהחשיפה המגזרית המתוכננת ללא הגדלה אגרסיבית של הפוזיציה.",
+      "rationale": "מדד ה-ITA מציג מגמת עלייה טכנית חזקה (71) ורמת סיכון יציבה המתאימה לפרופיל שמרני, במיוחד לאור העדפת המגזר של המשקיע כגיוון לתיק. למרות תמחור ומדדי מאקרו ניטרליים, הנכס נסחר במומנטום חיובי מעל ממוצעים נעים ומהווה עוגן דפנסיבי איכותי המשלים את החשיפה הטכנולוגית בתיק.",
       "personas": []
     },
     {
       "ticker": "NVDA",
       "verdict": "hold",
-      "conviction": 51,
+      "conviction": 70,
       "scores": {
-        "valuation": 50,
-        "technical": 50,
-        "risk": 70,
-        "sentiment": 50,
+        "valuation": 60,
+        "technical": 55,
+        "risk": 50,
+        "sentiment": 80,
         "macro": 50,
-        "quality": 50
+        "quality": 70
       },
       "score_details": {
         "quality": [
-          "No fundamental data available for this ticker"
+          "ROE 1.0% — below institutional threshold of 15%",
+          "Profit margin 55.6% — wide moat indicator (>25%)"
         ],
         "valuation": [
-          "No valuation data — scored neutral (50)"
+          "P/E 38.6 — expensive, needs high growth to justify",
+          "PEG 0.77 — growth at a discount (Peter Lynch target <1)",
+          "Analyst target $268 vs price $197 → +36% upside"
         ],
         "risk": [
-          "Portfolio weight 0.0% — well-sized"
+          "Portfolio weight 3.3% — well-sized",
+          "Beta 2.33 — significantly more volatile than S&P 500"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
         ],
         "sentiment": [
-          "No analyst coverage data available"
+          "Analyst consensus: 57 Buy / 2 Hold / 1 Sell (95% bullish)",
+          "Well-covered stock (60 analysts)"
         ],
         "technical": [
-          "Insufficient price history for technical analysis"
+          "Price $197 > MA50 $182 > MA200 $181 — strong uptrend (golden cross zone)",
+          "RSI 72 — overbought, potential pullback ahead"
         ]
       },
-      "rationale": "הציונים האלגוריתמיים משקפים עמדה ניטרלית (50/100) ברוב הפרמטרים, מה שמעיד על איזון בין פוטנציאל הצמיחה לתמחור השוק הנוכחי. עבור משקיע שמרני הממוקד ב-AI לטווח ארוך, NVDA היא נכס אסטרטגי מרכזי, אך הציון הממוצע (53) מרמז כי כדאי להמתין לנקודת כניסה אטרקטיבית יותר או להסתפק בהחזקה הקיימת ללא הגדלת חשיפה כרגע.",
+      "rationale": "NVDA מהווה את עמוד השדרה של תזת ה-AI של הפרופיל, כאשר מכפיל ה-PEG הנמוך (0.77) מעיד על תמחור אטרקטיבי ביחס לצמיחה הצפויה למרות העלייה במחיר. עם שולי רווח יוצאי דופן של 55.6% וקונצנזוס אנליסטים שורי במיוחד, המניה מתאימה לאופק השקעה של 4 שנים כמרכיב צמיחה איכותי בתיק שמרני-בינוני.",
       "personas": []
     },
     {
       "ticker": "SPY",
       "verdict": "hold",
-      "conviction": 51,
+      "conviction": 44,
       "scores": {
         "valuation": 50,
-        "technical": 50,
-        "risk": 70,
+        "technical": 55,
+        "risk": 60,
         "sentiment": 50,
         "macro": 50,
         "quality": 50
@@ -373,28 +426,31 @@
           "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 0.0% — well-sized"
+          "Portfolio weight 14.0% — moderate position"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Insufficient price history for technical analysis"
+          "Price $694 > MA50 $674 > MA200 $665 — strong uptrend (golden cross zone)",
+          "RSI 72 — overbought, potential pullback ahead"
         ]
       },
-      "rationale": "המדד מקבל ציונים ניטרליים ברוב הקטגוריות, מה שמעיד על איזון בין סיכון לתשואה ברמות המחירים הנוכחיות. עבור משקיע שמרני הרואה ב-SPY עוגן מרכזי בתיק, הנתונים תומכים בהמשך החזקה (HOLD) תוך היצמדות למנגנון ההפקדות הדו-חודשי הקבוע, ללא הצדקה להגדלה אגרסיבית של הפוזיציה כרגע.",
+      "rationale": "מדד ה-SPY מהווה את העוגן המרכזי בתיק שלך והמגמה הטכנית נותרת חיובית, אך הציון המשוקלל הניטרלי (52) והקרבה לשיא השנתי מצביעים על מיצוי זמני של העליות. עבור פרופיל שמרני עם אופק של 4 שנים, מומלץ להמשיך להחזיק בנכס כבסיס יציב אך להמתין לנסיגה קלה לפני הגדלת חשיפה משמעותית מעבר להפקדות הדו-חודשיות הקבועות.",
       "personas": []
     },
     {
       "ticker": "URNM",
       "verdict": "hold",
-      "conviction": 46,
+      "conviction": 47,
       "scores": {
         "valuation": 50,
-        "technical": 50,
+        "technical": 34,
         "risk": 70,
         "sentiment": 50,
         "macro": 50,
@@ -408,28 +464,31 @@
           "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 0.0% — well-sized"
+          "Portfolio weight 3.0% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Insufficient price history for technical analysis"
+          "Price above MA200 but below MA50 — short-term pullback in uptrend",
+          "RSI 64 — neutral zone"
         ]
       },
-      "rationale": "הנכס מתיישב עם התזה של המשקיע לגבי חשיפה למגזר האורניום והאנרגיה, אך הנתונים האלגוריתמיים מציגים תמונה ניטרלית לחלוטין (50) ברוב המדדים המרכזיים כולל תמחור ומומנטום טכני. עבור פרופיל שמרני, היעדר קטליזטור ברור בטווח הקצר מצדיק המתנה לפני הגדלת החשיפה, תוך שמירה על הנכס כחלק מהאסטרטגיה ארוכת הטווח.",
+      "rationale": "למרות שהסקטור נמצא ברשימת ההעדפות של המשקיע כחלק מתזת האנרגיה, הציון הטכני הנמוך (34) והעובדה ש-URNM נסחר מתחת לממוצע נע 50 מעידים על חולשה בטווח הקצר. בהתחשב באופק ההשקעה השמרני ובציונים הנייטרליים ברוב המדדים, מומלץ להמתין להתייצבות המחיר לפני הגדלת החשיפה.",
       "personas": []
     },
     {
       "ticker": "NLR",
       "verdict": "hold",
-      "conviction": 53,
+      "conviction": 60,
       "scores": {
         "valuation": 50,
-        "technical": 50,
+        "technical": 71,
         "risk": 70,
         "sentiment": 50,
         "macro": 50,
@@ -443,29 +502,32 @@
           "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 0.0% — well-sized"
+          "Portfolio weight 2.5% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Insufficient price history for technical analysis"
+          "Price $141 > MA50 $140 > MA200 $133 — strong uptrend (golden cross zone)",
+          "RSI 63 — neutral zone"
         ]
       },
-      "rationale": "NLR מתיישב היטב עם העדפת המגזרים של המשקיע ומהווה תשתית קריטית לצמיחת תחום ה-AI בשל הצורך באנרגיה רציפה למרכזי נתונים. עם זאת, הציונים האלגוריתמיים הממוצעים בכל המדדים מעידים על תמחור הוגן ללא מומנטום חריג כרגע, מה שתומך בהחזקה קיימת או צבירה איטית בהתאם לאסטרטגיה השמרנית.",
+      "rationale": "הנכס תואם באופן מובהק את העדפות המגזר של המשקיע (אנרגיה גרעינית) ומשמש כמרכיב תשתיתי חיוני לגידול בצריכת החשמל של מרכזי נתונים מבוססי AI. למרות ציוני פונדמנטל ממוצעים, המגמה הטכנית חזקה מאוד (Uptrend) ורמת הסיכון (70) מתאימה לפרופיל שמרני-בינוני המחפש חשיפה ארוכת טווח לתחום.",
       "personas": []
     },
     {
       "ticker": "KSM-F34.TA",
       "verdict": "hold",
-      "conviction": 46,
+      "conviction": 49,
       "scores": {
         "valuation": 50,
-        "technical": 50,
-        "risk": 70,
+        "technical": 58,
+        "risk": 30,
         "sentiment": 50,
         "macro": 50,
         "quality": 50
@@ -478,29 +540,33 @@
           "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 0.0% — well-sized"
+          "Portfolio weight 45.6% — overweight (>15%)",
+          "Sector weight 46% — high concentration risk"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Insufficient price history for technical analysis"
+          "Price $1389 > MA50 $1256 > MA200 $940 — strong uptrend (golden cross zone)",
+          "RSI 62 — neutral zone"
         ]
       },
-      "rationale": "הנכס מהווה רכיב דפנסיבי יציב המתאים לפרופיל שמרני, אך הציונים הניטרליים (50) ברוב הפרמטרים מעידים על חוסר במומנטום או בתמחור אטרקטיבי במיוחד כרגע. לאור אופק ההשקעה של 4 שנים והחשיפה המרכזית לטכנולוגיה, מומלץ להחזיק בנכס כגורם מאזן בתיק מבלי להגדיל חשיפה באופן אקטיבי תחת תנאי המאקרו הנוכחיים.",
+      "rationale": "הנכס משמש כמרכיב דפנסיבי המאזן את תיק ה-AI והטכנולוגיה, בהתאם לפרופיל השמרני של המשקיע. למרות המגמה הטכנית החיובית (Uptrend) והעלייה היומית, הציון האלגוריתמי הממוצע (48) והתמחור הניטרלי מצביעים על כך שאין דחיפות להגדלת הפוזיציה מעבר לאיזון הקיים, אלא לשמירה עליה כעוגן יציבות.",
       "personas": []
     },
     {
       "ticker": "VOO",
       "verdict": "hold",
-      "conviction": 53,
+      "conviction": 52,
       "scores": {
         "valuation": 50,
-        "technical": 50,
-        "risk": 70,
+        "technical": 55,
+        "risk": 65,
         "sentiment": 50,
         "macro": 50,
         "quality": 50
@@ -513,19 +579,22 @@
           "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 0.0% — well-sized"
+          "Portfolio weight 4.8% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Insufficient price history for technical analysis"
+          "Price $638 > MA50 $620 > MA200 $612 — strong uptrend (golden cross zone)",
+          "RSI 71 — overbought, potential pullback ahead"
         ]
       },
-      "rationale": "VOO מהווה את העוגן המרכזי בתיק שלך ותואם את התזה לפיה המדד האמריקאי הוא בסיס התיק. למרות ציונים ניטרליים במדדי התמחור והמומנטום, ציון הסיכון היציב (70) תומך בהמשך רכישה עקבית (DCA) עבור משקיע שמרני עם אופק של 4 שנים.",
+      "rationale": "מדד ה-S&P 500 מהווה את העוגן המרכזי בתיק ותואם את האסטרטגיה השמרנית לטווח ארוך של המשתמש. למרות שהתמחור והסנטימנט ניטרליים (50), המגמה הטכנית נותרת חיובית (Uptrend) והנכס נסחר קרוב לשיאו, מה שתומך בהמשך צבירה עקבית במסגרת ההפקדות הדו-חודשיות המתוכננות.",
       "personas": []
     }
   ],
@@ -533,20 +602,131 @@
     {
       "ticker": "MSFT",
       "name": "Microsoft Corporation",
-      "conviction": 92,
-      "rationale": "מובילה עולמית בתחום ה-AI דרך השותפות עם OpenAI והטמעת כלי Copilot במוצרי הליבה. המניה מהווה עוגן טכנולוגי שמרני עם תזרים מזומנים חזק, המתאימה לאופק השקעה של 4 שנים ולתזה שהחברות יצמחו דרך יעילות בינה מלאכותית."
+      "conviction": 95,
+      "rationale": "מובילה עולמית בתשתית ה-AI הארגונית המאפשרת צמיחה דרך התייעלות טכנולוגית, בהתאם לתזה שלך. החברה מציעה שילוב של צמיחה חזקה עם יציבות פיננסית של חברת ענק, מה שמתאים לפרופיל שמרני.",
+      "scores": {
+        "valuation": 72,
+        "technical": 19,
+        "risk": 70,
+        "sentiment": 80,
+        "macro": 50,
+        "quality": 70
+      },
+      "suggested_price": 393.11,
+      "score_details": {
+        "quality": [
+          "ROE 34.4% — excellent profitability (>20%)",
+          "Profit margin 39.0% — wide moat indicator (>25%)"
+        ],
+        "valuation": [
+          "P/E 24.0 — moderately expensive",
+          "PEG 1.20 — fairly priced for growth",
+          "Analyst target $585 vs price $393 → +49% upside"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized",
+          "Beta 1.11 — slightly above market volatility"
+        ],
+        "macro": [
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
+        ],
+        "sentiment": [
+          "Analyst consensus: 55 Buy / 3 Hold / 0 Sell (95% bullish)",
+          "Well-covered stock (58 analysts)"
+        ],
+        "technical": [
+          "Price below MA200 — long-term trend is bearish",
+          "RSI 66 — neutral zone"
+        ]
+      }
     },
     {
-      "ticker": "CEG",
-      "name": "Constellation Energy Corp",
+      "ticker": "UNH",
+      "name": "UnitedHealth Group Incorporated",
       "conviction": 88,
-      "rationale": "מפעילת תחנות הכוח הגרעיניות הגדולה בארה\"ב, הנהנית ישירות מהביקוש האדיר לחשמל נקי ורציף עבור מרכזי נתונים של AI. החברה מתאימה בדיוק להעדפת המגזר (Nuclear/Energy) ומספקת חשיפה לתשתית הפיזית של מהפכת ה-AI."
+      "rationale": "עוגן דפנסיבי איכותי בסקטור הבריאות המועדף, המאזן את החשיפה הטכנולוגית בתיק. החברה נהנית מתזרים מזומנים חזק וצמיחה עקבית, התואמת את רמת הסיכון הבינונית ואופק ההשקעה ל-4 שנים.",
+      "scores": {
+        "valuation": 72,
+        "technical": 35,
+        "risk": 80,
+        "sentiment": 70,
+        "macro": 50,
+        "quality": 30
+      },
+      "suggested_price": 314.19,
+      "score_details": {
+        "quality": [
+          "ROE 12.5% — below institutional threshold of 15%",
+          "Profit margin 2.7% — thin, competitive pressure"
+        ],
+        "valuation": [
+          "P/E 23.6 — moderately expensive",
+          "PEG 1.11 — fairly priced for growth",
+          "Analyst target $361 vs price $314 → +15% upside"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized",
+          "Beta 0.41 — defensive, less volatile than market"
+        ],
+        "macro": [
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
+        ],
+        "sentiment": [
+          "Analyst consensus: 22 Buy / 5 Hold / 2 Sell (76% bullish)",
+          "Well-covered stock (29 analysts)"
+        ],
+        "technical": [
+          "Price above MA200 but below MA50 — short-term pullback in uptrend",
+          "RSI 77 — overbought, potential pullback ahead"
+        ]
+      }
     },
     {
-      "ticker": "AVGO",
-      "name": "Broadcom Inc.",
-      "conviction": 85,
-      "rationale": "שחקנית קריטית בתחום שבבי התקשורת והתשתית עבור חוות שרתים של AI. החברה מציעה שילוב של צמיחה טכנולוגית גבוהה יחד עם מדיניות דיבידנדים עקבית וניהול שמרני, מה שמתאים לרמת סיכון בינונית ולפרופיל ה-AI Bull."
+      "ticker": "LMT",
+      "name": "Lockheed Martin Corporation",
+      "conviction": 82,
+      "rationale": "נציגה בולטת של סקטור הביטחון והתעופה עם צבר הזמנות ממשלתי ארוך טווח. המניה מספקת הגנה לתיק בתקופות של אי-ודאות גיאופוליטית ומתאימה להעדפת הסקטורים של המשתמש כגיוון ל-ITA.",
+      "scores": {
+        "valuation": 35,
+        "technical": 50,
+        "risk": 80,
+        "sentiment": 55,
+        "macro": 50,
+        "quality": 50
+      },
+      "suggested_price": 611.58,
+      "score_details": {
+        "quality": [
+          "ROE 76.9% — excellent profitability (>20%)",
+          "Profit margin 6.7% — thin, competitive pressure"
+        ],
+        "valuation": [
+          "P/E 28.4 — moderately expensive",
+          "PEG 1.32 — fairly priced for growth",
+          "Analyst target $668 vs price $612 → +9% upside"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized",
+          "Beta 0.24 — defensive, less volatile than market"
+        ],
+        "macro": [
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
+        ],
+        "sentiment": [
+          "Analyst consensus: 6 Buy / 15 Hold / 1 Sell (27% bullish)",
+          "Well-covered stock (22 analysts)"
+        ],
+        "technical": [
+          "Price above MA200 but below MA50 — short-term pullback in uptrend",
+          "RSI 51 — neutral zone"
+        ]
+      }
     }
   ],
   "dry_run": false
