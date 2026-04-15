@@ -32,6 +32,9 @@ try:
 except Exception:
     pass  # .env is optional
 
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
 _ROOT = Path(__file__).resolve().parent.parent
 RECS_PATH = _ROOT / "recommendations.json"
 SETTINGS_PATH = _ROOT / "settings.json"
@@ -310,7 +313,7 @@ def _fetch_ohlcv(ticker: str, range_: str = "6mo") -> dict | None:
         url = f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker}"
         params = {"range": range_, "interval": "1d"}
         r = requests.get(url, headers={"User-Agent": "Mozilla/5.0"},
-                         params=params, timeout=15)
+                         params=params, timeout=15, verify=False)
         if r.status_code == 200:
             data = r.json()
             result = data.get("chart", {}).get("result")
