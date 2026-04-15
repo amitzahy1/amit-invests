@@ -119,7 +119,10 @@ def fetch_macro_snapshot() -> dict:
     Uses cached values if < 6 h old.
     """
     cache = _load_cache()
-    if _cache_is_fresh(cache, max_age_hours=6):
+    # Only use cache if it has essential fields (prevents broken-cache pollution)
+    ESSENTIAL_FIELDS = ["vix", "fed_rate", "ten_year_yield"]
+    cache_is_valid = all(cache.get(f) is not None for f in ESSENTIAL_FIELDS)
+    if _cache_is_fresh(cache, max_age_hours=6) and cache_is_valid:
         data = dict(cache)
         data.pop("updated", None)
         return data

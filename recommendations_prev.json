@@ -1,11 +1,11 @@
 {
-  "updated": "2026-04-15T06:32:05Z",
+  "updated": "2026-04-15T07:19:54Z",
   "profile_name": "Conservative AI Bull",
-  "summary": "סיכום יומי לפרופיל 'Conservative AI Bull' (אופק 4 שנים, סגנון conservative). החשיפה הקריפטו (ETHA, IBIT) חורגת מתקרת 3% ומגדרת סקטור נמנע — מומלץ להקטין. NVDA בהחזקה — איכות גבוהה אך מחיר מתוח; לחכות לנקודת כניסה טובה יותר. רעיונות חדשים שצוותו לפרופיל: MSFT, TSM.",
+  "summary": "סיכום יומי לפרופיל 'Conservative AI Bull' (אופק 4 שנים, סגנון conservative). החשיפה הקריפטו (ETHA, IBIT) חורגת מתקרת 3% ומגדרת סקטור נמנע — מומלץ להקטין. NVDA בהחזקה — איכות גבוהה אך מחיר מתוח; לחכות לנקודת כניסה טובה יותר. רעיונות חדשים שצוותו לפרופיל: MSFT, LLY.",
   "smart_insights": {
     "headline": "תיק מאוזן עם חשיפה חזקה ל-AI וסקטורים דפנסיביים",
     "insights": "**Portfolio Health** — התיק שלך מציג פיזור טוב עם דגש על איכות עסקית. GOOGL ו-NVDA מהווים את העוגן הטכנולוגי, ו-SPY/VOO כעוגן מדד רחב.\n\n**Hidden Risks** — יש חשיפה כפולה דרך QQQM ו-SPY (שניהם מחזיקים GOOGL, NVDA, AMZN). שקול לצמצם את QQQM.\n\n**Market Context** — VIX סביב 18, ריבית Fed 3.64%, עקום תשואות נורמלי. סביבה תומכת במניות איכות אך זהירות מפני תמחור מתוח.\n\n**Opportunities** — CPNG עם ציון Technical נמוך אך Valuation גבוה — חוסר התאמה שמצריך מחקר.\n\n**Action Items** — 1. לצמצם IBIT/ETHA אם הם חוצים את תקרת הקריפטו. 2. לעקוב אחר RSI של CPNG לתיקון אפשרי.\n\n_סקירת שוק — אינה המלצה פיננסית._",
-    "updated": "2026-04-15T06:32:05Z"
+    "updated": "2026-04-15T07:19:54Z"
   },
   "holdings": [
     {
@@ -1673,55 +1673,14 @@
     {
       "ticker": "MSFT",
       "name": "Microsoft",
-      "conviction": 42,
-      "rationale": "מוביל נוסף בגל ה-AI (Azure + OpenAI + Copilot) — משלים את גוגל בצד ה-enterprise. מרווחים גבוהים, דיבידנד צומח, פונדמנטלים מעולים.",
+      "conviction": 73,
+      "rationale": "מוביל בגל ה-AI (Azure + OpenAI + Copilot). מרווחים 36%, ROE 38%, דיבידנד צומח. קונצנזוס אנליסטים חזק (BUY 80%+).",
       "scores": {
-        "quality": 78,
-        "valuation": 58,
-        "risk": 70,
-        "macro": 55,
-        "sentiment": 75,
-        "technical": 68
-      },
-      "score_details": {
-        "quality": [
-          "High ROE (>15%) indicates strong profitability",
-          "Stable profit margins over past years",
-          "Low debt burden"
-        ],
-        "valuation": [
-          "Fairly valued vs sector"
-        ],
-        "risk": [
-          "Well-sized position in portfolio",
-          "Beta near market (1.0)",
-          "Low sector concentration"
-        ],
-        "macro": [
-          "Neutral macro environment"
-        ],
-        "sentiment": [
-          "Strong analyst BUY consensus (>70%)",
-          "Positive recent coverage"
-        ],
-        "technical": [
-          "Price above MA50 and MA200",
-          "Uptrend confirmed",
-          "RSI in healthy zone"
-        ]
-      }
-    },
-    {
-      "ticker": "TSM",
-      "name": "Taiwan Semiconductor",
-      "conviction": 44,
-      "rationale": "משחק 'מכוש ואת' על AI — חברת הייצור המובילה בעולם. סיכון גיאופוליטי, אך חפיר תחרותי גדול מאוד.",
-      "scores": {
-        "quality": 82,
+        "quality": 88,
         "valuation": 65,
-        "risk": 50,
-        "macro": 48,
-        "sentiment": 70,
+        "risk": 75,
+        "macro": 55,
+        "sentiment": 82,
         "technical": 72
       },
       "score_details": {
@@ -1736,7 +1695,9 @@
           "Analyst targets suggest upside"
         ],
         "risk": [
-          "Moderate portfolio risk contribution"
+          "Well-sized position in portfolio",
+          "Beta near market (1.0)",
+          "Low sector concentration"
         ],
         "macro": [
           "Neutral macro environment"
@@ -1753,17 +1714,17 @@
       }
     },
     {
-      "ticker": "META",
-      "name": "Meta Platforms",
-      "conviction": 46,
-      "rationale": "השקעות ענק ב-AI, מודלי Llama הופכים סטנדרט קוד-פתוח; פונדמנטלים חזקים והפחתת הוצאות משמעותית.",
+      "ticker": "LLY",
+      "name": "Eli Lilly",
+      "conviction": 70,
+      "rationale": "מובילה ב-GLP-1 (Mounjaro, Zepbound). צמיחת הכנסות 40%+, ROE 50%+, pipeline עשיר. הגנתי מפני מחזוריות.",
       "scores": {
-        "quality": 75,
-        "valuation": 52,
-        "risk": 65,
-        "macro": 55,
-        "sentiment": 68,
-        "technical": 60
+        "quality": 85,
+        "valuation": 55,
+        "risk": 72,
+        "macro": 60,
+        "sentiment": 78,
+        "technical": 70
       },
       "score_details": {
         "quality": [
@@ -1787,7 +1748,50 @@
           "Positive recent coverage"
         ],
         "technical": [
-          "Sideways price action"
+          "Price above MA50 and MA200",
+          "Uptrend confirmed",
+          "RSI in healthy zone"
+        ]
+      }
+    },
+    {
+      "ticker": "V",
+      "name": "Visa",
+      "conviction": 73,
+      "rationale": "תשתית תשלומים דומיננטית. מרווחים 65%+, ROE 40%+. עלייה בתשלומים דיגיטליים — moat עצום.",
+      "scores": {
+        "quality": 92,
+        "valuation": 58,
+        "risk": 80,
+        "macro": 55,
+        "sentiment": 75,
+        "technical": 65
+      },
+      "score_details": {
+        "quality": [
+          "High ROE (>15%) indicates strong profitability",
+          "Stable profit margins over past years",
+          "Low debt burden"
+        ],
+        "valuation": [
+          "Fairly valued vs sector"
+        ],
+        "risk": [
+          "Well-sized position in portfolio",
+          "Beta near market (1.0)",
+          "Low sector concentration"
+        ],
+        "macro": [
+          "Neutral macro environment"
+        ],
+        "sentiment": [
+          "Strong analyst BUY consensus (>70%)",
+          "Positive recent coverage"
+        ],
+        "technical": [
+          "Price above MA50 and MA200",
+          "Uptrend confirmed",
+          "RSI in healthy zone"
         ]
       }
     }

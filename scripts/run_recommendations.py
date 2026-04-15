@@ -100,12 +100,17 @@ def _compute_technicals(df) -> dict:
         result["ma50"] = round(close.rolling(50).mean().iloc[-1], 2)
     if len(close) >= 200:
         result["ma200"] = round(close.rolling(200).mean().iloc[-1], 2)
-    # RSI(14)
+    # RSI(14) — handle flat-price edge case (no gain AND no loss → neutral)
     delta = close.diff()
     gain = delta.clip(lower=0).rolling(14).mean()
     loss = (-delta.clip(upper=0)).rolling(14).mean()
-    rs = gain.iloc[-1] / max(loss.iloc[-1], 1e-9)
-    result["rsi14"] = round(100 - 100 / (1 + rs), 1)
+    g = gain.iloc[-1]
+    l = loss.iloc[-1]
+    if (g is None or g == 0) and (l is None or l == 0):
+        result["rsi14"] = 50.0  # flat price → neutral
+    else:
+        rs = (g or 0) / max(l or 1e-9, 1e-9)
+        result["rsi14"] = round(100 - 100 / (1 + rs), 1)
     return result
 
 
@@ -756,11 +761,35 @@ def run_real(settings: dict, portfolio: dict) -> dict:
                 "target": _f.get("analyst_target"),
                 "price": _quotes.get(tk, {}).get("price"),
             }
+            # Position sizing + exit triggers
+            try:
+                from position_sizing import compute_position_size, compute_exit_triggers
+                _wavg = sum(scores[k] * _scoring_weights.get(k, 0) for k in scores) / max(
+                    1, sum(_scoring_weights.values()))
+                _strategy = settings.get("scoring_strategy", "conservative_longterm")
+                position_rec = compute_position_size(
+                    scores, _wavg, scores.get("risk", 50),
+                    current_weight=tk_weight, sector_weight=tk_sec_weight,
+                    is_crypto="Crypto" in (ASSET_TYPE_MAP.get(tk, "") or ""),
+                    crypto_cap=settings.get("crypto_cap_pct", 10),
+                    strategy=_strategy, is_new_position=False,
+                )
+                exit_triggers = compute_exit_triggers(
+                    algo_v, _wavg,
+                    _quotes.get(tk, {}).get("price", 0),
+                    _technicals.get(tk, {}).get("ma200"),
+                    _fundamentals.get(tk), strategy=_strategy,
+                )
+            except Exception:
+                position_rec, exit_triggers = {}, {}
+
             holding = {
                 "ticker": tk, "verdict": algo_v, "conviction": algo_c,
                 "scores": scores,
                 "score_details": details,
                 "analyst_consensus": analyst_data,
+                "position_sizing": position_rec,
+                "exit_triggers": exit_triggers,
                 "rationale": synth.get("rationale", ""),
                 "personas": [],
             }
@@ -1415,6 +1444,33 @@ def _dry_run(settings: dict, tickers: list[str], note: str = "") -> dict:
         _mock_analyst["target"] = None
         _mock_analyst["price"] = None
 
+        # Mock position sizing + exit triggers
+        _mock_position = {}
+        _mock_exit = {}
+        try:
+            from position_sizing import compute_position_size, compute_exit_triggers
+            _w = settings.get("scoring_weights", {
+                "quality": 30, "valuation": 25, "risk": 20,
+                "macro": 15, "sentiment": 5, "technical": 5,
+            })
+            _wavg = sum(_mock_scores[k] * _w.get(k, 0) for k in _mock_scores) / max(
+                1, sum(_w.values()))
+            _strat = settings.get("scoring_strategy", "conservative_longterm")
+            import hashlib
+            _mock_cur_weight = (int(hashlib.md5(tk.encode()).hexdigest()[:4], 16) % 15) + 2
+            _mock_position = compute_position_size(
+                _mock_scores, _wavg, _mock_scores.get("risk", 50),
+                current_weight=_mock_cur_weight, sector_weight=15, is_crypto=False,
+                crypto_cap=settings.get("crypto_cap_pct", 10),
+                strategy=_strat, is_new_position=False,
+            )
+            _mock_exit = compute_exit_triggers(
+                derived_v, _wavg, 150.0,
+                140.0, None, strategy=_strat,
+            )
+        except Exception:
+            pass
+
         holdings_out.append({
             "ticker": tk,
             "verdict": derived_v,
@@ -1422,6 +1478,8 @@ def _dry_run(settings: dict, tickers: list[str], note: str = "") -> dict:
             "scores": _mock_scores,
             "score_details": _score_details,
             "analyst_consensus": _mock_analyst,
+            "position_sizing": _mock_position,
+            "exit_triggers": _mock_exit,
             "personas": persona_entries,
         })
 

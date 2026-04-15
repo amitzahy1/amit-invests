@@ -123,6 +123,58 @@ def _sector_of(ticker: str) -> str:
     return SECTOR_MAP.get(ticker, "Other")
 
 
+# ─── Score history sparkline ─────────────────────────────────────────────────
+
+@st.cache_data(ttl=600)
+def _load_score_history(ticker: str, days: int = 30) -> list:
+    """Load score history for a ticker — returns list of weighted averages over time."""
+    try:
+        from score_history import get_score_trend
+        entries = get_score_trend(ticker, days=days)
+        w = _SCORE_WEIGHTS
+        total_w = sum(w.values()) or 1
+        series = []
+        for e in entries:
+            s = e.get("scores") or {}
+            if not s:
+                continue
+            wavg = sum(s.get(k, 50) * w.get(k, 0) for k in s) / total_w
+            series.append(round(wavg, 1))
+        return series
+    except Exception:
+        return []
+
+
+def _sparkline_svg(values: list, width: int = 60, height: int = 18) -> str:
+    """Tiny inline SVG sparkline for a list of values (0-100)."""
+    if not values or len(values) < 2:
+        return ""
+    n = len(values)
+    min_v = min(values)
+    max_v = max(values)
+    rng = max(1, max_v - min_v)
+    pts = []
+    for i, v in enumerate(values):
+        x = (i / (n - 1)) * width
+        y = height - ((v - min_v) / rng) * height
+        pts.append(f"{x:.1f},{y:.1f}")
+    polyline = " ".join(pts)
+    last = values[-1]
+    first = values[0]
+    color = "#047857" if last >= first else "#b91c1c"
+    last_x = width
+    last_y = height - ((last - min_v) / rng) * height
+    return (
+        f'<svg width="{width}" height="{height}" viewBox="0 0 {width} {height}" '
+        f'style="display:inline-block;vertical-align:middle;" '
+        f'xmlns="http://www.w3.org/2000/svg">'
+        f'<polyline points="{polyline}" fill="none" stroke="{color}" stroke-width="1.5" '
+        f'stroke-linejoin="round" stroke-linecap="round"/>'
+        f'<circle cx="{last_x:.1f}" cy="{last_y:.1f}" r="2" fill="{color}"/>'
+        f'</svg>'
+    )
+
+
 # ─── Detail Modal ────────────────────────────────────────────────────────────
 
 @st.dialog("Analysis", width="large")
@@ -243,6 +295,98 @@ def _show_detail(item: dict, is_idea: bool = False):
             unsafe_allow_html=True,
         )
 
+    # Position Sizing recommendation
+    position = item.get("position_sizing", {})
+    if position and position.get("target_pct") is not None:
+        action = position.get("action", "hold")
+        target = position.get("target_pct", 0)
+        delta = position.get("delta_pct", 0)
+        reason = position.get("reason", "")
+
+        action_config = {
+            "add": ("ADD TO POSITION", "#047857", "📈"),
+            "add_small": ("ADD SMALL", "#047857", "➕"),
+            "hold": ("HOLD — No Change", "#b45309", "⏸️"),
+            "reduce": ("REDUCE", "#b91c1c", "📉"),
+            "reduce_small": ("TRIM SMALL", "#b91c1c", "➖"),
+            "exit": ("EXIT POSITION", "#b91c1c", "🚪"),
+        }
+        a_label, a_color, a_icon = action_config.get(action, ("HOLD", "#b45309", "⏸️"))
+        delta_sign = "+" if delta > 0 else ""
+
+        st.markdown(
+            f'<div style="border:1px solid #e2e8f0;border-left:4px solid {a_color};'
+            f'border-radius:8px;padding:16px 20px;margin-bottom:20px;background:#fafbfc;">'
+            f'<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;">'
+            f'<div style="display:flex;align-items:center;gap:8px;">'
+            f'<span style="font-size:18px;">{a_icon}</span>'
+            f'<span style="font-size:11px;font-weight:700;color:var(--text-dim);'
+            f'text-transform:uppercase;letter-spacing:0.12em;">Position Sizing</span>'
+            f'</div>'
+            f'<span style="font-size:13px;font-weight:700;color:{a_color};'
+            f'letter-spacing:0.03em;">{a_label}</span>'
+            f'</div>'
+            f'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:10px;">'
+            f'<div><div style="font-size:10px;color:var(--text-mute);text-transform:uppercase;'
+            f'letter-spacing:0.08em;">Target</div>'
+            f'<div style="font-size:18px;font-weight:700;color:var(--text);'
+            f'font-family:\'IBM Plex Mono\',monospace;">{target:.1f}%</div></div>'
+            f'<div><div style="font-size:10px;color:var(--text-mute);text-transform:uppercase;'
+            f'letter-spacing:0.08em;">Change</div>'
+            f'<div style="font-size:18px;font-weight:700;color:{a_color};'
+            f'font-family:\'IBM Plex Mono\',monospace;">{delta_sign}{delta:.1f}pp</div></div>'
+            f'<div><div style="font-size:10px;color:var(--text-mute);text-transform:uppercase;'
+            f'letter-spacing:0.08em;">Max Allowed</div>'
+            f'<div style="font-size:18px;font-weight:700;color:var(--text-dim);'
+            f'font-family:\'IBM Plex Mono\',monospace;">{position.get("max_allowed", 0)}%</div></div>'
+            f'</div>'
+            f'<div style="font-size:12px;color:#475569;padding-top:8px;'
+            f'border-top:1px solid #e2e8f0;">{_html.escape(reason)}</div>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+
+    # Exit Triggers (stop-loss / take-profit)
+    triggers = item.get("exit_triggers", {})
+    if triggers and triggers.get("stop_loss_price"):
+        sl_price = triggers.get("stop_loss_price", 0)
+        sl_pct = triggers.get("stop_loss_pct", 0)
+        tp_price = triggers.get("take_profit_price", 0)
+        tp_pct = triggers.get("take_profit_pct", 0)
+        trailing = triggers.get("trailing_enabled", False)
+        re_eval = triggers.get("re_evaluate_if", "")
+
+        st.markdown(
+            f'<div style="border:1px solid #e2e8f0;border-radius:8px;padding:16px 20px;'
+            f'margin-bottom:20px;background:#fafbfc;">'
+            f'<div style="font-size:11px;font-weight:700;color:var(--text-dim);'
+            f'text-transform:uppercase;letter-spacing:0.12em;margin-bottom:10px;">'
+            f'Exit Triggers {"(trailing)" if trailing else ""}</div>'
+            f'<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">'
+            # Stop-loss
+            f'<div style="padding:10px 14px;background:#fef2f2;border-left:3px solid #b91c1c;border-radius:4px;">'
+            f'<div style="font-size:10px;color:#991b1b;text-transform:uppercase;letter-spacing:0.1em;'
+            f'font-weight:600;">🛑 Stop Loss</div>'
+            f'<div style="font-size:20px;font-weight:700;color:#b91c1c;'
+            f'font-family:\'IBM Plex Mono\',monospace;margin-top:4px;">${sl_price:,.2f}</div>'
+            f'<div style="font-size:11px;color:#991b1b;">{sl_pct:+.1f}% from current</div>'
+            f'</div>'
+            # Take-profit
+            f'<div style="padding:10px 14px;background:#ecfdf5;border-left:3px solid #047857;border-radius:4px;">'
+            f'<div style="font-size:10px;color:#065f46;text-transform:uppercase;letter-spacing:0.1em;'
+            f'font-weight:600;">🎯 Take Profit</div>'
+            f'<div style="font-size:20px;font-weight:700;color:#047857;'
+            f'font-family:\'IBM Plex Mono\',monospace;margin-top:4px;">${tp_price:,.2f}</div>'
+            f'<div style="font-size:11px;color:#065f46;">+{tp_pct:.1f}% from current</div>'
+            f'</div>'
+            f'</div>'
+            f'<div style="font-size:11px;color:#64748b;padding-top:12px;margin-top:10px;'
+            f'border-top:1px solid #e2e8f0;font-style:italic;">'
+            f'💡 Re-evaluate if: {_html.escape(re_eval)}</div>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+
     # Score breakdown — card-per-category with full detail
     details = item.get("score_details", {})
     if scores:
@@ -356,6 +500,26 @@ def _render_card(item: dict, accent: str, is_idea: bool = False) -> None:
     pill_cls = VERDICT_CLS.get(v, "pill-hold") if not is_idea else "pill-new"
     pill_text = f"{v.upper()} {c}" if not is_idea else f"NEW {c}"
 
+    # Score history sparkline (30-day trend)
+    history = _load_score_history(tk, days=30)
+    sparkline_html = ""
+    if len(history) >= 2:
+        spark = _sparkline_svg(history)
+        first = history[0]
+        last = history[-1]
+        diff = last - first
+        diff_color = "#047857" if diff >= 0 else "#b91c1c"
+        diff_sign = "+" if diff >= 0 else ""
+        sparkline_html = (
+            f'<div style="display:flex;align-items:center;justify-content:space-between;'
+            f'gap:6px;margin:4px 0 -2px;font-size:10px;color:var(--text-mute);">'
+            f'<span style="text-transform:uppercase;letter-spacing:0.08em;">30d</span>'
+            f'{spark}'
+            f'<span style="color:{diff_color};font-weight:600;font-family:\'IBM Plex Mono\',monospace;">'
+            f'{diff_sign}{diff:.0f}</span>'
+            f'</div>'
+        )
+
     st.markdown(
         f'<div class="mini-card mini-card-{accent}">'
         f'  <div class="mini-card-top">'
@@ -365,6 +529,7 @@ def _render_card(item: dict, accent: str, is_idea: bool = False) -> None:
         f'  <div class="mini-name txt-dim">{_html.escape(name)}</div>'
         f'  {"<div class=\"priority-sector txt-mute\">" + sector + "</div>" if sector else ""}'
         f'  {_score_bars_html(scores)}'
+        f'  {sparkline_html}'
         f'  {_conviction_bar(c, v)}'
         f'</div>',
         unsafe_allow_html=True,

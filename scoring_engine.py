@@ -58,35 +58,40 @@ def _points_to_score(total_points: int, max_points: int) -> int:
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def _valuation_pe_signal(pe: float | None, sector: str = "") -> str:
-    """P/E relative to sector average."""
+    """P/E relative to sector average. Handles Crypto/Fixed Income (None sector_avg)."""
     if pe is None or pe <= 0:
         return "neutral"
-    sector_avg = SECTOR_PE.get(sector, 22) or 22
+    sector_avg = SECTOR_PE.get(sector)
+    if sector_avg is None or sector_avg <= 0:
+        return "neutral"  # Can't compare (Crypto, Fixed Income, unknown sector)
     ratio = pe / sector_avg
+    # Check smallest thresholds first — order matters!
     if ratio < 0.7:
         return "bullish"   # cheap vs sector
     elif ratio < 1.0:
         return "bullish"   # slight discount — still positive
-    elif ratio > 1.5:
+    elif ratio <= 1.2:
+        return "neutral"   # fair value zone
+    elif ratio <= 1.5:
+        return "bearish"   # moderate premium (1.2-1.5)
+    else:
         return "bearish"   # 50%+ premium
-    elif ratio > 1.2:
-        return "bearish"   # moderate premium
-    return "neutral"
 
 
 def _valuation_peg_signal(peg: float | None) -> str:
-    """PEG ratio (Peter Lynch's key metric)."""
+    """PEG ratio (Peter Lynch's key metric). Check smallest thresholds first."""
     if peg is None or peg <= 0:
         return "neutral"
     if peg < 1.0:
         return "bullish"   # growth at a discount
-    elif peg < 1.5:
+    elif peg <= 1.5:
         return "neutral"   # fairly priced for growth
-    elif peg > 2.5:
-        return "bearish"   # expensive relative to growth
-    elif peg > 2.0:
-        return "bearish"
-    return "neutral"
+    elif peg <= 2.0:
+        return "neutral"   # slightly expensive but not egregious
+    elif peg <= 2.5:
+        return "bearish"   # expensive (2.0-2.5)
+    else:
+        return "bearish"   # very expensive (>2.5)
 
 
 def _valuation_target_signal(analyst_target: float | None,
@@ -145,12 +150,14 @@ def valuation_score(fundamentals: dict | None, price: float = 0,
     pe = fundamentals.get("pe")
     peg = fundamentals.get("peg")
     target = fundamentals.get("analyst_target")
+    pb = fundamentals.get("pb") or fundamentals.get("price_to_book")
+    ps = fundamentals.get("ps") or fundamentals.get("price_to_sales")
 
     signals = [
         (_valuation_pe_signal(pe, sector), 30),
         (_valuation_peg_signal(peg), 25),
         (_valuation_target_signal(target, price), 25),
-        (_valuation_price_ratios_signal(pe), 20),
+        (_valuation_price_ratios_signal(pe, pb, ps), 20),
     ]
 
     weighted_sum = sum(_signal_to_points(sig) * w for sig, w in signals)
@@ -202,7 +209,7 @@ def _rsi_signal(rsi: float) -> tuple[str, float]:
 
 def _price_vs_ma_signal(price: float, ma200: float) -> tuple[str, float]:
     """How far price is from MA200 (mean reversion / trend strength)."""
-    if not price or not ma200:
+    if not price or not ma200 or ma200 == 0:
         return "neutral", 0.3
     deviation = (price - ma200) / ma200
     if deviation > 0.20:
@@ -249,31 +256,40 @@ def technical_score(price: float = 0, ma50: float = 0, ma200: float = 0,
 def risk_score(portfolio_weight: float = 0, beta: float = 1.0,
                sector_concentration: float = 0,
                is_crypto: bool = False, crypto_cap: float = 10) -> int:
-    """Compute risk score (0-100). Higher = lower risk = more favourable."""
-    score = 70  # start positive (existing holding = accepted)
+    """Compute risk score (0-100). Higher = lower risk = safer.
 
-    # Concentration risk
-    if portfolio_weight > 20:
-        score -= 25
+    Neutral baseline = 50. Bonuses for defensive traits, penalties for risks.
+    """
+    score = 50  # true neutral baseline
+
+    # Bonus for reasonable position sizing
+    if 0 < portfolio_weight <= 10:
+        score += 10  # well-sized position
+    elif portfolio_weight > 20:
+        score -= 25  # dangerous overweight
     elif portfolio_weight > 15:
-        score -= 15
+        score -= 15  # overweight
     elif portfolio_weight > 10:
-        score -= 5
+        score -= 5   # slightly large
 
-    # Beta risk
-    if beta is None:
-        beta = 1.0
-    if beta > 2.0:
-        score -= 20
+    # Beta risk (safely handle None/0/negative)
+    if beta is None or beta == 0:
+        beta = 1.0  # default to market if no data
+    if beta < 0:
+        score -= 15  # inverse/short ETF — unusual risk profile
+    elif beta > 2.0:
+        score -= 20  # highly volatile
     elif beta > 1.5:
-        score -= 10
+        score -= 10  # elevated volatility
     elif beta < 0.5:
-        score += 10  # defensive
+        score += 10  # defensive (low volatility)
 
-    # Sector concentration
-    if sector_concentration > 35:
-        score -= 15
-    elif sector_concentration > 25:
+    # Sector concentration risk
+    if sector_concentration > 40:
+        score -= 20
+    elif sector_concentration > 30:
+        score -= 10
+    elif sector_concentration > 20:
         score -= 5
 
     # Crypto policy violation
@@ -290,26 +306,39 @@ def risk_score(portfolio_weight: float = 0, beta: float = 1.0,
 def sentiment_score(analyst_buy: int = 0, analyst_hold: int = 0,
                     analyst_sell: int = 0,
                     news_headlines: list | None = None) -> int:
-    """Compute sentiment score (0-100) from analyst consensus."""
+    """Compute sentiment score (0-100) from analyst consensus.
+
+    Requires MIN_COVERAGE=3 analysts to emit a signal. Below that → neutral.
+    Coverage bonus is smoothed (not a cliff at 20 analysts).
+    """
     score = 50
     total = analyst_buy + analyst_hold + analyst_sell
-    if total > 0:
+    MIN_COVERAGE = 3  # don't trust signals from 1-2 analysts
+
+    if total >= MIN_COVERAGE:
         buy_pct = analyst_buy / total
         sell_pct = analyst_sell / total
-        # Strong consensus thresholds (from ai-hedge-fund)
+
+        # Buy consensus (thresholds from ai-hedge-fund)
         if buy_pct > 0.80:
             score += 25       # overwhelming buy consensus
         elif buy_pct > 0.60:
             score += 15
         elif buy_pct > 0.50:
             score += 5
+
+        # Sell pressure
         if sell_pct > 0.30:
-            score -= 20       # significant sell pressure
+            score -= 20
         elif sell_pct > 0.15:
             score -= 10
-        # Coverage breadth bonus
-        if total >= 20:
-            score += 5        # well-covered stock = more reliable
+
+        # Smooth coverage adjustment: 0 at <3 analysts, full effect at 25+
+        # Dampen extreme scores when coverage is low
+        coverage_factor = min(1.0, (total - MIN_COVERAGE) / 22.0 + 0.5)
+        # Pull score toward 50 proportional to coverage
+        score = int(50 + (score - 50) * coverage_factor)
+
     return max(0, min(100, score))
 
 
@@ -553,11 +582,11 @@ def scores_to_verdict(scores: dict[str, int],
     """Convert 6 scores to a single verdict + conviction using strategy weights.
 
     The weights come from settings.json (user-configurable strategy presets).
-    A long-term conservative investor will weight Quality and Valuation high,
-    while a growth investor will weight Technical and Sentiment high.
+    Requires at least 3 of 6 scores to be present for a meaningful verdict.
     """
-    if not scores:
-        return "hold", 50
+    if not scores or len(scores) < 3:
+        # Insufficient score coverage — cannot make a confident call
+        return "hold", 30
 
     w = weights or DEFAULT_WEIGHTS
     total_weight = sum(w.get(k, 0) for k in scores)
@@ -592,13 +621,18 @@ def scores_to_verdict(scores: dict[str, int],
 
 
 def score_color(val: int) -> str:
-    """Return CSS color for a score value."""
-    if val >= 65:
-        return "#047857"
-    elif val >= 40:
-        return "#b45309"
+    """Return CSS color for a score value. Aligned with verdict thresholds.
+
+    - Green (BUY zone): ≥70
+    - Amber (HOLD zone): 30-69
+    - Red (SELL zone): <30
+    """
+    if val >= 70:
+        return "#047857"  # Green = BUY
+    elif val >= 30:
+        return "#b45309"  # Amber = HOLD
     else:
-        return "#b91c1c"
+        return "#b91c1c"  # Red = SELL
 
 
 # ═══════════════════════════════════════════════════════════════════════════════

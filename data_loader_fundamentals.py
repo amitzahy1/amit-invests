@@ -128,12 +128,19 @@ def fetch_fundamentals(ticker: str) -> dict | None:
 
 
 def _pct(v: float | None) -> float | None:
-    """Convert 0.xx ratio to percentage if needed."""
+    """Convert 0.xx ratio to percentage if needed.
+
+    Alpha Vantage sometimes returns 0.15 (ratio) and sometimes 15.0 (%).
+    Heuristic: if abs value is < 1 and non-zero, treat as ratio and multiply by 100.
+    Values exactly at |1.0| are treated as already-a-percentage (ambiguous but safer
+    since real margins of exactly 1.0/-1.0 are rare, while 1%/100% both appear).
+    """
     if v is None:
         return None
-    # Alpha Vantage sometimes returns 0.15 (ratio) and sometimes 15.0 (%)
-    # Normalise to percentage
-    if -1 < v < 1:
+    # Use <= and strict zero check
+    if v == 0:
+        return 0.0
+    if abs(v) < 1:
         return round(v * 100, 2)
     return round(v, 2)
 
