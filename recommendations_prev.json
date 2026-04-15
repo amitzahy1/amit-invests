@@ -1,17 +1,17 @@
 {
-  "updated": "2026-04-15T06:07:36Z",
+  "updated": "2026-04-15T06:23:38Z",
   "profile_name": "Conservative AI Bull",
-  "summary": "סיכום יומי לפרופיל 'Conservative AI Bull' (אופק 4 שנים, סגנון conservative). נקודות חזקות לקנייה: GOOGL, ITA, SPY, VOO — מעל 75% קונבישן. נקודות חזקות למכירה: CPNG, ETHA, IBIT. החשיפה הקריפטו (ETHA, IBIT) חורגת מתקרת 3% ומגדרת סקטור נמנע — מומלץ להקטין. NVDA בהחזקה — איכות גבוהה אך מחיר מתוח; לחכות לנקודת כניסה טובה יותר. רעיונות חדשים שצוותו לפרופיל: MSFT, TSM.",
+  "summary": "סיכום יומי לפרופיל 'Conservative AI Bull' (אופק 4 שנים, סגנון conservative). החשיפה הקריפטו (ETHA, IBIT) חורגת מתקרת 3% ומגדרת סקטור נמנע — מומלץ להקטין. NVDA בהחזקה — איכות גבוהה אך מחיר מתוח; לחכות לנקודת כניסה טובה יותר. רעיונות חדשים שצוותו לפרופיל: MSFT, TSM.",
   "smart_insights": {
     "headline": "תיק מאוזן עם חשיפה חזקה ל-AI וסקטורים דפנסיביים",
     "insights": "**Portfolio Health** — התיק שלך מציג פיזור טוב עם דגש על איכות עסקית. GOOGL ו-NVDA מהווים את העוגן הטכנולוגי, ו-SPY/VOO כעוגן מדד רחב.\n\n**Hidden Risks** — יש חשיפה כפולה דרך QQQM ו-SPY (שניהם מחזיקים GOOGL, NVDA, AMZN). שקול לצמצם את QQQM.\n\n**Market Context** — VIX סביב 18, ריבית Fed 3.64%, עקום תשואות נורמלי. סביבה תומכת במניות איכות אך זהירות מפני תמחור מתוח.\n\n**Opportunities** — CPNG עם ציון Technical נמוך אך Valuation גבוה — חוסר התאמה שמצריך מחקר.\n\n**Action Items** — 1. לצמצם IBIT/ETHA אם הם חוצים את תקרת הקריפטו. 2. לעקוב אחר RSI של CPNG לתיקון אפשרי.\n\n_סקירת שוק — אינה המלצה פיננסית._",
-    "updated": "2026-04-15T06:07:36Z"
+    "updated": "2026-04-15T06:23:38Z"
   },
   "holdings": [
     {
       "ticker": "GOOGL",
-      "verdict": "buy",
-      "conviction": 84,
+      "verdict": "hold",
+      "conviction": 50,
       "scores": {
         "valuation": 60,
         "technical": 65,
@@ -114,7 +114,7 @@
     {
       "ticker": "AMZN",
       "verdict": "hold",
-      "conviction": 58,
+      "conviction": 57,
       "scores": {
         "valuation": 52,
         "technical": 54,
@@ -211,8 +211,8 @@
     },
     {
       "ticker": "BN",
-      "verdict": "buy",
-      "conviction": 74,
+      "verdict": "hold",
+      "conviction": 45,
       "scores": {
         "valuation": 65,
         "technical": 70,
@@ -316,8 +316,8 @@
     },
     {
       "ticker": "CPNG",
-      "verdict": "sell",
-      "conviction": 78,
+      "verdict": "hold",
+      "conviction": 42,
       "scores": {
         "valuation": 31,
         "technical": 36,
@@ -423,8 +423,8 @@
     },
     {
       "ticker": "ETHA",
-      "verdict": "sell",
-      "conviction": 82,
+      "verdict": "hold",
+      "conviction": 48,
       "scores": {
         "valuation": 37,
         "technical": 42,
@@ -528,8 +528,8 @@
     },
     {
       "ticker": "XLV",
-      "verdict": "buy",
-      "conviction": 72,
+      "verdict": "hold",
+      "conviction": 45,
       "scores": {
         "valuation": 65,
         "technical": 70,
@@ -633,8 +633,8 @@
     },
     {
       "ticker": "IBIT",
-      "verdict": "sell",
-      "conviction": 80,
+      "verdict": "hold",
+      "conviction": 41,
       "scores": {
         "valuation": 30,
         "technical": 35,
@@ -741,7 +741,7 @@
     {
       "ticker": "QQQM",
       "verdict": "hold",
-      "conviction": 55,
+      "conviction": 60,
       "scores": {
         "valuation": 49,
         "technical": 51,
@@ -838,8 +838,8 @@
     },
     {
       "ticker": "ITA",
-      "verdict": "buy",
-      "conviction": 76,
+      "verdict": "hold",
+      "conviction": 47,
       "scores": {
         "valuation": 63,
         "technical": 68,
@@ -944,7 +944,7 @@
     {
       "ticker": "NVDA",
       "verdict": "hold",
-      "conviction": 62,
+      "conviction": 54,
       "scores": {
         "valuation": 55,
         "technical": 57,
@@ -1042,7 +1042,7 @@
     {
       "ticker": "SPY",
       "verdict": "buy",
-      "conviction": 80,
+      "conviction": 71,
       "scores": {
         "valuation": 71,
         "technical": 76,
@@ -1150,8 +1150,8 @@
     },
     {
       "ticker": "URNM",
-      "verdict": "buy",
-      "conviction": 73,
+      "verdict": "hold",
+      "conviction": 48,
       "scores": {
         "valuation": 62,
         "technical": 67,
@@ -1255,8 +1255,8 @@
     },
     {
       "ticker": "NLR",
-      "verdict": "buy",
-      "conviction": 72,
+      "verdict": "hold",
+      "conviction": 41,
       "scores": {
         "valuation": 69,
         "technical": 74,
@@ -1363,7 +1363,7 @@
     {
       "ticker": "KSM-F34.TA",
       "verdict": "hold",
-      "conviction": 68,
+      "conviction": 57,
       "scores": {
         "valuation": 52,
         "technical": 54,
@@ -1460,8 +1460,8 @@
     },
     {
       "ticker": "VOO",
-      "verdict": "buy",
-      "conviction": 82,
+      "verdict": "hold",
+      "conviction": 46,
       "scores": {
         "valuation": 64,
         "technical": 69,
@@ -1568,7 +1568,7 @@
     {
       "ticker": "MSFT",
       "name": "Microsoft",
-      "conviction": 82,
+      "conviction": 42,
       "rationale": "מוביל נוסף בגל ה-AI (Azure + OpenAI + Copilot) — משלים את גוגל בצד ה-enterprise. מרווחים גבוהים, דיבידנד צומח, פונדמנטלים מעולים.",
       "scores": {
         "quality": 78,
@@ -1609,7 +1609,7 @@
     {
       "ticker": "TSM",
       "name": "Taiwan Semiconductor",
-      "conviction": 78,
+      "conviction": 44,
       "rationale": "משחק 'מכוש ואת' על AI — חברת הייצור המובילה בעולם. סיכון גיאופוליטי, אך חפיר תחרותי גדול מאוד.",
       "scores": {
         "quality": 82,
@@ -1650,7 +1650,7 @@
     {
       "ticker": "META",
       "name": "Meta Platforms",
-      "conviction": 70,
+      "conviction": 46,
       "rationale": "השקעות ענק ב-AI, מודלי Llama הופכים סטנדרט קוד-פתוח; פונדמנטלים חזקים והפחתת הוצאות משמעותית.",
       "scores": {
         "quality": 75,

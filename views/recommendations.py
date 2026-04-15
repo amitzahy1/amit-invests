@@ -174,6 +174,75 @@ def _show_detail(item: dict, is_idea: bool = False):
             unsafe_allow_html=True,
         )
 
+    # Wall Street Analyst Consensus widget
+    analyst = item.get("analyst_consensus", {})
+    if analyst and (analyst.get("buy") or analyst.get("hold") or analyst.get("sell")):
+        ab = analyst.get("buy", 0)
+        ah = analyst.get("hold", 0)
+        asl = analyst.get("sell", 0)
+        total = max(1, ab + ah + asl)
+        buy_pct = ab / total * 100
+        hold_pct = ah / total * 100
+        sell_pct = asl / total * 100
+
+        # Determine consensus label
+        if buy_pct >= 70:
+            consensus_label, consensus_color = "Strong Buy", "#047857"
+        elif buy_pct >= 50:
+            consensus_label, consensus_color = "Buy", "#16a34a"
+        elif sell_pct >= 30:
+            consensus_label, consensus_color = "Sell", "#b91c1c"
+        elif sell_pct >= 15:
+            consensus_label, consensus_color = "Underperform", "#ea580c"
+        else:
+            consensus_label, consensus_color = "Hold", "#b45309"
+
+        # Price target upside
+        target = analyst.get("target")
+        price = analyst.get("price")
+        target_html = ""
+        if target and price and price > 0:
+            upside = ((target / price) - 1) * 100
+            up_color = "#047857" if upside > 0 else "#b91c1c"
+            target_html = (
+                f'<div style="margin-top:10px;padding-top:10px;border-top:1px solid #e2e8f0;'
+                f'display:flex;justify-content:space-between;align-items:center;font-size:12px;">'
+                f'<span style="color:var(--text-dim);">Analyst price target</span>'
+                f'<span><b style="font-family:\'IBM Plex Mono\',monospace;">${target:.0f}</b> '
+                f'<span style="color:{up_color};font-weight:600;">({upside:+.1f}%)</span></span>'
+                f'</div>'
+            )
+
+        st.markdown(
+            f'<div style="border:1px solid #e2e8f0;border-radius:8px;padding:16px 20px;'
+            f'margin-bottom:20px;background:#fafbfc;">'
+            # Header
+            f'<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;">'
+            f'<div>'
+            f'<div style="font-size:11px;font-weight:600;color:var(--text-dim);'
+            f'text-transform:uppercase;letter-spacing:0.12em;">Wall Street Consensus</div>'
+            f'<div style="font-size:11px;color:var(--text-mute);margin-top:2px;">{total} analysts covering</div>'
+            f'</div>'
+            f'<div style="font-size:14px;font-weight:700;color:{consensus_color};'
+            f'letter-spacing:0.03em;">{consensus_label}</div>'
+            f'</div>'
+            # Stacked bar
+            f'<div style="display:flex;height:10px;border-radius:5px;overflow:hidden;background:#f0f0f0;margin-bottom:8px;">'
+            f'<div style="width:{buy_pct}%;background:#047857;" title="Buy: {ab} ({buy_pct:.0f}%)"></div>'
+            f'<div style="width:{hold_pct}%;background:#d97706;" title="Hold: {ah} ({hold_pct:.0f}%)"></div>'
+            f'<div style="width:{sell_pct}%;background:#b91c1c;" title="Sell: {asl} ({sell_pct:.0f}%)"></div>'
+            f'</div>'
+            # Counts row
+            f'<div style="display:flex;justify-content:space-between;font-size:11px;font-family:\'IBM Plex Mono\',monospace;">'
+            f'<span style="color:#047857;font-weight:600;">● BUY {ab} ({buy_pct:.0f}%)</span>'
+            f'<span style="color:#d97706;font-weight:600;">● HOLD {ah} ({hold_pct:.0f}%)</span>'
+            f'<span style="color:#b91c1c;font-weight:600;">● SELL {asl} ({sell_pct:.0f}%)</span>'
+            f'</div>'
+            f'{target_html}'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+
     # Score breakdown — card-per-category with full detail
     details = item.get("score_details", {})
     if scores:

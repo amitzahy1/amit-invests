@@ -747,10 +747,20 @@ def run_real(settings: dict, portfolio: dict) -> dict:
             # Generate human-readable explanations per score
             details = _explain(scores, _quotes.get(tk, {}), _technicals.get(tk, {}),
                                _fundamentals.get(tk), _macro, tk_weight, tk_sec_weight)
+            # Extract analyst consensus from fundamentals
+            _f = _fundamentals.get(tk) or {}
+            analyst_data = {
+                "buy": _f.get("analyst_buy", 0),
+                "hold": _f.get("analyst_hold", 0),
+                "sell": _f.get("analyst_sell", 0),
+                "target": _f.get("analyst_target"),
+                "price": _quotes.get(tk, {}).get("price"),
+            }
             holding = {
                 "ticker": tk, "verdict": algo_v, "conviction": algo_c,
                 "scores": scores,
                 "score_details": details,
+                "analyst_consensus": analyst_data,
                 "rationale": synth.get("rationale", ""),
                 "personas": [],
             }
@@ -808,6 +818,15 @@ def run_real(settings: dict, portfolio: dict) -> dict:
                     idea["score_details"] = _iexplain(
                         i_scores, _iq.get(itk, {}), _it.get(itk, {}),
                         _if.get(itk), _macro, 0, 0)
+                    # Analyst consensus
+                    _fi = _if.get(itk) or {}
+                    idea["analyst_consensus"] = {
+                        "buy": _fi.get("analyst_buy", 0),
+                        "hold": _fi.get("analyst_hold", 0),
+                        "sell": _fi.get("analyst_sell", 0),
+                        "target": _fi.get("analyst_target"),
+                        "price": _iq.get(itk, {}).get("price"),
+                    }
                 except Exception as e:
                     print(f"  [warn] scoring failed for idea {itk}: {e}", file=sys.stderr)
         except Exception as e:
@@ -1265,12 +1284,24 @@ def _dry_run(settings: dict, tickers: list[str], note: str = "") -> dict:
         except Exception:
             derived_v, derived_c = v, c
 
+        # Mock analyst consensus based on verdict
+        if derived_v == "buy":
+            _mock_analyst = {"buy": 25, "hold": 8, "sell": 2}
+        elif derived_v == "sell":
+            _mock_analyst = {"buy": 3, "hold": 10, "sell": 18}
+        else:
+            _mock_analyst = {"buy": 12, "hold": 15, "sell": 5}
+        # Variance per ticker
+        _mock_analyst["target"] = None
+        _mock_analyst["price"] = None
+
         holdings_out.append({
             "ticker": tk,
             "verdict": derived_v,
             "conviction": derived_c,
             "scores": _mock_scores,
             "score_details": _score_details,
+            "analyst_consensus": _mock_analyst,
             "personas": persona_entries,
         })
 

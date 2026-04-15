@@ -568,21 +568,23 @@ def scores_to_verdict(scores: dict[str, int],
     # Weighted average score — this IS the fundamental signal
     weighted_avg = sum(scores[k] * w.get(k, 0) for k in scores) / total_weight
 
-    # Verdict thresholds:
-    #   weighted_avg >= 65 → BUY (6 out of 10 average is clearly bullish)
-    #   weighted_avg <= 35 → SELL
-    #   else → HOLD (between 35 and 65 = no strong signal either way)
-    if weighted_avg >= 65:
+    # Industry-aligned thresholds:
+    #   weighted_avg >= 70 → BUY  (Fidelity, Trade-Ideas use ~70+ as BUY line)
+    #   weighted_avg >= 80 → Strong BUY (IBD considers 80+ as "good")
+    #   weighted_avg <= 30 → SELL
+    #   weighted_avg <= 20 → Strong SELL
+    #   30-70 → HOLD (most stocks should be HOLD — BUY is a high bar)
+    if weighted_avg >= 70:
         verdict = "buy"
-        # Conviction reflects the signal strength: 65 → 65%, 90 → 90%
+        # Conviction tracks signal strength: 70 → 70%, 90 → 90%
         conviction = int(min(100, weighted_avg))
-    elif weighted_avg <= 35:
+    elif weighted_avg <= 30:
         verdict = "sell"
-        # Conviction = how far below neutral: 35 → 65%, 10 → 90%
+        # Conviction = how far below neutral: 30 → 70%, 10 → 90%
         conviction = int(min(100, 100 - weighted_avg))
     else:
         verdict = "hold"
-        # HOLD conviction is LOW by definition — we're not making a strong call.
+        # HOLD conviction is LOW by design — we're not making a strong call
         # Closer to 50 = more confidently neutral
         conviction = int(max(30, 60 - abs(weighted_avg - 50)))
 

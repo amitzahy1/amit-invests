@@ -1,11 +1,11 @@
 {
-  "updated": "2026-04-15T06:16:03Z",
+  "updated": "2026-04-15T06:25:21Z",
   "profile_name": "Conservative AI Bull",
   "summary": "סיכום יומי לפרופיל 'Conservative AI Bull' (אופק 4 שנים, סגנון conservative). החשיפה הקריפטו (ETHA, IBIT) חורגת מתקרת 3% ומגדרת סקטור נמנע — מומלץ להקטין. NVDA בהחזקה — איכות גבוהה אך מחיר מתוח; לחכות לנקודת כניסה טובה יותר. רעיונות חדשים שצוותו לפרופיל: MSFT, TSM.",
   "smart_insights": {
     "headline": "תיק מאוזן עם חשיפה חזקה ל-AI וסקטורים דפנסיביים",
     "insights": "**Portfolio Health** — התיק שלך מציג פיזור טוב עם דגש על איכות עסקית. GOOGL ו-NVDA מהווים את העוגן הטכנולוגי, ו-SPY/VOO כעוגן מדד רחב.\n\n**Hidden Risks** — יש חשיפה כפולה דרך QQQM ו-SPY (שניהם מחזיקים GOOGL, NVDA, AMZN). שקול לצמצם את QQQM.\n\n**Market Context** — VIX סביב 18, ריבית Fed 3.64%, עקום תשואות נורמלי. סביבה תומכת במניות איכות אך זהירות מפני תמחור מתוח.\n\n**Opportunities** — CPNG עם ציון Technical נמוך אך Valuation גבוה — חוסר התאמה שמצריך מחקר.\n\n**Action Items** — 1. לצמצם IBIT/ETHA אם הם חוצים את תקרת הקריפטו. 2. לעקוב אחר RSI של CPNG לתיקון אפשרי.\n\n_סקירת שוק — אינה המלצה פיננסית._",
-    "updated": "2026-04-15T06:16:03Z"
+    "updated": "2026-04-15T06:25:21Z"
   },
   "holdings": [
     {
@@ -44,6 +44,13 @@
           "Stable profit margins over past years",
           "Low debt burden"
         ]
+      },
+      "analyst_consensus": {
+        "buy": 12,
+        "hold": 15,
+        "sell": 5,
+        "target": null,
+        "price": null
       },
       "personas": [
         {
@@ -143,6 +150,13 @@
           "Average business quality metrics"
         ]
       },
+      "analyst_consensus": {
+        "buy": 12,
+        "hold": 15,
+        "sell": 5,
+        "target": null,
+        "price": null
+      },
       "personas": [
         {
           "name": "warren_buffett",
@@ -211,8 +225,8 @@
     },
     {
       "ticker": "BN",
-      "verdict": "buy",
-      "conviction": 65,
+      "verdict": "hold",
+      "conviction": 45,
       "scores": {
         "valuation": 65,
         "technical": 70,
@@ -247,6 +261,13 @@
           "Stable profit margins over past years",
           "Low debt burden"
         ]
+      },
+      "analyst_consensus": {
+        "buy": 12,
+        "hold": 15,
+        "sell": 5,
+        "target": null,
+        "price": null
       },
       "personas": [
         {
@@ -316,8 +337,8 @@
     },
     {
       "ticker": "CPNG",
-      "verdict": "sell",
-      "conviction": 68,
+      "verdict": "hold",
+      "conviction": 42,
       "scores": {
         "valuation": 31,
         "technical": 36,
@@ -354,6 +375,13 @@
           "Thin profit margins",
           "Elevated debt load"
         ]
+      },
+      "analyst_consensus": {
+        "buy": 12,
+        "hold": 15,
+        "sell": 5,
+        "target": null,
+        "price": null
       },
       "personas": [
         {
@@ -460,6 +488,13 @@
           "Elevated debt load"
         ]
       },
+      "analyst_consensus": {
+        "buy": 12,
+        "hold": 15,
+        "sell": 5,
+        "target": null,
+        "price": null
+      },
       "personas": [
         {
           "name": "warren_buffett",
@@ -528,8 +563,8 @@
     },
     {
       "ticker": "XLV",
-      "verdict": "buy",
-      "conviction": 65,
+      "verdict": "hold",
+      "conviction": 45,
       "scores": {
         "valuation": 65,
         "technical": 70,
@@ -564,6 +599,13 @@
           "Stable profit margins over past years",
           "Low debt burden"
         ]
+      },
+      "analyst_consensus": {
+        "buy": 12,
+        "hold": 15,
+        "sell": 5,
+        "target": null,
+        "price": null
       },
       "personas": [
         {
@@ -633,8 +675,8 @@
     },
     {
       "ticker": "IBIT",
-      "verdict": "sell",
-      "conviction": 69,
+      "verdict": "hold",
+      "conviction": 41,
       "scores": {
         "valuation": 30,
         "technical": 35,
@@ -671,6 +713,13 @@
           "Thin profit margins",
           "Elevated debt load"
         ]
+      },
+      "analyst_consensus": {
+        "buy": 12,
+        "hold": 15,
+        "sell": 5,
+        "target": null,
+        "price": null
       },
       "personas": [
         {
@@ -769,6 +818,13 @@
         "quality": [
           "Average business quality metrics"
         ]
+      },
+      "analyst_consensus": {
+        "buy": 12,
+        "hold": 15,
+        "sell": 5,
+        "target": null,
+        "price": null
       },
       "personas": [
         {
@@ -875,6 +931,13 @@
           "Low debt burden"
         ]
       },
+      "analyst_consensus": {
+        "buy": 12,
+        "hold": 15,
+        "sell": 5,
+        "target": null,
+        "price": null
+      },
       "personas": [
         {
           "name": "warren_buffett",
@@ -972,6 +1035,13 @@
         "quality": [
           "Average business quality metrics"
         ]
+      },
+      "analyst_consensus": {
+        "buy": 12,
+        "hold": 15,
+        "sell": 5,
+        "target": null,
+        "price": null
       },
       "personas": [
         {
@@ -1082,6 +1152,13 @@
           "Low debt burden"
         ]
       },
+      "analyst_consensus": {
+        "buy": 25,
+        "hold": 8,
+        "sell": 2,
+        "target": null,
+        "price": null
+      },
       "personas": [
         {
           "name": "warren_buffett",
@@ -1187,6 +1264,13 @@
           "Low debt burden"
         ]
       },
+      "analyst_consensus": {
+        "buy": 12,
+        "hold": 15,
+        "sell": 5,
+        "target": null,
+        "price": null
+      },
       "personas": [
         {
           "name": "warren_buffett",
@@ -1255,8 +1339,8 @@
     },
     {
       "ticker": "NLR",
-      "verdict": "buy",
-      "conviction": 69,
+      "verdict": "hold",
+      "conviction": 41,
       "scores": {
         "valuation": 69,
         "technical": 74,
@@ -1293,6 +1377,13 @@
           "Stable profit margins over past years",
           "Low debt burden"
         ]
+      },
+      "analyst_consensus": {
+        "buy": 12,
+        "hold": 15,
+        "sell": 5,
+        "target": null,
+        "price": null
       },
       "personas": [
         {
@@ -1391,6 +1482,13 @@
         "quality": [
           "Average business quality metrics"
         ]
+      },
+      "analyst_consensus": {
+        "buy": 12,
+        "hold": 15,
+        "sell": 5,
+        "target": null,
+        "price": null
       },
       "personas": [
         {
@@ -1497,6 +1595,13 @@
           "Low debt burden"
         ]
       },
+      "analyst_consensus": {
+        "buy": 12,
+        "hold": 15,
+        "sell": 5,
+        "target": null,
+        "price": null
+      },
       "personas": [
         {
           "name": "warren_buffett",
@@ -1568,7 +1673,7 @@
     {
       "ticker": "MSFT",
       "name": "Microsoft",
-      "conviction": 67,
+      "conviction": 42,
       "rationale": "מוביל נוסף בגל ה-AI (Azure + OpenAI + Copilot) — משלים את גוגל בצד ה-enterprise. מרווחים גבוהים, דיבידנד צומח, פונדמנטלים מעולים.",
       "scores": {
         "quality": 78,
@@ -1609,7 +1714,7 @@
     {
       "ticker": "TSM",
       "name": "Taiwan Semiconductor",
-      "conviction": 65,
+      "conviction": 44,
       "rationale": "משחק 'מכוש ואת' על AI — חברת הייצור המובילה בעולם. סיכון גיאופוליטי, אך חפיר תחרותי גדול מאוד.",
       "scores": {
         "quality": 82,
