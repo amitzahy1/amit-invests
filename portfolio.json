@@ -91,7 +91,8 @@
       "ticker": "5108.TA",
       "name": "קרן ביטוח ישראל (TA-Insurance)",
       "quantity": 13.0,
-      "cost_price_ils": 480.86
+      "cost_price_ils": 480.86,
+      "current_price_ils": 1389.1
     }
   ],
   "transactions": [
