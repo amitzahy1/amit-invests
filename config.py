@@ -4,6 +4,7 @@ Portfolio Dashboard Configuration — English
 
 # ─── Ticker Mapping (Extrade Pro name → Yahoo Finance ticker) ────────────────
 TICKER_MAP = {
+    # US stocks / ETFs — match Extrade Pro broker names
     "ALPHABET INC-CL A": "GOOGL",
     "AMAZON COM INC": "AMZN",
     "BROOKFIELD ASSET MGT": "BAM",
@@ -19,8 +20,21 @@ TICKER_MAP = {
     "SPROTT URANIUM MINERS": "URNM",
     "VANECK URANIUM + NUCLEAR ENER": "NLR",
     "VANGUARD S&P 500 ETF": "VOO",
+    # Israeli ETFs — English form
     "KESEM ETF 4A TA-INSURANCE": "5108.TA",
     "KESEM KSM-F34": "KSM-F34.TA",
+    # Israeli ETFs — Hebrew broker names (Extrade Pro exports Hebrew names)
+    "קסם 4A) ETF) תא-ביטוח": "5108.TA",
+    "קסם (4A) ETF תא-ביטוח": "5108.TA",
+    "קסם KSM-F34": "KSM-F34.TA",
+    "קסם KSM-F34.TA": "KSM-F34.TA",
+}
+
+# TASE security numbers → ticker (most reliable mapping — numbers don't change)
+TASE_ID_MAP = {
+    "1146125": "5108.TA",   # קסם 4A ETF תא-ביטוח
+    "5108":    "5108.TA",
+    "KSM-F34": "KSM-F34.TA",
 }
 
 # ─── Sector Classification (English) ────────────────────────────────────────
@@ -82,8 +96,8 @@ DISPLAY_NAMES = {
     "URNM": "Uranium Miners ETF",
     "NLR": "Nuclear Energy ETF",
     "VOO": "S&P 500 ETF (VOO)",
-    "5108.TA": "TA-Insurance Index ETF",
-    "KSM-F34.TA": "Israel Gov Bond (Medium)",
+    "5108.TA": "קרן ביטוח ישראל (TA-Insurance)",
+    "KSM-F34.TA": "קרן אג״ח ממשלתי ישראל (F34)",
 }
 
 # ─── Sector Colors ───────────────────────────────────────────────────────────

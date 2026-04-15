@@ -25,7 +25,12 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
-from config import DISPLAY_NAMES, ISRAELI_TICKERS
+from config import DISPLAY_NAMES, ISRAELI_TICKERS, TICKER_MAP
+
+try:
+    from config import TASE_ID_MAP
+except ImportError:
+    TASE_ID_MAP = {}
 
 inject_css()
 inject_header("import_csv")
@@ -54,6 +59,7 @@ st.markdown('<div class="below-section">', unsafe_allow_html=True)
 TICKER_ALIASES = {"symbol", "ticker", "security", "שם נייר", "security name", "sec name",
                   "סימול", "שם"}
 NAME_ALIASES = {"name", "description", "company", "company name", "display name", "סימול מלא"}
+TASE_ID_ALIASES = {"מספר נייר", "security id", "security number", "isin", "tase id"}
 QTY_ALIASES = {"quantity", "qty", "shares", "כמות", "units", "position", "מספר יחידות",
                "number of shares"}
 COST_ALIASES = {"purchase price", "cost", "cost basis", "cost price", "avg price",
@@ -85,6 +91,23 @@ def _match_column(columns: list[str], aliases: set[str]) -> str | None:
     return None
 
 
+def _find_header_row(df: pd.DataFrame) -> int:
+    """Find the row that contains column headers.
+
+    Broker exports often have title/metadata rows before the actual headers.
+    We look for the first row containing known header tokens like "שם נייר" / "Symbol" / "Ticker".
+    """
+    KNOWN_TOKENS = {"שם נייר", "symbol", "ticker", "סימול", "security", "name"}
+    for idx, row in df.iterrows():
+        for cell in row:
+            if cell is None:
+                continue
+            cell_norm = str(cell).strip().lower()
+            if cell_norm in KNOWN_TOKENS:
+                return idx
+    return 0
+
+
 def _parse_csv(content: bytes, filename: str) -> tuple[pd.DataFrame | None, str | None, dict]:
     """Return (aggregated_df, error, stats).
 
@@ -96,17 +119,23 @@ def _parse_csv(content: bytes, filename: str) -> tuple[pd.DataFrame | None, str 
     stats = {"raw_rows": 0, "skipped_currency": 0, "skipped_watchlist": 0,
              "lots_aggregated": 0, "final_holdings": 0}
     try:
-        for enc in ("utf-8-sig", "utf-8", "cp1255", "iso-8859-8"):
-            try:
-                if filename.lower().endswith((".xlsx", ".xls")):
-                    raw = pd.read_excel(io.BytesIO(content))
-                else:
-                    raw = pd.read_csv(io.BytesIO(content), encoding=enc)
-                break
-            except UnicodeDecodeError:
-                continue
+        if filename.lower().endswith((".xlsx", ".xls")):
+            # Excel — first read with no header to find the actual header row
+            preview = pd.read_excel(io.BytesIO(content), header=None)
+            header_row = _find_header_row(preview)
+            # Re-read with the detected header row
+            raw = pd.read_excel(io.BytesIO(content), header=header_row)
+            # Drop rows where all cells are NaN (blank trailing/leading rows)
+            raw = raw.dropna(how="all")
         else:
-            return None, "Unable to decode file — please save as UTF-8 CSV.", stats
+            for enc in ("utf-8-sig", "utf-8", "cp1255", "iso-8859-8"):
+                try:
+                    raw = pd.read_csv(io.BytesIO(content), encoding=enc)
+                    break
+                except UnicodeDecodeError:
+                    continue
+            else:
+                return None, "Unable to decode file — please save as UTF-8 CSV.", stats
     except Exception as e:
         return None, f"Failed to parse file: {e}", stats
 
@@ -118,6 +147,7 @@ def _parse_csv(content: bytes, filename: str) -> tuple[pd.DataFrame | None, str 
     name_col = _match_column(cols, NAME_ALIASES)
     price_col = _match_column(cols, CURRENT_PRICE_ALIASES)
     tx_col = _match_column(cols, TX_TYPE_ALIASES)
+    tase_id_col = _match_column(cols, TASE_ID_ALIASES)
 
     if not tk_col or not qty_col:
         return None, (
@@ -129,12 +159,32 @@ def _parse_csv(content: bytes, filename: str) -> tuple[pd.DataFrame | None, str 
     # Build a working frame with canonical column names
     df = pd.DataFrame({
         "ticker_raw": raw[tk_col].astype(str).str.strip(),
+        "tase_id": raw[tase_id_col].astype(str).str.strip() if tase_id_col else "",
         "name": raw[name_col].astype(str).str.strip() if name_col else raw[tk_col].astype(str),
         "quantity": pd.to_numeric(raw[qty_col], errors="coerce"),
         "cost_price_raw": pd.to_numeric(raw[cost_col], errors="coerce") if cost_col else pd.NA,
         "current_price_raw": pd.to_numeric(raw[price_col], errors="coerce") if price_col else pd.NA,
         "tx_type": raw[tx_col].astype(str).str.upper().str.strip() if tx_col else "",
     })
+
+    # Translate broker names to real ticker symbols
+    def _translate_ticker(row):
+        raw_name = str(row["ticker_raw"]).strip()
+        tase_id = str(row.get("tase_id", "")).strip()
+        # 1) Try exact match in TICKER_MAP (case-insensitive)
+        for k, v in TICKER_MAP.items():
+            if k.strip().lower() == raw_name.lower():
+                return v
+        # 2) Try TASE ID
+        if tase_id and tase_id in TASE_ID_MAP:
+            return TASE_ID_MAP[tase_id]
+        # 3) If it already looks like a ticker (short, uppercase, no spaces), keep
+        if len(raw_name) <= 10 and " " not in raw_name and raw_name.isupper():
+            return raw_name
+        # 4) Fallback — uppercase as-is (will flag as unmapped)
+        return raw_name.upper()
+
+    df["ticker"] = df.apply(_translate_ticker, axis=1)
 
     # Skip currency rows (e.g. ILS=X, EUR=X)
     is_currency = df["ticker_raw"].str.contains("=", na=False)
@@ -150,8 +200,7 @@ def _parse_csv(content: bytes, filename: str) -> tuple[pd.DataFrame | None, str 
     if tx_col:
         df = df[df["tx_type"] != "SELL"]
 
-    # Uppercase tickers
-    df["ticker"] = df["ticker_raw"].str.upper()
+    # ticker was already set via _translate_ticker above
     df["is_israeli"] = df["ticker"].str.endswith(".TA")
 
     # Israeli prices: CSV reports in agorot (1/100 ILS). Convert.
