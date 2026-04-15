@@ -765,14 +765,15 @@ def run_real(settings: dict, portfolio: dict) -> dict:
                 "personas": [],
             }
         else:
-            # Fallback if scoring failed — simple Gemini call
+            # Fallback if scoring failed: return neutral HOLD.
+            # We never trust Gemini for verdict/conviction — it only writes text.
             synth = _scoring_synthesis_call(
                 llm, tk, display, preamble, {}, _mkt_ctx)
             holding = {
                 "ticker": tk,
-                "verdict": synth.get("verdict", "hold"),
-                "conviction": synth.get("conviction", 50),
-                "rationale": synth.get("rationale", ""),
+                "verdict": "hold",       # safe default — no scoring = no signal
+                "conviction": 30,         # low conviction — we have no data
+                "rationale": synth.get("rationale", "") or "Insufficient data for analysis.",
                 "personas": [],
             }
 
@@ -801,6 +802,11 @@ def run_real(settings: dict, portfolio: dict) -> dict:
                 _if = _faf(idea_tickers)
             except Exception:
                 _if = {}
+            from scoring_engine import (
+                scores_to_verdict as _s2v_idea,
+                explain_scores as _iexplain,
+            )
+            _idea_weights = settings.get("scoring_weights")
             for idea in new_ideas:
                 itk = idea.get("ticker", "")
                 if not itk:
@@ -811,10 +817,13 @@ def run_real(settings: dict, portfolio: dict) -> dict:
                         _if.get(itk), _macro, _news.get(itk, []),
                         0, 0, "", settings.get("crypto_cap_pct", 10))
                     idea["scores"] = i_scores
+                    # Conviction = SAME rule as holdings. Gemini's suggested conviction
+                    # is DISCARDED because it's not grounded in the scoring model.
+                    _, idea_c = _s2v_idea(i_scores, _idea_weights)
+                    idea["conviction"] = idea_c
                     # Also store the current price for ideas tracking
                     idea["suggested_price"] = _iq.get(itk, {}).get("price", 0)
                     # Generate explanations
-                    from scoring_engine import explain_scores as _iexplain
                     idea["score_details"] = _iexplain(
                         i_scores, _iq.get(itk, {}), _it.get(itk, {}),
                         _if.get(itk), _macro, 0, 0)
