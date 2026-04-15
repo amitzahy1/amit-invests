@@ -41,6 +41,16 @@ fundamentals_cache.json
 macro_cache.json
 news_cache.json
 earnings_cache.json
+social_sentiment_cache.json
+backtest_cache.json
+
+# ─── Broker exports (personal, don't commit to repo) ──────────────────────
+*.xlsx
+!sample_csv/*.xlsx
+
+# ─── Dev / scratch files ───────────────────────────────────────────────────
+_*.json
+.settings_changed
 
 # ─── Agent / local state ───────────────────────────────────────────────────
 .claude/

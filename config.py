@@ -7,8 +7,15 @@ TICKER_MAP = {
     # US stocks / ETFs — match Extrade Pro broker names
     "ALPHABET INC-CL A": "GOOGL",
     "AMAZON COM INC": "AMZN",
-    "BROOKFIELD ASSET MGT": "BAM",
+    # NOTE: Extrade Pro uses the pre-2022 name "BROOKFIELD ASSET MGT"
+    # for what is today BN (Brookfield Corporation, the parent).
+    # Verified by the user against their broker's displayed price.
+    # The new pure-play asset manager (BAM, ticker BAM) would be listed
+    # under a different name if ever held — probably "BROOKFIELD ASSET MANAGEMENT LTD".
+    "BROOKFIELD ASSET MGT": "BN",
+    "BROOKFIELD ASSET MANAGEMENT LTD": "BAM",
     "BROOKFIELD CORP": "BN",
+    "BROOKFIELD CORPORATION": "BN",
     "Coupang, Inc.": "CPNG",
     "ETHA": "ETHA",
     "HEALTH CARE SELECT SECTOR": "XLV",

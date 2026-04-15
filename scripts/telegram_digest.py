@@ -167,6 +167,68 @@ def _format_accuracy_summary() -> str:
     return "\n".join(lines)
 
 
+def _format_social_sentiment(recs: dict) -> str:
+    """Block — Twitter/X social sentiment highlights.
+
+    Picks top 3 holdings with strongest social signal (most bullish OR most bearish).
+    Skipped if no holdings have social_sentiment data.
+    """
+    holdings = recs.get("holdings", [])
+    with_social = [
+        h for h in holdings
+        if h.get("social_sentiment") and h["social_sentiment"].get("sentiment_score") is not None
+    ]
+    if not with_social:
+        return ""
+
+    # Sort by |sentiment - 50| descending (strongest signal first)
+    with_social.sort(key=lambda h: -abs(h["social_sentiment"]["sentiment_score"] - 50))
+    top3 = with_social[:3]
+
+    lines = ["🐦 *Social Sentiment (X + News)*"]
+    for h in top3:
+        tk = h.get("ticker", "")
+        s = h["social_sentiment"]
+        score = s.get("sentiment_score", 50)
+        label = s.get("label", "neutral").lower()
+        emoji = "🐂" if label == "bullish" else "🐻" if label == "bearish" else "⚖️"
+        themes = s.get("top_themes", [])
+        theme_str = f" · {themes[0][:40]}" if themes else ""
+        lines.append(f"{emoji} `{tk}` {score}/100 ({label.upper()}){theme_str}")
+    return "\n".join(lines)
+
+
+def _format_earnings_alerts(recs: dict) -> str:
+    """Block — upcoming earnings in the next 14 days for holdings or ideas."""
+    try:
+        sys.path.insert(0, str(_ROOT))
+        from earnings_calendar import get_upcoming_earnings
+    except Exception:
+        return ""
+
+    holdings_tk = [h.get("ticker") for h in recs.get("holdings", []) if h.get("ticker")]
+    ideas_tk = [i.get("ticker") for i in recs.get("new_ideas", []) if i.get("ticker")]
+    all_tickers = [t for t in holdings_tk + ideas_tk if not t.endswith(".TA")]
+    if not all_tickers:
+        return ""
+
+    try:
+        upcoming = get_upcoming_earnings(all_tickers, days_ahead=14)
+    except Exception:
+        return ""
+    if not upcoming:
+        return ""
+
+    lines = ["📅 *Upcoming Earnings (next 14 days)*"]
+    for e in upcoming[:5]:
+        tk = e.get("ticker", "")
+        date = e.get("report_date", "?")
+        est_eps = e.get("estimated_eps", "")
+        est_str = f" · est EPS ${est_eps}" if est_eps and est_eps != "None" else ""
+        lines.append(f"⚠️ `{tk}` — {date}{est_str}")
+    return "\n".join(lines)
+
+
 def _format_market_context() -> str:
     """Block 1: Today's market snapshot — S&P, Nasdaq, VIX, rates, USD/ILS."""
     try:
@@ -379,6 +441,18 @@ def _format_holdings_msg(recs: dict) -> str:
     acc_summary = _format_accuracy_summary()
     if acc_summary:
         lines.append(acc_summary)
+        lines.append("")
+
+    # Earnings alerts (next 14 days) — surface BEFORE the news dumps into noise
+    earnings_alerts = _format_earnings_alerts(recs)
+    if earnings_alerts:
+        lines.append(earnings_alerts)
+        lines.append("")
+
+    # Social sentiment highlights (top 3 strongest signals from X/news)
+    social_block = _format_social_sentiment(recs)
+    if social_block:
+        lines.append(social_block)
         lines.append("")
 
     # Smart Insights from senior analyst (1 Gemini call/day — deep analysis)

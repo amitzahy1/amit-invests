@@ -1,148 +1,97 @@
 {
-  "last_updated": "2026-03-25",
+  "last_updated": "2026-04-15",
   "account": "133-667953",
   "notes": "Data exported from Extrade Pro. Updated via Claude Code when trades happen.",
-  "recommendations": {
-    "updated": "2026-03-25",
-    "alerts": [],
-    "summary": ""
-  },
   "holdings": [
     {
       "ticker": "GOOGL",
-      "name": "Alphabet Inc (Google)",
+      "name": "Alphabet (Google)",
       "quantity": 4.46,
-      "cost_price_usd": 180.47,
-      "ai_recommendation": "Hold",
-      "ai_rating": "67/100",
-      "notes": ""
+      "cost_price_usd": 180.47
     },
     {
       "ticker": "AMZN",
-      "name": "Amazon.com Inc",
-      "quantity": 3,
-      "cost_price_usd": 226.72,
-      "ai_recommendation": "Hold",
-      "ai_rating": "66/100",
-      "notes": ""
+      "name": "Amazon",
+      "quantity": 5.0,
+      "cost_price_usd": 226.42
     },
     {
       "ticker": "BN",
       "name": "Brookfield Corp",
-      "quantity": 24,
-      "cost_price_usd": 43.78,
-      "ai_recommendation": "Strong Buy",
-      "ai_rating": "95/100",
-      "notes": ""
+      "quantity": 24.0,
+      "cost_price_usd": 44.28
     },
     {
       "ticker": "CPNG",
-      "name": "Coupang Inc",
-      "quantity": 23,
-      "cost_price_usd": 27.22,
-      "ai_recommendation": "Sell",
-      "ai_rating": "37/100",
-      "notes": ""
+      "name": "Coupang",
+      "quantity": 23.0,
+      "cost_price_usd": 27.22
     },
     {
       "ticker": "ETHA",
-      "name": "iShares Ethereum Trust ETF",
-      "quantity": 10,
-      "cost_price_usd": 32.32,
-      "ai_recommendation": "-",
-      "ai_rating": "-",
-      "notes": ""
+      "name": "Ethereum ETF",
+      "quantity": 10.0,
+      "cost_price_usd": 32.32
     },
     {
       "ticker": "XLV",
-      "name": "Health Care Select Sector SPDR",
-      "quantity": 5,
-      "cost_price_usd": 155.63,
-      "ai_recommendation": "-",
-      "ai_rating": "-",
-      "notes": ""
+      "name": "Healthcare ETF",
+      "quantity": 5.0,
+      "cost_price_usd": 155.63
     },
     {
       "ticker": "IBIT",
-      "name": "iShares Bitcoin Trust ETF",
-      "quantity": 37,
-      "cost_price_usd": 53.29,
-      "ai_recommendation": "-",
-      "ai_rating": "-",
-      "notes": ""
+      "name": "Bitcoin ETF",
+      "quantity": 37.0,
+      "cost_price_usd": 53.29
     },
     {
       "ticker": "QQQM",
-      "name": "Invesco Nasdaq 100 ETF",
-      "quantity": 11,
-      "cost_price_usd": 203.14,
-      "ai_recommendation": "-",
-      "ai_rating": "-",
-      "notes": ""
+      "name": "Nasdaq 100 ETF",
+      "quantity": 11.0,
+      "cost_price_usd": 203.14
     },
     {
       "ticker": "ITA",
-      "name": "iShares US Aerospace & Defense ETF",
-      "quantity": 6,
-      "cost_price_usd": 187.7,
-      "ai_recommendation": "-",
-      "ai_rating": "-",
-      "notes": ""
+      "name": "Aerospace & Defense ETF",
+      "quantity": 6.0,
+      "cost_price_usd": 187.7
     },
     {
       "ticker": "NVDA",
-      "name": "Nvidia Corp",
+      "name": "Nvidia",
       "quantity": 6.68,
-      "cost_price_usd": 157.59,
-      "ai_recommendation": "Underperform",
-      "ai_rating": "59/100",
-      "notes": ""
+      "cost_price_usd": 157.59
     },
     {
       "ticker": "SPY",
-      "name": "SPDR S&P 500 ETF Trust",
-      "quantity": 8,
-      "cost_price_usd": 572.45,
-      "ai_recommendation": "-",
-      "ai_rating": "-",
-      "notes": ""
+      "name": "S&P 500 ETF (SPY)",
+      "quantity": 8.0,
+      "cost_price_usd": 572.45
     },
     {
       "ticker": "URNM",
-      "name": "Sprott Uranium Miners ETF",
-      "quantity": 18,
-      "cost_price_usd": 47.14,
-      "ai_recommendation": "-",
-      "ai_rating": "-",
-      "notes": ""
+      "name": "Uranium Miners ETF",
+      "quantity": 18.0,
+      "cost_price_usd": 47.14
     },
     {
       "ticker": "NLR",
-      "name": "VanEck Uranium + Nuclear Energy ETF",
-      "quantity": 7,
-      "cost_price_usd": 106.29,
-      "ai_recommendation": "-",
-      "ai_rating": "-",
-      "notes": ""
-    },
-    {
-      "ticker": "KSM-F34.TA",
-      "name": "Kesem F34 Bond ETF (TASE)",
-      "quantity": 13,
-      "cost_price_ils": 480.86,
-      "current_price_ils": 1331.8,
-      "ai_recommendation": "-",
-      "ai_rating": "-",
-      "notes": "Israeli bond ETF. Prices in ILS (Yahoo Finance returns agorot — divided by 100)."
+      "name": "Nuclear Energy ETF",
+      "quantity": 7.0,
+      "cost_price_usd": 106.29
     },
     {
       "ticker": "VOO",
-      "name": "Vanguard S&P 500 ETF",
-      "quantity": 3,
-      "cost_price_usd": 624.6,
-      "ai_recommendation": "-",
-      "ai_rating": "-",
-      "notes": "Cost placeholder = current market price. P&L will read ~0% until you overwrite with your real cost basis."
+      "name": "S&P 500 ETF (VOO)",
+      "quantity": 3.0,
+      "cost_price_usd": 626.07
+    },
+    {
+      "ticker": "5108.TA",
+      "name": "קרן ביטוח ישראל (TA-Insurance)",
+      "quantity": 13.0,
+      "cost_price_ils": 480.86
     }
   ],
   "transactions": [
@@ -150,6 +99,11 @@
       "date": "2026-03-25",
       "type": "snapshot",
       "description": "Initial portfolio snapshot from Extrade Pro export"
+    },
+    {
+      "date": "2026-04-15",
+      "type": "snapshot",
+      "description": "Imported from Extrade Pro (נתוני חשבון Apr 15, 2026)"
     }
   ]
 }
