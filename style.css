@@ -232,6 +232,16 @@ html { scroll-behavior: smooth; }
 .pill-hold { background: var(--hold-bg); color: var(--hold); border-color: var(--hold-border); }
 .pill-new  { background: var(--info-bg); color: var(--info); border-color: var(--info-border); }
 
+/* Larger verdict pill on recommendation cards (+25%) */
+.mini-card .pill,
+.priority-card .pill {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    padding: 5px 13px !important;
+    letter-spacing: 0.04em;
+    border-width: 1.5px;
+}
+
 /* ─── Page container (single max-width 1400) ─────────────────────────────── */
 .page {
     max-width: 1400px;

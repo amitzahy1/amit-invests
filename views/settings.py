@@ -134,43 +134,53 @@ st.markdown(minify(f"""
 # FORM
 # ═══════════════════════════════════════════════════════════════════════════════
 
-with st.form("settings_form"):
+# ── Section 1: Strategy (outside form for live preview) ──────────────────
+st.markdown(
+    '<div class="below-section"><div class="sect-head"><div>'
+    '<h2>Strategy</h2>'
+    '<div class="sect-sub">One choice defines everything: horizon, risk, and scoring weights</div>'
+    '</div></div></div>', unsafe_allow_html=True)
 
-    # ── Section 1: Strategy ───────────────────────────────────────────────
-    st.markdown(
-        '<div class="below-section"><div class="sect-head"><div>'
-        '<h2>Strategy</h2>'
-        '<div class="sect-sub">One choice defines everything: horizon, risk, and scoring weights</div>'
-        '</div></div></div>', unsafe_allow_html=True)
+profile_name = st.text_input("Profile name", s.get("profile_name", ""), key="profile_name_input")
 
-    profile_name = st.text_input("Profile name", s.get("profile_name", ""))
+strategy_keys = list(STRATEGIES.keys())
+scoring_strategy = st.selectbox(
+    "Investment strategy",
+    strategy_keys,
+    index=strategy_keys.index(_strat_key),
+    format_func=lambda k: f"{STRATEGIES[k]['label']}  —  {STRATEGIES[k]['sub']}",
+    key="strategy_select",
+)
 
-    strategy_keys = list(STRATEGIES.keys())
-    scoring_strategy = st.selectbox(
-        "Investment strategy",
-        strategy_keys,
-        index=strategy_keys.index(_strat_key),
-        format_func=lambda k: f"{STRATEGIES[k]['label']}  —  {STRATEGIES[k]['sub']}",
+sel = STRATEGIES[scoring_strategy]
+
+# Live preview — updates immediately when strategy changes
+st.markdown(
+    f'<div style="background:linear-gradient(135deg,#f8fafc 0%,#f1f5f9 100%);'
+    f'border:1px solid #e2e8f0;border-radius:8px;'
+    f'padding:16px 20px;font-size:13px;color:#334155;margin:8px 0 16px;">'
+    f'<div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;'
+    f'letter-spacing:0.12em;margin-bottom:12px;">Applied parameters</div>'
+    f'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:14px;">'
+    f'<div><div style="font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.08em;">Horizon</div>'
+    f'<div style="font-size:16px;font-weight:700;color:#0f172a;">{sel["horizon_years"]} years</div></div>'
+    f'<div><div style="font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.08em;">Style</div>'
+    f'<div style="font-size:16px;font-weight:700;color:#0f172a;">{sel["style"].title()}</div></div>'
+    f'<div><div style="font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.08em;">Risk level</div>'
+    f'<div style="font-size:16px;font-weight:700;color:#0f172a;">{sel["risk_level"]}</div></div>'
+    f'</div>'
+    f'<div style="border-top:1px solid #e2e8f0;padding-top:12px;">'
+    f'<div style="font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Scoring weights</div>'
+    f'<div style="display:flex;flex-wrap:wrap;gap:8px;">'
+    + "".join(
+        f'<span style="background:#ffffff;border:1px solid #cbd5e1;border-radius:4px;'
+        f'padding:4px 10px;font-size:12px;font-weight:600;color:#334155;">'
+        f'{SCORE_LABELS.get(k, k)} <span style="color:#6366f1;">{v}%</span></span>'
+        for k, v in sorted(sel["weights"].items(), key=lambda x: -x[1])
     )
+    + '</div></div></div>', unsafe_allow_html=True)
 
-    sel = STRATEGIES[scoring_strategy]
-
-    # Show implied parameters (read-only)
-    st.markdown(
-        f'<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;'
-        f'padding:14px 18px;font-size:12px;color:#475569;margin:8px 0 12px;">'
-        f'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:10px;">'
-        f'<div><span style="color:#94a3b8;">Horizon:</span> <b>{sel["horizon_years"]} years</b></div>'
-        f'<div><span style="color:#94a3b8;">Style:</span> <b>{sel["style"].title()}</b></div>'
-        f'<div><span style="color:#94a3b8;">Risk:</span> <b>{sel["risk_level"]}</b></div>'
-        f'</div>'
-        f'<div style="border-top:1px solid #e2e8f0;padding-top:10px;">'
-        f'<span style="color:#94a3b8;">Scoring weights:</span> '
-        + " · ".join(
-            f"<b>{SCORE_LABELS.get(k, k)}</b> {v}%"
-            for k, v in sorted(sel["weights"].items(), key=lambda x: -x[1])
-        )
-        + '</div></div>', unsafe_allow_html=True)
+with st.form("settings_form"):
 
     # ── Section 2: Portfolio Details ─────────────────────────────────────
     st.markdown(

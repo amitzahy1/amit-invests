@@ -341,27 +341,102 @@ if _insights and _insights.get("insights"):
     _headline = _insights.get("headline", "")
     _body = _insights.get("insights", "")
     _is_hebrew = any('\u0590' <= ch <= '\u05FF' for ch in _body[:80])
-    _rtl = ' dir="rtl"' if _is_hebrew else ''
 
-    # Convert markdown-like bold to HTML
+    # Parse the body into structured sections
     import re as _re
-    _body_html = _html.escape(_body)
-    _body_html = _re.sub(r'\*\*([^*]+)\*\*', r'<b>\1</b>', _body_html)
-    _body_html = _body_html.replace("\n\n", "</p><p>").replace("\n", "<br>")
+
+    # Convert markdown **bold** to HTML before escaping — use placeholder approach
+    _body_raw = _body
+    # Split into paragraphs
+    _paragraphs = [p.strip() for p in _body_raw.split("\n\n") if p.strip()]
+
+    # Each paragraph: look for "**Title** — description" pattern and format accordingly
+    _section_html = ""
+    SECTION_ICONS = {
+        "Portfolio Health": "💪", "Hidden Risks": "⚠️", "Market Context": "🌍",
+        "Opportunities": "💡", "Action Items": "🎯",
+        "בריאות התיק": "💪", "סיכונים נסתרים": "⚠️", "הקשר שוק": "🌍",
+        "הזדמנויות": "💡", "פעולות מומלצות": "🎯",
+    }
+
+    for para in _paragraphs:
+        # Try to extract "**Title** — rest" pattern
+        m = _re.match(r'^\*\*([^*]+)\*\*\s*[—\-–:]?\s*(.*)$', para, _re.DOTALL)
+        if m:
+            title = m.group(1).strip()
+            content = m.group(2).strip()
+            # Find matching icon
+            icon = ""
+            for key, ic in SECTION_ICONS.items():
+                if key.lower() in title.lower():
+                    icon = ic
+                    break
+            if not icon:
+                icon = "•"
+            # Re-render remaining **bold** in content
+            content_html = _html.escape(content)
+            content_html = _re.sub(r'\*\*([^*]+)\*\*', r'<b>\1</b>', content_html)
+            content_html = content_html.replace("\n", "<br>")
+
+            _dir = "rtl" if _is_hebrew else "ltr"
+            _section_html += (
+                f'<div style="display:flex;gap:12px;margin-bottom:14px;align-items:flex-start;">'
+                f'<div style="flex-shrink:0;width:32px;height:32px;display:flex;align-items:center;'
+                f'justify-content:center;font-size:18px;background:rgba(30,64,175,0.08);'
+                f'border-radius:8px;">{icon}</div>'
+                f'<div style="flex:1;" dir="{_dir}">'
+                f'<div style="font-size:13px;font-weight:700;color:#1e3a8a;margin-bottom:3px;'
+                f'letter-spacing:0.02em;">{_html.escape(title)}</div>'
+                f'<div style="font-size:13px;color:#334155;line-height:1.75;">{content_html}</div>'
+                f'</div>'
+                f'</div>'
+            )
+        elif para.strip().startswith("_") and para.strip().endswith("_"):
+            # Disclaimer — italic
+            txt = para.strip("_").strip()
+            _section_html += (
+                f'<div dir="{"rtl" if _is_hebrew else "ltr"}" '
+                f'style="font-size:11px;color:#94a3b8;font-style:italic;'
+                f'padding-top:10px;border-top:1px solid rgba(148,163,184,0.25);'
+                f'margin-top:8px;">{_html.escape(txt)}</div>'
+            )
+        else:
+            # Plain paragraph
+            content_html = _html.escape(para)
+            content_html = _re.sub(r'\*\*([^*]+)\*\*', r'<b>\1</b>', content_html)
+            content_html = content_html.replace("\n", "<br>")
+            _dir = "rtl" if _is_hebrew else "ltr"
+            _section_html += (
+                f'<div dir="{_dir}" style="font-size:13px;color:#334155;line-height:1.75;'
+                f'margin-bottom:10px;">{content_html}</div>'
+            )
+
+    # Headline
+    _headline_html = ""
+    if _headline:
+        _dir = "rtl" if _is_hebrew else "ltr"
+        _headline_html = (
+            f'<div dir="{_dir}" style="font-size:16px;font-weight:700;color:#1e3a8a;'
+            f'margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid rgba(147,197,253,0.5);">'
+            f'{_html.escape(_headline)}</div>'
+        )
 
     st.markdown(
-        f'<div style="background:linear-gradient(135deg,#eff6ff 0%,#dbeafe 100%);'
-        f'border:1px solid #93c5fd;border-radius:8px;padding:20px 24px;margin:16px 0;">'
-        f'<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">'
-        f'<span style="font-size:14px;">🧠</span>'
-        f'<span style="font-size:11px;font-weight:700;color:#1e40af;'
-        f'text-transform:uppercase;letter-spacing:0.12em;">Smart Analyst Brief</span>'
+        f'<div style="background:linear-gradient(135deg,#eff6ff 0%,#dbeafe 50%,#eff6ff 100%);'
+        f'border:1px solid #93c5fd;border-radius:12px;padding:22px 26px;margin:16px 0 24px;'
+        f'box-shadow:0 2px 8px rgba(59,130,246,0.08);">'
+        f'<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">'
+        f'<div style="width:36px;height:36px;display:flex;align-items:center;'
+        f'justify-content:center;font-size:20px;background:#1e40af;border-radius:10px;'
+        f'box-shadow:0 2px 6px rgba(30,64,175,0.25);">🧠</div>'
+        f'<div>'
+        f'<div style="font-size:12px;font-weight:700;color:#1e40af;'
+        f'text-transform:uppercase;letter-spacing:0.12em;">Smart Analyst Brief</div>'
+        f'<div style="font-size:10px;color:#64748b;">Daily deep analysis · Gemini 3 Flash</div>'
         f'</div>'
-        + (f'<div{_rtl} style="font-size:15px;font-weight:600;color:#1e3a8a;margin-bottom:10px;">'
-           f'{_html.escape(_headline)}</div>' if _headline else '')
-        + f'<div{_rtl} style="font-size:13px;color:#1e293b;line-height:1.8;">'
-        f'<p>{_body_html}</p>'
         f'</div>'
+        f'{_headline_html}'
+        f'{_section_html}'
         f'</div>',
         unsafe_allow_html=True,
     )
