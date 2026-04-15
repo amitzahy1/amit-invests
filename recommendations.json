@@ -1,178 +1,158 @@
 {
-  "updated": "2026-04-15T09:27:52Z",
+  "updated": "2026-04-15T14:55:02Z",
   "profile_name": "Conservative AI Bull",
-  "summary": "השוק נמצא כרגע במצב המתנה עם המלצות HOLD גורפות על כלל האחזקות הקיימות, כולל עוגני המדדים SPY ו-VOO והחשיפה למגזרי הביטחון והאנרגיה הגרעינית. לאור התזה שלך על צמיחה מבוססת בינה מלאכותית, מומלץ לבחון את הרעיונות החדשים ADBE, META ו-MSFT כתוספת פוטנציאלית לתיק לקראת ההפקדה הדו-חודשית הקרובה של 4,000 ש\"ח. יש לשמור על משמעת בנוגע לחשיפה המוגבלת לקריפטו ולהמשיך להחזיק ב-5108.TA כרכיב הגנתי ומגוון בשוק הישראלי.",
+  "summary": "סיכום יומי — 15 החזקות נסקרו.",
   "smart_insights": {
-    "updated": "2026-04-15T09:27:52+00:00Z",
-    "headline": "סקירה אנליטית: אתגרי ריכוז וסיכונים חבויים בתיק 'שור AI שמרן'",
-    "insights": "שלום רב,\n\nלהלן סקירה אנליטית של תיק ההשקעות, תוך התמקדות בתובנות שייתכן שהאלגוריתם אינו מזהה במלואן:\n\n**1. בריאות התיק – ריכוזיות וסנטימנט גבוה:**\nהתיק מציג ריכוז משמעותי במניות טכנולוגיה ענקיות, בדגש על AI, כפי שמשתקף בהחזקות כמו NVDA, GOOGL ו-AMZN. בעוד שזה תואם את פרופיל הלקוח כ'שור AI', הריכוז הגבוה עלול לעמוד בסתירה לאסטרטגיה ה'שמרנית' ולרמת הסיכון הבינונית שהוגדרה. ציוני סנטימנט גבוהים (SEN75) עבור NVDA, GOOGL ו-AMZN מעידים על התלהבות שוק חזקה, אך גם עלולים להצביע על סיכון של צפיפות מסחר ורגישות גבוהה לשינויים בסנטימנט.\n\n**2. סיכונים חבויים – מתאם, איכות וריבית:**\nהאלגוריתם עלול להחמיץ את רמת המתאם הגבוהה בין מרבית החזקות הטכנולוגיה, מה שמפחית את פיזור הסיכונים האפקטיבי. בנוסף, למרות האסטרטגיה השמרנית לטווח ארוך, קיימות החזקות עם ציון איכות נמוך (QUA30) כמו BN ו-ETHA, המהוות סיכון חבוי ליציבות התיק בטווח הארוך. סביבת הריבית הגבוהה (ריבית הפד 3.64%, תשואת אג\"ח ל-10 שנים 4.3%) פחות תומכת במניות צמיחה, והניטרליות של ציון המאקרו (MAC50) לכלל ההחזקות אינה משקפת את ההשפעה הספציפית על תיק זה.\n\n**3. הקשר שוק – השפעת המאקרו על התיק:**\nהריביות הגבוהות בשוק, עם תשואת אג\"ח ל-10 שנים של 4.3%, מייצרות סביבה מאתגרת למניות צמיחה בעלות משך ארוך, אשר מהוות נתח משמעותי בתיק. למרות העליות החדות היום ב-S&P 500 (1.18%) ובנאסד\"ק (1.96%), יש לזכור כי מגמה זו עשויה להיות מושפעת מתנודתיות יומית ואינה מבטלת את סיכון הריבית הבסיסי. בנוסף, שער ה-USD/ILS הנמוך (3.009) חושף את התיק לסיכון מטבעי, כאשר התחזקות עתידית של השקל מול הדולר עלולה לשחוק את התשואות במונחי שקל.\n\n**4. הזדמנויות – פערים בציונים ורעיונות חדשים:**\nהזדמנויות עשויות להתגלות בהחזקות עם דירוגי איכות והערכה גבוהים אך עם חולשה טכנית זמנית. לדוגמה, GOOGL מציגה ציון הערכה (VAL62), סנטימנט (SEN75) ואיכות (QUA70) גבוהים, אך ציון טכני (TEC42) נמוך יחסית, מה שעשוי להצביע על נקודת כניסה אטרקטיבית במידה והמגמה הטכנית תשתפר. בנוסף, הרעיונות החדשים כמו MSFT, ADBE ו-META, כולם עם ציון 'conviction 48%', מתאימים לפרופיל ה'שור AI' של הלקוח, כאשר MSFT בפרט נחשבת למובילה איכותית בתחום ה-AI.\n\n**5. פעולות מומלצות – פיזור ובחינת איכות:**\nלאור האמור, מומלץ לשקול שתי פעולות עיקריות:\n1.  **בחינת פיזור התיק**: לבדוק את משקלי ההחזקות בפועל ולשקול פיזור רחב יותר מעבר למניות הטכנולוגיה הגדולות, על מנת להפחית את סיכון הריכוז ולשפר את פרופיל הסיכון-תשואה הכללי, בהתאם לאסטרטגיה השמרנית.\n2.  **בדיקת איכות ההחזקות**: לבחון מחדש את ההחזקות בעלות ציון איכות נמוך (כמו BN ו-ETHA) ולוודא שהן תואמות את אסטרטגיית ההשקעה השמרנית לטווח ארוך.\n\nסקירת שוק — אינה המלצה פיננסית."
+    "updated": "2026-04-15T14:55:02+00:00Z",
+    "headline": "Analysis unavailable",
+    "insights": "[error: Error calling model 'gemini-2.5-flash' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key not valid. Please pass a valid API key.', 'status': 'INVALID_ARGUMENT', 'de]"
   },
   "holdings": [
     {
       "ticker": "GOOGL",
       "verdict": "hold",
-      "conviction": 48,
+      "conviction": 58,
       "scores": {
-        "valuation": 62,
+        "valuation": 50,
         "technical": 42,
         "risk": 60,
-        "sentiment": 75,
-        "macro": 50,
-        "quality": 70
-      },
-      "score_details": {
-        "quality": [
-          "ROE 35.7% — excellent profitability (>20%)",
-          "Profit margin 32.8% — wide moat indicator (>25%)"
-        ],
-        "valuation": [
-          "P/E 29.8 — moderately expensive",
-          "PEG 1.89 — fairly priced for growth",
-          "Analyst target $376 vs price $333 → +13% upside"
-        ],
-        "risk": [
-          "Portfolio weight 6.7% — well-sized",
-          "Beta 1.13 — slightly above market volatility"
-        ],
-        "macro": [
-          "VIX 18 — normal volatility",
-          "Fed rate 3.64%",
-          "Yield curve normal (10Y-Fed = +0.66%)"
-        ],
-        "sentiment": [
-          "Analyst consensus: 61 Buy / 6 Hold / 0 Sell (91% bullish)",
-          "Well-covered stock (67 analysts)"
-        ],
-        "technical": [
-          "Price $333 > MA50 $308 > MA200 $270 — strong uptrend (golden cross zone)",
-          "RSI 76 — overbought, potential pullback ahead"
-        ]
-      },
-      "analyst_consensus": {
-        "buy": 61,
-        "hold": 6,
-        "sell": 0,
-        "target": 375.93,
-        "price": 332.91
-      },
-      "social_sentiment": null,
-      "position_sizing": {
-        "target_pct": 6.1,
-        "action": "reduce_small",
-        "delta_pct": -0.7,
-        "reason": "Small trim recommended (6.7% → 6.1%)",
-        "max_allowed": 12
-      },
-      "exit_triggers": {
-        "stop_loss_price": 270.1,
-        "stop_loss_pct": -18.9,
-        "take_profit_price": 466.07,
-        "take_profit_pct": 40,
-        "trailing_enabled": false,
-        "re_evaluate_if": "If weighted score moves out of 40-60 range"
-      },
-      "rationale": "Alphabet מתיישרת באופן מושלם עם התזה של המשקיע כזוכה מרכזית בתחום ה-AI, עם רווחיות גבוהה (ROE של 35.7%) וקונצנזוס אנליסטים חיובי מאוד (91% Buy). למרות שהציון הטכני מעיד על דשדוש קצר טווח והמניה קרובה לשיא השנתי, איכות הנכס (Quality 70) ופוטנציאל העלייה למחיר היעד הופכים אותה להשקעה אסטרטגית מתאימה לטווח של 4 שנים.",
-      "personas": []
-    },
-    {
-      "ticker": "AMZN",
-      "verdict": "hold",
-      "conviction": 54,
-      "scores": {
-        "valuation": 62,
-        "technical": 35,
-        "risk": 60,
-        "sentiment": 75,
+        "sentiment": 50,
         "macro": 50,
         "quality": 50
       },
       "score_details": {
         "quality": [
-          "ROE 22.3% — excellent profitability (>20%)",
-          "Profit margin 10.8% — thin, competitive pressure"
+          "No fundamental data available for this ticker"
         ],
         "valuation": [
-          "P/E 33.4 — expensive, needs high growth to justify",
-          "PEG 1.84 — fairly priced for growth",
-          "Analyst target $281 vs price $249 → +13% upside"
+          "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 5.7% — well-sized",
-          "Beta 1.38 — slightly above market volatility"
+          "Portfolio weight 6.7% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility",
-          "Fed rate 3.64%",
-          "Yield curve normal (10Y-Fed = +0.66%)"
+          "VIX 18 — normal volatility"
         ],
         "sentiment": [
-          "Analyst consensus: 64 Buy / 4 Hold / 0 Sell (94% bullish)",
-          "Well-covered stock (68 analysts)"
+          "No analyst coverage data available"
         ],
         "technical": [
-          "Price above MA200 but below MA50 — short-term pullback in uptrend",
-          "RSI 81 — overbought, potential pullback ahead"
+          "Price $334 > MA50 $308 > MA200 $271 — strong uptrend (golden cross zone)",
+          "RSI 76 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
-        "buy": 64,
-        "hold": 4,
+        "buy": 0,
+        "hold": 0,
         "sell": 0,
-        "target": 281.18,
-        "price": 249.02
+        "target": null,
+        "price": 334.105
       },
       "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 4.1,
+        "target_pct": 4.8,
         "action": "reduce_small",
-        "delta_pct": -1.6,
-        "reason": "Small trim recommended (5.7% → 4.1%)",
+        "delta_pct": -1.9,
+        "reason": "Small trim recommended (6.7% → 4.8%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 225.16,
-        "stop_loss_pct": -9.6,
-        "take_profit_price": 348.63,
+        "stop_loss_price": 270.88,
+        "stop_loss_pct": -18.9,
+        "take_profit_price": 467.75,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "אמזון מהווה רכיב קריטי בתזת ה-AI של המשקיע דרך AWS, אך הציון הטכני הנמוך (35) והקרבה לשיא השנתי מעלים חשש לרכישה בנקודת קצה. בעוד שהיסודות הפונדמנטליים חזקים עם ROE של 22.3% וקונצנזוס אנליסטים גורף, הגישה השמרנית של המשתמש מחייבת המתנה לתיקון טכני או התייצבות לפני הגדלת חשיפה בשיא.",
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "personas": []
+    },
+    {
+      "ticker": "AMZN",
+      "verdict": "hold",
+      "conviction": 58,
+      "scores": {
+        "valuation": 50,
+        "technical": 35,
+        "risk": 60,
+        "sentiment": 50,
+        "macro": 50,
+        "quality": 50
+      },
+      "score_details": {
+        "quality": [
+          "No fundamental data available for this ticker"
+        ],
+        "valuation": [
+          "No valuation data — scored neutral (50)"
+        ],
+        "risk": [
+          "Portfolio weight 5.6% — well-sized"
+        ],
+        "macro": [
+          "VIX 18 — normal volatility"
+        ],
+        "sentiment": [
+          "No analyst coverage data available"
+        ],
+        "technical": [
+          "Price above MA200 but below MA50 — short-term pullback in uptrend",
+          "RSI 78 — overbought, potential pullback ahead"
+        ]
+      },
+      "analyst_consensus": {
+        "buy": 0,
+        "hold": 0,
+        "sell": 0,
+        "target": null,
+        "price": 248.3
+      },
+      "social_sentiment": null,
+      "position_sizing": {
+        "target_pct": 4.0,
+        "action": "reduce_small",
+        "delta_pct": -1.6,
+        "reason": "Small trim recommended (5.6% → 4.0%)",
+        "max_allowed": 12
+      },
+      "exit_triggers": {
+        "stop_loss_price": 225.28,
+        "stop_loss_pct": -9.3,
+        "take_profit_price": 347.62,
+        "take_profit_pct": 40,
+        "trailing_enabled": false,
+        "re_evaluate_if": "If weighted score moves out of 40-60 range"
+      },
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
       "personas": []
     },
     {
       "ticker": "BN",
       "verdict": "hold",
-      "conviction": 57,
+      "conviction": 58,
       "scores": {
-        "valuation": 62,
+        "valuation": 50,
         "technical": 35,
-        "risk": 50,
-        "sentiment": 71,
+        "risk": 60,
+        "sentiment": 50,
         "macro": 50,
-        "quality": 30
+        "quality": 50
       },
       "score_details": {
         "quality": [
-          "ROE 1.9% — below institutional threshold of 15%",
-          "Profit margin 1.7% — thin, competitive pressure"
+          "No fundamental data available for this ticker"
         ],
         "valuation": [
-          "P/E 89.2 — expensive, needs high growth to justify",
-          "PEG 1.27 — fairly priced for growth",
-          "Analyst target $54 vs price $46 → +18% upside"
+          "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 5.0% — well-sized",
-          "Beta 1.83 — significantly more volatile than S&P 500"
+          "Portfolio weight 5.0% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility",
-          "Fed rate 3.64%",
-          "Yield curve normal (10Y-Fed = +0.66%)"
+          "VIX 18 — normal volatility"
         ],
         "sentiment": [
-          "Analyst consensus: 9 Buy / 1 Hold / 1 Sell (82% bullish)"
+          "No analyst coverage data available"
         ],
         "technical": [
           "Price above MA200 but below MA50 — short-term pullback in uptrend",
@@ -180,11 +160,11 @@
         ]
       },
       "analyst_consensus": {
-        "buy": 9,
-        "hold": 1,
-        "sell": 1,
-        "target": 53.6,
-        "price": 45.55
+        "buy": 0,
+        "hold": 0,
+        "sell": 0,
+        "target": null,
+        "price": 46.365
       },
       "social_sentiment": null,
       "position_sizing": {
@@ -195,14 +175,14 @@
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 44.59,
-        "stop_loss_pct": -2.1,
-        "take_profit_price": 63.77,
+        "stop_loss_price": 44.62,
+        "stop_loss_pct": -3.8,
+        "take_profit_price": 64.91,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "Brookfield מציעה חשיפה עקיפה לתשתיות אנרגיה ודאטה סנטרס התומכים במהפכת ה-AI, אך ציון האיכות הנמוך (30) והמכפיל הגבוה (89.2) מעוררים זהירות. עבור משקיע שמרני, המגמה הטכנית המעורבת והקרבה לשיא השנתי מצדיקים המתנה לנקודת כניסה נוחה יותר, למרות יעד מחיר אופטימי של האנליסטים.",
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
       "personas": []
     },
     {
@@ -211,7 +191,7 @@
       "conviction": 59,
       "scores": {
         "valuation": 50,
-        "technical": 19,
+        "technical": 12,
         "risk": 60,
         "sentiment": 50,
         "macro": 50,
@@ -228,9 +208,7 @@
           "Portfolio weight 2.2% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility",
-          "Fed rate 3.64%",
-          "Yield curve normal (10Y-Fed = +0.66%)"
+          "VIX 18 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
@@ -245,7 +223,7 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 20.72
+        "price": 20.99
       },
       "social_sentiment": null,
       "position_sizing": {
@@ -256,14 +234,14 @@
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 16.58,
+        "stop_loss_price": 16.79,
         "stop_loss_pct": -20,
-        "take_profit_price": 29.01,
+        "take_profit_price": 29.39,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "המניה אינה תואמת את תחומי הליבה של הפרופיל (AI וביטחון) ומציגה חולשה טכנית משמעותית (19/100) כשהיא נסחרת עמוק מתחת לממוצע נע 200. עבור משקיע שמרני הממוקד בצמיחת טכנולוגיה ומדדי ארה\"ב, CPNG מהווה חשיפה לשוק הקמעונאות הקוריאני שאינו מצדיק את הסיכון במבנה המחירים הנוכחי.",
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
       "personas": []
     },
     {
@@ -289,16 +267,14 @@
           "Portfolio weight 0.8% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility",
-          "Fed rate 3.64%",
-          "Yield curve normal (10Y-Fed = +0.66%)"
+          "VIX 18 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
           "Price below MA200 — long-term trend is bearish",
-          "RSI 63 — neutral zone"
+          "RSI 61 — neutral zone"
         ]
       },
       "analyst_consensus": {
@@ -306,7 +282,7 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 17.49
+        "price": 17.655
       },
       "social_sentiment": null,
       "position_sizing": {
@@ -317,14 +293,14 @@
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 13.99,
+        "stop_loss_price": 14.12,
         "stop_loss_pct": -20,
-        "take_profit_price": 24.49,
+        "take_profit_price": 24.72,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "הנכס מציג חולשה טכנית משמעותית (29) ונסחר עמוק מתחת לממוצע נע 200, מה שמעיד על מגמת ירידה ארוכת טווח שאינה הולמת פרופיל שמרני. לאור הציון הכללי הנמוך (45) והעדפת המשתמש לחשיפה מינימלית וספקולטיבית בלבד לקריפטו, מומלץ להעדיף את עוגני ה-S&P 500 וה-AI על פני נכס תנודתי זה.",
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
       "personas": []
     },
     {
@@ -333,7 +309,7 @@
       "conviction": 58,
       "scores": {
         "valuation": 50,
-        "technical": 34,
+        "technical": 50,
         "risk": 60,
         "sentiment": 50,
         "macro": 50,
@@ -347,19 +323,17 @@
           "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 3.4% — well-sized"
+          "Portfolio weight 3.3% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility",
-          "Fed rate 3.64%",
-          "Yield curve normal (10Y-Fed = +0.66%)"
+          "VIX 18 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
           "Price above MA200 but below MA50 — short-term pullback in uptrend",
-          "RSI 62 — neutral zone"
+          "RSI 54 — neutral zone"
         ]
       },
       "analyst_consensus": {
@@ -367,34 +341,34 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 148.83
+        "price": 147.475
       },
       "social_sentiment": null,
       "position_sizing": {
         "target_pct": 2.4,
         "action": "reduce_small",
         "delta_pct": -0.9,
-        "reason": "Small trim recommended (3.4% → 2.4%)",
+        "reason": "Small trim recommended (3.3% → 2.4%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 146.27,
-        "stop_loss_pct": -1.7,
-        "take_profit_price": 208.36,
+        "stop_loss_price": 146.34,
+        "stop_loss_pct": -0.8,
+        "take_profit_price": 206.46,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "המגזר מהווה עוגן דפנסיבי התואם את הפרופיל השמרני, אך הנתונים הטכניים מצביעים על חולשה בטווח הקצר כאשר XLV נסחר מתחת לממוצע נע 50. בהתחשב באופק השקעה של 4 שנים ובציון סיכון יציב (60), מומלץ להמתין לשיפור במומנטום לפני הגדלת החשיפה.",
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
       "personas": []
     },
     {
       "ticker": "IBIT",
       "verdict": "hold",
-      "conviction": 52,
+      "conviction": 53,
       "scores": {
         "valuation": 50,
-        "technical": 29,
+        "technical": 41,
         "risk": 35,
         "sentiment": 50,
         "macro": 50,
@@ -408,19 +382,17 @@
           "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 7.1% — well-sized"
+          "Portfolio weight 7.0% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility",
-          "Fed rate 3.64%",
-          "Yield curve normal (10Y-Fed = +0.66%)"
+          "VIX 18 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
           "Price below MA200 — long-term trend is bearish",
-          "RSI 64 — neutral zone"
+          "RSI 60 — neutral zone"
         ]
       },
       "analyst_consensus": {
@@ -428,25 +400,25 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 42.13
+        "price": 42.031
       },
       "social_sentiment": null,
       "position_sizing": {
         "target_pct": 3,
         "action": "reduce",
-        "delta_pct": -4.1,
-        "reason": "Scores suggest trimming (7.1% → 3.0%)",
+        "delta_pct": -4.0,
+        "reason": "Scores suggest trimming (7.0% → 3.0%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 33.7,
+        "stop_loss_price": 33.62,
         "stop_loss_pct": -20,
-        "take_profit_price": 58.98,
+        "take_profit_price": 58.84,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "הציון הטכני הנמוך (29) והעובדה שהמחיר נסחר משמעותית מתחת לממוצע נע 200 מעידים על חולשה במגמה ארוכת הטווח. עבור משקיע שמרני המגביל חשיפה לקריפטו ל-3%, אין הצדקה להגדלת פוזיציה ברמת הסיכון הנוכחית, ויש להמתין להתייצבות טכנית לפני רכישה נוספת.",
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
       "personas": []
     },
     {
@@ -473,15 +445,13 @@
           "Sector weight 47% — high concentration risk"
         ],
         "macro": [
-          "VIX 18 — normal volatility",
-          "Fed rate 3.64%",
-          "Yield curve normal (10Y-Fed = +0.66%)"
+          "VIX 18 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price $259 > MA50 $247 > MA200 $246 — strong uptrend (golden cross zone)",
+          "Price $260 > MA50 $247 > MA200 $246 — strong uptrend (golden cross zone)",
           "RSI 72 — overbought, potential pullback ahead"
         ]
       },
@@ -490,25 +460,25 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 258.78
+        "price": 260.405
       },
       "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 1.1,
+        "target_pct": 1.2,
         "action": "reduce",
-        "delta_pct": -11.9,
-        "reason": "Scores suggest trimming (12.9% → 1.1%)",
+        "delta_pct": -11.7,
+        "reason": "Scores suggest trimming (12.9% → 1.2%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 245.98,
-        "stop_loss_pct": -4.9,
-        "take_profit_price": 362.29,
+        "stop_loss_price": 246.16,
+        "stop_loss_pct": -5.5,
+        "take_profit_price": 364.57,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "המדד תואם את התזה המרכזית של המשקיע בנוגע לטכנולוגיה ו-AI, אך הציון המשוקלל (47) ומדד הסיכון הנמוך (25) מצביעים על תמחור מתוח בקרבת שיא כל הזמנים. עבור פרופיל שמרני, מומלץ להמתין לתיקון קל או להיצמד לאסטרטגיית ה-DCA הדו-חודשית הקבועה ללא הגדלת חשיפה אגרסיבית בנקודה זו.",
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
       "personas": []
     },
     {
@@ -517,7 +487,7 @@
       "conviction": 56,
       "scores": {
         "valuation": 50,
-        "technical": 71,
+        "technical": 82,
         "risk": 60,
         "sentiment": 50,
         "macro": 50,
@@ -531,19 +501,17 @@
           "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 6.4% — well-sized"
+          "Portfolio weight 6.3% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility",
-          "Fed rate 3.64%",
-          "Yield curve normal (10Y-Fed = +0.66%)"
+          "VIX 18 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price $235 > MA50 $233 > MA200 $214 — strong uptrend (golden cross zone)",
-          "RSI 62 — neutral zone"
+          "Price $234 > MA50 $233 > MA200 $214 — strong uptrend (golden cross zone)",
+          "RSI 58 — neutral zone"
         ]
       },
       "analyst_consensus": {
@@ -551,91 +519,84 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 235.43
+        "price": 233.92
       },
       "social_sentiment": null,
       "position_sizing": {
         "target_pct": 4.6,
         "action": "reduce_small",
         "delta_pct": -1.8,
-        "reason": "Small trim recommended (6.4% → 4.6%)",
+        "reason": "Small trim recommended (6.3% → 4.6%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 213.54,
-        "stop_loss_pct": -9.3,
-        "take_profit_price": 329.6,
+        "stop_loss_price": 213.77,
+        "stop_loss_pct": -8.6,
+        "take_profit_price": 327.49,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "הנכס נמצא במגמת עלייה טכנית חזקה (71/100) ותואם ישירות את העדפות הסקטור של הפרופיל. למרות ציוני פונדמנטל ומאקרו ממוצעים, השילוב בין מומנטום חיובי לאופק השקעה של 4 שנים הופך אותו למרכיב ראוי בתיק שמרני המחפש חשיפה ביטחונית.",
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
       "personas": []
     },
     {
       "ticker": "NVDA",
       "verdict": "hold",
-      "conviction": 48,
+      "conviction": 57,
       "scores": {
-        "valuation": 75,
+        "valuation": 50,
         "technical": 55,
-        "risk": 40,
-        "sentiment": 75,
+        "risk": 60,
+        "sentiment": 50,
         "macro": 50,
-        "quality": 70
+        "quality": 50
       },
       "score_details": {
         "quality": [
-          "ROE 1.0% — below institutional threshold of 15%",
-          "Profit margin 55.6% — wide moat indicator (>25%)"
+          "No fundamental data available for this ticker"
         ],
         "valuation": [
-          "P/E 38.6 — expensive, needs high growth to justify",
-          "PEG 0.77 — growth at a discount (Peter Lynch target <1)",
-          "Analyst target $268 vs price $197 → +36% upside"
+          "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 6.0% — well-sized",
-          "Beta 2.33 — significantly more volatile than S&P 500"
+          "Portfolio weight 6.0% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility",
-          "Fed rate 3.64%",
-          "Yield curve normal (10Y-Fed = +0.66%)"
+          "VIX 18 — normal volatility"
         ],
         "sentiment": [
-          "Analyst consensus: 57 Buy / 2 Hold / 1 Sell (95% bullish)",
-          "Well-covered stock (60 analysts)"
+          "No analyst coverage data available"
         ],
         "technical": [
-          "Price $197 > MA50 $182 > MA200 $181 — strong uptrend (golden cross zone)",
+          "Price $199 > MA50 $182 > MA200 $181 — strong uptrend (golden cross zone)",
           "RSI 72 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
-        "buy": 57,
-        "hold": 2,
-        "sell": 1,
-        "target": 268.22,
-        "price": 196.51
+        "buy": 0,
+        "hold": 0,
+        "sell": 0,
+        "target": null,
+        "price": 199.41
       },
       "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 4.2,
+        "target_pct": 4.3,
         "action": "reduce_small",
-        "delta_pct": -1.8,
-        "reason": "Small trim recommended (6.0% → 4.2%)",
+        "delta_pct": -1.7,
+        "reason": "Small trim recommended (6.0% → 4.3%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 181.12,
-        "stop_loss_pct": -7.8,
-        "take_profit_price": 275.11,
+        "stop_loss_price": 181.33,
+        "stop_loss_pct": -9.1,
+        "take_profit_price": 279.17,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "NVDA מהווה את עמוד השדרה של תזת ה-AI של המשקיע, כאשר מכפיל ה-PEG הנמוך (0.77) מצביע על תמחור אטרקטיבי ביחס לצמיחה המסיבית, למרות מכפיל רווח נומינלי גבוה. לאור אופק ההשקעה ל-4 שנים ושולי הרווח הגבוהים (55.6%), המניה מתאימה בדיוק לפרופיל ה-AI Bull השמרני המחפש מובילות שוק מובהקת עם פוטנציאל אפסייד משמעותי לפי תחזיות האנליסטים.",
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
       "personas": []
     },
     {
@@ -658,19 +619,17 @@
           "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 25.2% — overweight (>15%)",
+          "Portfolio weight 25.1% — overweight (>15%)",
           "Sector weight 47% — high concentration risk"
         ],
         "macro": [
-          "VIX 18 — normal volatility",
-          "Fed rate 3.64%",
-          "Yield curve normal (10Y-Fed = +0.66%)"
+          "VIX 18 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price $694 > MA50 $674 > MA200 $665 — strong uptrend (golden cross zone)",
+          "Price $697 > MA50 $674 > MA200 $666 — strong uptrend (golden cross zone)",
           "RSI 72 — overbought, potential pullback ahead"
         ]
       },
@@ -679,34 +638,34 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 694.46
+        "price": 696.68
       },
       "social_sentiment": null,
       "position_sizing": {
         "target_pct": 10.1,
         "action": "reduce",
         "delta_pct": -15.1,
-        "reason": "Scores suggest trimming (25.2% → 10.1%)",
+        "reason": "Scores suggest trimming (25.1% → 10.1%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 665.17,
-        "stop_loss_pct": -4.2,
-        "take_profit_price": 972.24,
+        "stop_loss_price": 665.58,
+        "stop_loss_pct": -4.5,
+        "take_profit_price": 975.35,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "המדד נסחר סמוך לשיא כל הזמנים עם ציון סיכון נמוך במיוחד (5/100), מה שמעיד על יחס סיכון-סיכוי בעייתי בנקודת הזמן הנוכחית. למרות שה-SPY מהווה עוגן בתיק והמגמה הטכנית חיובית, הציון האלגוריתמי הממוצע (43) תומך בגישה שמרנית ובהמתנה לנקודת כניסה נוחה יותר במסגרת ההפקדות הדו-חודשיות.",
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
       "personas": []
     },
     {
       "ticker": "URNM",
       "verdict": "hold",
-      "conviction": 58,
+      "conviction": 56,
       "scores": {
         "valuation": 50,
-        "technical": 34,
+        "technical": 71,
         "risk": 60,
         "sentiment": 50,
         "macro": 50,
@@ -720,19 +679,17 @@
           "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 5.4% — well-sized"
+          "Portfolio weight 5.6% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility",
-          "Fed rate 3.64%",
-          "Yield curve normal (10Y-Fed = +0.66%)"
+          "VIX 18 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price above MA200 but below MA50 — short-term pullback in uptrend",
-          "RSI 64 — neutral zone"
+          "Price $69 > MA50 $67 > MA200 $59 — strong uptrend (golden cross zone)",
+          "RSI 66 — neutral zone"
         ]
       },
       "analyst_consensus": {
@@ -740,25 +697,25 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 66.43
+        "price": 69.44
       },
       "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 3.9,
+        "target_pct": 4.1,
         "action": "reduce_small",
-        "delta_pct": -1.5,
-        "reason": "Small trim recommended (5.4% → 3.9%)",
+        "delta_pct": -1.6,
+        "reason": "Small trim recommended (5.6% → 4.1%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 58.8,
-        "stop_loss_pct": -11.5,
-        "take_profit_price": 93.0,
+        "stop_loss_price": 58.92,
+        "stop_loss_pct": -15.1,
+        "take_profit_price": 97.22,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "הנכס תואם את העדפת המשתמש למגזר האורניום, אך הציון הטכני הנמוך (34) והעובדה שהמחיר נסחר מתחת לממוצע נע 50 מעידים על מומנטום שלילי בטווח הקצר. לאור אופק ההשקעה הארוך והערכת שווי ניטרלית (50), מומלץ להמתין להתחזקות טכנית לפני רכישה נוספת, תוך שמירה על הפוזיציה הקיימת כחלק מחשיפה אסטרטגית לאנרגיה.",
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
       "personas": []
     },
     {
@@ -781,18 +738,16 @@
           "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 4.5% — well-sized"
+          "Portfolio weight 4.6% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility",
-          "Fed rate 3.64%",
-          "Yield curve normal (10Y-Fed = +0.66%)"
+          "VIX 18 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price $141 > MA50 $140 > MA200 $133 — strong uptrend (golden cross zone)",
+          "Price $146 > MA50 $140 > MA200 $133 — strong uptrend (golden cross zone)",
           "RSI 63 — neutral zone"
         ]
       },
@@ -801,25 +756,25 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 141.36
+        "price": 145.98
       },
       "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 3.2,
+        "target_pct": 3.3,
         "action": "reduce_small",
         "delta_pct": -1.3,
-        "reason": "Small trim recommended (4.5% → 3.2%)",
+        "reason": "Small trim recommended (4.6% → 3.3%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 132.93,
-        "stop_loss_pct": -6.0,
-        "take_profit_price": 197.9,
+        "stop_loss_price": 133.11,
+        "stop_loss_pct": -8.8,
+        "take_profit_price": 204.37,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "NLR תואם ישירות את העדפת המגזר של המשתמש (אנרגיה גרעינית) ואת התזה שבינה מלאכותית תניע צמיחה, שכן חוות שרתים דורשות הספק אנרגטי יציב. המגמה הטכנית חזקה מאוד (מחיר מעל ממוצעים נעים), מה שמצדיק כניסה למרות תמחור וסנטימנט ניטרליים.",
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
       "personas": []
     },
     {
@@ -846,16 +801,14 @@
           "Sector weight 47% — high concentration risk"
         ],
         "macro": [
-          "VIX 18 — normal volatility",
-          "Fed rate 3.64%",
-          "Yield curve normal (10Y-Fed = +0.66%)"
+          "VIX 18 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price $638 > MA50 $620 > MA200 $612 — strong uptrend (golden cross zone)",
-          "RSI 71 — overbought, potential pullback ahead"
+          "Price $640 > MA50 $620 > MA200 $612 — strong uptrend (golden cross zone)",
+          "RSI 70 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
@@ -863,7 +816,7 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 638.35
+        "price": 640.47
       },
       "social_sentiment": null,
       "position_sizing": {
@@ -874,14 +827,14 @@
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 611.7,
-        "stop_loss_pct": -4.2,
-        "take_profit_price": 893.69,
+        "stop_loss_price": 612.06,
+        "stop_loss_pct": -4.4,
+        "take_profit_price": 896.66,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "מדד ה-S&P 500 מהווה את העוגן המרכזי בתיק של המשקיע, והמגמה הטכנית נותרת חיובית (Uptrend) מעל ממוצעים נעים מרכזיים. למרות שהציונים האלגוריתמיים ניטרליים והמחיר קרוב לשיא השנתי, הנכס תואם את האסטרטגיה השמרנית ואת החשיפה המבוקשת לטכנולוגיה ולשוק הרחב לטווח ארוך.",
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
       "personas": []
     },
     {
@@ -907,9 +860,7 @@
           "Portfolio weight 0.0% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility",
-          "Fed rate 3.64%",
-          "Yield curve normal (10Y-Fed = +0.66%)"
+          "VIX 18 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
@@ -934,161 +885,10 @@
         "max_allowed": 12
       },
       "exit_triggers": {},
-      "rationale": "הנכס תואם במדויק את העדפת המשקיע לחשיפה למגזר הביטוח הישראלי כגיוון דפנסיבי בתיק. לאור ציונים ניטרליים לחלוטין (50/100) בכל הפרמטרים, המלצת HOLD משקפת שמירה על הפוזיציה הקיימת כעוגן יציב לטווח של 4 שנים, ללא עיוות תמחורי או טכני המצריך פעולה מיידית.",
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
       "personas": []
     }
   ],
-  "new_ideas": [
-    {
-      "ticker": "ADBE",
-      "name": "Adobe Inc.",
-      "rationale": "מובילה בתחום ה-AI היוצר עם מודל עסקי של הכנסות חוזרות ושולי רווח גולמי גבוהים מאוד. החברה עומדת בכל קריטריוני האיכות של המודל, כולל יחס חוב/הון נמוך וצמיחה יציבה.",
-      "scores": {
-        "valuation": 85,
-        "technical": 32,
-        "risk": 40,
-        "sentiment": 50,
-        "macro": 50,
-        "quality": 70
-      },
-      "conviction": 48,
-      "suggested_price": 235.72,
-      "score_details": {
-        "quality": [
-          "ROE 58.8% — excellent profitability (>20%)",
-          "Profit margin 29.5% — wide moat indicator (>25%)"
-        ],
-        "valuation": [
-          "P/E 14.0 — cheap by most standards (<15)",
-          "PEG 0.64 — growth at a discount (Peter Lynch target <1)",
-          "Analyst target $332 vs price $236 → +41% upside"
-        ],
-        "risk": [
-          "Portfolio weight 0.0% — well-sized",
-          "Beta 1.52 — significantly more volatile than S&P 500"
-        ],
-        "macro": [
-          "VIX 18 — normal volatility",
-          "Fed rate 3.64%",
-          "Yield curve normal (10Y-Fed = +0.66%)"
-        ],
-        "sentiment": [
-          "Analyst consensus: 17 Buy / 18 Hold / 4 Sell (44% bullish)",
-          "Well-covered stock (39 analysts)"
-        ],
-        "technical": [
-          "Price $236 < MA50 $256 < MA200 $323 — downtrend (death cross zone)",
-          "RSI 48 — neutral zone"
-        ]
-      },
-      "analyst_consensus": {
-        "buy": 17,
-        "hold": 18,
-        "sell": 4,
-        "target": 331.63,
-        "price": 235.72
-      }
-    },
-    {
-      "ticker": "META",
-      "name": "Meta Platforms, Inc.",
-      "rationale": "מציגה שולי רווח נקי של מעל 30% ומכפיל PEG אטרקטיבי ביחס לצמיחה החזויה ב-AI. החברה מחזיקה במאזן חזק מאוד עם יחס חוב/הון נמוך משמעותית מהקריטריון שהצבת.",
-      "scores": {
-        "valuation": 75,
-        "technical": 9,
-        "risk": 50,
-        "sentiment": 75,
-        "macro": 50,
-        "quality": 70
-      },
-      "conviction": 48,
-      "suggested_price": 662.49,
-      "score_details": {
-        "quality": [
-          "ROE 30.2% — excellent profitability (>20%)",
-          "Profit margin 30.1% — wide moat indicator (>25%)"
-        ],
-        "valuation": [
-          "P/E 27.0 — moderately expensive",
-          "PEG 0.84 — growth at a discount (Peter Lynch target <1)",
-          "Analyst target $856 vs price $662 → +29% upside"
-        ],
-        "risk": [
-          "Portfolio weight 0.0% — well-sized",
-          "Beta 1.31 — slightly above market volatility"
-        ],
-        "macro": [
-          "VIX 18 — normal volatility",
-          "Fed rate 3.64%",
-          "Yield curve normal (10Y-Fed = +0.66%)"
-        ],
-        "sentiment": [
-          "Analyst consensus: 61 Buy / 6 Hold / 0 Sell (91% bullish)",
-          "Well-covered stock (67 analysts)"
-        ],
-        "technical": [
-          "Price below MA200 — long-term trend is bearish",
-          "RSI 66 — neutral zone"
-        ]
-      },
-      "analyst_consensus": {
-        "buy": 61,
-        "hold": 6,
-        "sell": 0,
-        "target": 855.68,
-        "price": 662.49
-      }
-    },
-    {
-      "ticker": "MSFT",
-      "name": "Microsoft Corporation",
-      "rationale": "מובילה עולמית בתחום ה-AI עם תשואה על ההון (ROE) מעל 35% וחוב נמוך מאוד, מה שמתאים לאסטרטגיית הצמיחה השמרנית שלך. החברה נהנית מצמיחה דו-ספרתית בהכנסות ומרווחיות תפעולית יוצאת דופן.",
-      "scores": {
-        "valuation": 72,
-        "technical": 19,
-        "risk": 50,
-        "sentiment": 75,
-        "macro": 50,
-        "quality": 70
-      },
-      "conviction": 48,
-      "suggested_price": 393.11,
-      "score_details": {
-        "quality": [
-          "ROE 34.4% — excellent profitability (>20%)",
-          "Profit margin 39.0% — wide moat indicator (>25%)"
-        ],
-        "valuation": [
-          "P/E 24.0 — moderately expensive",
-          "PEG 1.20 — fairly priced for growth",
-          "Analyst target $585 vs price $393 → +49% upside"
-        ],
-        "risk": [
-          "Portfolio weight 0.0% — well-sized",
-          "Beta 1.11 — slightly above market volatility"
-        ],
-        "macro": [
-          "VIX 18 — normal volatility",
-          "Fed rate 3.64%",
-          "Yield curve normal (10Y-Fed = +0.66%)"
-        ],
-        "sentiment": [
-          "Analyst consensus: 55 Buy / 3 Hold / 0 Sell (95% bullish)",
-          "Well-covered stock (58 analysts)"
-        ],
-        "technical": [
-          "Price below MA200 — long-term trend is bearish",
-          "RSI 66 — neutral zone"
-        ]
-      },
-      "analyst_consensus": {
-        "buy": 55,
-        "hold": 3,
-        "sell": 0,
-        "target": 585.41,
-        "price": 393.11
-      }
-    }
-  ],
+  "new_ideas": [],
   "dry_run": false
 }
