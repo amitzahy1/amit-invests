@@ -738,17 +738,17 @@ def run_real(settings: dict, portfolio: dict) -> dict:
         _scoring_weights = settings.get("scoring_weights")
         if scores:
             from scoring_engine import scores_to_verdict as _s2v, explain_scores as _explain
+            # Verdict AND conviction come 100% from the scoring engine
+            # (weighted average of 6 scores, using user's strategy weights)
             algo_v, algo_c = _s2v(scores, _scoring_weights)
+            # Gemini is ONLY used for the Hebrew rationale text — not the verdict
             synth = _scoring_synthesis_call(
                 llm, tk, display, preamble, scores, _mkt_ctx)
-            # Algo verdict is authoritative; Gemini provides rationale
-            final_v = algo_v
-            final_c = (synth["conviction"] + algo_c) // 2
             # Generate human-readable explanations per score
             details = _explain(scores, _quotes.get(tk, {}), _technicals.get(tk, {}),
                                _fundamentals.get(tk), _macro, tk_weight, tk_sec_weight)
             holding = {
-                "ticker": tk, "verdict": final_v, "conviction": final_c,
+                "ticker": tk, "verdict": algo_v, "conviction": algo_c,
                 "scores": scores,
                 "score_details": details,
                 "rationale": synth.get("rationale", ""),
@@ -1253,10 +1253,22 @@ def _dry_run(settings: dict, tickers: list[str], note: str = "") -> dict:
 
         _score_details = {k: _mock_reasons(v, k) for k, v in _mock_scores.items()}
 
+        # Derive verdict/conviction from the SCORES (not from hardcoded hints)
+        # This matches the real pipeline behavior
+        try:
+            from scoring_engine import scores_to_verdict as _s2v
+            _w = settings.get("scoring_weights", {
+                "quality": 30, "valuation": 25, "risk": 20,
+                "macro": 15, "sentiment": 5, "technical": 5,
+            })
+            derived_v, derived_c = _s2v(_mock_scores, _w)
+        except Exception:
+            derived_v, derived_c = v, c
+
         holdings_out.append({
             "ticker": tk,
-            "verdict": v,
-            "conviction": c,
+            "verdict": derived_v,
+            "conviction": derived_c,
             "scores": _mock_scores,
             "score_details": _score_details,
             "personas": persona_entries,
@@ -1278,6 +1290,17 @@ def _dry_run(settings: dict, tickers: list[str], note: str = "") -> dict:
     ]
     for idea in new_ideas:
         idea["score_details"] = _idea_details(idea["scores"])
+        # Derive conviction from scores using user's weights
+        try:
+            from scoring_engine import scores_to_verdict as _s2v
+            _w = settings.get("scoring_weights", {
+                "quality": 30, "valuation": 25, "risk": 20,
+                "macro": 15, "sentiment": 5, "technical": 5,
+            })
+            _, idea_c = _s2v(idea["scores"], _w)
+            idea["conviction"] = idea_c
+        except Exception:
+            pass
 
     # Dynamic Hebrew summary — inspects the actual verdicts we just produced
     strong_buys = [h["ticker"] for h in holdings_out

@@ -565,24 +565,26 @@ def scores_to_verdict(scores: dict[str, int],
         total_weight = len(scores)
         w = {k: 1 for k in scores}
 
-    # Weighted average score
+    # Weighted average score — this IS the fundamental signal
     weighted_avg = sum(scores[k] * w.get(k, 0) for k in scores) / total_weight
 
-    # Signal counting (weighted)
-    bullish_w = sum(w.get(k, 0) for k, v in scores.items() if v > 60)
-    bearish_w = sum(w.get(k, 0) for k, v in scores.items() if v < 40)
-
-    if weighted_avg >= 62 and bullish_w > bearish_w:
+    # Verdict thresholds:
+    #   weighted_avg >= 65 → BUY (6 out of 10 average is clearly bullish)
+    #   weighted_avg <= 35 → SELL
+    #   else → HOLD (between 35 and 65 = no strong signal either way)
+    if weighted_avg >= 65:
         verdict = "buy"
-    elif weighted_avg <= 38 and bearish_w > bullish_w:
+        # Conviction reflects the signal strength: 65 → 65%, 90 → 90%
+        conviction = int(min(100, weighted_avg))
+    elif weighted_avg <= 35:
         verdict = "sell"
+        # Conviction = how far below neutral: 35 → 65%, 10 → 90%
+        conviction = int(min(100, 100 - weighted_avg))
     else:
         verdict = "hold"
-
-    # Conviction: distance from neutral, scaled by consensus
-    distance = abs(weighted_avg - 50)
-    consensus = max(bullish_w, bearish_w) / total_weight
-    conviction = int(min(100, distance * 1.5 + consensus * 30 + 30))
+        # HOLD conviction is LOW by definition — we're not making a strong call.
+        # Closer to 50 = more confidently neutral
+        conviction = int(max(30, 60 - abs(weighted_avg - 50)))
 
     return verdict, conviction
 
