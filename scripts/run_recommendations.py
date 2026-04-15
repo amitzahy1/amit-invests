@@ -602,8 +602,8 @@ def run_real(settings: dict, portfolio: dict) -> dict:
     try:
         from data_loader import fetch_live_quotes, fetch_historical_data
         _quotes_df = fetch_live_quotes(tickers)
-        _quotes = {row["ticker"]: row.to_dict()
-                   for _, row in _quotes_df.iterrows()} if not _quotes_df.empty else {}
+        _quotes = {idx: row.to_dict()
+                   for idx, row in _quotes_df.iterrows()} if not _quotes_df.empty else {}
         _historical = fetch_historical_data(tickers, period="1y")
         _technicals = {tk: _compute_technicals(_historical.get(tk))
                        for tk in tickers}
@@ -742,8 +742,8 @@ def run_real(settings: dict, portfolio: dict) -> dict:
         try:
             from data_loader import fetch_live_quotes as _flq, fetch_historical_data as _fhd
             _iq_df = _flq(idea_tickers)
-            _iq = {row["ticker"]: row.to_dict()
-                   for _, row in _iq_df.iterrows()} if not _iq_df.empty else {}
+            _iq = {idx: row.to_dict()
+                   for idx, row in _iq_df.iterrows()} if not _iq_df.empty else {}
             _ih = _fhd(idea_tickers, period="1y")
             _it = {tk: _compute_technicals(_ih.get(tk)) for tk in idea_tickers}
             try:

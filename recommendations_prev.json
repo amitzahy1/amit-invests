@@ -1,1300 +1,743 @@
 {
-  "updated": "2026-04-14T14:09:29Z",
+  "updated": "2026-04-14T14:13:25Z",
   "profile_name": "Conservative AI Bull",
-  "summary": "סיכום יומי לפרופיל 'Conservative AI Bull' (אופק 4 שנים, סגנון conservative). נקודות חזקות לקנייה: GOOGL, ITA, SPY, VOO — מעל 75% קונבישן. נקודות חזקות למכירה: CPNG, ETHA, IBIT. החשיפה הקריפטו (ETHA, IBIT) חורגת מתקרת 3% ומגדרת סקטור נמנע — מומלץ להקטין. NVDA בהחזקה — איכות גבוהה אך מחיר מתוח; לחכות לנקודת כניסה טובה יותר. רעיונות חדשים שצוותו לפרופיל: MSFT, TSM.",
+  "summary": "השוק נמצא כיום במגמת HOLD רוחבית על פני רוב האחזקות המרכזיות, כולל עוגני התיק SPY ו-VOO ומובילות ה-AI כמו GOOGL ו-NVDA. לאור אופק ההשקעה השמרני וההפקדה הדו-חודשית הקרובה, כדאי לבחון את הרעיונות החדשים MSFT ו-LMT התואמים את העדפת המגזרים (טכנולוגיה וביטחון) כהשלמה לתיק. יש להמשיך לעקוב אחר החשיפה לקריפטו דרך IBIT ו-ETHA כדי לוודא שאינה חורגת מהתקרה המוגדרת של 3%.",
   "holdings": [
     {
       "ticker": "GOOGL",
-      "verdict": "buy",
-      "conviction": 84,
+      "verdict": "hold",
+      "conviction": 66,
       "scores": {
-        "valuation": 60,
-        "technical": 65,
-        "risk": 55,
-        "sentiment": 63,
+        "valuation": 35,
+        "technical": 50,
+        "risk": 70,
+        "sentiment": 80,
         "macro": 50,
-        "quality": 67
+        "quality": 70
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "buy",
-          "conviction": 84,
-          "rationale": "אלפבית היא עסק עם חפיר תחרותי עמוק: מונופול דה-פקטו בחיפוש, מערכת הפעלה דומיננטית (Android), ו-YouTube שמייצרים תזרים מזומנים עצום. הסיכון העיקרי הוא קניבליזציה של החיפוש ע״י AI, אך גוגל עצמה מובילה את מרוץ ה-AI עם Gemini ו-TPU. המחיר הנוכחי סביר יחסית לאיכות — מועמדת מובהקת לתיק ערך לטווח ארוך."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "buy",
-          "conviction": 84,
-          "rationale": "עסק מעולה במחיר הוגן — הסוג שאני וורן מחפשים לאורך עשורים. האיכות של המותג 'גוגל' לא ניתנת לשכפול. הסכנה היחידה היא אפקט הרגולציה — האנטי-טרסט האמריקאי מתקדם, אבל גם אם יחלקו את החברה, השברים יהיו שווים יותר מהשלם."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "buy",
-          "conviction": 92,
-          "rationale": "גוגל היא מוביל ה-AI הגנרטיבי עם Gemini, Waymo (רובוטקסי), ו-TPU (צ'יפים ייחודיים). היא לא 'מותקפת' ע״י ChatGPT — היא בונה את המרכבה הבאה. אנחנו רואים צמיחה של פי 5 בחישוב ה-AI שלהם ב-3 השנים הקרובות — תזת חדשנות חזקה."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "buy",
-          "conviction": 84,
-          "rationale": "חברה עם צמיחה ברורה רבעון-אחר-רבעון ב-Cloud (30%+) ו-AI. היא עדיין בתמחור סביר של 22x P/E — GARP (Growth At Reasonable Price) קלאסי. 'Invest in what you know' — כולם משתמשים בגוגל."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "buy",
-          "conviction": 84,
-          "rationale": "משקל סביר בתיק (8%), תנודתיות מתונה (25% שנתית), קורלציה עם השוק 0.9. אין דגל אדום — ניתן להגדיל עד 10% משקל."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "buy",
-          "conviction": 84,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "buy",
-          "conviction": 89,
-          "rationale": "שבירת התנגדות ארוכת-טווח מעל $175. ממוצע נע 50 יום עולה חד; RSI סביב 60 — לא במצב קניית-יתר, אבל מומנטום חיובי. פריצה נוספת מעל $185 תאותת כניסה חזקה."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "buy",
-          "conviction": 84,
-          "rationale": "מרווח גולמי 56%, מרווח תפעולי 30%, צמיחת EPS דו-ספרתית (13%+), יחס חוב/הון נמוך במיוחד. הפונדמנטלים מהטובים ב-S&P 500 — דיבידנד התחיל, מה שמעיד על בשלות."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "buy",
-          "conviction": 84,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        }
-      ]
+      "score_details": {
+        "quality": [
+          "ROE 35.7% — excellent profitability (>20%)",
+          "Profit margin 32.8% — wide moat indicator (>25%)"
+        ],
+        "valuation": [
+          "P/E 29.8 — moderately expensive",
+          "PEG 1.89 — fairly priced for growth"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized",
+          "Beta 1.13 — slightly above market volatility"
+        ],
+        "macro": [
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.67%)"
+        ],
+        "sentiment": [
+          "Analyst consensus: 61 Buy / 6 Hold / 0 Sell (91% bullish)",
+          "Well-covered stock (67 analysts)"
+        ],
+        "technical": [
+          "Insufficient price history for technical analysis"
+        ]
+      },
+      "rationale": "אלפאבית מהווה נכס ליבה בתזת ה-AI של המשקיע, עם רווחיות גבוהה (32.8%) וסנטימנט אנליסטים חזק מאוד (91% Buy). למרות תמחור יקר יחסית (Valuation 35), איכות החברה והאופק ל-4 שנים מצדיקים רכישה הדרגתית כחלק מעוגן הטכנולוגיה בתיק השמרני.",
+      "personas": []
     },
     {
       "ticker": "AMZN",
       "verdict": "hold",
-      "conviction": 58,
+      "conviction": 57,
       "scores": {
-        "valuation": 52,
-        "technical": 54,
-        "risk": 57,
-        "sentiment": 50,
-        "macro": 52,
-        "quality": 52
+        "valuation": 35,
+        "technical": 50,
+        "risk": 70,
+        "sentiment": 80,
+        "macro": 50,
+        "quality": 50
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "hold",
-          "conviction": 58,
-          "rationale": "AWS הוא נכס איכותי מהשורה הראשונה — מרווחים תפעוליים של 35%+ ושוק שצומח. הקמעונאות מוסיפה רעש ומרווחים דקים, אך הופכת יחסית ליותר רווחית. התמחור לא זול, אך האיכות הכוללת גבוהה מאוד — החזקה מוצדקת."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "hold",
-          "conviction": 58,
-          "rationale": "AWS הוא עסק נפלא. הקמעונאות לא. ההשקעה פה היא על AWS — ואני חושב שזה משתלם, למרות הסחת הדעת."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "hold",
-          "conviction": 58,
-          "rationale": "AWS מוביל בחישוב ענן, הבת Anthropic שייכת להם חלקית, ורובוטיקה עתידית (Zoox + Kiva). עסק 'שלוש-בחברה-אחת' עם חדשנות בכל שכבה."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "hold",
-          "conviction": 58,
-          "rationale": "'Two stocks in one' — AWS הוא עסק מהיר-צמיחה עם מרווחים גבוהים, וה-retail הוא גדל איטי אבל יציב. המודל הזה הוא בדיוק מה שאני מחפש."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "hold",
-          "conviction": 58,
-          "rationale": "קורלציה גבוהה עם QQQ/SPY (0.85+) — היזהר מהכפלת חשיפה טכנולוגית. התנודתיות בסדר (28%)."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "hold",
-          "conviction": 58,
-          "rationale": "סימנים מעורבים — החזקה, ולהעריך מחדש בהרצה הבאה."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "hold",
-          "conviction": 58,
-          "rationale": "נעה בתוך טווח צדדי רחב של $175-200 מזה 6 חודשים. חוצה את MA50 למעלה ומטה ללא מגמה ברורה. טכנית ניטרלית — אין איתות."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "hold",
-          "conviction": 58,
-          "rationale": "מרווח תפעולי של AWS לבד הוא 35%+ — זה המנוע. הקמעונאות ברווחיות חיובית אך נמוכה. מבנה חוב בריא, יחס חוב/EBITDA סביב 2x."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "hold",
-          "conviction": 58,
-          "rationale": "סימנים מעורבים — החזקה, ולהעריך מחדש בהרצה הבאה."
-        }
-      ]
+      "score_details": {
+        "quality": [
+          "ROE 22.3% — excellent profitability (>20%)",
+          "Profit margin 10.8% — thin, competitive pressure"
+        ],
+        "valuation": [
+          "P/E 33.4 — expensive, needs high growth to justify",
+          "PEG 1.84 — fairly priced for growth"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized",
+          "Beta 1.38 — slightly above market volatility"
+        ],
+        "macro": [
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.67%)"
+        ],
+        "sentiment": [
+          "Analyst consensus: 64 Buy / 4 Hold / 0 Sell (94% bullish)",
+          "Well-covered stock (68 analysts)"
+        ],
+        "technical": [
+          "Insufficient price history for technical analysis"
+        ]
+      },
+      "rationale": "אמזון מהווה נכס ליבה עבור תזת ה-AI של המשקיע דרך חטיבת AWS, המציגה רווחיות גבוהה וצמיחה יציבה. למרות תמחור יקר יחסית (Valuation 35), הסנטימנט החיובי מצד האנליסטים ורמת הסיכון המתונה הולמים את אופק ההשקעה של 4 שנים ואת הגישה השמרנית.",
+      "personas": []
     },
     {
       "ticker": "BN",
-      "verdict": "buy",
-      "conviction": 74,
+      "verdict": "hold",
+      "conviction": 55,
       "scores": {
-        "valuation": 65,
-        "technical": 70,
+        "valuation": 35,
+        "technical": 50,
         "risk": 60,
-        "sentiment": 68,
-        "macro": 55,
-        "quality": 72
+        "sentiment": 75,
+        "macro": 50,
+        "quality": 30
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "buy",
-          "conviction": 74,
-          "rationale": "ברוקפילד קורפ מחזיקה ב-75%+ מברוקפילד Asset Management ובנכסים ריאליים (תשתיות, נדל״ן, אנרגיה מתחדשת) — חפיר תחרותי בהפצה ובגודל. מודל ההכנסות משילוב דמי ניהול ועמלות הצלחה יציב לאורך מחזורים. דיבידנד צומח באופן עקבי — עסק איכותי לטווח ארוך."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "buy",
-          "conviction": 74,
-          "rationale": "ניק דקאס (המנכ״ל) הוא אחד המנהלים הטובים בתחום הנכסים האלטרנטיביים. ברוקפילד קורפ היא דוגמא קלאסית של 'עסק איכותי במחיר הוגן' — חפיר בהפצה, אנשים חכמים, תמחור סביר."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "buy",
-          "conviction": 74,
-          "rationale": "תשתיות ואנרגיה מתחדשת תומכות בתזת החדשנות — BN חשופה לזה דרך Brookfield Renewable Partners."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "buy",
-          "conviction": 74,
-          "rationale": "צמיחת NAV של 15%+ שנתית, דיבידנד צומח — סיפור 'מצטבר' קלאסי. לא מרגש, אבל עם הריבית המצטברת מעל 10 שנים זה ירוויח יותר מרוב המניות."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "buy",
-          "conviction": 74,
-          "rationale": "גיוון נאה מחוץ לטכנולוגיה — קורלציה נמוכה יחסית עם השוק (0.65). תורמת ליציבות התיק הכללית."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "buy",
-          "conviction": 74,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "buy",
-          "conviction": 74,
-          "rationale": "מגמה עולה לאורך שנה שלמה. ירידות קטנות נתמכות בעקביות ע״י MA50. התבנית היא 'מדרגות עולות' קלאסית."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "buy",
-          "conviction": 74,
-          "rationale": "NAV של ברוקפילד קורפ צומח ב-15%+ שנתית. הכנסות ממדיניות חלוקה יציבות וצפויות. יחס תשואה להון (ROE) גבוה מהממוצע בענף."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "buy",
-          "conviction": 74,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        }
-      ]
+      "score_details": {
+        "quality": [
+          "ROE 1.9% — below institutional threshold of 15%",
+          "Profit margin 1.7% — thin, competitive pressure"
+        ],
+        "valuation": [
+          "P/E 89.2 — expensive, needs high growth to justify",
+          "PEG 1.27 — fairly priced for growth"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized",
+          "Beta 1.83 — significantly more volatile than S&P 500"
+        ],
+        "macro": [
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.67%)"
+        ],
+        "sentiment": [
+          "Analyst consensus: 9 Buy / 1 Hold / 1 Sell (82% bullish)"
+        ],
+        "technical": [
+          "Insufficient price history for technical analysis"
+        ]
+      },
+      "rationale": "למרות ש-Brookfield נהנית מסנטימנט שוק חזק ותמיכה רחבה של אנליסטים, התמחור הנוכחי יקר מאוד (P/E 89.2) וציון האיכות נמוך (30), מה שאינו מתיישב עם הגישה השמרנית של הפרופיל. החברה אמנם רלוונטית לתזת ה-AI דרך השקעות בתשתיות ואנרגיה, אך לאור הנתונים הפונדמנטליים החלשים כרגע, מומלץ להמתין לשיפור ברווחיות או לתיקון במחיר המניה.",
+      "personas": []
     },
     {
       "ticker": "CPNG",
-      "verdict": "sell",
-      "conviction": 78,
+      "verdict": "hold",
+      "conviction": 48,
       "scores": {
-        "valuation": 31,
-        "technical": 36,
-        "risk": 26,
-        "sentiment": 33,
-        "macro": 46,
-        "quality": 29
+        "valuation": 47,
+        "technical": 50,
+        "risk": 70,
+        "sentiment": 75,
+        "macro": 50,
+        "quality": 30
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "sell",
-          "conviction": 78,
-          "rationale": "השוק הקוריאני ה-e-commerce צפוף: נאבר, שופלייבה, אלי אקספרס, קאוופאנג. חפיר תחרותי לא ברור ומרווחים דקים. ללא יתרון מובהק, לא עומדת בסטנדרט הערך שלי — לעבור הלאה."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "sell",
-          "conviction": 78,
-          "rationale": "עסק בינוני במחיר שלא מצדיק את הזמן שלי. יש מאות עסקים איכותיים יותר בעולם — למה להתעסק עם אחד בינוני?"
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "sell",
-          "conviction": 78,
-          "rationale": "חדשנות במודל לוגיסטי, אבל רחוקה ממוקד התזה של ARK — לא מדד AI/Genomics/Fintech."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "sell",
-          "conviction": 78,
-          "rationale": "הצמיחה מאטה ב-CPNG, והתחרות מואצת. אני מחפש 'סיפורים צומחים', לא 'סיפורים מאטים' — לוותר."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "sell",
-          "conviction": 78,
-          "rationale": "פוזיציה במינוס ללא תרומה ברורה לתזת התיק. תורמת לסיכון מבלי לתרום לתשואה הצפויה. המלצה: לסגור ולהעביר ל-VOO/GOOGL."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "sell",
-          "conviction": 78,
-          "rationale": "ללא התאמה לתזות הנוכחיות — לשקול הקטנה."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "sell",
-          "conviction": 78,
-          "rationale": "מתחת ל-MA200 כבר 6 חודשים. מגמה יורדת ברורה. RSI ליד 30 — מבצע 'oversold bounce' אפשרי, אבל המגמה הראשית שלילית. איתות טכני לסל״ב."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "sell",
-          "conviction": 78,
-          "rationale": "מרווחים דקים (2-3% תפעולי), תחרות עזה שלוחצת על המחירים. איכות פונדמנטלית בינונית. חוב נוח, אבל בלי מנוע צמיחה ברור."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "sell",
-          "conviction": 78,
-          "rationale": "ללא התאמה לתזות הנוכחיות — לשקול הקטנה."
-        }
-      ]
+      "score_details": {
+        "quality": [
+          "ROE 4.9% — below institutional threshold of 15%",
+          "Profit margin 0.6% — thin, competitive pressure"
+        ],
+        "valuation": [
+          "P/E 183.2 — expensive, needs high growth to justify",
+          "PEG 0.45 — growth at a discount (Peter Lynch target <1)"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized",
+          "Beta 1.16 — slightly above market volatility"
+        ],
+        "macro": [
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.67%)"
+        ],
+        "sentiment": [
+          "Analyst consensus: 14 Buy / 2 Hold / 1 Sell (82% bullish)"
+        ],
+        "technical": [
+          "Insufficient price history for technical analysis"
+        ]
+      },
+      "rationale": "הנכס אינו תואם את התיזה המרכזית של הפרופיל (AI ומדדי ארה\"ב) ומציג איכות פיננסית נמוכה (30/100) עם שולי רווח דקים מאוד של 0.6%. למרות נתון PEG אטרקטיבי וסנטימנט אנליסטים חיובי, רמת הסיכון והתמחור היקר (P/E 183) הופכים אותה להשקעה פחות מתאימה לאסטרטגיה שמרנית ארוכת טווח.",
+      "personas": []
     },
     {
       "ticker": "ETHA",
-      "verdict": "sell",
-      "conviction": 82,
+      "verdict": "hold",
+      "conviction": 43,
       "scores": {
-        "valuation": 37,
-        "technical": 42,
-        "risk": 32,
-        "sentiment": 39,
-        "macro": 52,
-        "quality": 35
+        "valuation": 50,
+        "technical": 50,
+        "risk": 70,
+        "sentiment": 50,
+        "macro": 50,
+        "quality": 50
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "sell",
-          "conviction": 82,
-          "rationale": "אותו עיקרון כמו IBIT — נכס ללא תזרים מזומנים מסחרי. את׳ריום אולי מיועד לאפליקציות DeFi, אך עדיין ספקולציה טכנולוגית ולא השקעה בעסק. לא מתאים לפרופיל ערך."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "sell",
-          "conviction": 82,
-          "rationale": "כנ״ל. חדשנות טכנולוגית לא מעניקה שימוש רציונלי להשקעה."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "sell",
-          "conviction": 82,
-          "rationale": "את׳ריום חשוב יותר מביטקוין אפילו — זה הבסיס ל-DeFi ול-NFT. אבל שוב, התקרה של 3% מגבילה."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "sell",
-          "conviction": 82,
-          "rationale": "אותה הערה כמו IBIT."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "sell",
-          "conviction": 85,
-          "rationale": "אותה הערה כמו IBIT — חריגה מהתקרה. להקטין מיד."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "sell",
-          "conviction": 82,
-          "rationale": "ללא התאמה לתזות הנוכחיות — לשקול הקטנה."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "sell",
-          "conviction": 82,
-          "rationale": "מתחת ל-MA50 מזה 2 חודשים. ביצועי חסר מול ביטקוין. טכנית חלש."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "sell",
-          "conviction": 70,
-          "rationale": "זהה ל-IBIT — ללא ערך פנימי ניתן להערכה. ספקולציה על שיעור אימוץ טכנולוגי."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "sell",
-          "conviction": 82,
-          "rationale": "ללא התאמה לתזות הנוכחיות — לשקול הקטנה."
-        }
-      ]
+      "score_details": {
+        "quality": [
+          "No fundamental data available for this ticker"
+        ],
+        "valuation": [
+          "No valuation data — scored neutral (50)"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized"
+        ],
+        "macro": [
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.67%)"
+        ],
+        "sentiment": [
+          "No analyst coverage data available"
+        ],
+        "technical": [
+          "Insufficient price history for technical analysis"
+        ]
+      },
+      "rationale": "הנכס ETHA נחשב לתנודתי וספקולטיבי מדי עבור פרופיל שמרני, במיוחד כאשר הציונים האלגוריתמיים ניטרליים (50) ברוב הפרמטרים. לאור המדיניות להגביל חשיפה לקריפטו ל-3% בלבד והעדפת סקטור ה-AI והמדדים המרכזיים, אין הצדקה להגדלת הפוזיציה בעת הזו.",
+      "personas": []
     },
     {
       "ticker": "XLV",
-      "verdict": "buy",
-      "conviction": 72,
+      "verdict": "hold",
+      "conviction": 51,
       "scores": {
-        "valuation": 65,
-        "technical": 70,
-        "risk": 60,
-        "sentiment": 68,
-        "macro": 55,
-        "quality": 72
+        "valuation": 50,
+        "technical": 50,
+        "risk": 70,
+        "sentiment": 50,
+        "macro": 50,
+        "quality": 50
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "סקטור הבריאות הוא הגנתי, לא-מחזורי, וביקושו גדל עם הזדקנות האוכלוסייה. החפיר התחרותי מורכב מפטנטים, רגולציה (FDA), ורשתות הפצה. התשואה ההיסטורית עומדת על 10%+ שנתית עם תנודתיות נמוכה יחסית — התאמה מצוינת לפרופיל שמרני."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "אני אוהב סקטורים שאני יכול להבין ולהחזיק בשקט לעשור. סקטור הבריאות עומד בכל הקריטריונים: ביקוש לא-מחזורי, מרווחים יציבים, אינרציה דמוגרפית. 'ההחזקה השקטה' הקלאסית."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "ביו-טק הוא חלק מהחדשנות, אבל XLV הוא מדד רחב — הגנתי מדי לסגנון שלי."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "בריאות היא סיפור צמיחה דמוגרפי — האוכלוסייה מזדקנת, ההוצאות עולות. יציב ויפה."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "נכס הגנתי — מפחית drawdown בתקופות משבר (בטא 0.7). ממליץ להגדיל בתקופות חוסר ודאות."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "לאחר תקופה ארוכה של תת-ביצועים, מתחיל להופיע בסיס טכני. MA50 מתחיל להתיישר, RSI מטפס בעקביות — אפשרות להתהפכות מגמה."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "רווחיות יציבה לאורך מחזורים, דיבידנדים עקביים, יחס חוב סביר. שיעור צמיחת EPS 8-10% עקבי — לא מרגש, אבל אמין."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        }
-      ]
+      "score_details": {
+        "quality": [
+          "No fundamental data available for this ticker"
+        ],
+        "valuation": [
+          "No valuation data — scored neutral (50)"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized"
+        ],
+        "macro": [
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.67%)"
+        ],
+        "sentiment": [
+          "No analyst coverage data available"
+        ],
+        "technical": [
+          "Insufficient price history for technical analysis"
+        ]
+      },
+      "rationale": "סקטור הבריאות (XLV) תואם את העדפות ההשקעה של המשתמש כעוגן דפנסיבי, כאשר ציון הסיכון (70) מדגיש את התאמתו לפרופיל שמרני לטווח ארוך. לאור ציונים ניטרליים (50) במדדי הערך, המומנטום והמאקרו, הנכס אינו מציג כרגע הזדמנות קנייה אגרסיבית אך נותר מרכיב יציב וראוי להחזקה בתיק.",
+      "personas": []
     },
     {
       "ticker": "IBIT",
-      "verdict": "sell",
-      "conviction": 80,
+      "verdict": "hold",
+      "conviction": 48,
       "scores": {
-        "valuation": 30,
-        "technical": 35,
-        "risk": 25,
-        "sentiment": 32,
-        "macro": 45,
-        "quality": 28
+        "valuation": 50,
+        "technical": 50,
+        "risk": 70,
+        "sentiment": 50,
+        "macro": 50,
+        "quality": 50
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "sell",
-          "conviction": 80,
-          "rationale": "ביטקוין הוא נכס ספקולטיבי שאינו מייצר תזרים מזומנים. אני לא משקיע במשהו שאיני יכול להעריך בו ערך פנימי (DCF). מבחינת הפרופיל של אמית — תקרת הקריפטו של 3% כבר חורגת; הגיוני להקטין."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "sell",
-          "conviction": 80,
-          "rationale": "ספקולציה נטו — אני לא משקיע במה שאני לא יכול לשים בו ערך. ורן ואני הסכמנו על הנקודה הזו עוד בעידן הזהב; האמיתות הישנות עדיין נכונות."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "sell",
-          "conviction": 80,
-          "rationale": "חדשנות פיננסית אמיתית — ביטקוין הוא נכס המפלט של העשור הבא. אבל התקרת קריפטו של 3% אצל אמית חוסמת התרחבות — כבוד לחוקים שלו."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "sell",
-          "conviction": 80,
-          "rationale": "אני מעדיף עסקים שמייצרים הכנסות ורווחים. ביטקוין לא."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "sell",
-          "conviction": 85,
-          "rationale": "חריגה מתקרת קריפטו של 3%. הפרופיל הנוכחי אוסר 'Crypto' בסקטורים המנועים — יש להקטין ב-50%+ לפחות."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "sell",
-          "conviction": 80,
-          "rationale": "ללא התאמה לתזות הנוכחיות — לשקול הקטנה."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "sell",
-          "conviction": 80,
-          "rationale": "תלוי במחלוטין בהתנהגות ביטקוין. תנודתיות יומית של 4-6% — לא איתות טכני ברור. מגמה ארוכת-טווח עדיין עולה אך עם תיקונים חדים."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "sell",
-          "conviction": 70,
-          "rationale": "ללא פונדמנטלים קלאסיים — אין EPS, אין מרווח, אין דיבידנד. עוקב אחר מחיר ביטקוין, שאין לו ערך פנימי ניתן להערכה בשיטות DCF."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "sell",
-          "conviction": 80,
-          "rationale": "ללא התאמה לתזות הנוכחיות — לשקול הקטנה."
-        }
-      ]
+      "score_details": {
+        "quality": [
+          "No fundamental data available for this ticker"
+        ],
+        "valuation": [
+          "No valuation data — scored neutral (50)"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized"
+        ],
+        "macro": [
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.67%)"
+        ],
+        "sentiment": [
+          "No analyst coverage data available"
+        ],
+        "technical": [
+          "Insufficient price history for technical analysis"
+        ]
+      },
+      "rationale": "בהתחשב בפרופיל השמרני ובתפיסת הקריפטו כנכס ספקולטיבי, הציון הממוצע (53) משקף מצב ניטרלי ללא מומנטום חיובי חריג. לאור תקרת החשיפה הנמוכה של 3% והסיכון הגבוה המשתקף במדדים, מומלץ להמתין לנקודת כניסה אטרקטיבית יותר או לשמור על הקיים מבלי להגדיל את החשיפה כרגע.",
+      "personas": []
     },
     {
       "ticker": "QQQM",
       "verdict": "hold",
-      "conviction": 55,
+      "conviction": 48,
       "scores": {
-        "valuation": 49,
-        "technical": 51,
-        "risk": 54,
-        "sentiment": 47,
-        "macro": 49,
-        "quality": 49
+        "valuation": 50,
+        "technical": 50,
+        "risk": 70,
+        "sentiment": 50,
+        "macro": 50,
+        "quality": 50
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "hold",
-          "conviction": 55,
-          "rationale": "חשיפה לנאסד״ק 100 — חברות איכות גבוהה אך בתמחור מתוח מאוד. חופף משמעותית עם החזקות GOOGL, NVDA, AMZN שכבר קיימות בתיק. מיותר — SPY/VOO מספיקים כעוגן."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "hold",
-          "conviction": 55,
-          "rationale": "למה להחזיק נאסד״ק 100 כשיש לך כבר את רוב המניות המרכיבות אותו? כפילות בתיק היא בזבוז קוגניטיבי."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "hold",
-          "conviction": 55,
-          "rationale": "נאסד״ק 100 כולל את כל המנצחים שלי, אבל גם הרבה בלבול. אני מעדיפה בחירה ספציפית."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "hold",
-          "conviction": 55,
-          "rationale": "מדד רחב — אני מעדיף להחזיק את החברות הספציפיות."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "hold",
-          "conviction": 55,
-          "rationale": "כפילות עם SPY/VOO (המניות המרכזיות חוזרות) + החזקות פרטניות של NVDA/GOOGL/AMZN. הסיכון: חשיפה מרוכזת יתר."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "hold",
-          "conviction": 55,
-          "rationale": "סימנים מעורבים — החזקה, ולהעריך מחדש בהרצה הבאה."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "hold",
-          "conviction": 55,
-          "rationale": "מגמה עולה יציבה, דומה לנאסד״ק 100 — המשך מגמה. לא מוסיף ערך מעל SPY/VOO טכנית."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "hold",
-          "conviction": 55,
-          "rationale": "חשיפה לחברות איכות גבוהה (AAPL, MSFT, NVDA, GOOGL, META) — אבל בתמחור מתוח. P/E ממוצע של 28 vs 22 של SPY. כפילות עם החזקות קיימות."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "hold",
-          "conviction": 55,
-          "rationale": "סימנים מעורבים — החזקה, ולהעריך מחדש בהרצה הבאה."
-        }
-      ]
+      "score_details": {
+        "quality": [
+          "No fundamental data available for this ticker"
+        ],
+        "valuation": [
+          "No valuation data — scored neutral (50)"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized"
+        ],
+        "macro": [
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.67%)"
+        ],
+        "sentiment": [
+          "No analyst coverage data available"
+        ],
+        "technical": [
+          "Insufficient price history for technical analysis"
+        ]
+      },
+      "rationale": "הציון הממוצע (53) משקף איזון בין הערכת שווי הוגנת למגמות שוק ניטרליות, ללא קטליזטור משמעותי לקנייה אגרסיבית. עבור משקיע שורי על תחום ה-AI, ה-QQQM נותר נכס ליבה אסטרטגי, אך הציונים הטכניים והפונדמנטליים הנוכחיים תומכים בהמשך רכישות קבועות (DCA) בלבד ולא בהגדלת חשיפה חריגה.",
+      "personas": []
     },
     {
       "ticker": "ITA",
-      "verdict": "buy",
-      "conviction": 76,
+      "verdict": "hold",
+      "conviction": 48,
       "scores": {
-        "valuation": 63,
-        "technical": 68,
-        "risk": 58,
-        "sentiment": 66,
-        "macro": 53,
-        "quality": 70
+        "valuation": 50,
+        "technical": 50,
+        "risk": 70,
+        "sentiment": 50,
+        "macro": 50,
+        "quality": 50
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "buy",
-          "conviction": 76,
-          "rationale": "חברות הביטחון האמריקאיות (LMT, RTX, NOC, GD) יציבות, עם חוזים ממשלתיים ארוכי-טווח ותזרים מזומנים צפוי. התקציבים הביטחוניים בעלייה — סביבה מקרו תומכת. פסיבית, שקטה, מצוינת לפרופיל שמרני."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "buy",
-          "conviction": 76,
-          "rationale": "ביטחון הוא סקטור שאני מעריך — קשיי כניסה גבוהים, חוזים ארוכים, מנהלים טובים. לא מרגש, אבל רווחי."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "buy",
-          "conviction": 76,
-          "rationale": "ביטחון הוא לא במוקד תזת החדשנות שלי. יש התקדמות במזלים אוטונומיים, אבל יותר מדי מהסקטור הוא חברות ישנות."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "buy",
-          "conviction": 76,
-          "rationale": "ביטחון בצמיחה עקבית — תקציבים ממשלתיים עולים, חוזים ארוכי-טווח. סיפור 'משעמם ורווחי' — בדיוק מה שאני מחפש."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "buy",
-          "conviction": 76,
-          "rationale": "חשיפה לסקטור לא-מקורלל עם השוק הרחב. תורמת חיובית לפרופיל סיכון/תשואה."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "buy",
-          "conviction": 76,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "buy",
-          "conviction": 81,
-          "rationale": "מומנטום חיובי עקבי — מעלה את שיאי 52 השבועות. תנועה שקטה ואיטית, אבל מגמה עולה מובהקת."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "buy",
-          "conviction": 76,
-          "rationale": "חברות הביטחון האמריקאיות מציגות הכנסות צפויות ב-85% (גיבוי חוזים). רווחיות יציבה, דיבידנדים הולכים וגדלים. יחס חוב סביר."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "buy",
-          "conviction": 76,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        }
-      ]
+      "score_details": {
+        "quality": [
+          "No fundamental data available for this ticker"
+        ],
+        "valuation": [
+          "No valuation data — scored neutral (50)"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized"
+        ],
+        "macro": [
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.67%)"
+        ],
+        "sentiment": [
+          "No analyst coverage data available"
+        ],
+        "technical": [
+          "Insufficient price history for technical analysis"
+        ]
+      },
+      "rationale": "הסקטור מהווה עוגן מועדף בתיק של המשתמש, אך הציונים הנוכחיים משקפים איזון מלא בין שווי למומנטום ללא נקודת כניסה אופטימלית כרגע. ציון הסיכון הגבוה (70) תומך באופי השמרני של הפרופיל, מה שמצדיק המשך החזקה ב-ITA כחלק מהחשיפה הביטחונית לטווח ארוך למרות היעדר מומנטום מיידי.",
+      "personas": []
     },
     {
       "ticker": "NVDA",
       "verdict": "hold",
       "conviction": 62,
       "scores": {
-        "valuation": 55,
-        "technical": 57,
-        "risk": 60,
-        "sentiment": 53,
-        "macro": 55,
-        "quality": 55
+        "valuation": 47,
+        "technical": 50,
+        "risk": 50,
+        "sentiment": 80,
+        "macro": 50,
+        "quality": 70
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "hold",
-          "conviction": 62,
-          "rationale": "חברה נהדרת ויצרנית ה-GPU הדומיננטית לעידן ה-AI, אבל P/E של 50+ משאיר שולי בטיחות דקים מאוד. הסיכון: כל כשל בציפיות צמיחה יפגע במחיר חזק. אני מעדיף להמתין לתיקון של 20-30% לפני שאגדיל פוזיציה."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "hold",
-          "conviction": 62,
-          "rationale": "חברה נהדרת, אבל המחיר מבקש ממך להיות צודק לחלוטין לשנים קדימה. שולי בטיחות (Margin of Safety) הם העיקרון הכי חשוב — וכאן אין. זה המקום שאני חוזר ל-Poor Charlie's Almanack שלי ונזכר: 'אל תעשה שטויות'."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "buy",
-          "conviction": 70,
-          "rationale": "מונופול וירטואלי על GPU לעידן ה-AI — CUDA הוא חפיר תוכנה עצום. עקומת ההכנסות עדיין מצויה רק בתחילתה: רק 15% מהדאטה-סנטרים עברו ל-AI-accelerated. ריצה ארוכה קדימה."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "hold",
-          "conviction": 62,
-          "rationale": "קצב צמיחת ההכנסות יוצא דופן — אבל המחיר כבר משקף זאת לחלוטין. P/E של 50 מחייב המשך צמיחה מושלמת. זהירות — זה לא 'החבא בעיניים' שאני מחפש."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "hold",
-          "conviction": 62,
-          "rationale": "תורמת משמעותית לתנודתיות התיק (40% שנתית!). משקל נוכחי 5% כבר מציע חשיפה חזקה. לא להגדיל מעל 7-8% משקל — הסיכון למחיקה חד-פעמית גבוה."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "hold",
-          "conviction": 62,
-          "rationale": "סימנים מעורבים — החזקה, ולהעריך מחדש בהרצה הבאה."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "hold",
-          "conviction": 62,
-          "rationale": "לאחר ריצה של 250%+ השנה, נמצאת בהתכנסות ליד $140-150. RSI נרגע מ-75 ל-55 — קירור בריא. אין עדיין איתות כניסה; אני מחכה לשבירת תבנית."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "hold",
-          "conviction": 57,
-          "rationale": "מרווחים יוצאי דופן (75%+ גולמי), אבל P/E של 50+. רווחי העתיד חייבים להצדיק את המחיר — ציפיות של 30%+ צמיחת EPS ב-5 שנים. סיכון רמת הציפיות."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "hold",
-          "conviction": 62,
-          "rationale": "סימנים מעורבים — החזקה, ולהעריך מחדש בהרצה הבאה."
-        }
-      ]
+      "score_details": {
+        "quality": [
+          "ROE 1.0% — below institutional threshold of 15%",
+          "Profit margin 55.6% — wide moat indicator (>25%)"
+        ],
+        "valuation": [
+          "P/E 38.6 — expensive, needs high growth to justify",
+          "PEG 0.77 — growth at a discount (Peter Lynch target <1)"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized",
+          "Beta 2.33 — significantly more volatile than S&P 500"
+        ],
+        "macro": [
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.67%)"
+        ],
+        "sentiment": [
+          "Analyst consensus: 57 Buy / 2 Hold / 1 Sell (95% bullish)",
+          "Well-covered stock (60 analysts)"
+        ],
+        "technical": [
+          "Insufficient price history for technical analysis"
+        ]
+      },
+      "rationale": "עבור משקיע שורי על תחום ה-AI, NVDA היא נכס ליבה המציג רווחיות יוצאת דופן ויחס PEG אטרקטיבי (0.77) המעיד על כך שהצמיחה העתידית מצדיקה את התמחור הנוכחי. למרות ציונים טכניים ומאקרו מאוזנים, הסנטימנט החזק בקרב האנליסטים והתאמתה המלאה לתזת ההשקעה ל-4 שנים תומכים ברכישה הדרגתית במסגרת ההפקדות הדו-חודשיות.",
+      "personas": []
     },
     {
       "ticker": "SPY",
-      "verdict": "buy",
-      "conviction": 80,
+      "verdict": "hold",
+      "conviction": 53,
       "scores": {
-        "valuation": 71,
-        "technical": 76,
-        "risk": 66,
-        "sentiment": 74,
-        "macro": 61,
-        "quality": 78
+        "valuation": 50,
+        "technical": 50,
+        "risk": 70,
+        "sentiment": 50,
+        "macro": 50,
+        "quality": 50
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "buy",
-          "conviction": 80,
-          "rationale": "אני ממליץ לכל משקיע פרטי להחזיק מדד S&P 500 זול ולשכוח ממנו — זה התיק הכי טוב לרוב האנשים. גם לאמית, זהו עוגן התיק. הבעיה היחידה: SPY יקר יותר מ-VOO בדמי ניהול (0.09% מול 0.03%)."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "buy",
-          "conviction": 80,
-          "rationale": "פשוט, זול, אפקטיבי — נכס ליבה לכל משקיע רציונלי. אני לא יכול לנצח את השוק בהחזקה לטווח ארוך, אז למה לנסות? מדד S&P 500 הוא הדרך הכי חכמה להיות 'טיפש' בחוכמה."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "buy",
-          "conviction": 80,
-          "rationale": "חשיפה פסיבית לא מנצחת חדשנות ממוקדת לטווח ארוך. אני בנויה לבחור מנצחים ספציפיים, לא להחזיק את הממוצע. ל-Amit יש SPY — זה בסדר כעוגן, אבל לא למקסם תשואה."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "buy",
-          "conviction": 80,
-          "rationale": "מדד רחב — אני מעדיף סיפורים ספציפיים שאני מבין. ל-SPY אין 'סיפור' לספר."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "buy",
-          "conviction": 80,
-          "rationale": "עוגן התיק — המשך לבנות משקל בתרומות החודשיות. קטגוריית 'סיכון נמוך' של הפרופיל."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "buy",
-          "conviction": 80,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "buy",
-          "conviction": 80,
-          "rationale": "מגמה עולה יציבה — מחיר מעל MA50 מעל MA200. יחס טכני בריא, ללא סטיות שליליות. המשך מגמה עולה — להמשיך לצבור בתרומות חודשיות."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "buy",
-          "conviction": 80,
-          "rationale": "חשיפה לפונדמנטלים של 500 החברות המובילות — ROE ממוצע של 18%, P/E של 22, שיעור צמיחה של 8%. רמת איכות 'ממוצעת גבוהה' — זה המצב הטבעי של כלכלה אמריקאית."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "buy",
-          "conviction": 80,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        }
-      ]
+      "score_details": {
+        "quality": [
+          "No fundamental data available for this ticker"
+        ],
+        "valuation": [
+          "No valuation data — scored neutral (50)"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized"
+        ],
+        "macro": [
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.67%)"
+        ],
+        "sentiment": [
+          "No analyst coverage data available"
+        ],
+        "technical": [
+          "Insufficient price history for technical analysis"
+        ]
+      },
+      "rationale": "מדד ה-S&P 500 מהווה את העוגן המרכזי בתיק לפי האסטרטגיה שלך ומתאים לאופק השקעה של 4 שנים, במיוחד לאור ציון הסיכון (70) המעיד על יציבות יחסית. למרות שהציונים האלגוריתמיים ניטרליים (50), הנכס חיוני לחשיפה רחבה לשוק ולמגזר הטכנולוגיה ותומך בהמשך הפקדות דו-חודשיות שמרניות.",
+      "personas": []
     },
     {
       "ticker": "URNM",
-      "verdict": "buy",
-      "conviction": 73,
+      "verdict": "hold",
+      "conviction": 48,
       "scores": {
-        "valuation": 62,
-        "technical": 67,
-        "risk": 57,
-        "sentiment": 65,
-        "macro": 52,
-        "quality": 69
+        "valuation": 50,
+        "technical": 50,
+        "risk": 70,
+        "sentiment": 50,
+        "macro": 50,
+        "quality": 50
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "buy",
-          "conviction": 73,
-          "rationale": "אורניום מחזורי מאוד — אם מחירי הספוט עולים, ההכנסות של חברות הכרייה מזנקות. ביקוש מאושש מצד datacenters של AI ומדיניות 'חזרה לגרעין'. תנודתיות גבוהה — לא לגעת מעל 5% משקל."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "buy",
-          "conviction": 73,
-          "rationale": "מחזוריות גבוהה היא לא הסגנון שלי, אבל אני רואה את התזה: מחסור במכרות חדשים + ביקוש AI-datacenter. אם אמית רוצה חשיפה, משקל 5% מקסימום."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "buy",
-          "conviction": 73,
-          "rationale": "אורניום הוא חלק מתזת האנרגיה הנקייה — דאטה-סנטרים של AI צורכים עשרות גיגה-וואטים, ורק גרעין יכול לענות. תזה מעולה ל-5 שנים."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "buy",
-          "conviction": 73,
-          "rationale": "סיפור צמיחה ברור: מחסור באורניום + ביקוש ענק מ-AI-datacenters + חזרה לגרעין בסקנדינביה. צמיחה שצפויה להיות לא-ליניארית."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "buy",
-          "conviction": 73,
-          "rationale": "תנודתיות גבוהה מאוד (45%+). לא להגדיל מעל 5% משקל — סיכון למחיקות של 30-40%. לאמית: נראה שאתה בגבול התקרה."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "buy",
-          "conviction": 73,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "buy",
-          "conviction": 78,
-          "rationale": "שובר שיאים של 52 שבועות ברצף. התבנית מציגה higher-highs ו-higher-lows עקביים — מגמה עולה חזקה. איתות קנייה טכני מובהק."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "buy",
-          "conviction": 73,
-          "rationale": "תלוי מאוד במחירי הספוט של אורניום. היום מחירים עולים — מה שתרגם להכפלת הכנסות של חברות הכרייה. סיכון: אם המחירים יירדו, הרווחיות תצנח."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "buy",
-          "conviction": 73,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        }
-      ]
+      "score_details": {
+        "quality": [
+          "No fundamental data available for this ticker"
+        ],
+        "valuation": [
+          "No valuation data — scored neutral (50)"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized"
+        ],
+        "macro": [
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.67%)"
+        ],
+        "sentiment": [
+          "No analyst coverage data available"
+        ],
+        "technical": [
+          "Insufficient price history for technical analysis"
+        ]
+      },
+      "rationale": "הנכס תואם את העדפות הסקטור של המשקיע (אנרגיה/אורניום), אך הציונים האלגוריתמיים משקפים מצב ניטרלי (50/100) ברוב המדדים המרכזיים. עבור פרופיל שמרני עם אופק של 4 שנים, מומלץ להמתין לשיפור בסנטימנט או במומנטום הטכני לפני הגדלת החשיפה, למרות ציון הסיכון החיובי יחסית (70/100).",
+      "personas": []
     },
     {
       "ticker": "NLR",
-      "verdict": "buy",
-      "conviction": 72,
+      "verdict": "hold",
+      "conviction": 48,
       "scores": {
-        "valuation": 69,
-        "technical": 74,
-        "risk": 64,
-        "sentiment": 72,
-        "macro": 59,
-        "quality": 76
+        "valuation": 50,
+        "technical": 50,
+        "risk": 70,
+        "sentiment": 50,
+        "macro": 50,
+        "quality": 50
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "דומה ל-URNM אך מגוון יותר — כולל גם שירותי חשמל גרעיניים (NextEra, Constellation). יציבות גבוהה יותר בזכות רגולציה מורכבת שיוצרת חפיר תחרותי. התאמה טובה לפרופיל."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "יותר יציב מ-URNM. שירותי חשמל גרעיניים עם חפיר רגולטורי עמוק — מתאים ליותר הרבה."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "אותו סיפור כמו URNM — חדשנות אנרגיה גרעינית (SMR - Small Modular Reactors) בדרך."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "תזה דומה ל-URNM אבל עם פרופיל סיכון יותר יציב. אני אוהב שתיהן."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "יותר יציב מ-URNM (תנודתיות 30%), אבל עדיין סקטור צר. מקסימום 5% משקל."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "buy",
-          "conviction": 77,
-          "rationale": "פריצה לאחרונה מעל רמת ההתנגדות של $90. תבנית גביע-וידית הושלמה — מטרה טכנית סביב $110."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "יציבות הכנסות גבוהה יותר מ-URNM — כולל שירותי חשמל גרעיניים (רגולציה מורכבת יוצרת חפיר). דיבידנדים מסוימים; פונדמנטלים יציבים."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        }
-      ]
+      "score_details": {
+        "quality": [
+          "No fundamental data available for this ticker"
+        ],
+        "valuation": [
+          "No valuation data — scored neutral (50)"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized"
+        ],
+        "macro": [
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.67%)"
+        ],
+        "sentiment": [
+          "No analyst coverage data available"
+        ],
+        "technical": [
+          "Insufficient price history for technical analysis"
+        ]
+      },
+      "rationale": "הנכס תואם את העדפת המגזר של המשקיע ואת התזה לפיה צמיחת ה-AI דורשת תשתית אנרגיה יציבה, אך הציונים הממוצעים מעידים על תמחור הוגן ללא מומנטום חריג כרגע. עבור פרופיל שמרני, ציון הסיכון החיובי (70) הופך את NLR לעוגן דפנסיבי מתאים בתיק, המצדיק המשך החזקה לטווח הארוך כחלק מחשיפה לתשתיות טכנולוגיות.",
+      "personas": []
     },
     {
       "ticker": "KSM-F34.TA",
       "verdict": "hold",
-      "conviction": 68,
+      "conviction": 51,
       "scores": {
-        "valuation": 52,
-        "technical": 54,
-        "risk": 57,
+        "valuation": 50,
+        "technical": 50,
+        "risk": 70,
         "sentiment": 50,
-        "macro": 52,
-        "quality": 52
+        "macro": 50,
+        "quality": 50
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "hold",
-          "conviction": 68,
-          "rationale": "קרן האג״ח הממשלתי הישראלי (F34) — אג״ח ממשלתי שקלי לטווח בינוני. יציבות גבוהה, סיכון נמוך, חשיפה שקלית הגנתית שמפחיתה סיכון מט״ח בתיק דולרי. מתאימה לפרופיל שמרני."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "hold",
-          "conviction": 68,
-          "rationale": "אג״ח ממשלתי ישראלי — שקט, יציב, תשואה צפויה. אני לא מבין לעומק בשוק הישראלי, אבל אג״ח ממשלתי הוא אג״ח ממשלתי בכל מדינה."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "hold",
-          "conviction": 68,
-          "rationale": "אג״ח ממשלתי ישראלי לא במוקד תזת החדשנות שלי."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "hold",
-          "conviction": 68,
-          "rationale": "אני לא מכיר לעומק את שוק האג״ח הישראלי. אם אמית מאמין, שיחזיק — אג״ח ממשלתי בכל מדינה הוא בדרך כלל אחזקה הגנתית סבירה."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "hold",
-          "conviction": 68,
-          "rationale": "נכס שקלי הגנתי — אג״ח ממשלתי ישראלי מפחית סיכון מט״ח בתיק דולרי. תורם חיובית לגיוון."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "hold",
-          "conviction": 68,
-          "rationale": "סימנים מעורבים — החזקה, ולהעריך מחדש בהרצה הבאה."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "hold",
-          "conviction": 68,
-          "rationale": "מגמה עולה ארוכת-טווח, תנודתיות נמוכה מאוד. ללא איתות שינוי. המשך החזקה."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "hold",
-          "conviction": 68,
-          "rationale": "אג״ח ממשלתי ישראלי F34 — תשואה לפדיון יציבה, duration בינוני. ללא חוב תאגידי — סיכון אשראי אפסי. פונדמנטלים יציבים."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "hold",
-          "conviction": 68,
-          "rationale": "סימנים מעורבים — החזקה, ולהעריך מחדש בהרצה הבאה."
-        }
-      ]
+      "score_details": {
+        "quality": [
+          "No fundamental data available for this ticker"
+        ],
+        "valuation": [
+          "No valuation data — scored neutral (50)"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized"
+        ],
+        "macro": [
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.67%)"
+        ],
+        "sentiment": [
+          "No analyst coverage data available"
+        ],
+        "technical": [
+          "Insufficient price history for technical analysis"
+        ]
+      },
+      "rationale": "הקרן מספקת חשיפה סולידית לאג\"ח ממשלתי ישראלי ומתפקדת כעוגן של תנודתיות נמוכה, התואם את רמת הסיכון הבינונית והגישה השמרנית של המשקיע. לאור ציונים ניטרליים ברוב הפרמטרים (50/100), הנכס מהווה רכיב מאזן בתיק לצד החשיפה המנייתית, אך אינו מציג כרגע מומנטום חיובי חריג המצדיק הגדלת פוזיציה אגרסיבית.",
+      "personas": []
     },
     {
       "ticker": "KSM-F77.TA",
       "verdict": "hold",
-      "conviction": 66,
+      "conviction": 48,
       "scores": {
-        "valuation": 43,
-        "technical": 45,
-        "risk": 48,
-        "sentiment": 41,
-        "macro": 43,
-        "quality": 43
+        "valuation": 50,
+        "technical": 50,
+        "risk": 70,
+        "sentiment": 50,
+        "macro": 50,
+        "quality": 50
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "hold",
-          "conviction": 66,
-          "rationale": "קרן האג״ח הממשלתי הישראלי (F77) — אג״ח ממשלתי שקלי לטווח ארוך. ריבית קופון יציבה, תנודתיות נמוכה מאוד. חשיפה שקלית הגנתית — נכס ליבה להפחתת סיכון מטבע."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "hold",
-          "conviction": 66,
-          "rationale": "כנ״ל — אג״ח ממשלתי ישראלי לטווח ארוך. שקט ויציב יותר מ-KSM-F34."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "hold",
-          "conviction": 66,
-          "rationale": "כנ״ל."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "hold",
-          "conviction": 66,
-          "rationale": "כנ״ל — אחזקה שקלית הגנתית."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "hold",
-          "conviction": 66,
-          "rationale": "כנ״ל — נכס שקלי הגנתי ל-duration ארוך. מפחית קורלציה עם שוק המניות."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "hold",
-          "conviction": 66,
-          "rationale": "סימנים מעורבים — החזקה, ולהעריך מחדש בהרצה הבאה."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "hold",
-          "conviction": 66,
-          "rationale": "מגמה עולה עקבית. תנודתיות נמוכה מאוד — מאפייני אג״ח. המשך החזקה."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "hold",
-          "conviction": 66,
-          "rationale": "אג״ח ממשלתי ישראלי F77 — תשואה לפדיון יציבה, duration ארוך יותר. רגישות גבוהה יותר לשינויי ריבית, אך סיכון אשראי אפסי."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "hold",
-          "conviction": 66,
-          "rationale": "סימנים מעורבים — החזקה, ולהעריך מחדש בהרצה הבאה."
-        }
-      ]
+      "score_details": {
+        "quality": [
+          "No fundamental data available for this ticker"
+        ],
+        "valuation": [
+          "No valuation data — scored neutral (50)"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized"
+        ],
+        "macro": [
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.67%)"
+        ],
+        "sentiment": [
+          "No analyst coverage data available"
+        ],
+        "technical": [
+          "Insufficient price history for technical analysis"
+        ]
+      },
+      "rationale": "הקרן משמשת כרכיב דפנסיבי המאזן את החשיפה הטכנולוגית של המשקיע, אך הציונים הניטרליים ברוב הקטגוריות (50) מצביעים על חוסר במומנטום או תמחור חריג כרגע. עבור פרופיל שמרני עם אופק של 4 שנים, מדובר בנכס מייצב שמתאים להחזקה כחלק מהקצאת האג\"ח הממשלתי בתיק, ללא צורך בהגדלת פוזיציה אגרסיבית.",
+      "personas": []
     },
     {
       "ticker": "VOO",
-      "verdict": "buy",
-      "conviction": 82,
+      "verdict": "hold",
+      "conviction": 51,
       "scores": {
-        "valuation": 64,
-        "technical": 69,
-        "risk": 59,
-        "sentiment": 67,
-        "macro": 54,
-        "quality": 71
+        "valuation": 50,
+        "technical": 50,
+        "risk": 70,
+        "sentiment": 50,
+        "macro": 50,
+        "quality": 50
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "buy",
-          "conviction": 82,
-          "rationale": "עדיפה על SPY — אותו מוצר בדיוק, אבל דמי ניהול נמוכים יותר פי 3. לאורך 30 שנה ההבדל הזה מצטבר לאלפי דולרים. עבור תיק שנבנה בתרומות חודשיות קבועות, VOO היא הבחירה הרציונלית."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "buy",
-          "conviction": 82,
-          "rationale": "אותו הדבר כמו SPY אבל זול יותר — לא צריך חוכמה מיוחדת לבחור. Vanguard חוסכת לך כסף כל שנה, זה פשוט מצטבר."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "buy",
-          "conviction": 82,
-          "rationale": "אותה הערה כמו SPY — עוגן סביר, לא מקסימיזציה של תשואה."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "buy",
-          "conviction": 82,
-          "rationale": "אותה הערה כמו SPY."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "buy",
-          "conviction": 82,
-          "rationale": "עוגן חלופי ל-SPY — באותו מעמד בסיכון. יש הגיון להחליף הדרגתית את SPY ב-VOO בגלל דמי ניהול."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "buy",
-          "conviction": 82,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "buy",
-          "conviction": 82,
-          "rationale": "זהה ל-SPY — מגמה עולה עקבית. אותה מסקנה טכנית."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "buy",
-          "conviction": 82,
-          "rationale": "זהה ל-SPY בדיוק בפונדמנטלים. ההבדל: דמי ניהול נמוכים יותר (0.03% vs 0.09%) משפרים תשואה נטו — עדיפה פונדמנטלית."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "buy",
-          "conviction": 82,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        }
-      ]
+      "score_details": {
+        "quality": [
+          "No fundamental data available for this ticker"
+        ],
+        "valuation": [
+          "No valuation data — scored neutral (50)"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized"
+        ],
+        "macro": [
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.67%)"
+        ],
+        "sentiment": [
+          "No analyst coverage data available"
+        ],
+        "technical": [
+          "Insufficient price history for technical analysis"
+        ]
+      },
+      "rationale": "נכס זה מהווה את העוגן המרכזי בתיק ותואם את אסטרטגיית ה-AI Bull השמרנית לטווח של 4 שנים. למרות שהציונים האלגוריתמיים ניטרליים (53), ציון הסיכון (70) מעיד על יציבות יחסית ותומך בהמשך צבירה מבוקרת כחלק מההפקדות הדו-חודשיות המתוכננות.",
+      "personas": []
     }
   ],
   "new_ideas": [
     {
       "ticker": "MSFT",
-      "name": "Microsoft",
-      "conviction": 82,
-      "rationale": "מוביל נוסף בגל ה-AI (Azure + OpenAI + Copilot) — משלים את גוגל בצד ה-enterprise. מרווחים גבוהים, דיבידנד צומח, פונדמנטלים מעולים.",
+      "name": "Microsoft Corporation",
+      "conviction": 92,
+      "rationale": "מיקרוסופט היא מובילה עולמית בבינה מלאכותית ארגונית דרך Copilot, מה שתואם ישירות את התזה של צמיחה דרך התייעלות טכנולוגית ולא כוח אדם. החברה מציעה מאזן חזק ויציבות המתאימה למשקיע שמרני המחפש חשיפה ל-AI.",
       "scores": {
-        "quality": 78,
-        "valuation": 58,
+        "valuation": 60,
+        "technical": 50,
         "risk": 70,
-        "macro": 55,
-        "sentiment": 75,
-        "technical": 68
+        "sentiment": 80,
+        "macro": 50,
+        "quality": 70
+      },
+      "suggested_price": 0,
+      "score_details": {
+        "quality": [
+          "ROE 34.4% — excellent profitability (>20%)",
+          "Profit margin 39.0% — wide moat indicator (>25%)"
+        ],
+        "valuation": [
+          "P/E 24.0 — moderately expensive",
+          "PEG 1.20 — fairly priced for growth"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized",
+          "Beta 1.11 — slightly above market volatility"
+        ],
+        "macro": [
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.67%)"
+        ],
+        "sentiment": [
+          "Analyst consensus: 55 Buy / 3 Hold / 0 Sell (95% bullish)",
+          "Well-covered stock (58 analysts)"
+        ],
+        "technical": [
+          "Insufficient price history for technical analysis"
+        ]
       }
     },
     {
-      "ticker": "TSM",
-      "name": "Taiwan Semiconductor",
-      "conviction": 78,
-      "rationale": "משחק 'מכוש ואת' על AI — חברת הייצור המובילה בעולם. סיכון גיאופוליטי, אך חפיר תחרותי גדול מאוד.",
+      "ticker": "LMT",
+      "name": "Lockheed Martin Corporation",
+      "conviction": 85,
+      "rationale": "כחברה מובילה במגזר הביטחון והתעופה המועדף, לוקהיד מרטין מספקת עוגן דפנסיבי עם תזרים מזומנים יציב ודיבידנד עקבי. היא מתאימה לאופק השקעה של 4 שנים ומהווה גיוון איכותי לצד החשיפה הטכנולוגית בתיק.",
       "scores": {
-        "quality": 82,
-        "valuation": 65,
-        "risk": 50,
-        "macro": 48,
-        "sentiment": 70,
-        "technical": 72
+        "valuation": 35,
+        "technical": 50,
+        "risk": 80,
+        "sentiment": 55,
+        "macro": 50,
+        "quality": 50
+      },
+      "suggested_price": 0,
+      "score_details": {
+        "quality": [
+          "ROE 76.9% — excellent profitability (>20%)",
+          "Profit margin 6.7% — thin, competitive pressure"
+        ],
+        "valuation": [
+          "P/E 28.9 — moderately expensive",
+          "PEG 1.31 — fairly priced for growth"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized",
+          "Beta 0.24 — defensive, less volatile than market"
+        ],
+        "macro": [
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.67%)"
+        ],
+        "sentiment": [
+          "Analyst consensus: 6 Buy / 15 Hold / 1 Sell (27% bullish)",
+          "Well-covered stock (22 analysts)"
+        ],
+        "technical": [
+          "Insufficient price history for technical analysis"
+        ]
       }
     },
     {
-      "ticker": "META",
-      "name": "Meta Platforms",
-      "conviction": 70,
-      "rationale": "השקעות ענק ב-AI, מודלי Llama הופכים סטנדרט קוד-פתוח; פונדמנטלים חזקים והפחתת הוצאות משמעותית.",
+      "ticker": "ASML",
+      "name": "ASML Holding N.V.",
+      "conviction": 88,
+      "rationale": "החברה מהווה את התשתית הקריטית ביותר לייצור שבבי AI מתקדמים בזכות מונופול טכנולוגי במכונות EUV. השקעה ב-ASML מאפשרת חשיפה למהפכת ה-AI דרך 'צד האספקה' עם חסמי כניסה אדירים, מה שמתאים לרמת סיכון בינונית.",
       "scores": {
-        "quality": 75,
-        "valuation": 52,
-        "risk": 65,
-        "macro": 55,
-        "sentiment": 68,
-        "technical": 60
+        "valuation": 22,
+        "technical": 50,
+        "risk": 70,
+        "sentiment": 80,
+        "macro": 50,
+        "quality": 70
+      },
+      "suggested_price": 0,
+      "score_details": {
+        "quality": [
+          "ROE 50.5% — excellent profitability (>20%)",
+          "Profit margin 29.4% — wide moat indicator (>25%)"
+        ],
+        "valuation": [
+          "P/E 51.8 — expensive, needs high growth to justify",
+          "PEG 2.43 — expensive relative to growth rate"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized",
+          "Beta 1.38 — slightly above market volatility"
+        ],
+        "macro": [
+          "VIX 18 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.67%)"
+        ],
+        "sentiment": [
+          "Analyst consensus: 37 Buy / 6 Hold / 1 Sell (84% bullish)",
+          "Well-covered stock (44 analysts)"
+        ],
+        "technical": [
+          "Insufficient price history for technical analysis"
+        ]
       }
     }
   ],
-  "dry_run": true
+  "dry_run": false
 }
