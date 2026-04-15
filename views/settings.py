@@ -99,6 +99,15 @@ _strat = STRATEGIES[_strat_key]
 _top = max(_strat["weights"].items(), key=lambda x: x[1])
 _tg_on = s.get("telegram", {}).get("enabled")
 
+# Convert ILS contribution to USD for display (settings still stored in ILS
+# because that's the currency the user actually deposits).
+try:
+    from data_loader import fetch_usd_ils_rate
+    _fx = fetch_usd_ils_rate()
+except Exception:
+    _fx = 3.7
+_contrib_usd = (s.get("contribution_ils", 0) / _fx) if _fx else 0
+
 st.markdown(minify(f"""
 <section class="hero">
 <div class="hero-top">
@@ -118,8 +127,8 @@ st.markdown(minify(f"""
 </div>
 <div class="hero-cell">
 <div class="lbl">Contribution</div>
-<div class="hero-value tab">₪{s.get('contribution_ils',0):,.0f}</div>
-<div class="hero-sub">Every {FREQ_DAYS.get(s.get('trading_frequency','bi-monthly'), 60)} days</div>
+<div class="hero-value tab">${_contrib_usd:,.0f}</div>
+<div class="hero-sub">Every {FREQ_DAYS.get(s.get('trading_frequency','bi-monthly'), 60)} days · ₪{s.get('contribution_ils',0):,.0f}</div>
 </div>
 <div class="hero-cell">
 <div class="lbl">Telegram</div>

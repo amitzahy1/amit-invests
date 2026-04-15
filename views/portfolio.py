@@ -102,13 +102,13 @@ if _missing_cost:
 # ═══════════════════════════════════════════════════════════════════════════
 
 # ─── Filter (URL ?filter=all|equities|etfs|crypto) ─────────────────────────
+# Uses the `asset_class` column from data_loader.classify_asset_class(), which
+# classifies each holding into Equity | ETF | Crypto | Other. Crypto ETFs
+# (IBIT, ETHA) map to "Crypto", not "ETF". Fixed-income funds map to "ETF".
 current_filter = (st.query_params.get("filter") or "all").lower()
-if current_filter == "equities":
-    pf_view = pf[pf["asset_type"].str.contains("Stock", case=False, na=False)]
-elif current_filter == "etfs":
-    pf_view = pf[pf["asset_type"].str.contains("ETF", case=False, na=False)]
-elif current_filter == "crypto":
-    pf_view = pf[pf["sector"] == "Crypto"]
+_filter_to_class = {"equities": "Equity", "etfs": "ETF", "crypto": "Crypto"}
+if current_filter in _filter_to_class:
+    pf_view = pf[pf["asset_class"] == _filter_to_class[current_filter]]
 else:
     pf_view = pf
 
@@ -172,7 +172,6 @@ with perf_r:
                 </div>
                 <div style="display:flex;justify-content:space-between;margin-top:3px;">
                     <span style="font-size:10px;color:var(--text-mute);font-family:'IBM Plex Mono';background:var(--bg-softer);padding:1px 6px;">FX {"+" if fx >= 0 else ""}{fx:.1f}%</span>
-                    <span class="mono {cls}" style="font-size:11px;">₪{pi:+,.0f}</span>
                 </div>
             </div>""",
             unsafe_allow_html=True,
@@ -237,7 +236,7 @@ st.markdown("""
       <h2>Wealth Projection</h2>
       <div class="sect-sub">Compound your portfolio with bi-monthly contributions — principal vs gains</div>
     </div>
-    <div class="sect-side">""" + f"₪{contrib_ils:,.0f} every {contrib_days}d" + """</div>
+    <div class="sect-side">""" + f"${(contrib_ils/D['usd_ils']) if D['usd_ils'] else 0:,.0f} every {contrib_days}d" + """</div>
   </div>
 </div>
 """, unsafe_allow_html=True)
@@ -369,9 +368,9 @@ proj_summary_html = f"""
     <div style="font-size:11px; color:var(--text-dim); margin-top:2px;">{(total_gains/total_invested*100) if total_invested else 0:.0f}% of invested</div>
   </div>
   <div style="padding:14px 18px;">
-    <div class="lbl">In ILS</div>
-    <div style="font-size:22px; font-weight:400; font-family:'IBM Plex Mono'; margin-top:4px;">₪{final_balance * D["usd_ils"]:,.0f}</div>
-    <div style="font-size:11px; color:var(--text-dim); margin-top:2px;">at today's USD/ILS</div>
+    <div class="lbl">Multiple</div>
+    <div style="font-size:22px; font-weight:400; font-family:'IBM Plex Mono'; margin-top:4px;">{(final_balance/total_invested) if total_invested else 0:.1f}×</div>
+    <div style="font-size:11px; color:var(--text-dim); margin-top:2px;">Final / Invested</div>
   </div>
 </div>
 """
@@ -657,9 +656,7 @@ st.markdown("""
   </div>
 </div>
 """, unsafe_allow_html=True)
-pnl_ccy = st.radio("Currency", ["USD $", "ILS ₪"], horizontal=True,
-                   label_visibility="collapsed", key="pnl_c")
-st.plotly_chart(fig_pnl_waterfall(pf, "usd" if "USD" in pnl_ccy else "ils"),
+st.plotly_chart(fig_pnl_waterfall(pf, "usd"),
                 use_container_width=True, config=PCFG)
 
 
@@ -818,7 +815,7 @@ if sel and sel in D["hist"]:
                 <div class='lbl' style='margin-bottom:10px;'>Summary — {row['display_name']}</div>
                 <div style='font-size:13px;line-height:1.9;color:var(--text);'>
                     Position is <b>{pnl_dir}</b>: <span class='mono tab {cls_p}'>${abs(row['pnl_usd']):,.0f}</span> ({row['pnl_pct']:+.1f}%)<br>
-                    Value: <span class='mono tab'>${row['value_usd']:,.0f}</span> <span class='txt-dim'>(₪{row['value_ils']:,.0f})</span><br>
+                    Value: <span class='mono tab'>${row['value_usd']:,.0f}</span><br>
                     Weight: <span class='mono tab'>{row['weight']:.1f}%</span><br>
                     Sector: <b>{row['sector']}</b>
                 </div>

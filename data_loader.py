@@ -17,6 +17,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from config import (
     YF_CHART_URL, YF_HEADERS, USDILS_TICKER, SECTOR_MAP,
     ASSET_TYPE_MAP, DISPLAY_NAMES, ISRAELI_TICKERS, AGOROT_TICKERS,
+    classify_asset_class,
 )
 
 logger = logging.getLogger(__name__)
@@ -35,7 +36,11 @@ def get_holdings_df(portfolio: dict) -> pd.DataFrame:
     rows = []
     for h in portfolio["holdings"]:
         ticker = h["ticker"]
-        is_israeli = ticker in ISRAELI_TICKERS
+        # Any ticker ending in .TA is Israeli (TASE). ISRAELI_TICKERS is a
+        # curated subset used elsewhere for sector/asset classification.
+        is_israeli = ticker in ISRAELI_TICKERS or ticker.endswith(".TA")
+        sector = SECTOR_MAP.get(ticker, "Other")
+        asset_type = ASSET_TYPE_MAP.get(ticker, "Other")
         rows.append({
             "ticker": ticker,
             "name": h["name"],
@@ -44,8 +49,11 @@ def get_holdings_df(portfolio: dict) -> pd.DataFrame:
             "cost_price": h.get("cost_price_ils") if is_israeli else h.get("cost_price_usd"),
             "cost_unknown": bool(h.get("cost_unknown", False)),
             "is_israeli": is_israeli,
-            "sector": SECTOR_MAP.get(ticker, "Other"),
-            "asset_type": ASSET_TYPE_MAP.get(ticker, "Other"),
+            "sector": sector,
+            "asset_type": asset_type,
+            # Coarse bucket for the Positions filter tabs (Equity/ETF/Crypto/Other).
+            # Crypto ETFs map to "Crypto", not "ETF".
+            "asset_class": classify_asset_class(asset_type, sector),
             "ai_recommendation": h.get("ai_recommendation", "-"),
             "ai_rating": h.get("ai_rating", "-"),
             "current_price_ils": h.get("current_price_ils"),

@@ -244,6 +244,7 @@ def render_above_fold(
     horizon_y = settings.get("horizon_years", 3)
     profile_name = settings.get("profile_name", "—")
     contrib_ils = settings.get("contribution_ils", 0)
+    contrib_usd = contrib_ils / usd_ils if usd_ils and usd_ils > 0 else 0
     contrib_days = settings.get("contribution_frequency_days", 60)
     next_contrib_date = (datetime.now() + timedelta(days=contrib_days // 2))
     next_contrib_str = next_contrib_date.strftime("%b %d")
@@ -267,7 +268,7 @@ def render_above_fold(
 <div class="hero-cell">
 <div class="lbl">Total Value</div>
 <div class="hero-value tab">${tv_u:,.0f}<span class="hero-value-suffix">USD</span></div>
-<div class="hero-sub tab">₪{tv_i:,.0f}<span class="{pnl_cls}" style="margin-left:10px;font-weight:500;">{"+" if tp_u >= 0 else ""}${tp_u:,.0f} gain</span></div>
+<div class="hero-sub tab"><span class="{pnl_cls}" style="font-weight:500;">{"+" if tp_u >= 0 else ""}${tp_u:,.0f} gain</span></div>
 </div>
 <div class="hero-cell">
 <div class="lbl">Daily Change</div>
@@ -286,7 +287,7 @@ def render_above_fold(
 </div>
 <div class="hero-cell">
 <div class="lbl">Cash Flow</div>
-<div class="hero-value tab">₪{contrib_ils:,.0f}</div>
+<div class="hero-value tab">${contrib_usd:,.0f}<span class="hero-value-suffix">USD</span></div>
 <div class="hero-sub">Every {contrib_days} days · next {next_contrib_str}</div>
 </div>
 </div>
@@ -311,13 +312,17 @@ def render_above_fold(
         else:
             signal_html = '<span style="font-size:11px;color:var(--text-mute);">—</span>'
 
+        # All prices displayed in USD. For Israeli tickers, cost_price and
+        # live_price are in ILS — convert via current USD/ILS rate.
         is_il = r.get("is_israeli", False)
-        if is_il:
-            cost_str  = f"₪{r['cost_price']:,.0f}" if pd.notna(r['cost_price']) else "—"
-            price_str = f"₪{r['live_price']:,.0f}"
+        if is_il and usd_ils > 0:
+            cp = r["cost_price"] / usd_ils if pd.notna(r["cost_price"]) else None
+            lp = r["live_price"] / usd_ils if pd.notna(r["live_price"]) else None
         else:
-            cost_str  = f"${r['cost_price']:,.2f}" if pd.notna(r['cost_price']) else "—"
-            price_str = f"${r['live_price']:,.2f}"
+            cp = r["cost_price"] if pd.notna(r["cost_price"]) else None
+            lp = r["live_price"] if pd.notna(r["live_price"]) else None
+        cost_str  = f"${cp:,.2f}" if cp is not None else "—"
+        price_str = f"${lp:,.2f}" if lp is not None else "—"
 
         # Sparkline from real history
         spark = "—"
@@ -455,7 +460,7 @@ def render_above_fold(
         f'<div class="upcoming-row">'
         f'<div>'
         f'<div class="label">Next contribution</div>'
-        f'<div class="meta">{next_contrib_date.strftime("%b %d, %Y")} · ₪{contrib_ils:,.0f}</div>'
+        f'<div class="meta">{next_contrib_date.strftime("%b %d, %Y")} · ${contrib_usd:,.0f}</div>'
         f'</div>'
         f'<span class="badge">{max(0, days_until)}d</span>'
         f'</div>'
@@ -485,6 +490,12 @@ def render_above_fold(
 <div>
 <h2>Positions</h2>
 <div class="sect-sub">Sorted by market value · All-time P&amp;L</div>
+<div class="sect-sub pos-legend" style="margin-top:6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+<span>Signal column — each holding is scored across 6 categories (Quality, Valuation, Risk, Macro, Sentiment, Trend). Each dot = one score:</span>
+<span style="display:inline-flex;align-items:center;gap:4px;"><span class="pos-vote-dot buy"></span>bullish (&gt;60)</span>
+<span style="display:inline-flex;align-items:center;gap:4px;"><span class="pos-vote-dot hold"></span>neutral (40–60)</span>
+<span style="display:inline-flex;align-items:center;gap:4px;"><span class="pos-vote-dot sell"></span>bearish (&lt;40)</span>
+</div>
 </div>
 <div class="filter-group">
 <a class="{pill_cls['all']}" href="?filter=all" target="_self">All</a>

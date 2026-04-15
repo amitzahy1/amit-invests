@@ -54,5 +54,12 @@
     "suggested_date": "2026-04-15",
     "suggested_price": 0,
     "conviction": 73
+  },
+  {
+    "ticker": "ADBE",
+    "name": "Adobe Inc.",
+    "suggested_date": "2026-04-15",
+    "suggested_price": 235.72,
+    "conviction": 48
   }
 ]

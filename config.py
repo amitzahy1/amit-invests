@@ -157,3 +157,21 @@ ISRAELI_TICKERS = {"KSM-F34.TA", "5108.TA"}
 
 # Yahoo Finance returns prices in agorot (1/100 ILS) for these tickers — divide by 100
 AGOROT_TICKERS = {"KSM-F34.TA", "5108.TA"}
+
+
+# ─── Asset Class Helper (for Positions filter tabs) ──────────────────────────
+# Maps asset_type + sector into one of 4 buckets used by the UI filter:
+#   Equity | ETF | Crypto | Other
+# Crypto ETFs (IBIT, ETHA) belong to "Crypto", not "ETF" — they're held as
+# crypto exposure, not as diversified ETFs. Fixed-income / bond funds are
+# grouped into "ETF" since that's the vehicle users see on TASE.
+def classify_asset_class(asset_type: str | None, sector: str | None) -> str:
+    at = (asset_type or "").lower()
+    sec = (sector or "").lower()
+    if "crypto" in sec or "crypto" in at:
+        return "Crypto"
+    if "stock" in at or "equity" in at:
+        return "Equity"
+    if "etf" in at or "fixed income" in at or "bond" in at:
+        return "ETF"
+    return "Other"
