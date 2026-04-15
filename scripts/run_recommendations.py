@@ -783,63 +783,100 @@ def run_real(settings: dict, portfolio: dict) -> dict:
               f"{holding['conviction']}%  {scores_str}",
               flush=True)
 
-    # Ask Gemini for 2-3 new ideas
-    new_ideas = _generate_new_ideas(llm, preamble, tickers)
+    # ── Candidate search → score → filter to actionable ideas ─────────────
+    # Minimum score to actually recommend an idea. Below this, the idea is noise.
+    MIN_IDEA_SCORE = 60
+    TARGET_IDEAS = 3
+    MAX_ROUNDS = 2
+    _strategy = settings.get("scoring_strategy", "conservative_longterm")
 
-    # Score new ideas — fetch their data and compute scores
-    if new_ideas and _score_all:
-        idea_tickers = [i["ticker"] for i in new_ideas if i.get("ticker")]
-        print(f"[info] scoring {len(idea_tickers)} new idea tickers…", flush=True)
+    scored_candidates = []  # (score, idea_dict)
+    rejected_tickers = set(tickers)  # don't suggest these again
+
+    for round_num in range(1, MAX_ROUNDS + 1):
+        print(f"[info] new-ideas search round {round_num}: asking Gemini for 10 candidates…",
+              flush=True)
+        candidates = _generate_new_ideas_candidates(
+            llm, preamble, list(rejected_tickers),
+            strategy=_strategy, n_candidates=10)
+        if not candidates:
+            break
+
+        # Score all candidates
+        cand_tickers = [c["ticker"] for c in candidates]
         try:
             from data_loader import fetch_live_quotes as _flq, fetch_historical_data as _fhd
-            _iq_df = _flq(idea_tickers)
+            _iq_df = _flq(cand_tickers)
             _iq = {idx: row.to_dict()
                    for idx, row in _iq_df.iterrows()} if not _iq_df.empty else {}
-            _ih = _fhd(idea_tickers, period="1y")
-            _it = {tk: _compute_technicals(_ih.get(tk)) for tk in idea_tickers}
+            _ih = _fhd(cand_tickers, period="1y")
+            _it = {tk: _compute_technicals(_ih.get(tk)) for tk in cand_tickers}
             try:
                 from data_loader_fundamentals import fetch_all_fundamentals as _faf
-                _if = _faf(idea_tickers)
+                from data_loader_fundamentals import fetch_all_news as _fan
+                _if = _faf(cand_tickers)
+                _inews = _fan(cand_tickers)
             except Exception:
-                _if = {}
+                _if, _inews = {}, {}
             from scoring_engine import (
                 scores_to_verdict as _s2v_idea,
                 explain_scores as _iexplain,
             )
             _idea_weights = settings.get("scoring_weights")
-            for idea in new_ideas:
-                itk = idea.get("ticker", "")
-                if not itk:
-                    continue
+
+            for cand in candidates:
+                itk = cand["ticker"]
                 try:
                     i_scores = _score_all(
                         itk, _iq.get(itk, {}), _it.get(itk, {}),
-                        _if.get(itk), _macro, _news.get(itk, []),
+                        _if.get(itk), _macro, _inews.get(itk, []),
                         0, 0, "", settings.get("crypto_cap_pct", 10))
-                    idea["scores"] = i_scores
-                    # Conviction = SAME rule as holdings. Gemini's suggested conviction
-                    # is DISCARDED because it's not grounded in the scoring model.
                     _, idea_c = _s2v_idea(i_scores, _idea_weights)
-                    idea["conviction"] = idea_c
-                    # Also store the current price for ideas tracking
-                    idea["suggested_price"] = _iq.get(itk, {}).get("price", 0)
-                    # Generate explanations
-                    idea["score_details"] = _iexplain(
+
+                    # Calculate the weighted average directly for filtering
+                    wavg = (sum(i_scores[k] * _idea_weights.get(k, 0) for k in i_scores)
+                            / max(1, sum(_idea_weights.values())))
+
+                    cand["scores"] = i_scores
+                    cand["conviction"] = idea_c
+                    cand["suggested_price"] = _iq.get(itk, {}).get("price", 0)
+                    cand["score_details"] = _iexplain(
                         i_scores, _iq.get(itk, {}), _it.get(itk, {}),
                         _if.get(itk), _macro, 0, 0)
-                    # Analyst consensus
                     _fi = _if.get(itk) or {}
-                    idea["analyst_consensus"] = {
+                    cand["analyst_consensus"] = {
                         "buy": _fi.get("analyst_buy", 0),
                         "hold": _fi.get("analyst_hold", 0),
                         "sell": _fi.get("analyst_sell", 0),
                         "target": _fi.get("analyst_target"),
                         "price": _iq.get(itk, {}).get("price"),
                     }
+                    print(f"  candidate {itk}: wavg={wavg:.0f} conviction={idea_c}%",
+                          flush=True)
+
+                    if wavg >= MIN_IDEA_SCORE:
+                        scored_candidates.append((wavg, cand))
+                    rejected_tickers.add(itk)
                 except Exception as e:
-                    print(f"  [warn] scoring failed for idea {itk}: {e}", file=sys.stderr)
+                    print(f"  [warn] scoring failed for {itk}: {e}", file=sys.stderr)
+                    rejected_tickers.add(itk)
         except Exception as e:
-            print(f"[warn] idea scoring data fetch failed: {e}", file=sys.stderr)
+            print(f"[warn] idea data fetch failed: {e}", file=sys.stderr)
+
+        # If we have enough qualifying ideas, stop
+        if len(scored_candidates) >= TARGET_IDEAS:
+            break
+
+    # Keep only the top N qualifying ideas
+    scored_candidates.sort(key=lambda x: -x[0])
+    new_ideas = [c for _, c in scored_candidates[:TARGET_IDEAS]]
+
+    if not new_ideas:
+        print(f"[info] no new ideas passed score ≥{MIN_IDEA_SCORE} threshold this run",
+              flush=True)
+    else:
+        print(f"[ok] {len(new_ideas)} new ideas qualified: "
+              f"{', '.join(i['ticker'] for i in new_ideas)}", flush=True)
 
     # Generate a 2-4 sentence Hebrew daily summary from the aggregate
     summary = _generate_summary(llm, preamble, holdings_out, new_ideas)
@@ -924,18 +961,81 @@ def _scoring_synthesis_call(llm, ticker: str, display_name: str,
     }
 
 
-def _generate_new_ideas(llm, preamble: str, existing_tickers: list[str]) -> list[dict]:
-    """Ask Gemini for 2-3 new ticker ideas outside the existing portfolio."""
+def _generate_new_ideas_candidates(llm, preamble: str, existing_tickers: list[str],
+                                     strategy: str = "conservative_longterm",
+                                     n_candidates: int = 10) -> list[dict]:
+    """Ask Gemini for MANY candidates pre-filtered by our scoring criteria.
+
+    The prompt tells Gemini EXACTLY what we look for so it doesn't waste suggestions
+    on tickers we'd reject anyway.
+    """
     existing_str = ", ".join(existing_tickers)
+
+    # Tell Gemini our exact scoring criteria
+    criteria_by_strategy = {
+        "conservative_longterm": (
+            "• Quality (30% weight): ROE > 15%, profit margin > 20%, debt/equity < 0.5, "
+            "revenue growth > 10%\n"
+            "• Valuation (25%): P/E below sector average, PEG < 1.5, analyst upside > 10%\n"
+            "• Risk (20%): market leader, low volatility (beta 0.7-1.3)\n"
+            "• Macro (15%): benefits from current rate environment\n"
+            "• Sentiment (5%): >70% analyst BUY consensus\n"
+            "• Trend (5%): price above MA200, RSI 40-70"
+        ),
+        "value": (
+            "• P/E < 15 AND P/B < 2.5 (Graham criteria)\n"
+            "• Profit margin > 15% AND ROE > 12% (quality at cheap prices)\n"
+            "• Debt/equity < 0.5 (financial safety)\n"
+            "• Analyst target suggests 20%+ upside\n"
+            "• Revenue growth positive (not declining)"
+        ),
+        "growth": (
+            "• Revenue growth > 25% (high growth)\n"
+            "• EPS growth > 20%\n"
+            "• Strong momentum: price > MA50 > MA200, RSI 50-75\n"
+            "• Analyst BUY consensus > 65%\n"
+            "• Disruptive industry (AI, fintech, biotech, robotics)"
+        ),
+        "income": (
+            "• Dividend yield > 2.5%\n"
+            "• Low beta (<1.2) — stable\n"
+            "• ROE > 12%, debt/equity < 1.0\n"
+            "• Mature, profitable businesses"
+        ),
+        "balanced": (
+            "• P/E near sector average\n"
+            "• ROE > 12%, margins > 15%\n"
+            "• Analyst BUY > 55%\n"
+            "• Technical uptrend (above MA200)"
+        ),
+    }
+    criteria = criteria_by_strategy.get(strategy, criteria_by_strategy["conservative_longterm"])
+
+    system = (
+        "You are a senior equity research analyst. Your job: find US-listed tickers "
+        "that match SPECIFIC quantitative criteria. Only suggest stocks you're highly "
+        "confident will meet ALL the thresholds below. Quality over quantity."
+    )
+
     user = (
         f"{preamble}\n\n"
-        f"המשתמש כבר מחזיק: {existing_str}.\n"
-        f"הצע 3 מניות חדשות שאינן בתיק, שמתאימות לפרופיל שלו.\n"
-        "החזר JSON בלבד בפורמט:\n"
-        '{"ideas": [{"ticker": "SYM", "name": "Company", "conviction": 0-100, "rationale": "2-3 משפטים בעברית"}, ...]}'
+        f"User already holds: {existing_str}\n\n"
+        f"CRITERIA (a stock must match most of these to be a good fit):\n{criteria}\n\n"
+        f"Find {n_candidates} US-listed tickers (NYSE/Nasdaq only, NO .TA or foreign) "
+        f"that are HIGHLY LIKELY to pass these criteria based on known financial data. "
+        f"Prefer mega-cap and large-cap stocks with extensive analyst coverage (>15 analysts).\n\n"
+        f"Avoid:\n"
+        f"- Tickers already in portfolio\n"
+        f"- Meme stocks, penny stocks, SPACs\n"
+        f"- Sectors in the user's avoid list\n"
+        f"- Speculative crypto plays beyond the user's crypto cap\n\n"
+        f"Return JSON only:\n"
+        '{"ideas": [{"ticker": "SYM", "name": "Company", "rationale": "2 sentences in Hebrew '
+        'explaining WHY this ticker likely meets the criteria"}, ...]}'
     )
+
     try:
-        resp = _invoke_with_retry(llm, [("system", "אתה אנליסט השקעות."), ("user", user)])
+        resp = _invoke_with_retry(llm, [("system", system), ("user", user)])
         content = resp.content if hasattr(resp, "content") else str(resp)
         if isinstance(content, list):
             content = "\n".join(p.get("text", "") if isinstance(p, dict) else str(p) for p in content)
@@ -944,6 +1044,7 @@ def _generate_new_ideas(llm, preamble: str, existing_tickers: list[str]) -> list
     except Exception as e:
         print(f"[warn] new_ideas call failed: {e}", file=sys.stderr)
         return []
+
     m = re.search(r"\{.*\}", content, re.DOTALL)
     if not m:
         return []
@@ -953,16 +1054,26 @@ def _generate_new_ideas(llm, preamble: str, existing_tickers: list[str]) -> list
         return []
     ideas = data.get("ideas") or []
     cleaned = []
-    for i in ideas[:3]:
-        if not i.get("ticker"):
+    for i in ideas[:n_candidates]:
+        tk = i.get("ticker")
+        if not tk:
             continue
+        tk = tk.upper().strip()
+        if tk in existing_tickers:
+            continue
+        if tk.endswith(".TA"):
+            continue  # no Israeli (data limits)
         cleaned.append({
-            "ticker": i["ticker"].upper(),
-            "name": i.get("name", i["ticker"]),
-            "conviction": int(i.get("conviction", 60)),
+            "ticker": tk,
+            "name": i.get("name", tk),
             "rationale": i.get("rationale", ""),
         })
     return cleaned
+
+
+def _generate_new_ideas(llm, preamble: str, existing_tickers: list[str]) -> list[dict]:
+    """Backward-compat wrapper. Returns up to 3 candidates (will be filtered later)."""
+    return _generate_new_ideas_candidates(llm, preamble, existing_tickers, n_candidates=10)
 
 
 def _generate_summary(llm, preamble: str, holdings: list[dict], new_ideas: list[dict]) -> str:
@@ -1317,16 +1428,17 @@ def _dry_run(settings: dict, tickers: list[str], note: str = "") -> dict:
     def _idea_details(scores: dict) -> dict:
         return {k: _mock_reasons(v, k) for k, v in scores.items()}
 
+    # Dry-run new ideas — high-scoring candidates that pass the ≥60 filter
     new_ideas = [
-        {"ticker": "MSFT", "name": "Microsoft", "conviction": 82,
-         "rationale": "מוביל נוסף בגל ה-AI (Azure + OpenAI + Copilot) — משלים את גוגל בצד ה-enterprise. מרווחים גבוהים, דיבידנד צומח, פונדמנטלים מעולים.",
-         "scores": {"quality": 78, "valuation": 58, "risk": 70, "macro": 55, "sentiment": 75, "technical": 68}},
-        {"ticker": "TSM", "name": "Taiwan Semiconductor", "conviction": 78,
-         "rationale": "משחק 'מכוש ואת' על AI — חברת הייצור המובילה בעולם. סיכון גיאופוליטי, אך חפיר תחרותי גדול מאוד.",
-         "scores": {"quality": 82, "valuation": 65, "risk": 50, "macro": 48, "sentiment": 70, "technical": 72}},
-        {"ticker": "META", "name": "Meta Platforms", "conviction": 70,
-         "rationale": "השקעות ענק ב-AI, מודלי Llama הופכים סטנדרט קוד-פתוח; פונדמנטלים חזקים והפחתת הוצאות משמעותית.",
-         "scores": {"quality": 75, "valuation": 52, "risk": 65, "macro": 55, "sentiment": 68, "technical": 60}},
+        {"ticker": "MSFT", "name": "Microsoft", "conviction": 74,
+         "rationale": "מוביל בגל ה-AI (Azure + OpenAI + Copilot). מרווחים 36%, ROE 38%, דיבידנד צומח. קונצנזוס אנליסטים חזק (BUY 80%+).",
+         "scores": {"quality": 88, "valuation": 65, "risk": 75, "macro": 55, "sentiment": 82, "technical": 72}},
+        {"ticker": "LLY", "name": "Eli Lilly", "conviction": 72,
+         "rationale": "מובילה ב-GLP-1 (Mounjaro, Zepbound). צמיחת הכנסות 40%+, ROE 50%+, pipeline עשיר. הגנתי מפני מחזוריות.",
+         "scores": {"quality": 85, "valuation": 55, "risk": 72, "macro": 60, "sentiment": 78, "technical": 70}},
+        {"ticker": "V", "name": "Visa", "conviction": 68,
+         "rationale": "תשתית תשלומים דומיננטית. מרווחים 65%+, ROE 40%+. עלייה בתשלומים דיגיטליים — moat עצום.",
+         "scores": {"quality": 92, "valuation": 58, "risk": 80, "macro": 55, "sentiment": 75, "technical": 65}},
     ]
     for idea in new_ideas:
         idea["score_details"] = _idea_details(idea["scores"])

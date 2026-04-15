@@ -40,5 +40,19 @@
     "suggested_date": "2026-04-15",
     "suggested_price": 314.19,
     "conviction": 88
+  },
+  {
+    "ticker": "LLY",
+    "name": "Eli Lilly",
+    "suggested_date": "2026-04-15",
+    "suggested_price": 0,
+    "conviction": 70
+  },
+  {
+    "ticker": "V",
+    "name": "Visa",
+    "suggested_date": "2026-04-15",
+    "suggested_price": 0,
+    "conviction": 73
   }
 ]

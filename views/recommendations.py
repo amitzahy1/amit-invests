@@ -581,10 +581,24 @@ if ideas_filtered:
     st.markdown(
         f'<div class="below-section"><div class="sect-head"><div>'
         f'<h2>New Ideas</h2>'
-        f'<div class="sect-sub">Outside your portfolio — fits your profile</div>'
+        f'<div class="sect-sub">Pre-screened: only ideas scoring ≥60 appear here</div>'
         f'</div><div class="sect-side">{len(ideas_filtered)}</div></div></div>',
         unsafe_allow_html=True)
     _render_grid(ideas_filtered[:6], "idea", is_idea=True)
+else:
+    # No ideas passed the threshold this run
+    st.markdown(
+        '<div class="below-section"><div class="sect-head"><div>'
+        '<h2>New Ideas</h2>'
+        '<div class="sect-sub">None qualified this run</div>'
+        '</div></div></div>'
+        '<div style="border:1px dashed var(--hair);background:var(--bg-softer);'
+        'padding:20px 24px;font-size:13px;color:var(--text-dim);border-radius:8px;">'
+        "The AI scanned candidates for new positions but none scored ≥60 on your "
+        "strategy weights. Rather than suggest sub-par ideas, we show nothing. "
+        "Tomorrow's run will search again."
+        '</div>',
+        unsafe_allow_html=True)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
