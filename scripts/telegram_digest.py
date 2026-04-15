@@ -343,9 +343,24 @@ def _format_holdings_msg(recs: dict) -> str:
         lines.append(mkt_ctx)
         lines.append("")
 
-    # AI summary (first 2 sentences from the model's Hebrew summary)
-    summary = recs.get("summary", "")
-    if summary:
+    # Smart Insights from senior analyst (1 Gemini call/day — deep analysis)
+    insights = recs.get("smart_insights", {})
+    if insights and insights.get("insights"):
+        headline = insights.get("headline", "")
+        body = insights.get("insights", "")
+        lines.append("🧠 *Smart Analyst Brief*")
+        if headline:
+            lines.append(f"{RLM}*{headline}*")
+        # Convert **bold** markers and truncate for Telegram
+        body_tg = body.replace("**", "*")
+        # Keep first ~500 chars for Telegram readability
+        if len(body_tg) > 800:
+            body_tg = body_tg[:800].rsplit(".", 1)[0] + "..."
+        lines.append(f"{RLM}_{body_tg}_")
+        lines.append("")
+    elif recs.get("summary"):
+        # Fallback: show the short summary
+        summary = recs.get("summary", "")
         sentences = [s.strip() for s in summary.replace(". ", ".\n").split("\n") if s.strip()]
         short_summary = ". ".join(sentences[:2]).rstrip(".").replace("..", ".")
         lines.append(f"{RLM}_{short_summary}._")

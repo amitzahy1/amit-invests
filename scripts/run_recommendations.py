@@ -816,10 +816,27 @@ def run_real(settings: dict, portfolio: dict) -> dict:
     # Generate a 2-4 sentence Hebrew daily summary from the aggregate
     summary = _generate_summary(llm, preamble, holdings_out, new_ideas)
 
+    # Generate SMART portfolio insights — one call to the smart model
+    smart_insights = {}
+    try:
+        from smart_analysis import generate_smart_insights, get_smart_llm
+        smart_llm = get_smart_llm()
+        if smart_llm is not None:
+            print("[info] generating smart portfolio insights (1 call)…", flush=True)
+            smart_insights = generate_smart_insights(
+                smart_llm,
+                {"holdings": holdings_out, "new_ideas": new_ideas},
+                _macro, settings)
+            print(f"[ok] smart insights: {smart_insights.get('headline', '')[:60]}",
+                  flush=True)
+    except Exception as e:
+        print(f"[warn] smart insights failed: {e}", file=sys.stderr)
+
     return {
         "updated": datetime.utcnow().isoformat(timespec="seconds") + "Z",
         "profile_name": settings.get("profile_name", ""),
         "summary": summary,
+        "smart_insights": smart_insights,
         "holdings": holdings_out,
         "new_ideas": new_ideas,
         "dry_run": False,
@@ -1206,13 +1223,47 @@ def _dry_run(settings: dict, tickers: list[str], note: str = "") -> dict:
         _mock_scores = {k: max(0, min(100, sc + _h - 7))
                         for k, sc in _mock_scores.items()}
 
+        # Generate mock score details for dry-run
+        def _mock_reasons(s: int, category: str) -> list[str]:
+            if category == "quality":
+                if s > 60: return ["High ROE (>15%) indicates strong profitability", "Stable profit margins over past years", "Low debt burden"]
+                elif s < 40: return ["Below-average ROE", "Thin profit margins", "Elevated debt load"]
+                return ["Average business quality metrics"]
+            elif category == "valuation":
+                if s > 60: return ["P/E below sector average", "Favorable PEG ratio (<1.5)", "Analyst targets suggest upside"]
+                elif s < 40: return ["P/E above sector average", "PEG ratio indicates overvaluation", "Price near analyst target"]
+                return ["Fairly valued vs sector"]
+            elif category == "risk":
+                if s > 60: return ["Well-sized position in portfolio", "Beta near market (1.0)", "Low sector concentration"]
+                elif s < 40: return ["Overweight position (>15%)", "High beta (>1.5) — volatile", "Crypto cap at risk"]
+                return ["Moderate portfolio risk contribution"]
+            elif category == "macro":
+                if s > 60: return ["VIX low, calm markets", "Yield curve normal", "Rate environment favorable"]
+                elif s < 40: return ["Elevated VIX", "Rate pressure on sector", "Yield curve inverted"]
+                return ["Neutral macro environment"]
+            elif category == "sentiment":
+                if s > 60: return ["Strong analyst BUY consensus (>70%)", "Positive recent coverage"]
+                elif s < 40: return ["Significant SELL pressure", "Negative news flow"]
+                return ["Mixed analyst views"]
+            elif category == "technical":
+                if s > 60: return ["Price above MA50 and MA200", "Uptrend confirmed", "RSI in healthy zone"]
+                elif s < 40: return ["Price below MA200", "Downtrend signals", "RSI overbought/oversold"]
+                return ["Sideways price action"]
+            return ["No data"]
+
+        _score_details = {k: _mock_reasons(v, k) for k, v in _mock_scores.items()}
+
         holdings_out.append({
             "ticker": tk,
             "verdict": v,
             "conviction": c,
             "scores": _mock_scores,
+            "score_details": _score_details,
             "personas": persona_entries,
         })
+
+    def _idea_details(scores: dict) -> dict:
+        return {k: _mock_reasons(v, k) for k, v in scores.items()}
 
     new_ideas = [
         {"ticker": "MSFT", "name": "Microsoft", "conviction": 82,
@@ -1225,6 +1276,8 @@ def _dry_run(settings: dict, tickers: list[str], note: str = "") -> dict:
          "rationale": "השקעות ענק ב-AI, מודלי Llama הופכים סטנדרט קוד-פתוח; פונדמנטלים חזקים והפחתת הוצאות משמעותית.",
          "scores": {"quality": 75, "valuation": 52, "risk": 65, "macro": 55, "sentiment": 68, "technical": 60}},
     ]
+    for idea in new_ideas:
+        idea["score_details"] = _idea_details(idea["scores"])
 
     # Dynamic Hebrew summary — inspects the actual verdicts we just produced
     strong_buys = [h["ticker"] for h in holdings_out
@@ -1258,10 +1311,29 @@ def _dry_run(settings: dict, tickers: list[str], note: str = "") -> dict:
     if note:
         summary = f"[{note}] " + summary
 
+    mock_insights = {
+        "headline": "תיק מאוזן עם חשיפה חזקה ל-AI וסקטורים דפנסיביים",
+        "insights": (
+            "**Portfolio Health** — התיק שלך מציג פיזור טוב עם דגש על איכות עסקית. "
+            "GOOGL ו-NVDA מהווים את העוגן הטכנולוגי, ו-SPY/VOO כעוגן מדד רחב.\n\n"
+            "**Hidden Risks** — יש חשיפה כפולה דרך QQQM ו-SPY (שניהם מחזיקים GOOGL, NVDA, AMZN). "
+            "שקול לצמצם את QQQM.\n\n"
+            "**Market Context** — VIX סביב 18, ריבית Fed 3.64%, עקום תשואות נורמלי. "
+            "סביבה תומכת במניות איכות אך זהירות מפני תמחור מתוח.\n\n"
+            "**Opportunities** — CPNG עם ציון Technical נמוך אך Valuation גבוה — "
+            "חוסר התאמה שמצריך מחקר.\n\n"
+            "**Action Items** — 1. לצמצם IBIT/ETHA אם הם חוצים את תקרת הקריפטו. "
+            "2. לעקוב אחר RSI של CPNG לתיקון אפשרי.\n\n"
+            "_סקירת שוק — אינה המלצה פיננסית._"
+        ),
+        "updated": datetime.utcnow().isoformat(timespec="seconds") + "Z",
+    }
+
     return {
         "updated": datetime.utcnow().isoformat(timespec="seconds") + "Z",
         "profile_name": settings.get("profile_name", ""),
         "summary": summary,
+        "smart_insights": mock_insights,
         "holdings": holdings_out,
         "new_ideas": new_ideas,
         "dry_run": True,

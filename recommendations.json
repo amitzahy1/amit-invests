@@ -1,7 +1,12 @@
 {
-  "updated": "2026-04-15T05:49:44Z",
+  "updated": "2026-04-15T06:01:45Z",
   "profile_name": "Conservative AI Bull",
   "summary": "סיכום יומי לפרופיל 'Conservative AI Bull' (אופק 4 שנים, סגנון conservative). נקודות חזקות לקנייה: GOOGL, ITA, SPY, VOO — מעל 75% קונבישן. נקודות חזקות למכירה: CPNG, ETHA, IBIT. החשיפה הקריפטו (ETHA, IBIT) חורגת מתקרת 3% ומגדרת סקטור נמנע — מומלץ להקטין. NVDA בהחזקה — איכות גבוהה אך מחיר מתוח; לחכות לנקודת כניסה טובה יותר. רעיונות חדשים שצוותו לפרופיל: MSFT, TSM.",
+  "smart_insights": {
+    "headline": "תיק מאוזן עם חשיפה חזקה ל-AI וסקטורים דפנסיביים",
+    "insights": "**Portfolio Health** — התיק שלך מציג פיזור טוב עם דגש על איכות עסקית. GOOGL ו-NVDA מהווים את העוגן הטכנולוגי, ו-SPY/VOO כעוגן מדד רחב.\n\n**Hidden Risks** — יש חשיפה כפולה דרך QQQM ו-SPY (שניהם מחזיקים GOOGL, NVDA, AMZN). שקול לצמצם את QQQM.\n\n**Market Context** — VIX סביב 18, ריבית Fed 3.64%, עקום תשואות נורמלי. סביבה תומכת במניות איכות אך זהירות מפני תמחור מתוח.\n\n**Opportunities** — CPNG עם ציון Technical נמוך אך Valuation גבוה — חוסר התאמה שמצריך מחקר.\n\n**Action Items** — 1. לצמצם IBIT/ETHA אם הם חוצים את תקרת הקריפטו. 2. לעקוב אחר RSI של CPNG לתיקון אפשרי.\n\n_סקירת שוק — אינה המלצה פיננסית._",
+    "updated": "2026-04-15T06:01:45Z"
+  },
   "holdings": [
     {
       "ticker": "GOOGL",
@@ -14,6 +19,31 @@
         "sentiment": 63,
         "macro": 50,
         "quality": 67
+      },
+      "score_details": {
+        "valuation": [
+          "Fairly valued vs sector"
+        ],
+        "technical": [
+          "Price above MA50 and MA200",
+          "Uptrend confirmed",
+          "RSI in healthy zone"
+        ],
+        "risk": [
+          "Moderate portfolio risk contribution"
+        ],
+        "sentiment": [
+          "Strong analyst BUY consensus (>70%)",
+          "Positive recent coverage"
+        ],
+        "macro": [
+          "Neutral macro environment"
+        ],
+        "quality": [
+          "High ROE (>15%) indicates strong profitability",
+          "Stable profit margins over past years",
+          "Low debt burden"
+        ]
       },
       "personas": [
         {
@@ -93,6 +123,26 @@
         "macro": 52,
         "quality": 52
       },
+      "score_details": {
+        "valuation": [
+          "Fairly valued vs sector"
+        ],
+        "technical": [
+          "Sideways price action"
+        ],
+        "risk": [
+          "Moderate portfolio risk contribution"
+        ],
+        "sentiment": [
+          "Mixed analyst views"
+        ],
+        "macro": [
+          "Neutral macro environment"
+        ],
+        "quality": [
+          "Average business quality metrics"
+        ]
+      },
       "personas": [
         {
           "name": "warren_buffett",
@@ -170,6 +220,33 @@
         "sentiment": 68,
         "macro": 55,
         "quality": 72
+      },
+      "score_details": {
+        "valuation": [
+          "P/E below sector average",
+          "Favorable PEG ratio (<1.5)",
+          "Analyst targets suggest upside"
+        ],
+        "technical": [
+          "Price above MA50 and MA200",
+          "Uptrend confirmed",
+          "RSI in healthy zone"
+        ],
+        "risk": [
+          "Moderate portfolio risk contribution"
+        ],
+        "sentiment": [
+          "Strong analyst BUY consensus (>70%)",
+          "Positive recent coverage"
+        ],
+        "macro": [
+          "Neutral macro environment"
+        ],
+        "quality": [
+          "High ROE (>15%) indicates strong profitability",
+          "Stable profit margins over past years",
+          "Low debt burden"
+        ]
       },
       "personas": [
         {
@@ -249,6 +326,35 @@
         "macro": 46,
         "quality": 29
       },
+      "score_details": {
+        "valuation": [
+          "P/E above sector average",
+          "PEG ratio indicates overvaluation",
+          "Price near analyst target"
+        ],
+        "technical": [
+          "Price below MA200",
+          "Downtrend signals",
+          "RSI overbought/oversold"
+        ],
+        "risk": [
+          "Overweight position (>15%)",
+          "High beta (>1.5) — volatile",
+          "Crypto cap at risk"
+        ],
+        "sentiment": [
+          "Significant SELL pressure",
+          "Negative news flow"
+        ],
+        "macro": [
+          "Neutral macro environment"
+        ],
+        "quality": [
+          "Below-average ROE",
+          "Thin profit margins",
+          "Elevated debt load"
+        ]
+      },
       "personas": [
         {
           "name": "warren_buffett",
@@ -326,6 +432,33 @@
         "sentiment": 39,
         "macro": 52,
         "quality": 35
+      },
+      "score_details": {
+        "valuation": [
+          "P/E above sector average",
+          "PEG ratio indicates overvaluation",
+          "Price near analyst target"
+        ],
+        "technical": [
+          "Sideways price action"
+        ],
+        "risk": [
+          "Overweight position (>15%)",
+          "High beta (>1.5) — volatile",
+          "Crypto cap at risk"
+        ],
+        "sentiment": [
+          "Significant SELL pressure",
+          "Negative news flow"
+        ],
+        "macro": [
+          "Neutral macro environment"
+        ],
+        "quality": [
+          "Below-average ROE",
+          "Thin profit margins",
+          "Elevated debt load"
+        ]
       },
       "personas": [
         {
@@ -405,6 +538,33 @@
         "macro": 55,
         "quality": 72
       },
+      "score_details": {
+        "valuation": [
+          "P/E below sector average",
+          "Favorable PEG ratio (<1.5)",
+          "Analyst targets suggest upside"
+        ],
+        "technical": [
+          "Price above MA50 and MA200",
+          "Uptrend confirmed",
+          "RSI in healthy zone"
+        ],
+        "risk": [
+          "Moderate portfolio risk contribution"
+        ],
+        "sentiment": [
+          "Strong analyst BUY consensus (>70%)",
+          "Positive recent coverage"
+        ],
+        "macro": [
+          "Neutral macro environment"
+        ],
+        "quality": [
+          "High ROE (>15%) indicates strong profitability",
+          "Stable profit margins over past years",
+          "Low debt burden"
+        ]
+      },
       "personas": [
         {
           "name": "warren_buffett",
@@ -482,6 +642,35 @@
         "sentiment": 32,
         "macro": 45,
         "quality": 28
+      },
+      "score_details": {
+        "valuation": [
+          "P/E above sector average",
+          "PEG ratio indicates overvaluation",
+          "Price near analyst target"
+        ],
+        "technical": [
+          "Price below MA200",
+          "Downtrend signals",
+          "RSI overbought/oversold"
+        ],
+        "risk": [
+          "Overweight position (>15%)",
+          "High beta (>1.5) — volatile",
+          "Crypto cap at risk"
+        ],
+        "sentiment": [
+          "Significant SELL pressure",
+          "Negative news flow"
+        ],
+        "macro": [
+          "Neutral macro environment"
+        ],
+        "quality": [
+          "Below-average ROE",
+          "Thin profit margins",
+          "Elevated debt load"
+        ]
       },
       "personas": [
         {
@@ -561,6 +750,26 @@
         "macro": 49,
         "quality": 49
       },
+      "score_details": {
+        "valuation": [
+          "Fairly valued vs sector"
+        ],
+        "technical": [
+          "Sideways price action"
+        ],
+        "risk": [
+          "Moderate portfolio risk contribution"
+        ],
+        "sentiment": [
+          "Mixed analyst views"
+        ],
+        "macro": [
+          "Neutral macro environment"
+        ],
+        "quality": [
+          "Average business quality metrics"
+        ]
+      },
       "personas": [
         {
           "name": "warren_buffett",
@@ -638,6 +847,33 @@
         "sentiment": 66,
         "macro": 53,
         "quality": 70
+      },
+      "score_details": {
+        "valuation": [
+          "P/E below sector average",
+          "Favorable PEG ratio (<1.5)",
+          "Analyst targets suggest upside"
+        ],
+        "technical": [
+          "Price above MA50 and MA200",
+          "Uptrend confirmed",
+          "RSI in healthy zone"
+        ],
+        "risk": [
+          "Moderate portfolio risk contribution"
+        ],
+        "sentiment": [
+          "Strong analyst BUY consensus (>70%)",
+          "Positive recent coverage"
+        ],
+        "macro": [
+          "Neutral macro environment"
+        ],
+        "quality": [
+          "High ROE (>15%) indicates strong profitability",
+          "Stable profit margins over past years",
+          "Low debt burden"
+        ]
       },
       "personas": [
         {
@@ -717,6 +953,26 @@
         "macro": 55,
         "quality": 55
       },
+      "score_details": {
+        "valuation": [
+          "Fairly valued vs sector"
+        ],
+        "technical": [
+          "Sideways price action"
+        ],
+        "risk": [
+          "Moderate portfolio risk contribution"
+        ],
+        "sentiment": [
+          "Mixed analyst views"
+        ],
+        "macro": [
+          "Neutral macro environment"
+        ],
+        "quality": [
+          "Average business quality metrics"
+        ]
+      },
       "personas": [
         {
           "name": "warren_buffett",
@@ -794,6 +1050,37 @@
         "sentiment": 74,
         "macro": 61,
         "quality": 78
+      },
+      "score_details": {
+        "valuation": [
+          "P/E below sector average",
+          "Favorable PEG ratio (<1.5)",
+          "Analyst targets suggest upside"
+        ],
+        "technical": [
+          "Price above MA50 and MA200",
+          "Uptrend confirmed",
+          "RSI in healthy zone"
+        ],
+        "risk": [
+          "Well-sized position in portfolio",
+          "Beta near market (1.0)",
+          "Low sector concentration"
+        ],
+        "sentiment": [
+          "Strong analyst BUY consensus (>70%)",
+          "Positive recent coverage"
+        ],
+        "macro": [
+          "VIX low, calm markets",
+          "Yield curve normal",
+          "Rate environment favorable"
+        ],
+        "quality": [
+          "High ROE (>15%) indicates strong profitability",
+          "Stable profit margins over past years",
+          "Low debt burden"
+        ]
       },
       "personas": [
         {
@@ -873,6 +1160,33 @@
         "macro": 52,
         "quality": 69
       },
+      "score_details": {
+        "valuation": [
+          "P/E below sector average",
+          "Favorable PEG ratio (<1.5)",
+          "Analyst targets suggest upside"
+        ],
+        "technical": [
+          "Price above MA50 and MA200",
+          "Uptrend confirmed",
+          "RSI in healthy zone"
+        ],
+        "risk": [
+          "Moderate portfolio risk contribution"
+        ],
+        "sentiment": [
+          "Strong analyst BUY consensus (>70%)",
+          "Positive recent coverage"
+        ],
+        "macro": [
+          "Neutral macro environment"
+        ],
+        "quality": [
+          "High ROE (>15%) indicates strong profitability",
+          "Stable profit margins over past years",
+          "Low debt burden"
+        ]
+      },
       "personas": [
         {
           "name": "warren_buffett",
@@ -950,6 +1264,35 @@
         "sentiment": 72,
         "macro": 59,
         "quality": 76
+      },
+      "score_details": {
+        "valuation": [
+          "P/E below sector average",
+          "Favorable PEG ratio (<1.5)",
+          "Analyst targets suggest upside"
+        ],
+        "technical": [
+          "Price above MA50 and MA200",
+          "Uptrend confirmed",
+          "RSI in healthy zone"
+        ],
+        "risk": [
+          "Well-sized position in portfolio",
+          "Beta near market (1.0)",
+          "Low sector concentration"
+        ],
+        "sentiment": [
+          "Strong analyst BUY consensus (>70%)",
+          "Positive recent coverage"
+        ],
+        "macro": [
+          "Neutral macro environment"
+        ],
+        "quality": [
+          "High ROE (>15%) indicates strong profitability",
+          "Stable profit margins over past years",
+          "Low debt burden"
+        ]
       },
       "personas": [
         {
@@ -1029,6 +1372,26 @@
         "macro": 52,
         "quality": 52
       },
+      "score_details": {
+        "valuation": [
+          "Fairly valued vs sector"
+        ],
+        "technical": [
+          "Sideways price action"
+        ],
+        "risk": [
+          "Moderate portfolio risk contribution"
+        ],
+        "sentiment": [
+          "Mixed analyst views"
+        ],
+        "macro": [
+          "Neutral macro environment"
+        ],
+        "quality": [
+          "Average business quality metrics"
+        ]
+      },
       "personas": [
         {
           "name": "warren_buffett",
@@ -1106,6 +1469,33 @@
         "sentiment": 67,
         "macro": 54,
         "quality": 71
+      },
+      "score_details": {
+        "valuation": [
+          "P/E below sector average",
+          "Favorable PEG ratio (<1.5)",
+          "Analyst targets suggest upside"
+        ],
+        "technical": [
+          "Price above MA50 and MA200",
+          "Uptrend confirmed",
+          "RSI in healthy zone"
+        ],
+        "risk": [
+          "Moderate portfolio risk contribution"
+        ],
+        "sentiment": [
+          "Strong analyst BUY consensus (>70%)",
+          "Positive recent coverage"
+        ],
+        "macro": [
+          "Neutral macro environment"
+        ],
+        "quality": [
+          "High ROE (>15%) indicates strong profitability",
+          "Stable profit margins over past years",
+          "Low debt burden"
+        ]
       },
       "personas": [
         {
@@ -1187,6 +1577,33 @@
         "macro": 55,
         "sentiment": 75,
         "technical": 68
+      },
+      "score_details": {
+        "quality": [
+          "High ROE (>15%) indicates strong profitability",
+          "Stable profit margins over past years",
+          "Low debt burden"
+        ],
+        "valuation": [
+          "Fairly valued vs sector"
+        ],
+        "risk": [
+          "Well-sized position in portfolio",
+          "Beta near market (1.0)",
+          "Low sector concentration"
+        ],
+        "macro": [
+          "Neutral macro environment"
+        ],
+        "sentiment": [
+          "Strong analyst BUY consensus (>70%)",
+          "Positive recent coverage"
+        ],
+        "technical": [
+          "Price above MA50 and MA200",
+          "Uptrend confirmed",
+          "RSI in healthy zone"
+        ]
       }
     },
     {
@@ -1201,6 +1618,33 @@
         "macro": 48,
         "sentiment": 70,
         "technical": 72
+      },
+      "score_details": {
+        "quality": [
+          "High ROE (>15%) indicates strong profitability",
+          "Stable profit margins over past years",
+          "Low debt burden"
+        ],
+        "valuation": [
+          "P/E below sector average",
+          "Favorable PEG ratio (<1.5)",
+          "Analyst targets suggest upside"
+        ],
+        "risk": [
+          "Moderate portfolio risk contribution"
+        ],
+        "macro": [
+          "Neutral macro environment"
+        ],
+        "sentiment": [
+          "Strong analyst BUY consensus (>70%)",
+          "Positive recent coverage"
+        ],
+        "technical": [
+          "Price above MA50 and MA200",
+          "Uptrend confirmed",
+          "RSI in healthy zone"
+        ]
       }
     },
     {
@@ -1215,6 +1659,31 @@
         "macro": 55,
         "sentiment": 68,
         "technical": 60
+      },
+      "score_details": {
+        "quality": [
+          "High ROE (>15%) indicates strong profitability",
+          "Stable profit margins over past years",
+          "Low debt burden"
+        ],
+        "valuation": [
+          "Fairly valued vs sector"
+        ],
+        "risk": [
+          "Well-sized position in portfolio",
+          "Beta near market (1.0)",
+          "Low sector concentration"
+        ],
+        "macro": [
+          "Neutral macro environment"
+        ],
+        "sentiment": [
+          "Strong analyst BUY consensus (>70%)",
+          "Positive recent coverage"
+        ],
+        "technical": [
+          "Sideways price action"
+        ]
       }
     }
   ],

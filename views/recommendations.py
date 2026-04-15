@@ -174,14 +174,25 @@ def _show_detail(item: dict, is_idea: bool = False):
             unsafe_allow_html=True,
         )
 
-    # Score breakdown with explanations
+    # Score breakdown — card-per-category with full detail
     details = item.get("score_details", {})
     if scores:
         st.markdown(
-            '<div style="font-size:11px;font-weight:600;color:var(--text-dim);text-transform:uppercase;'
-            'letter-spacing:0.12em;margin-bottom:10px;">Score Breakdown</div>',
+            '<div style="font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;'
+            'letter-spacing:0.12em;margin:8px 0 12px;">Score Breakdown — 6 categories weighted by your strategy</div>',
             unsafe_allow_html=True,
         )
+
+        # Category descriptions for context
+        CAT_DESCRIPTIONS = {
+            "quality": "How strong is the underlying business? ROE, margins, debt, growth.",
+            "valuation": "Is the stock cheap or expensive? P/E vs sector, PEG, analyst targets.",
+            "risk": "How safe is this position in your portfolio? Concentration, beta, sector weight.",
+            "macro": "Does the economic environment favor this asset? Rates, VIX, yield curve.",
+            "sentiment": "What does Wall Street think? Analyst consensus (Buy/Hold/Sell counts).",
+            "technical": "What is the price trend saying? MA50/200 crossovers, RSI, momentum.",
+        }
+
         for key in _SCORE_ORDER:
             val = scores.get(key, 50)
             color = _score_color(val)
@@ -190,39 +201,62 @@ def _show_detail(item: dict, is_idea: bool = False):
             weight = _SCORE_WEIGHTS.get(key, 0)
             signal = "Bullish" if val > 60 else "Bearish" if val < 40 else "Neutral"
             bar_w = max(2, val)
+            description = CAT_DESCRIPTIONS.get(key, "")
 
-            # Score header row
-            st.markdown(
-                f'<div style="display:flex;align-items:center;gap:10px;padding:10px 0 4px;'
-                f'border-bottom:1px solid #f0f0f0;">'
-                f'<div style="width:28px;text-align:center;font-size:16px;">{icon}</div>'
-                f'<div style="flex:1;">'
-                f'<div style="display:flex;align-items:baseline;gap:8px;">'
-                f'<span style="font-size:13px;font-weight:600;color:var(--text);">{label}</span>'
-                f'<span style="font-size:10px;color:var(--text-mute);">Weight: {weight}%</span>'
-                f'</div>'
-                f'<div style="display:flex;align-items:center;gap:8px;margin-top:4px;">'
-                f'<div style="flex:1;height:8px;background:#f0f0f0;border-radius:4px;overflow:hidden;">'
-                f'<div style="width:{bar_w}%;height:100%;background:{color};border-radius:4px;"></div>'
-                f'</div>'
-                f'<span style="font-size:15px;font-weight:700;color:{color};'
-                f'font-family:\'IBM Plex Mono\',monospace;min-width:28px;text-align:right;">{val}</span>'
-                f'<span style="font-size:10px;color:{color};font-weight:500;min-width:48px;">{signal}</span>'
+            # Weight's contribution to final verdict
+            contribution = (val * weight / 100) if weight else 0
+
+            # Full category card
+            card_html = (
+                f'<div style="border:1px solid #e2e8f0;border-left:4px solid {color};'
+                f'border-radius:6px;padding:14px 18px;margin-bottom:10px;background:#fafbfc;">'
+                # Header row
+                f'<div style="display:flex;align-items:center;justify-content:space-between;'
+                f'gap:12px;margin-bottom:8px;">'
+                f'<div style="display:flex;align-items:center;gap:10px;">'
+                f'<span style="font-size:20px;">{icon}</span>'
+                f'<div>'
+                f'<div style="font-size:15px;font-weight:700;color:var(--text);">{label}</div>'
+                f'<div style="font-size:11px;color:var(--text-mute);">{description}</div>'
                 f'</div>'
                 f'</div>'
-                f'</div>',
-                unsafe_allow_html=True,
+                f'<div style="text-align:right;">'
+                f'<div style="font-size:22px;font-weight:700;color:{color};'
+                f'font-family:\'IBM Plex Mono\',monospace;line-height:1;">{val}</div>'
+                f'<div style="font-size:10px;color:{color};font-weight:600;'
+                f'text-transform:uppercase;letter-spacing:0.1em;margin-top:2px;">{signal}</div>'
+                f'</div>'
+                f'</div>'
+                # Bar + weight info
+                f'<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">'
+                f'<div style="flex:1;height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden;">'
+                f'<div style="width:{bar_w}%;height:100%;background:{color};border-radius:3px;"></div>'
+                f'</div>'
+                f'<span style="font-size:10px;color:var(--text-mute);white-space:nowrap;">'
+                f'Weight {weight}% · Contributes {contribution:.1f} pts</span>'
+                f'</div>'
             )
 
-            # Explanation bullets
+            # Reasoning bullets
             reasons = details.get(key, [])
             if reasons:
-                bullets_html = "".join(
-                    f'<div style="font-size:12px;color:#475569;padding:2px 0 2px 36px;line-height:1.5;">'
-                    f'• {_html.escape(r)}</div>'
-                    for r in reasons
+                bullets_html = (
+                    '<div style="border-top:1px solid #e2e8f0;padding-top:10px;">'
+                    '<div style="font-size:10px;font-weight:600;color:var(--text-mute);'
+                    'text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">Why this score?</div>'
                 )
-                st.markdown(bullets_html, unsafe_allow_html=True)
+                for r in reasons:
+                    bullets_html += (
+                        f'<div style="font-size:13px;color:#334155;padding:3px 0;line-height:1.6;">'
+                        f'<span style="color:{color};font-weight:700;margin-right:6px;">▸</span>'
+                        f'{_html.escape(r)}'
+                        f'</div>'
+                    )
+                bullets_html += '</div>'
+                card_html += bullets_html
+
+            card_html += '</div>'
+            st.markdown(card_html, unsafe_allow_html=True)
 
         # Weighted average
         total_w = sum(_SCORE_WEIGHTS.get(k, 0) for k in scores)
@@ -296,8 +330,41 @@ st.markdown(minify(f"""
 if is_dry_run:
     st.markdown(
         '<div class="recs-dry-note">'
-        'Dry-run data — click <b>Run analysis →</b> for live Gemini output.'
+        'Dry-run data — live AI output runs daily at 16:35.'
         '</div>', unsafe_allow_html=True)
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SMART INSIGHTS — senior analyst brief (1 Gemini call per day)
+# ═══════════════════════════════════════════════════════════════════════════════
+_insights = recs.get("smart_insights", {})
+if _insights and _insights.get("insights"):
+    _headline = _insights.get("headline", "")
+    _body = _insights.get("insights", "")
+    _is_hebrew = any('\u0590' <= ch <= '\u05FF' for ch in _body[:80])
+    _rtl = ' dir="rtl"' if _is_hebrew else ''
+
+    # Convert markdown-like bold to HTML
+    import re as _re
+    _body_html = _html.escape(_body)
+    _body_html = _re.sub(r'\*\*([^*]+)\*\*', r'<b>\1</b>', _body_html)
+    _body_html = _body_html.replace("\n\n", "</p><p>").replace("\n", "<br>")
+
+    st.markdown(
+        f'<div style="background:linear-gradient(135deg,#eff6ff 0%,#dbeafe 100%);'
+        f'border:1px solid #93c5fd;border-radius:8px;padding:20px 24px;margin:16px 0;">'
+        f'<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">'
+        f'<span style="font-size:14px;">🧠</span>'
+        f'<span style="font-size:11px;font-weight:700;color:#1e40af;'
+        f'text-transform:uppercase;letter-spacing:0.12em;">Smart Analyst Brief</span>'
+        f'</div>'
+        + (f'<div{_rtl} style="font-size:15px;font-weight:600;color:#1e3a8a;margin-bottom:10px;">'
+           f'{_html.escape(_headline)}</div>' if _headline else '')
+        + f'<div{_rtl} style="font-size:13px;color:#1e293b;line-height:1.8;">'
+        f'<p>{_body_html}</p>'
+        f'</div>'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
 
 min_conv: int = st.session_state.get("min_conv", 0)
 
