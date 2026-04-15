@@ -33,5 +33,12 @@
     "suggested_date": "2026-04-14",
     "suggested_price": 0,
     "conviction": 88
+  },
+  {
+    "ticker": "UNH",
+    "name": "UnitedHealth Group Incorporated",
+    "suggested_date": "2026-04-15",
+    "suggested_price": 314.19,
+    "conviction": 88
   }
 ]

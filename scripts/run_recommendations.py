@@ -451,11 +451,10 @@ def _gemini() -> object:
         print("[error] langchain-google-genai not installed. Run: "
               "pip install langchain-google-genai", file=sys.stderr)
         sys.exit(2)
-    # gemini-flash-latest: auto-aliased by Google to their newest stable Flash.
-    # When Gemini 3 Flash goes GA, we get it automatically — no code change.
-    # Override with GEMINI_MODEL env var (e.g. gemini-2.5-pro for higher quality,
-    # gemini-3-flash-preview for preview models).
-    model_name = os.environ.get("GEMINI_MODEL", "gemini-flash-latest")
+    # gemini-2.5-flash-lite: cheapest production model at $0.10/$0.40 per 1M tokens.
+    # For synthesis tasks (formatting scores into Hebrew rationale), lite is sufficient.
+    # Override with GEMINI_MODEL env var if needed.
+    model_name = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash-lite")
     return ChatGoogleGenerativeAI(
         model=model_name, google_api_key=api_key,
         temperature=0.3, timeout=45, max_retries=0,  # we do our own retries below

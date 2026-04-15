@@ -390,7 +390,6 @@ def inject_header(current: str = "") -> None:
 <div class="topbar-right">
 <div class="topbar-meta">USD/ILS {usd_ils:.2f} · {holdings_count} holdings · Updated {last_updated}</div>
 <a href="?action=refresh" target="_self" class="btn btn-secondary">Refresh</a>
-<a href="?action=run_ai" target="_self" class="btn btn-primary" title="Run scoring engine + Gemini synthesis on your portfolio"><span class="btn-label">Run analysis</span><span class="btn-arrow">→</span></a>
 </div>
 </div>
 </div>
