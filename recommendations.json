@@ -1,11 +1,11 @@
 {
-  "updated": "2026-04-15T15:53:52Z",
+  "updated": "2026-04-16T15:18:00Z",
   "profile_name": "Conservative AI Bull",
-  "summary": "סיכום יומי — 15 החזקות נסקרו.",
+  "summary": "כלל האחזקות בתיק, כולל עוגני ה-AI והמדדים הרחבים כמו GOOGL, NVDA ו-SPY, נמצאות כעת בדירוג HOLD, מה שתואם את האסטרטגיה השמרנית ותדירות המסחר הדו-חודשית שלך. לאור אופק ההשקעה ל-4 שנים, אין צורך בביצוע פעולות מיידיות כרגע וניתן להמתין למועד ההפקדה הבא של 4,000 ש\"ח. מומלץ להמשיך לעקוב אחר רמות החשיפה לקריפטו דרך IBIT ו-ETHA כדי לוודא שהן נותרות תחת רף ה-3% שקבעת.",
   "smart_insights": {
-    "updated": "2026-04-15T15:53:52+00:00Z",
-    "headline": "Analysis unavailable",
-    "insights": "[error: Error calling model 'gemini-2.5-flash' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key not valid. Please pass a valid API key.', 'status': 'INVALID_ARGUMENT', 'de]"
+    "updated": "2026-04-16T15:18:00+00:00Z",
+    "headline": "סקירת תיק השקעות: ניתוח מעבר לאלגוריתם עבור לקוח 'שור AI שמרני'",
+    "insights": "התיק מציג פער בולט בין פרופיל הלקוח ה'שמרני' לבין רמות הסיכון הגבוהות (RIS60) של רבות מההחזקות, כגון NVDA, URNM ו-AMZN. נתון זה מעלה שאלות לגבי התאמת התיק לאסטרטגיה ארוכת הטווח והשמרנית שהוגדרה. בנוסף, מספר נכסים בעלי פוטנציאל צמיחה גבוה מציגים ציונים טכניים נמוכים (TEC), לדוגמה CPNG עם TEC12 ו-ETHA עם TEC29, מה שמעיד על מומנטום חלש בתקופה האחרונה.\n\nקיימת חשיפת יתר נושאית משמעותית לטכנולוגיה (NVDA, GOOGL, AMZN) ולמגזרים ספציפיים כמו אנרגיה גרעינית (URNM, NLR) וקריפטו (ETHA, IBIT). יתרה מכך, ההחזקה הכפולה ב-VOO וב-SPY (שניהם עוקבים אחר ה-S&P 500) יוצרת חפיפה מיותרת ומפחיתה את הפיזור האפקטיבי, בעוד ש-QQQM מוסיף חשיפה נוספת לטכנולוגיה. ריכוזיות זו מגבירה את הסיכון הכולל של התיק לתנודות במגזרים אלו.\n\nעם VIX ברמה של 18.9, השוק מציג תנודתיות מתונה, מה שעלול להשפיע על נכסים בסיכון גבוה בתיק. שער ה-USD/ILS הנמוך, 2.994, מהווה סיכון מטבעי משמעותי עבור לקוח ישראלי המחזיק נכסים דולריים, שכן התחזקות השקל מפחיתה את ערך ההחזקות במונחי שקלים. היעדר נתוני ריבית הפד ותשואות האג\"ח ל-10 שנים מקשה על הערכה מלאה של סביבת המאקרו והשפעתה על מניות הצמיחה בתיק.\n\nהחזקות כמו GOOGL (TEC42) ו-AMZN (TEC35), למרות ציוני טכני נמוכים וסיכון גבוה (RIS60), מציגות ציוני איכות והערכת שווי ממוצעים (QUA50, VAL50). עבור משקיע לטווח ארוך, ירידות אלו במומנטום הטכני עשויות להצביע על נקודת כניסה פוטנציאלית לנכסים איכותיים, אם כי יש לבחון בקפידה את התאמת הסיכון לפרופיל הלקוח.\n\n1. מומלץ לבחון מחדש את התאמת רמת הסיכון הכוללת של התיק לפרופיל ה'שמרני' של הלקוח, לאור ריבוי ההחזקות עם ציון סיכון גבוה (RIS60).\n2. לשפר את הפיזור בתיק על ידי איחוד החזקות חופפות (VOO ו-SPY) ובחינת הפחתת ריכוזיות במגזרים ספציפיים (טכנולוגיה, קריפטו, אנרגיה גרעינית), במיוחד בהתחשב בסיכון המטבעי הנגזר משער ה-USD/ILS הנמוך.\n\nסקירת שוק — אינה המלצה פיננסית."
   },
   "holdings": [
     {
@@ -28,17 +28,17 @@
           "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 6.7% — well-sized"
+          "Portfolio weight 6.8% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price $334 > MA50 $308 > MA200 $271 — strong uptrend (golden cross zone)",
-          "RSI 76 — overbought, potential pullback ahead"
+          "Price $338 > MA50 $308 > MA200 $272 — strong uptrend (golden cross zone)",
+          "RSI 87 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
@@ -46,25 +46,25 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 333.54
+        "price": 337.61
       },
       "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 4.8,
+        "target_pct": 4.9,
         "action": "reduce_small",
         "delta_pct": -1.9,
-        "reason": "Small trim recommended (6.7% → 4.8%)",
+        "reason": "Small trim recommended (6.8% → 4.9%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 270.87,
-        "stop_loss_pct": -18.8,
-        "take_profit_price": 466.96,
+        "stop_loss_price": 271.7,
+        "stop_loss_pct": -19.5,
+        "take_profit_price": 472.65,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "rationale": "למרות ש-GOOGL מהווה עוגן מרכזי בתזת ה-AI של המשקיע לטווח ארוך, הציון המשוקלל הממוצע (50) והקרבה לשיא השנתי מעידים על תמחור מלא. לאור הציון הטכני הנמוך יחסית (42) והאסטרטגיה השמרנית, מומלץ להמשיך להחזיק בנכס אך להמתין לתיקון במחיר לפני הגדלת החשיפה מעבר להפקדות השוטפות.",
       "personas": []
     },
     {
@@ -87,17 +87,17 @@
           "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 5.6% — well-sized"
+          "Portfolio weight 5.5% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
           "Price above MA200 but below MA50 — short-term pullback in uptrend",
-          "RSI 78 — overbought, potential pullback ahead"
+          "RSI 82 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
@@ -105,25 +105,25 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 248.06
+        "price": 246.83
       },
       "social_sentiment": null,
       "position_sizing": {
         "target_pct": 4.0,
         "action": "reduce_small",
         "delta_pct": -1.6,
-        "reason": "Small trim recommended (5.6% → 4.0%)",
+        "reason": "Small trim recommended (5.5% → 4.0%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 225.28,
-        "stop_loss_pct": -9.2,
-        "take_profit_price": 347.28,
+        "stop_loss_price": 225.42,
+        "stop_loss_pct": -8.7,
+        "take_profit_price": 345.56,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "rationale": "למרות ש-AWS מהווה נדבך מרכזי בתזת ה-AI של המשקיע, הציון הטכני הנמוך (35) והקרבה לשיא השנתי מעלים חשש למיצוי בטווח הקצר. עבור פרופיל שמרני עם אופק של 4 שנים, מומלץ להמתין לנקודת כניסה נוחה יותר או להתייצבות במחיר, במיוחד לאור המגמה המעורבת והציון המשוקלל הממוצע.",
       "personas": []
     },
     {
@@ -149,14 +149,14 @@
           "Portfolio weight 5.0% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
           "Price above MA200 but below MA50 — short-term pullback in uptrend",
-          "RSI 84 — overbought, potential pullback ahead"
+          "RSI 86 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
@@ -164,7 +164,7 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 46.61
+        "price": 46.43
       },
       "social_sentiment": null,
       "position_sizing": {
@@ -175,14 +175,14 @@
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 44.62,
-        "stop_loss_pct": -4.3,
-        "take_profit_price": 65.25,
+        "stop_loss_price": 44.65,
+        "stop_loss_pct": -3.8,
+        "take_profit_price": 65.0,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "rationale": "למרות ש-BN מציעה חשיפה לתחומי האנרגיה והתשתיות התואמים את העדפות הפרופיל, הציון האלגוריתמי הממוצע (49) מעיד על חוסר במומנטום ברור כרגע. בהתחשב בכך שהמניה נסחרת קרוב לקצה העליון של הטווח השנתי עם ציון טכני חלש (35), מומלץ להמתין לנקודת כניסה אטרקטיבית יותר התואמת את האסטרטגיה השמרנית של המשתמש.",
       "personas": []
     },
     {
@@ -208,14 +208,14 @@
           "Portfolio weight 2.2% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
           "Price below MA200 — long-term trend is bearish",
-          "RSI 77 — overbought, potential pullback ahead"
+          "RSI 85 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
@@ -223,7 +223,7 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 21.305
+        "price": 21.315
       },
       "social_sentiment": null,
       "position_sizing": {
@@ -234,14 +234,14 @@
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 17.04,
+        "stop_loss_price": 17.05,
         "stop_loss_pct": -20,
-        "take_profit_price": 29.83,
+        "take_profit_price": 29.84,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "rationale": "הנכס מציג חולשה טכנית משמעותית (12/100) ואינו מתיישב עם המיקוד של הפרופיל ב-AI או בסקטורים המועדפים כמו ביטוח ישראלי ואנרגיה. לאור הדירוג הממוצע הנמוך והעובדה ש-CPNG נסחרת משמעותית מתחת לממוצע נע 200, אין הצדקה לקנייה אקטיבית עבור משקיע שמרני בעת הזו.",
       "personas": []
     },
     {
@@ -267,14 +267,14 @@
           "Portfolio weight 0.8% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
           "Price below MA200 — long-term trend is bearish",
-          "RSI 61 — neutral zone"
+          "RSI 70 — neutral zone"
         ]
       },
       "analyst_consensus": {
@@ -282,7 +282,7 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 17.65
+        "price": 17.545
       },
       "social_sentiment": null,
       "position_sizing": {
@@ -293,14 +293,14 @@
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 14.12,
+        "stop_loss_price": 14.04,
         "stop_loss_pct": -20,
-        "take_profit_price": 24.71,
+        "take_profit_price": 24.56,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "rationale": "הנכס מציג ביצועים טכניים חלשים (29) וציון איכות נמוך (30), מה שאינו עולה בקנה אחד עם הפרופיל השמרני הממוקד ב-AI. לאור העובדה שהמחיר נסחר משמעותית מתחת לממוצע נע 200 ושהקריפטו מוגדר אצלך כרכיב ספקולטיבי בלבד, מומלץ להמתין ולא להגדיל חשיפה מעבר למגבלת ה-3% שקבעת.",
       "personas": []
     },
     {
@@ -326,7 +326,7 @@
           "Portfolio weight 3.3% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
@@ -341,7 +341,7 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 147.475
+        "price": 147.115
       },
       "social_sentiment": null,
       "position_sizing": {
@@ -352,23 +352,23 @@
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 146.34,
-        "stop_loss_pct": -0.8,
-        "take_profit_price": 206.46,
+        "stop_loss_price": 146.4,
+        "stop_loss_pct": -0.5,
+        "take_profit_price": 205.96,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "rationale": "XLV מציג כרגע תמונה ניטרלית עם ציונים מאוזנים סביב 50 ומגמה טכנית מעורבת, כאשר המחיר נסחר מתחת לממוצע נע 50. עבור משקיע שמרני עם אופק של 4 שנים, המגזר מהווה עוגן הגנתי חשוב בתיק, אך לאור הנתונים הנוכחיים מומלץ להמתין לשיפור במומנטום או לביסוס תמיכה מעל ממוצע 200 לפני הגדלת החשיפה.",
       "personas": []
     },
     {
       "ticker": "IBIT",
       "verdict": "hold",
-      "conviction": 53,
+      "conviction": 52,
       "scores": {
         "valuation": 50,
-        "technical": 41,
+        "technical": 29,
         "risk": 35,
         "sentiment": 50,
         "macro": 50,
@@ -385,14 +385,14 @@
           "Portfolio weight 7.0% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
           "Price below MA200 — long-term trend is bearish",
-          "RSI 59 — neutral zone"
+          "RSI 68 — neutral zone"
         ]
       },
       "analyst_consensus": {
@@ -400,7 +400,7 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 41.91
+        "price": 42.105
       },
       "social_sentiment": null,
       "position_sizing": {
@@ -411,14 +411,14 @@
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 33.53,
+        "stop_loss_price": 33.68,
         "stop_loss_pct": -20,
-        "take_profit_price": 58.67,
+        "take_profit_price": 58.95,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "rationale": "הציון הטכני הנמוך (29) והעובדה שהנכס נסחר מתחת לממוצע נע 200 מעידים על מומנטום שלילי בטווח הארוך. עבור משקיע שמרני המגדיר קריפטו כרכיב ספקולטיבי המוגבל ל-3% מהתיק, הנתונים הנוכחיים אינם מצדיקים הגדלת חשיפה, אלא המתנה להתייצבות המגמה.",
       "personas": []
     },
     {
@@ -427,7 +427,7 @@
       "conviction": 55,
       "scores": {
         "valuation": 50,
-        "technical": 55,
+        "technical": 50,
         "risk": 25,
         "sentiment": 50,
         "macro": 50,
@@ -441,18 +441,18 @@
           "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 12.9% — moderate position",
+          "Portfolio weight 13.0% — moderate position",
           "Sector weight 47% — high concentration risk"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price $261 > MA50 $247 > MA200 $246 — strong uptrend (golden cross zone)",
-          "RSI 72 — overbought, potential pullback ahead"
+          "Price $263 > MA50 $248 > MA200 $246 — strong uptrend (golden cross zone)",
+          "RSI 84 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
@@ -460,34 +460,34 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 260.87
+        "price": 263.44
       },
       "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 1.2,
+        "target_pct": 1.1,
         "action": "reduce",
-        "delta_pct": -11.8,
-        "reason": "Scores suggest trimming (12.9% → 1.2%)",
+        "delta_pct": -11.9,
+        "reason": "Scores suggest trimming (13.0% → 1.1%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 246.16,
-        "stop_loss_pct": -5.6,
-        "take_profit_price": 365.22,
+        "stop_loss_price": 246.35,
+        "stop_loss_pct": -6.5,
+        "take_profit_price": 368.82,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "rationale": "למרות ש-QQQM תואם את התזה הטכנולוגית של המשתמש, המדד נסחר בשיא כל הזמנים עם ציון סיכון חלש (25), מה שמצריך זהירות עבור פרופיל שמרני. בהתחשב בציונים הניטרליים ובאופק ההשקעה הארוך, מומלץ להמתין לתיקון קל או להמשיך ברכישות הדו-חודשיות הקבועות (DCA) במקום כניסה אגרסיבית ברמות המחיר הנוכחיות.",
       "personas": []
     },
     {
       "ticker": "ITA",
       "verdict": "hold",
-      "conviction": 56,
+      "conviction": 58,
       "scores": {
         "valuation": 50,
-        "technical": 82,
+        "technical": 34,
         "risk": 60,
         "sentiment": 50,
         "macro": 50,
@@ -501,17 +501,17 @@
           "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 6.3% — well-sized"
+          "Portfolio weight 6.2% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price $233 > MA50 $233 > MA200 $214 — strong uptrend (golden cross zone)",
-          "RSI 57 — neutral zone"
+          "Price above MA200 but below MA50 — short-term pullback in uptrend",
+          "RSI 60 — neutral zone"
         ]
       },
       "analyst_consensus": {
@@ -519,34 +519,34 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 233.39
+        "price": 230.57
       },
       "social_sentiment": null,
       "position_sizing": {
         "target_pct": 4.5,
         "action": "reduce_small",
-        "delta_pct": -1.8,
-        "reason": "Small trim recommended (6.3% → 4.5%)",
+        "delta_pct": -1.7,
+        "reason": "Small trim recommended (6.2% → 4.5%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 213.76,
-        "stop_loss_pct": -8.4,
-        "take_profit_price": 326.75,
+        "stop_loss_price": 213.98,
+        "stop_loss_pct": -7.2,
+        "take_profit_price": 322.8,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "rationale": "הדירוג הטכני הנמוך (34) והעובדה שהמחיר של ITA נסחר מתחת לממוצע נע 50 מעידים על חולשה בטווח הקצר, למרות שהמגמה ארוכת הטווח נותרת חיובית. עבור משקיע שמרני עם אופק של 4 שנים, מומלץ להמתין להתייצבות טכנית או לנסיגה נוספת לכיוון ממוצע 200 לפני הגדלת החשיפה, במיוחד כשהתמחור והסנטימנט ניטרליים.",
       "personas": []
     },
     {
       "ticker": "NVDA",
       "verdict": "hold",
-      "conviction": 57,
+      "conviction": 58,
       "scores": {
         "valuation": 50,
-        "technical": 55,
+        "technical": 50,
         "risk": 60,
         "sentiment": 50,
         "macro": 50,
@@ -563,14 +563,14 @@
           "Portfolio weight 6.0% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price $200 > MA50 $182 > MA200 $181 — strong uptrend (golden cross zone)",
-          "RSI 72 — overbought, potential pullback ahead"
+          "Price $199 > MA50 $183 > MA200 $182 — strong uptrend (golden cross zone)",
+          "RSI 85 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
@@ -578,7 +578,7 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 199.83
+        "price": 199.27
       },
       "social_sentiment": null,
       "position_sizing": {
@@ -589,14 +589,14 @@
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 181.33,
-        "stop_loss_pct": -9.3,
-        "take_profit_price": 279.76,
+        "stop_loss_price": 181.54,
+        "stop_loss_pct": -8.9,
+        "take_profit_price": 278.98,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "rationale": "NVDA היא עמוד התווך של תזת ה-AI של המשקיע, אך הציונים האלגוריתמיים הניטרליים (52/100) והקרבה לשיא השנתי מעידים על תמחור מלא בטווח הקצר. לאור הפרופיל השמרני והמגמה הטכנית החיובית (Price > MA200), מומלץ להמשיך להחזיק בנכס כחלק מליבת התיק לטווח של 4 שנים, תוך המתנה לנקודת כניסה נוחה יותר להגדלת פוזיציה.",
       "personas": []
     },
     {
@@ -605,7 +605,7 @@
       "conviction": 51,
       "scores": {
         "valuation": 50,
-        "technical": 55,
+        "technical": 50,
         "risk": 5,
         "sentiment": 50,
         "macro": 50,
@@ -623,14 +623,14 @@
           "Sector weight 47% — high concentration risk"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price $697 > MA50 $674 > MA200 $666 — strong uptrend (golden cross zone)",
-          "RSI 72 — overbought, potential pullback ahead"
+          "Price $701 > MA50 $674 > MA200 $666 — strong uptrend (golden cross zone)",
+          "RSI 84 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
@@ -638,7 +638,7 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 697.36
+        "price": 701.23
       },
       "social_sentiment": null,
       "position_sizing": {
@@ -649,23 +649,23 @@
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 665.58,
-        "stop_loss_pct": -4.6,
-        "take_profit_price": 976.3,
+        "stop_loss_price": 666.01,
+        "stop_loss_pct": -5.0,
+        "take_profit_price": 981.72,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "rationale": "המדד מהווה את העוגן המרכזי בתיק לפי האסטרטגיה המוצהרת, אך הציון האלגוריתמי המשוקלל נמוך (42) והנכס נסחר בשיא כל הזמנים (701.23). עבור משקיע שמרני, ציון הסיכון הנמוך (5/100) מעיד על מתיחות יתר בשוק, ולכן מומלץ להמתין לנקודת כניסה נוחה יותר או להסתפק בהפקדות ה-DCA הדו-חודשיות ללא הגדלה אגרסיבית של הפוזיציה.",
       "personas": []
     },
     {
       "ticker": "URNM",
       "verdict": "hold",
-      "conviction": 56,
+      "conviction": 58,
       "scores": {
         "valuation": 50,
-        "technical": 71,
+        "technical": 50,
         "risk": 60,
         "sentiment": 50,
         "macro": 50,
@@ -682,14 +682,14 @@
           "Portfolio weight 5.6% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price $69 > MA50 $67 > MA200 $59 — strong uptrend (golden cross zone)",
-          "RSI 65 — neutral zone"
+          "Price $70 > MA50 $67 > MA200 $59 — strong uptrend (golden cross zone)",
+          "RSI 79 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
@@ -697,34 +697,34 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 68.75
+        "price": 69.59
       },
       "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 4.0,
+        "target_pct": 4.1,
         "action": "reduce_small",
         "delta_pct": -1.6,
-        "reason": "Small trim recommended (5.6% → 4.0%)",
+        "reason": "Small trim recommended (5.6% → 4.1%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 58.91,
-        "stop_loss_pct": -14.3,
-        "take_profit_price": 96.25,
+        "stop_loss_price": 59.02,
+        "stop_loss_pct": -15.2,
+        "take_profit_price": 97.43,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "rationale": "URNM נמצא במגמת עלייה טכנית חיובית (Price > MA200) התואמת את העדפת המשקיע למגזר האורניום כמענה לצורכי האנרגיה של מהפכת ה-AI. למרות זאת, הציונים האלגוריתמיים הניטרליים (ממוצע 52) והתנודתיות המובנית במגזר מכתיבים עמדת HOLD שמרנית, המאפשרת חשיפה למגזר ללא הגדלת סיכון אגרסיבית במחירים הנוכחיים.",
       "personas": []
     },
     {
       "ticker": "NLR",
       "verdict": "hold",
-      "conviction": 56,
+      "conviction": 58,
       "scores": {
         "valuation": 50,
-        "technical": 71,
+        "technical": 50,
         "risk": 60,
         "sentiment": 50,
         "macro": 50,
@@ -741,14 +741,14 @@
           "Portfolio weight 4.6% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price $145 > MA50 $140 > MA200 $133 — strong uptrend (golden cross zone)",
-          "RSI 63 — neutral zone"
+          "Price $146 > MA50 $140 > MA200 $133 — strong uptrend (golden cross zone)",
+          "RSI 76 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
@@ -756,7 +756,7 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 145.38
+        "price": 145.83
       },
       "social_sentiment": null,
       "position_sizing": {
@@ -767,14 +767,14 @@
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 133.11,
-        "stop_loss_pct": -8.4,
-        "take_profit_price": 203.53,
+        "stop_loss_price": 133.28,
+        "stop_loss_pct": -8.6,
+        "take_profit_price": 204.16,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "rationale": "הנכס תואם את העדפת המגזר של הפרופיל כספק אנרגיה קריטי לתשתית ה-AI, אך הציונים האלגוריתמיים המאוזנים (52) מעידים על תמחור מלא בשוק. לאור המגמה החיובית (Uptrend) מול רמת סיכון בינונית והקרבה לשיא השנתי, מומלץ להמתין לנקודת כניסה נוחה יותר או להמשיך החזקה קיימת ללא הגדלת חשיפה אגרסיבית כרגע.",
       "personas": []
     },
     {
@@ -783,7 +783,7 @@
       "conviction": 58,
       "scores": {
         "valuation": 50,
-        "technical": 55,
+        "technical": 50,
         "risk": 40,
         "sentiment": 50,
         "macro": 50,
@@ -801,14 +801,14 @@
           "Sector weight 47% — high concentration risk"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price $641 > MA50 $620 > MA200 $612 — strong uptrend (golden cross zone)",
-          "RSI 71 — overbought, potential pullback ahead"
+          "Price $645 > MA50 $620 > MA200 $612 — strong uptrend (golden cross zone)",
+          "RSI 82 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
@@ -816,7 +816,7 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 641.12
+        "price": 644.66
       },
       "social_sentiment": null,
       "position_sizing": {
@@ -827,14 +827,14 @@
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 612.07,
-        "stop_loss_pct": -4.5,
-        "take_profit_price": 897.57,
+        "stop_loss_price": 612.46,
+        "stop_loss_pct": -5.0,
+        "take_profit_price": 902.52,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "rationale": "מדד ה-S&P 500 מהווה את העוגן המרכזי בתיק שלך, אך הציונים האלגוריתמיים הניטרליים (ממוצע 48) והעובדה שהנכס נסחר בשיא כל הזמנים מצדיקים זהירות. עבור פרופיל שמרני, מומלץ להמתין לנקודת כניסה נוחה יותר במסגרת ההפקדות הדו-חודשיות המתוכננות, למרות המגמה החיובית (Uptrend) בשוק.",
       "personas": []
     },
     {
@@ -860,7 +860,7 @@
           "Portfolio weight 0.0% — well-sized"
         ],
         "macro": [
-          "VIX 18 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
@@ -885,7 +885,7 @@
         "max_allowed": 12
       },
       "exit_triggers": {},
-      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "rationale": "הנכס תואם במדויק את התזה של המשקיע כגיוון דפנסיבי בתיק, אך הציונים האלגוריתמיים הניטרליים (50/100) בכל הפרמטרים מעידים על היעדר מומנטום חיובי או תמחור אטרקטיבי כרגע. בהתחשב באופק ההשקעה ל-4 שנים ובאסטרטגיית הרכישה הדו-חודשית, מומלץ להמשיך להחזיק בנכס כעוגן יציב המאזן את החשיפה למגזר הטכנולוגיה.",
       "personas": []
     }
   ],
