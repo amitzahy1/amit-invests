@@ -89,6 +89,12 @@ def _load_snapshots(n: int = 0) -> list[dict]:
 
 
 
+def _escape_md(text: str) -> str:
+    """Escape characters that break Telegram Markdown V1 inside italic/bold."""
+    # Replace underscores that aren't part of our formatting
+    return text.replace("_", "\\_").replace("*", "\\*").replace("`", "\\`").replace("[", "\\[")
+
+
 def _truncate(text: str, max_len: int = 55) -> str:
     """Truncate text to fit one Telegram line."""
     if not text or len(text) <= max_len:
@@ -290,7 +296,7 @@ def _format_daily_lesson(recs: dict) -> str:
     idx = lesson.get("id", day % len(lessons) + 1)
     lines = [
         f"📚 *שיעור יומי #{idx}: {title}*",
-        f"{RLM}_{body}_",
+        f"{RLM}_{_escape_md(body)}_",
     ]
 
     # Try to personalise with portfolio data
@@ -312,7 +318,7 @@ def _format_daily_lesson(recs: dict) -> str:
                         margin=fd.get("profit_margin", "N/A"),
                         sector_pe="22",
                     )
-                    lines.append(f"{RLM}📌 _{example}_")
+                    lines.append(f"{RLM}📌 _{_escape_md(example)}_")
                     break
         except Exception:
             pass
@@ -457,25 +463,27 @@ def _format_holdings_msg(recs: dict) -> str:
 
     # Smart Insights from senior analyst (1 Gemini call/day — deep analysis)
     insights = recs.get("smart_insights", {})
-    if insights and insights.get("insights"):
+    body = (insights.get("insights") or "") if insights else ""
+    # Skip error messages (e.g. from failed Gemini calls)
+    is_error = body.startswith("[error") or "API key not valid" in body
+    if body and not is_error:
         headline = insights.get("headline", "")
-        body = insights.get("insights", "")
         lines.append("🧠 *Smart Analyst Brief*")
-        if headline:
-            lines.append(f"{RLM}*{headline}*")
+        if headline and headline != "Analysis unavailable":
+            lines.append(f"{RLM}*{_escape_md(headline)}*")
         # Convert **bold** markers and truncate for Telegram
         body_tg = body.replace("**", "*")
-        # Keep first ~500 chars for Telegram readability
+        # Keep first ~800 chars for Telegram readability
         if len(body_tg) > 800:
             body_tg = body_tg[:800].rsplit(".", 1)[0] + "..."
-        lines.append(f"{RLM}_{body_tg}_")
+        lines.append(f"{RLM}_{_escape_md(body_tg)}_")
         lines.append("")
     elif recs.get("summary"):
         # Fallback: show the short summary
         summary = recs.get("summary", "")
         sentences = [s.strip() for s in summary.replace(". ", ".\n").split("\n") if s.strip()]
         short_summary = ". ".join(sentences[:2]).rstrip(".").replace("..", ".")
-        lines.append(f"{RLM}_{short_summary}._")
+        lines.append(f"{RLM}_{_escape_md(short_summary)}._")
         lines.append("")
 
     # Data-driven Key Takeaways
@@ -567,7 +575,7 @@ def _format_dashboard_msg(recs: dict, snapshots: list[dict]) -> str:
             lines.append(f"🚀 `{ticker}` — {name} ({conv}%)")
             rationale = idea.get("rationale", "")
             if rationale:
-                lines.append(f"{RLM}_{rationale}_")
+                lines.append(f"{RLM}_{_escape_md(rationale)}_")
             lines.append("")
 
     # Portfolio Dashboard (from snapshots)
