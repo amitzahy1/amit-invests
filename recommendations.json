@@ -1,11 +1,11 @@
 {
-  "updated": "2026-04-17T15:43:23Z",
+  "updated": "2026-04-20T15:08:47Z",
   "profile_name": "Conservative AI Bull",
-  "summary": "השוק שומר על יציבות וכלל האחזקות בתיק, כולל עוגני ה-S&P 500 (VOO/SPY) והחשיפה ל-AI דרך GOOGL ו-NVDA, נמצאות כרגע בדירוג HOLD. בהתאם לאסטרטגיה השמרנית ולתדירות המסחר הדו-חודשית, אין צורך בביצוע פעולות מיידיות בנכסי הליבה או במגזרי האנרגיה הגרעינית (URNM/NLR) והביטוח הישראלי (5108.TA). מומלץ להמשיך לעקוב אחר רמות המחירים לקראת הפקדת המזומן הבאה, תוך הקפדה על השארת רכיב הקריפטו תחת מגבלת ה-3% מהפורטפוליו.",
+  "summary": "השוק מציג יציבות רוחבית עם המלצות HOLD גורפות לכלל הנכסים בתיק, כולל עוגני המדדים VOO ו-SPY ומניות הליבה בתחום ה-AI כמו GOOGL ו-NVDA. לאור האסטרטגיה השמרנית ומועדי ההפקדה הדו-חודשיים, אין צורך בביצוע פעולות קנייה או מכירה מיידיות בנקודת הזמן הנוכחית. מומלץ להמשיך להחזיק בסקטורים המועדפים כמו ITA ו-URNM, תוך שמירה על רכיב הביטוח הישראלי (5108.TA) כגורם מאזן בתיק.",
   "smart_insights": {
-    "updated": "2026-04-17T15:43:23+00:00Z",
-    "headline": "Analysis unavailable",
-    "insights": "[error: Expecting ',' delimiter: line 3 column 876 (char 938)]"
+    "updated": "2026-04-20T15:08:47+00:00Z",
+    "headline": "סקירת תיק: אתגרי ריכוזיות וסיכונים סמויים",
+    "insights": "בריאות התיק:\nהדבר הבולט ביותר בתיק הוא הריכוזיות הגבוהה במניית NVDA, המהווה 58% מהתיק. עבור לקוח המוגדר כ\"שורי AI שמרן\" עם אופק השקעה של 4 שנים ורמת סיכון בינונית, ריכוזיות כה משמעותית בחברה אחת חורגת מהגדרה שמרנית ומציגה סיכון מהותי. בנוסף, מספר רב של החזקות נושאות ציון סיכון (RIS) של 60, מה שעשוי להיות גבוה ביחס לפרופיל הסיכון הבינוני של הלקוח.\n\nסיכונים חבויים:\nמעבר לריכוזיות ב-NVDA, קיימת קורלציה גבוהה בין חלק ניכר מההחזקות בתחום הטכנולוגיה וה-AI, כגון GOOGL, AMZN, QQQM, ETHA ו-CPNG. חשיפה זו מגבירה את הסיכון הסקטוריאלי שהאלגוריתם עשוי שלא להדגיש במלואו. כמו כן, התיק מחזיק בשני תעודות סל על מדד ה-S&P 500 (VOO ו-SPY), כאשר SPY מציג ציון סיכון נמוך באופן חריג (RIS5) לעומת VOO (RIS40), מה שמעיד על כפילות וחוסר יעילות אפשרי. חשיפה לסקטור האורניום (URNM, NLR) מוסיפה שכבת סיכון ספציפית נוספת.\n\nהקשר שוק:\nהשוק מציג היום ירידות קלות במדדים המובילים, כאשר הנאסד\"ק יורד ב-0.84% וה-S&P 500 יורד ב-0.49%. ירידות אלו, גם אם קלות, רלוונטיות במיוחד לתיק עם חשיפה כה גבוהה לטכנולוגיה. מדד ה-VIX עומד על 19.2, מה שמעיד על תנודתיות מתונה בשוק. שער הדולר-שקל (USD/ILS) העומד על 2.99 נמוך באופן חריג, ועלול להשפיע לרעה על שווי נכסים דולריים עבור לקוח ישראלי, אם כי יש לבחון את מקור הנתון.\n\nהזדמנויות וסטיות:\nהאלגוריתם מציג סטיות מעניינות בחלק מההחזקות. לדוגמה, CPNG עם ציון טכני נמוך מאוד (TEC12) אך ציון סיכון גבוה (RIS60), וכן ITA עם TEC24 ו-RIS60. ETHA בולטת עם ציוני TEC29, QUA30 ו-RIS60, המצביעים על איכות ומומנטום טכני נמוכים לצד סיכון גבוה. IBIT, תעודת סל קשורה לקריפטו, מציגה ציוני TEC21 ו-QUA40 עם RIS35, מה שעשוי להיות גבוה מדי עבור לקוח שמרן, בהתחשב באופי הנכס.\n\nפעולות אפשריות:\nמומלץ לשקול הפחתת חשיפה ל-NVDA כדי להקטין את ריכוזיות התיק ולהתאימו טוב יותר לפרופיל הסיכון השמרני. בנוסף, כדאי לבחון את איחוד ההחזקות ב-VOO וב-SPY לחשיפה יעילה יותר למדד ה-S&P 500. יש לבדוק את ההחזקות עם ציונים טכניים ו/או איכותיים נמוכים וסיכון גבוה (כגון CPNG, ITA, ETHA, IBIT) ולבחון את התאמתן לאסטרטגיית ההשקעה ארוכת הטווח של הלקוח.\n\nסקירת שוק — אינה המלצה פיננסית."
   },
   "holdings": [
     {
@@ -31,14 +31,14 @@
           "Portfolio weight 6.7% — well-sized"
         ],
         "macro": [
-          "VIX 17 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price $339 > MA50 $308 > MA200 $273 — strong uptrend (golden cross zone)",
-          "RSI 94 — overbought, potential pullback ahead"
+          "Price $337 > MA50 $308 > MA200 $273 — strong uptrend (golden cross zone)",
+          "RSI 90 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
@@ -46,25 +46,25 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 338.94
+        "price": 337.395
       },
       "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 4.8,
+        "target_pct": 4.9,
         "action": "reduce_small",
         "delta_pct": -1.9,
-        "reason": "Small trim recommended (6.7% → 4.8%)",
+        "reason": "Small trim recommended (6.7% → 4.9%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 272.51,
-        "stop_loss_pct": -19.6,
-        "take_profit_price": 474.52,
+        "stop_loss_price": 273.31,
+        "stop_loss_pct": -19.0,
+        "take_profit_price": 472.35,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "אלפבית מהווה נכס ליבה בתזה של המשקיע כחלוצת AI, והמגמה הטכנית נותרת חיובית (מחיר מעל ממוצעים נעים), אך הציון האלגוריתמי הממוצע (50) והקרבה לשיא השנתי מעידים על תמחור מלא. עבור משקיע שמרני עם אופק של 4 שנים, מדובר בהחזקה אסטרטגית יציבה לטווח ארוך, אך ללא הזדמנות קנייה אטרקטיבית במיוחד בנקודת הזמן הנוכחית.",
+      "rationale": "למרות ש-GOOGL מהווה נכס ליבה בתזת ה-AI של המשקיע, הציון המשוקלל (50) והקרבה לשיא השנתי מעידים על תמחור מלא. המגמה הטכנית אמנם חיובית, אך הציון הטכני הנמוך יחסית (42) מרמז על היחלשות במומנטום בטווח הקצר, מה שתומך בהמתנה לנקודת כניסה אטרקטיבית יותר במסגרת ההפקדות הדו-חודשיות.",
       "personas": []
     },
     {
@@ -87,17 +87,17 @@
           "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 5.6% — well-sized"
+          "Portfolio weight 5.5% — well-sized"
         ],
         "macro": [
-          "VIX 17 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
           "Price above MA200 but below MA50 — short-term pullback in uptrend",
-          "RSI 98 — overbought, potential pullback ahead"
+          "RSI 89 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
@@ -105,25 +105,25 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 253.945
+        "price": 245.75
       },
       "social_sentiment": null,
       "position_sizing": {
         "target_pct": 4.0,
         "action": "reduce_small",
-        "delta_pct": -1.6,
-        "reason": "Small trim recommended (5.6% → 4.0%)",
+        "delta_pct": -1.5,
+        "reason": "Small trim recommended (5.5% → 4.0%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 225.6,
-        "stop_loss_pct": -11.2,
-        "take_profit_price": 355.52,
+        "stop_loss_price": 225.71,
+        "stop_loss_pct": -8.2,
+        "take_profit_price": 344.05,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "אמזון מהווה נכס ליבה בתחום ה-AI דרך AWS, אך הציון הטכני הנמוך (35) והקרבה לשיא השנתי מעלים חשש מרכישה במחיר שיא. עבור משקיע שמרני, מומלץ להמתין לתיקון או להתייצבות במחיר לפני הגדלת פוזיציה, למרות ההתאמה האסטרטגית המובהקת לתזת ההשקעה של המשתמש.",
+      "rationale": "אמזון מהווה רכיב ליבה בתזה של בינה מלאכותית דרך AWS, אך הציון הטכני הנמוך (35) והקרבה לשיא השנתי מעלים חשש למיצוי בטווח הקצר. עבור משקיע שמרני, מומלץ להמתין לנקודת כניסה נוחה יותר או לנסיגה במחיר המניה לפני הגדלת החשיפה, למרות האיכות הפונדמנטלית של החברה.",
       "personas": []
     },
     {
@@ -149,7 +149,7 @@
           "Portfolio weight 5.0% — well-sized"
         ],
         "macro": [
-          "VIX 17 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
@@ -164,7 +164,7 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 47.1
+        "price": 46.39
       },
       "social_sentiment": null,
       "position_sizing": {
@@ -175,14 +175,14 @@
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 44.67,
-        "stop_loss_pct": -5.2,
-        "take_profit_price": 65.94,
+        "stop_loss_price": 44.69,
+        "stop_loss_pct": -3.7,
+        "take_profit_price": 64.95,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "המניה נסחרת קרוב לקצה העליון של הטווח השנתי עם ציון טכני חלש (35), מה שמעיד על מיצוי מומנטום בטווח הקצר. עבור פרופיל שמרני הממוקד ב-AI ובמדדים רחבים, BN אמנם מציעה חשיפה איכותית לתשתיות ואנרגיה, אך הנתונים האלגוריתמיים הממוצעים (49) מצדיקים המתנה לתיקון או לנקודת כניסה אטרקטיבית יותר לפני הגדלת פוזיציה.",
+      "rationale": "למרות ש-BN מציעה חשיפה לתחומי האנרגיה והתשתיות המועדפים עליך, הציון הטכני הנמוך (35) והקרבה לשיא השנתי מצביעים על פוטנציאל אפסייד מוגבל בטווח הקצר. עבור פרופיל שמרני המתמקד ב-AI, הנכס מהווה עוגן איכותי אך התמחור הנוכחי והמגמה המעורבת מצדיקים המתנה לנקודת כניסה נוחה יותר במסגרת ההפקדות הדו-חודשיות.",
       "personas": []
     },
     {
@@ -208,66 +208,7 @@
           "Portfolio weight 2.2% — well-sized"
         ],
         "macro": [
-          "VIX 17 — normal volatility"
-        ],
-        "sentiment": [
-          "No analyst coverage data available"
-        ],
-        "technical": [
-          "Price below MA200 — long-term trend is bearish",
-          "RSI 93 — overbought, potential pullback ahead"
-        ]
-      },
-      "analyst_consensus": {
-        "buy": 0,
-        "hold": 0,
-        "sell": 0,
-        "target": null,
-        "price": 22.025
-      },
-      "social_sentiment": null,
-      "position_sizing": {
-        "target_pct": 1.6,
-        "action": "reduce_small",
-        "delta_pct": -0.6,
-        "reason": "Small trim recommended (2.2% → 1.6%)",
-        "max_allowed": 12
-      },
-      "exit_triggers": {
-        "stop_loss_price": 17.62,
-        "stop_loss_pct": -20,
-        "take_profit_price": 30.83,
-        "take_profit_pct": 40,
-        "trailing_enabled": false,
-        "re_evaluate_if": "If weighted score moves out of 40-60 range"
-      },
-      "rationale": "הנכס אינו תואם את סקטורי המיקוד של הפרופיל (AI, אנרגיה או ביטוח ישראלי) ומציג ציון טכני חלש מאוד של 12/100. לאור הדירוג המשוקלל הנמוך (45) והעובדה שהמחיר נסחר מתחת לממוצע נע 200, ההשקעה אינה הולמת את רמת הסיכון השמרנית ואת העדפת המשתמש לחשיפה למדדי ארה\"ב כעוגן לתיק.",
-      "personas": []
-    },
-    {
-      "ticker": "ETHA",
-      "verdict": "hold",
-      "conviction": 53,
-      "scores": {
-        "valuation": 35,
-        "technical": 19,
-        "risk": 60,
-        "sentiment": 50,
-        "macro": 50,
-        "quality": 40
-      },
-      "score_details": {
-        "quality": [
-          "No fundamental data available for this ticker"
-        ],
-        "valuation": [
-          "No valuation data — scored neutral (50)"
-        ],
-        "risk": [
-          "Portfolio weight 0.8% — well-sized"
-        ],
-        "macro": [
-          "VIX 17 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
@@ -282,7 +223,66 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 18.49
+        "price": 21.145
+      },
+      "social_sentiment": null,
+      "position_sizing": {
+        "target_pct": 1.6,
+        "action": "reduce_small",
+        "delta_pct": -0.6,
+        "reason": "Small trim recommended (2.2% → 1.6%)",
+        "max_allowed": 12
+      },
+      "exit_triggers": {
+        "stop_loss_price": 16.92,
+        "stop_loss_pct": -20,
+        "take_profit_price": 29.6,
+        "take_profit_pct": 40,
+        "trailing_enabled": false,
+        "re_evaluate_if": "If weighted score moves out of 40-60 range"
+      },
+      "rationale": "הנכס מציג חולשה טכנית קיצונית (12/100) ונסחר מתחת לממוצע הנע 200 יום, מה שמעיד על מגמה שלילית ארוכת טווח שאינה מתאימה לפרופיל שמרני. בנוסף, CPNG אינה תואמת את התזה הממוקדת ב-AI או בסקטורים המועדפים, ולכן עדיף להפנות את ההפקדות הדו-חודשיות לעוגן ה-S&P 500 או למניות טכנולוגיה מובילות.",
+      "personas": []
+    },
+    {
+      "ticker": "ETHA",
+      "verdict": "hold",
+      "conviction": 54,
+      "scores": {
+        "valuation": 50,
+        "technical": 29,
+        "risk": 60,
+        "sentiment": 50,
+        "macro": 50,
+        "quality": 30
+      },
+      "score_details": {
+        "quality": [
+          "No fundamental data available for this ticker"
+        ],
+        "valuation": [
+          "No valuation data — scored neutral (50)"
+        ],
+        "risk": [
+          "Portfolio weight 0.8% — well-sized"
+        ],
+        "macro": [
+          "VIX 19 — normal volatility"
+        ],
+        "sentiment": [
+          "No analyst coverage data available"
+        ],
+        "technical": [
+          "Price below MA200 — long-term trend is bearish",
+          "RSI 66 — neutral zone"
+        ]
+      },
+      "analyst_consensus": {
+        "buy": 0,
+        "hold": 0,
+        "sell": 0,
+        "target": null,
+        "price": 17.265
       },
       "social_sentiment": null,
       "position_sizing": {
@@ -293,14 +293,14 @@
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 14.79,
+        "stop_loss_price": 13.81,
         "stop_loss_pct": -20,
-        "take_profit_price": 25.89,
+        "take_profit_price": 24.17,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "הנכס מציג עוצמה טכנית חלשה מאוד (19/100) ונסחר מתחת לממוצע נע 200, מה שמעיד על מגמה שלילית ארוכת טווח למרות העלייה היומית. עבור פרופיל שמרני הממוקד ב-AI ומדדים, התנודתיות הגבוהה והציון הנמוך במדדי האיכות והערכת השווי הופכים את ETHA לנכס שאינו תואם את אסטרטגיית הליבה, במיוחד כשהחשיפה לקריפטו מוגדרת כספקולטיבית ומוגבלת ל-3% בלבד.",
+      "rationale": "הנכס מציג חולשה טכנית משמעותית (29/100) ונסחר משמעותית מתחת לממוצע הנע 200 יום, מה שמעיד על מגמת ירידה ארוכת טווח בנכס ספקולטיבי. עבור משקיע שמרני המעדיף חשיפה ל-AI ולמדדים מרכזיים, רמת הסיכון הנוכחית והציון הכללי הנמוך (45) אינם מצדיקים החזקה, במיוחד לאור הירידה היומית החדה והסטייה מהסקטורים המועדפים.",
       "personas": []
     },
     {
@@ -326,14 +326,14 @@
           "Portfolio weight 3.3% — well-sized"
         ],
         "macro": [
-          "VIX 17 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
           "Price above MA200 but below MA50 — short-term pullback in uptrend",
-          "RSI 66 — neutral zone"
+          "RSI 63 — neutral zone"
         ]
       },
       "analyst_consensus": {
@@ -341,7 +341,7 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 148.79
+        "price": 148.43
       },
       "social_sentiment": null,
       "position_sizing": {
@@ -352,23 +352,23 @@
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 146.46,
-        "stop_loss_pct": -1.6,
-        "take_profit_price": 208.31,
+        "stop_loss_price": 146.52,
+        "stop_loss_pct": -1.3,
+        "take_profit_price": 207.8,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "למרות שסקטור הבריאות מוגדר כהעדפה בתיק, הנתונים הטכניים מצביעים על חולשה כאשר XLV נסחר מתחת לממוצע נע 50, מה שמעיד על מומנטום שלילי בטווח הקצר. עבור משקיע שמרני, מומלץ להמתין להתייצבות מעל רמת ה-152 דולר לפני הגדלת פוזיציה, תוך שמירה על הנכס כעוגן דפנסיבי לאופק של 4 שנים.",
+      "rationale": "המגזר מהווה עוגן דפנסיבי המועדף על ידי המשקיע, אך הנתונים הטכניים מצביעים על חולשה בטווח הקצר כאשר המחיר נסחר מתחת לממוצע נע 50. לאור האופק הארוך ורמת הסיכון הבינונית, מומלץ להמתין להתייצבות מעל רמות התמיכה של ממוצע 200 לפני הגדלת החשיפה.",
       "personas": []
     },
     {
       "ticker": "IBIT",
       "verdict": "hold",
-      "conviction": 48,
+      "conviction": 52,
       "scores": {
-        "valuation": 35,
-        "technical": 12,
+        "valuation": 50,
+        "technical": 21,
         "risk": 35,
         "sentiment": 50,
         "macro": 50,
@@ -382,17 +382,17 @@
           "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 7.2% — well-sized"
+          "Portfolio weight 7.0% — well-sized"
         ],
         "macro": [
-          "VIX 17 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
           "Price below MA200 — long-term trend is bearish",
-          "RSI 88 — overbought, potential pullback ahead"
+          "RSI 74 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
@@ -400,25 +400,25 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 44.11
+        "price": 42.46
       },
       "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 2.5,
+        "target_pct": 3,
         "action": "reduce",
-        "delta_pct": -4.7,
-        "reason": "Scores suggest trimming (7.2% → 2.5%)",
+        "delta_pct": -4.0,
+        "reason": "Scores suggest trimming (7.0% → 3.0%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 35.29,
+        "stop_loss_price": 33.97,
         "stop_loss_pct": -20,
-        "take_profit_price": 61.75,
+        "take_profit_price": 59.44,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "הציון האלגוריתמי המשוקלל נמוך מאוד (37) ומשקף חולשה טכנית קיצונית (12), מה שאינו עולה בקנה אחד עם הפרופיל השמרני של המשקיע. לאור העובדה שהנכס נסחר משמעותית מתחת לממוצע נע 200 יום ומוגדר בתיק כרכיב ספקולטיבי המוגבל ל-3%, מומלץ להחזיק בפוזיציה קיימת בלבד ולא להגדיל חשיפה ברמות סיכון אלו.",
+      "rationale": "הציון הטכני החלש (21/100) והעובדה שהמחיר נסחר משמעותית מתחת לממוצע נע 200 מעידים על מומנטום שלילי בטווח הארוך. עבור פרופיל שמרני הרואה בקריפטו נכס ספקולטיבי, הנתונים הנוכחיים אינם מצדיקים הגדלת חשיפה מעבר להחזקה קיימת, במיוחד כשהציון הכללי נמוך (41/100) והנכס רחוק משיאו השנתי.",
       "personas": []
     },
     {
@@ -441,18 +441,18 @@
           "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 13.0% — moderate position",
+          "Portfolio weight 13.1% — moderate position",
           "Sector weight 47% — high concentration risk"
         ],
         "macro": [
-          "VIX 17 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price $267 > MA50 $248 > MA200 $247 — strong uptrend (golden cross zone)",
-          "RSI 96 — overbought, potential pullback ahead"
+          "Price $265 > MA50 $248 > MA200 $247 — strong uptrend (golden cross zone)",
+          "RSI 94 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
@@ -460,34 +460,34 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 267.436
+        "price": 264.94
       },
       "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 1.2,
+        "target_pct": 0.9,
         "action": "reduce",
-        "delta_pct": -11.8,
-        "reason": "Scores suggest trimming (13.0% → 1.2%)",
+        "delta_pct": -12.2,
+        "reason": "Scores suggest trimming (13.1% → 0.9%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 246.56,
-        "stop_loss_pct": -7.8,
-        "take_profit_price": 374.41,
+        "stop_loss_price": 246.75,
+        "stop_loss_pct": -6.9,
+        "take_profit_price": 370.92,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "למרות שהנכס תואם לחלוטין את תזת ה-AI של המשקיע, הציון האלגוריתמי הממוצע (46) ומדד הסיכון הנמוך (25) מעידים על תמחור מתוח בשיא כל הזמנים. עבור משקיע שמרני, מומלץ להמתין לנקודת כניסה נוחה יותר או להמשיך באסטרטגיית ה-DCA הקבועה מבלי להגדיל חשיפה באופן אגרסיבי ברמות המחיר הנוכחיות.",
+      "rationale": "הנכס תואם את התזה המרכזית של השקעה בטכנולוגיה ובינה מלאכותית, אך הוא נסחר כרגע קרוב מאוד לשיא השנתי שלו עם ציון סיכון נמוך (25), מה שמעלה חשש לתנודתיות עבור משקיע שמרני. בהתחשב בציון הממוצע (46) ובמגמה הטכנית המתונה, מומלץ להמתין לנקודת כניסה נוחה יותר במסגרת ההפקדות הדו-חודשיות ולא להגדיל חשיפה במחירי השיא.",
       "personas": []
     },
     {
       "ticker": "ITA",
       "verdict": "hold",
-      "conviction": 56,
+      "conviction": 59,
       "scores": {
         "valuation": 50,
-        "technical": 71,
+        "technical": 24,
         "risk": 60,
         "sentiment": 50,
         "macro": 50,
@@ -504,14 +504,14 @@
           "Portfolio weight 6.2% — well-sized"
         ],
         "macro": [
-          "VIX 17 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price $234 > MA50 $233 > MA200 $214 — strong uptrend (golden cross zone)",
-          "RSI 67 — neutral zone"
+          "Price above MA200 but below MA50 — short-term pullback in uptrend",
+          "RSI 72 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
@@ -519,7 +519,7 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 234.35
+        "price": 231.225
       },
       "social_sentiment": null,
       "position_sizing": {
@@ -530,14 +530,14 @@
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 214.22,
-        "stop_loss_pct": -8.6,
-        "take_profit_price": 328.09,
+        "stop_loss_price": 214.44,
+        "stop_loss_pct": -7.3,
+        "take_profit_price": 323.71,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "הקרן מציגה מומנטום טכני חזק (71) ונמצאת במגמת עלייה ברורה מעל הממוצעים הנעים, מה שמתאים לאופק ההשקעה לטווח ארוך. למרות ציון תמחור ומאקרו ממוצעים, הסקטור מהווה רכיב מועדף בפרופיל שלך ומספק גיוון דפנסיבי איכותי התואם רמת סיכון בינונית.",
+      "rationale": "למרות שהמגזר מהווה חלק מועדף באסטרטגיית התיק, הציון הטכני החלש (24) והעובדה ש-ITA נסחרת מתחת לממוצע נע 50 מעידים על אובדן מומנטום בטווח הקצר. עבור משקיע שמרני, מומלץ להמתין להתייצבות במחיר לפני הזרמת הון נוסף, תוך שמירה על החשיפה הקיימת כמרכיב דפנסיבי ארוך טווח.",
       "personas": []
     },
     {
@@ -563,14 +563,14 @@
           "Portfolio weight 5.9% — well-sized"
         ],
         "macro": [
-          "VIX 17 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price $201 > MA50 $183 > MA200 $182 — strong uptrend (golden cross zone)",
-          "RSI 93 — overbought, potential pullback ahead"
+          "Price $198 > MA50 $184 > MA200 $182 — strong uptrend (golden cross zone)",
+          "RSI 91 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
@@ -578,7 +578,7 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 201.05
+        "price": 198.415
       },
       "social_sentiment": null,
       "position_sizing": {
@@ -589,14 +589,14 @@
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 181.77,
-        "stop_loss_pct": -9.6,
-        "take_profit_price": 281.47,
+        "stop_loss_price": 181.98,
+        "stop_loss_pct": -8.3,
+        "take_profit_price": 277.78,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "למרות ש-NVDA היא עמוד התווך של תזת ה-AI שלך, הציונים האלגוריתמיים הניטרליים והקרבה לשיא השנתי מצדיקים המתנה בקרב משקיע שמרני. המגמה הטכנית נותרת חיובית (Uptrend), אך הציון המשוקלל (52) מרמז על איזון בין פוטנציאל הצמיחה לבין תמחור מלא בטווח הקצר.",
+      "rationale": "למרות ש-NVDA היא ליבת תזת ה-AI של הפרופיל, הציונים האלגוריתמיים הניטרליים (52/100) והקרבה לשיא השנתי מצביעים על תמחור מלא בטווח הקצר. עבור משקיע שמרן, מומלץ להמתין לנקודת כניסה נוחה יותר במסגרת ההפקדות הדו-חודשיות, תוך שמירה על הפוזיציה הקיימת לאור המגמה הטכנית החיובית (Uptrend) ואופק ההשקעה הארוך.",
       "personas": []
     },
     {
@@ -619,18 +619,18 @@
           "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 25.2% — overweight (>15%)",
+          "Portfolio weight 25.4% — overweight (>15%)",
           "Sector weight 47% — high concentration risk"
         ],
         "macro": [
-          "VIX 17 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price $711 > MA50 $675 > MA200 $666 — strong uptrend (golden cross zone)",
-          "RSI 97 — overbought, potential pullback ahead"
+          "Price $707 > MA50 $676 > MA200 $667 — strong uptrend (golden cross zone)",
+          "RSI 95 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
@@ -638,25 +638,25 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 711.2
+        "price": 706.81
       },
       "social_sentiment": null,
       "position_sizing": {
         "target_pct": 10.1,
         "action": "reduce",
-        "delta_pct": -15.1,
-        "reason": "Scores suggest trimming (25.2% → 10.1%)",
+        "delta_pct": -15.2,
+        "reason": "Scores suggest trimming (25.4% → 10.1%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 666.48,
-        "stop_loss_pct": -6.3,
-        "take_profit_price": 995.68,
+        "stop_loss_price": 666.91,
+        "stop_loss_pct": -5.6,
+        "take_profit_price": 989.53,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "מדד ה-S&P 500 מהווה את העוגן המרכזי בתיק, אך הציון האלגוריתמי המשוקלל (42) וציון הסיכון הנמוך במיוחד (5) מעידים על מתיחות במחיר שנמצא בשיא כל הזמנים. למרות המגמה החיובית (Uptrend), עבור משקיע שמרני מומלץ להמתין לתיקון קל או לנקודת כניסה נוחה יותר לפני הגדלת חשיפה משמעותית.",
+      "rationale": "למרות שה-S&P 500 מהווה את העוגן המרכזי באסטרטגיה שלך, הציון האלגוריתמי הנמוך (42) וציון הסיכון החלש (5) מעידים על תמחור מתוח בקרבת שיא כל הזמנים. עבור פרופיל שמרני, מומלץ להמתין לנקודת כניסה אטרקטיבית יותר או להסתפק בהפקדות הדו-חודשיות הקבועות כחלק ממיצוע עלויות, ללא הגדלת חשיפה אגרסיבית כרגע.",
       "personas": []
     },
     {
@@ -682,14 +682,14 @@
           "Portfolio weight 5.6% — well-sized"
         ],
         "macro": [
-          "VIX 17 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price $70 > MA50 $67 > MA200 $59 — strong uptrend (golden cross zone)",
-          "RSI 79 — overbought, potential pullback ahead"
+          "Price $69 > MA50 $67 > MA200 $59 — strong uptrend (golden cross zone)",
+          "RSI 82 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
@@ -697,7 +697,7 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 69.98
+        "price": 69.03
       },
       "social_sentiment": null,
       "position_sizing": {
@@ -708,14 +708,14 @@
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 59.14,
-        "stop_loss_pct": -15.5,
-        "take_profit_price": 97.97,
+        "stop_loss_price": 59.24,
+        "stop_loss_pct": -14.2,
+        "take_profit_price": 96.64,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "URNM תואם ישירות את העדפת המגזרים של הפרופיל (Uranium) ומציג מגמת עלייה טכנית חיובית (Price > MA50 > MA200). למרות שהציונים האלגוריתמיים ניטרליים (52), אופק ההשקעה של 4 שנים והתרומה הדו-חודשית מאפשרים צבירה הדרגתית בנכס שנמצא במומנטום חיובי.",
+      "rationale": "הנכס URNM תואם ישירות את העדפת המשתמש למגזר האורניום כמשלים לתזת ה-AI והצורך באנרגיה נקייה. למרות ציונים אלגוריתמיים ניטרליים, המגמה הטכנית החיובית (Uptrend) והאופק לטווח ארוך של 4 שנים תומכים בהגדלת חשיפה מתונה כחלק מההפקדות הדו-חודשיות.",
       "personas": []
     },
     {
@@ -738,17 +738,17 @@
           "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Portfolio weight 4.6% — well-sized"
+          "Portfolio weight 4.5% — well-sized"
         ],
         "macro": [
-          "VIX 17 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price $147 > MA50 $140 > MA200 $133 — strong uptrend (golden cross zone)",
-          "RSI 78 — overbought, potential pullback ahead"
+          "Price $144 > MA50 $140 > MA200 $134 — strong uptrend (golden cross zone)",
+          "RSI 79 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
@@ -756,25 +756,25 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 147.46
+        "price": 144.01
       },
       "social_sentiment": null,
       "position_sizing": {
         "target_pct": 3.3,
         "action": "reduce_small",
         "delta_pct": -1.3,
-        "reason": "Small trim recommended (4.6% → 3.3%)",
+        "reason": "Small trim recommended (4.5% → 3.3%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 133.48,
-        "stop_loss_pct": -9.5,
-        "take_profit_price": 206.44,
+        "stop_loss_price": 133.65,
+        "stop_loss_pct": -7.2,
+        "take_profit_price": 201.61,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "NLR מתיישב היטב עם התזה של המשקיע לגבי אנרגיה גרעינית כמעטפת תומכת לצמיחת ה-AI ומרכזי הנתונים. למרות המגמה הטכנית החיובית (Uptrend), הציונים האלגוריתמיים הממוצעים (52) והתמחור הנוכחי מעידים על איזון בין סיכון לסיכוי, מה שמצדיק החזקה קיימת או המתנה לנקודת כניסה נוחה יותר במסגרת הרכישות הדו-חודשיות.",
+      "rationale": "הנכס תואם את העדפת המגזר של הפרופיל כמענה לצורכי האנרגיה של מהפכת ה-AI, אך הציונים האלגוריתמיים הממוצעים מעידים על תמחור הוגן ולא אטרקטיבי במיוחד כרגע. לאור העובדה שהמחיר קרוב לשיא השנתי והסיכון בינוני, מומלץ להמתין לתיקון או לנקודת כניסה נוחה יותר במסגרת ההפקדות הדו-חודשיות של המשקיע.",
       "personas": []
     },
     {
@@ -801,14 +801,14 @@
           "Sector weight 47% — high concentration risk"
         ],
         "macro": [
-          "VIX 17 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price $654 > MA50 $621 > MA200 $613 — strong uptrend (golden cross zone)",
-          "RSI 97 — overbought, potential pullback ahead"
+          "Price $650 > MA50 $621 > MA200 $613 — strong uptrend (golden cross zone)",
+          "RSI 96 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
@@ -816,7 +816,7 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 653.845
+        "price": 649.795
       },
       "social_sentiment": null,
       "position_sizing": {
@@ -827,14 +827,14 @@
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 612.89,
-        "stop_loss_pct": -6.3,
-        "take_profit_price": 915.38,
+        "stop_loss_price": 613.29,
+        "stop_loss_pct": -5.6,
+        "take_profit_price": 909.71,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "המדד מהווה את העוגן המרכזי בתיק שלך, אך כרגע VOO נסחר בשיא כל הזמנים עם ציונים אלגוריתמיים ניטרליים (48/100). עבור משקיע שמרני, מומלץ להמשיך להחזיק בנכס הקיים אך להמתין לנסיגה קלה לפני הגדלת חשיפה אגרסיבית, תוך שמירה על מנגנון ההפקדה הדו-חודשי הקבוע.",
+      "rationale": "מדד ה-VOO מהווה את העוגן המרכזי בתיק לפי האסטרטגיה שלך, והמגמה הטכנית נותרת חיובית (Uptrend) למרות שהמחיר קרוב לשיא השנתי. לאור אופק ההשקעה של 4 שנים ותדירות ההפקדות הדו-חודשית, מומלץ להמשיך ברכישות מתוזמנות (DCA) כדי לשמור על חשיפה למדד המרכזי, למרות ציוני פונדמנטל וסנטימנט ניטרליים כרגע.",
       "personas": []
     },
     {
@@ -860,7 +860,7 @@
           "Portfolio weight 0.0% — well-sized"
         ],
         "macro": [
-          "VIX 17 — normal volatility"
+          "VIX 19 — normal volatility"
         ],
         "sentiment": [
           "No analyst coverage data available"
@@ -885,7 +885,7 @@
         "max_allowed": 12
       },
       "exit_triggers": {},
-      "rationale": "הציונים האלגוריתמיים ניטרליים לחלוטין (50/100), מה שמעיד על איזון בין סיכון לתשואה ללא מומנטום חריג כרגע. הנכס מהווה מרכיב דפנסיבי מרכזי בתזה של המשקיע לגיוון התיק בשוק הישראלי, ולכן מתאים להחזקה כעוגן מקומי יציב באופק השקעה של 4 שנים.",
+      "rationale": "המדד מציג ציונים ניטרליים לחלוטין (50) בכל הפרמטרים, מה שמעיד על איזון תמחירי וטכני ללא מומנטום חריג. עבור הפרופיל שלך, 5108.TA מהווה עוגן דפנסיבי חיוני המעניק גיוון לשוק המקומי, ולכן מומלץ להמשיך להחזיק בפוזיציה כחלק מהאסטרטגיה ארוכת הטווח.",
       "personas": []
     }
   ],
