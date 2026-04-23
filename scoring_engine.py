@@ -306,13 +306,16 @@ def risk_score(portfolio_weight: float = 0, beta: float = 1.0,
 def sentiment_score(analyst_buy: int = 0, analyst_hold: int = 0,
                     analyst_sell: int = 0,
                     news_headlines: list | None = None,
-                    social_sentiment: dict | None = None) -> int:
-    """Compute sentiment score (0-100) from analyst consensus + social sentiment.
+                    social_sentiment: dict | None = None,
+                    news_sentiment: dict | None = None) -> int:
+    """Compute sentiment score (0-100) from analyst consensus + social + news.
 
-    Blend:
-      - 70% analyst consensus (hard data from Alpha Vantage)
-      - 30% social sentiment (Twitter/X via Perplexity) if available
+    Blend (2026):
+      - 55% analyst consensus (hard data, high confidence)
+      - 25% social sentiment   (Twitter/X via Perplexity, if present)
+      - 20% news sentiment     (finance-lexicon scorer over recent headlines)
 
+    If only analyst data is available, weights collapse to 100% analyst.
     Requires MIN_COVERAGE=3 analysts to emit an analyst signal.
     """
     analyst_score = 50
@@ -340,14 +343,27 @@ def sentiment_score(analyst_buy: int = 0, analyst_hold: int = 0,
 
     analyst_score = max(0, min(100, analyst_score))
 
-    # Blend with social sentiment if available
-    if social_sentiment and "sentiment_score" in social_sentiment:
-        social_score = int(social_sentiment["sentiment_score"])
-        # 70% analyst (more reliable) + 30% social
-        blended = int(analyst_score * 0.7 + social_score * 0.3)
-        return max(0, min(100, blended))
+    # Collect the optional signals
+    has_social = bool(social_sentiment and "sentiment_score" in social_sentiment)
+    has_news = bool(news_sentiment and "score" in news_sentiment
+                    and (news_sentiment.get("used_count") or 0) > 0)
 
-    return analyst_score
+    # Weighting: start with analyst at 100% and redistribute if other signals exist
+    w_analyst, w_social, w_news = 1.0, 0.0, 0.0
+    if has_social and has_news:
+        w_analyst, w_social, w_news = 0.55, 0.25, 0.20
+    elif has_social:
+        w_analyst, w_social = 0.70, 0.30
+    elif has_news:
+        w_analyst, w_news = 0.80, 0.20
+
+    blended = analyst_score * w_analyst
+    if has_social:
+        blended += int(social_sentiment["sentiment_score"]) * w_social
+    if has_news:
+        blended += int(news_sentiment["score"]) * w_news
+
+    return max(0, min(100, int(round(blended))))
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -613,16 +629,27 @@ def compute_all_scores(
     asset_type: str,
     crypto_cap: float = 10,
     social_sentiment: dict | None = None,
+    insider_activity: dict | None = None,
+    smart_money_info: dict | None = None,
+    news_sentiment: dict | None = None,
 ) -> dict[str, int]:
-    """Compute all 6 scores for a ticker — asset-class-aware.
+    """Compute all 8 scores for a ticker — asset-class-aware.
 
-    Stocks/ETFs: P/E, PEG, ROE, margins (classic fundamentals)
-    Crypto: momentum + macro (no earnings to analyze)
-    Bonds: yield environment + sovereign credit (not P/E-based)
+    Six analytical factors (stocks / ETFs / crypto / bond branches):
+        Stocks/ETFs: P/E, PEG, ROE, margins (classic fundamentals)
+        Crypto: momentum + macro (no earnings to analyze)
+        Bonds: yield environment + sovereign credit (not P/E-based)
+
+    Two 2026 market-signal factors — skipped for crypto/bonds/TASE where the
+    underlying data (SEC Form 4 / 13F) does not apply:
+        insider — Form 4 aggregates: cluster buys, exec purchases, net $ flow
+        smart_money — 13F deltas from the top-10 watched funds (Berkshire,
+            Scion, Pershing, Bridgewater, Renaissance, …)
     """
     price = quote.get("price", 0) or 0
     is_bond = "Fixed Income" in (asset_type or "")
     is_crypto = "Crypto" in (asset_type or "")
+    is_tase = ticker.endswith(".TA")
 
     # Extract sector for valuation comparison
     sector = asset_type or ""
@@ -645,7 +672,7 @@ def compute_all_scores(
     else:
         qual_score = quality_score(fundamentals)
 
-    return {
+    out = {
         "valuation": val_score,
         "technical": technical_score(
             price,
@@ -663,7 +690,8 @@ def compute_all_scores(
             (fundamentals or {}).get("analyst_hold", 0),
             (fundamentals or {}).get("analyst_sell", 0),
             news,
-            social_sentiment),
+            social_sentiment,
+            news_sentiment=news_sentiment),
         "macro": macro_score(
             macro_data.get("fed_rate"),
             macro_data.get("ten_year_yield"),
@@ -673,19 +701,41 @@ def compute_all_scores(
         "quality": qual_score,
     }
 
+    # Insider + smart-money only apply to US equities (and US-listed ETFs are
+    # tracked too — 13F data includes SPY/VOO/etc.). Skip for crypto/bonds/TASE.
+    if not is_crypto and not is_bond and not is_tase:
+        try:
+            from data_loader_insider import score_insider
+            out["insider"] = score_insider(insider_activity)
+        except ImportError:
+            pass
+        try:
+            from data_loader_smart_money import score_smart_money
+            out["smart_money"] = score_smart_money(smart_money_info)
+        except ImportError:
+            pass
+
+    return out
+
 
 DEFAULT_WEIGHTS = {
-    "quality": 30, "valuation": 25, "risk": 20,
-    "macro": 15, "sentiment": 5, "technical": 5,
+    # 6 analytical factors (was 100% total, now redistributed to 85%)
+    "quality": 25, "valuation": 22, "risk": 18,
+    "macro": 12, "sentiment": 4, "technical": 4,
+    # 2 market-signal factors added 2026 — free via SEC EDGAR (see
+    # data_loader_insider.py + data_loader_smart_money.py)
+    "insider": 8, "smart_money": 7,
 }
 
 
 def scores_to_verdict(scores: dict[str, int],
                       weights: dict[str, int] | None = None) -> tuple[str, int]:
-    """Convert 6 scores to a single verdict + conviction using strategy weights.
+    """Convert all available scores to a single verdict + conviction.
 
-    The weights come from settings.json (user-configurable strategy presets).
-    Requires at least 3 of 6 scores to be present for a meaningful verdict.
+    Supports the 6 analytical factors + the 2 market-signal factors added 2026
+    (`insider`, `smart_money`). Missing factors simply drop out of the weighted
+    average — we require at least 3 of the 6 analytical factors to be present
+    for a confident call.
     """
     if not scores or len(scores) < 3:
         # Insufficient score coverage — cannot make a confident call
@@ -750,6 +800,8 @@ def explain_scores(
     macro_data: dict,
     portfolio_weight: float = 0,
     sector_weight: float = 0,
+    insider_activity: dict | None = None,
+    smart_money_info: dict | None = None,
 ) -> dict[str, list[str]]:
     """Generate bullet-point explanations for each score.
 
@@ -757,6 +809,22 @@ def explain_scores(
     """
     f = fundamentals or {}
     explanations: dict[str, list[str]] = {}
+
+    # ── Insider (delegates to data_loader_insider.explain_insider) ───────
+    if "insider" in scores:
+        try:
+            from data_loader_insider import explain_insider
+            explanations["insider"] = explain_insider(insider_activity)
+        except ImportError:
+            explanations["insider"] = ["insider module unavailable"]
+
+    # ── Smart-money (delegates to data_loader_smart_money.explain_smart_money) ──
+    if "smart_money" in scores:
+        try:
+            from data_loader_smart_money import explain_smart_money
+            explanations["smart_money"] = explain_smart_money(smart_money_info)
+        except ImportError:
+            explanations["smart_money"] = ["smart_money module unavailable"]
 
     # ── Quality ──────────────────────────────────────────────────────────
     q_reasons = []

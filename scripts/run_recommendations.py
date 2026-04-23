@@ -457,10 +457,14 @@ def _gemini() -> object:
               "pip install langchain-google-genai", file=sys.stderr)
         sys.exit(2)
     # Tiered model strategy (configurable via env vars):
-    # - PRIMARY: best quality (e.g. gemini-3-flash-preview)
-    # - FALLBACK: free tier with high limits (gemini-2.5-flash-lite, 1000 RPD)
+    # - PRIMARY: `gemini-flash-latest` — always points to the newest best Flash
+    #   (currently Gemini 3 / 3.1 Flash Preview). Auto-upgrades when Google
+    #   publishes Gemini 4. Safer than pinning a specific preview name that
+    #   can be retired (e.g. `gemini-3-flash-preview` WILL get deprecated once
+    #   the GA version ships).
+    # - FALLBACK: `gemini-flash-lite-latest` — cheaper, high free-tier RPD.
     # On rate limit errors, _invoke_with_retry auto-falls back to fallback model.
-    model_name = os.environ.get("GEMINI_MODEL", "gemini-3-flash-preview")
+    model_name = os.environ.get("GEMINI_MODEL", "gemini-flash-latest")
     return ChatGoogleGenerativeAI(
         model=model_name, google_api_key=api_key,
         temperature=0.3, timeout=45, max_retries=0,  # we do our own retries below
@@ -468,13 +472,13 @@ def _gemini() -> object:
 
 
 def _gemini_fallback() -> object:
-    """Fallback model — cheaper with higher free-tier limits (1000 RPD)."""
+    """Fallback model — cheaper with higher free-tier limits."""
     api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
     if not api_key:
         return None
     try:
         from langchain_google_genai import ChatGoogleGenerativeAI
-        model_name = os.environ.get("GEMINI_FALLBACK_MODEL", "gemini-2.5-flash-lite")
+        model_name = os.environ.get("GEMINI_FALLBACK_MODEL", "gemini-flash-lite-latest")
         return ChatGoogleGenerativeAI(
             model=model_name, google_api_key=api_key,
             temperature=0.3, timeout=45, max_retries=0,
@@ -490,8 +494,8 @@ def _invoke_with_retry(llm, messages, attempts: int = 3):
     """Invoke with smart fallback: on rate limit, switch to cheaper model.
 
     Strategy:
-    1. Try primary model (e.g. gemini-3-flash-preview)
-    2. On 429/quota → switch to fallback (gemini-2.5-flash-lite, 1000 RPD free)
+    1. Try primary model (e.g. gemini-flash-latest — auto-resolves to newest Flash)
+    2. On 429/quota → switch to fallback (gemini-flash-lite-latest)
     3. Retry on transient errors (5xx, timeouts)
     """
     import time
@@ -721,6 +725,33 @@ def run_real(settings: dict, portfolio: dict) -> dict:
         ASSET_TYPE_MAP = {}
 
     from concurrent.futures import ThreadPoolExecutor, as_completed
+
+    # Pre-fetch insider + smart-money data for US equities (skips .TA/crypto/bond
+    # tickers internally). Smart-money snapshot is refreshed once per run and
+    # then queried per-ticker.
+    _insider_by_ticker: dict[str, dict | None] = {}
+    _smart_money_by_ticker: dict[str, dict | None] = {}
+    try:
+        from data_loader_insider import fetch_insider_activity
+        from data_loader_smart_money import get_ticker_smart_money, refresh_smart_money_snapshot
+        refresh_smart_money_snapshot()  # warms the weekly cache
+        for tk in tickers:
+            _insider_by_ticker[tk] = fetch_insider_activity(tk)
+            _smart_money_by_ticker[tk] = get_ticker_smart_money(tk)
+    except ImportError:
+        print("[warn] edgartools not installed — insider/smart_money will be null",
+              file=sys.stderr)
+
+    # News sentiment (Loughran-McDonald lexicon scorer — pure-Python, no torch).
+    _news_sentiment_by_ticker: dict[str, dict | None] = {}
+    try:
+        from data_loader_news_sentiment import score_ticker_news
+        for tk in tickers:
+            hl = _news.get(tk, []) if _news else []
+            _news_sentiment_by_ticker[tk] = score_ticker_news(tk, headlines=hl)
+    except Exception as _e_ns:
+        print(f"[warn] news sentiment failed: {_e_ns}", file=sys.stderr)
+
     holdings_out = []
     for i, tk in enumerate(tickers, 1):
         display = DISPLAY_NAMES.get(tk, tk)
@@ -728,7 +759,7 @@ def run_real(settings: dict, portfolio: dict) -> dict:
         tk_weight = _weights.get(tk, 0)
         tk_sec_weight = _sector_weights.get(tk_sector, 0)
 
-        # Scoring engine: compute 6 data-driven scores
+        # Scoring engine: compute 8 data-driven scores (6 analytical + 2 market-signal)
         scores = {}
         if _score_all:
             try:
@@ -738,7 +769,10 @@ def run_real(settings: dict, portfolio: dict) -> dict:
                     tk_weight, tk_sec_weight,
                     ASSET_TYPE_MAP.get(tk, ""),
                     settings.get("crypto_cap_pct", 10),
-                    social_sentiment=_social.get(tk))
+                    social_sentiment=_social.get(tk),
+                    insider_activity=_insider_by_ticker.get(tk),
+                    smart_money_info=_smart_money_by_ticker.get(tk),
+                    news_sentiment=_news_sentiment_by_ticker.get(tk))
             except Exception as e:
                 print(f"  [warn] scoring failed for {tk}: {e}", file=sys.stderr)
 
@@ -754,14 +788,40 @@ def run_real(settings: dict, portfolio: dict) -> dict:
         if scores:
             from scoring_engine import scores_to_verdict as _s2v, explain_scores as _explain
             # Verdict AND conviction come 100% from the scoring engine
-            # (weighted average of 6 scores, using user's strategy weights)
+            # (weighted average of 8 scores, using user's strategy weights)
             algo_v, algo_c = _s2v(scores, _scoring_weights)
-            # Gemini is ONLY used for the Hebrew rationale text — not the verdict
-            synth = _scoring_synthesis_call(
-                llm, tk, display, preamble, scores, _mkt_ctx)
-            # Generate human-readable explanations per score
-            details = _explain(scores, _quotes.get(tk, {}), _technicals.get(tk, {}),
-                               _fundamentals.get(tk), _macro, tk_weight, tk_sec_weight)
+            # Generate human-readable explanations per score FIRST so we can
+            # feed them into the debate as evidence the agents can cite.
+            details = _explain(
+                scores, _quotes.get(tk, {}), _technicals.get(tk, {}),
+                _fundamentals.get(tk), _macro, tk_weight, tk_sec_weight,
+                insider_activity=_insider_by_ticker.get(tk),
+                smart_money_info=_smart_money_by_ticker.get(tk),
+            )
+            # LLM: either single synth call (legacy) or Bull/Bear/Judge debate
+            # (2026 default — richer rationale, minimal extra cost on flash).
+            _debate_on = (os.environ.get("GEMINI_DEBATE", "true").lower()
+                          not in ("0", "false", "no", "off"))
+            if _debate_on:
+                try:
+                    from llm_debate import debate_rationale
+                    synth = debate_rationale(
+                        invoker=lambda msgs: _invoke_with_retry(llm, msgs),
+                        ticker=tk,
+                        display_name=display,
+                        scores=scores,
+                        market_context=_mkt_ctx,
+                        per_ticker_schema=PER_TICKER_SCHEMA,
+                        score_details=details,
+                    )
+                except Exception as _debate_err:
+                    print(f"  [warn] debate failed for {tk} ({_debate_err}); "
+                          f"falling back to single-call synth", file=sys.stderr)
+                    synth = _scoring_synthesis_call(
+                        llm, tk, display, preamble, scores, _mkt_ctx)
+            else:
+                synth = _scoring_synthesis_call(
+                    llm, tk, display, preamble, scores, _mkt_ctx)
             # Extract analyst consensus from fundamentals
             _f = _fundamentals.get(tk) or {}
             analyst_data = {
@@ -802,6 +862,15 @@ def run_real(settings: dict, portfolio: dict) -> dict:
                 "position_sizing": position_rec,
                 "exit_triggers": exit_triggers,
                 "rationale": synth.get("rationale", ""),
+                # Preserve bull/bear theses from debate mode so the web UI can
+                # show "why the judge ruled this way" when the user expands it.
+                "debate": {
+                    "bull_thesis": synth.get("bull_thesis", ""),
+                    "bear_thesis": synth.get("bear_thesis", ""),
+                    "winner": synth.get("debate_winner", ""),
+                } if synth.get("bull_thesis") else None,
+                "insider_activity": _insider_by_ticker.get(tk),
+                "smart_money_info": _smart_money_by_ticker.get(tk),
                 "personas": [],
             }
         else:

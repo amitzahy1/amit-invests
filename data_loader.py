@@ -83,7 +83,33 @@ def _yf_chart(ticker: str, range_: str = "1d", interval: str = "1d") -> dict | N
 
 
 def _fetch_single_quote(ticker: str) -> dict | None:
-    """Fetch a single ticker's live quote (for parallel execution)."""
+    """Fetch a single ticker's live quote (for parallel execution).
+
+    TASE tickers (.TA suffix) go through pymaya first because Yahoo Finance
+    returns 404 for most TASE securities. US/crypto tickers fall through to
+    the Yahoo chart endpoint.
+    """
+    if ticker.endswith(".TA"):
+        try:
+            from data_loader_israeli import fetch_tase_quote
+            tase = fetch_tase_quote(ticker)
+        except Exception:
+            tase = None
+        if tase and tase.get("price"):
+            return {
+                "ticker": ticker,
+                "price": tase["price"],
+                "prev_close": None,
+                "daily_change_pct": tase.get("day_change_pct") or 0,
+                "day_high": None,
+                "day_low": None,
+                "fifty_two_week_high": None,
+                "fifty_two_week_low": None,
+                "volume": None,
+                "currency": tase.get("currency", "ILS"),
+            }
+        # Fall through to Yahoo in case pymaya is offline
+
     data = _yf_chart(ticker, range_="5d", interval="1d")
     if not data:
         return None

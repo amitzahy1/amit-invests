@@ -95,6 +95,190 @@ def _escape_md(text: str) -> str:
     return text.replace("_", "\\_").replace("*", "\\*").replace("`", "\\`").replace("[", "\\[")
 
 
+_ERROR_MARKERS = ("[error", "[שגיאת", "API key not valid",
+                  "INVALID_ARGUMENT", "Analysis unavailable")
+
+
+def _is_error_text(s: str) -> bool:
+    """True when a rationale / insight field holds a raw Gemini/API error blob."""
+    if not s:
+        return True
+    head = s.strip()[:120]
+    return any(m in head for m in _ERROR_MARKERS)
+
+
+def _truncate_sentence_aware(text: str, cap: int = 1400) -> str:
+    """Truncate `text` to <= cap chars at the nearest sentence / paragraph boundary."""
+    if not text or len(text) <= cap:
+        return text or ""
+    window = text[:cap]
+    for sep in ("\n\n", ". ", "! ", "? ", "׃ ", ".\n"):
+        idx = window.rfind(sep)
+        if idx >= int(cap * 0.6):
+            return window[: idx + len(sep)].rstrip() + " …"
+    return window.rstrip() + " …"
+
+
+SCORE_LABELS_HE = {
+    "quality":     "איכות",
+    "valuation":   "שווי",
+    "risk":        "סיכון",
+    "macro":       "מאקרו",
+    "sentiment":   "סנטימנט",
+    "technical":   "מגמה",
+    "insider":     "פנימיים",      # SEC Form 4 insider trades
+    "smart_money": "קרנות ותיקות",  # 13F aggregates from top 10 funds
+}
+
+_DEFAULT_SCORE_WEIGHTS = {
+    "quality": 25, "valuation": 22, "risk": 18,
+    "macro": 12, "sentiment": 4, "technical": 4,
+    "insider": 8, "smart_money": 7,
+}
+
+
+def _load_scoring_weights() -> dict:
+    """Read user's scoring weights from settings.json (falls back to defaults)."""
+    settings = _load_json(SETTINGS_PATH)
+    return (settings or {}).get("scoring_weights") or _DEFAULT_SCORE_WEIGHTS
+
+
+def _weighted_score(scores: dict, weights: dict, details: dict | None = None) -> int | None:
+    """Weighted average of 0-100 scores, excluding placeholder "no data" factors.
+
+    When `details` is provided, any factor whose detail text matches
+    `_NO_DATA_MARKERS` is dropped from the average so a placeholder 50 does not
+    drag the total toward the middle. Remaining weights are re-normalised
+    automatically by dividing by the surviving total weight.
+
+    Returns None when no factor has usable data — caller decides what to show.
+    """
+    if not scores:
+        return None
+    if details:
+        keys = [k for k in scores if _factor_has_data(details.get(k))]
+    else:
+        keys = list(scores.keys())
+    if not keys:
+        return None
+    total_w = sum(weights.get(k, 0) for k in keys) or 1
+    return round(sum(scores[k] * weights.get(k, 0) for k in keys) / total_w)
+
+
+def _score_hint(scores: dict) -> str:
+    """Return ' · חזק: <factor>' or ' · חולשה: <factor>' when a factor stands out."""
+    if not scores:
+        return ""
+    top_k, top_v = max(scores.items(), key=lambda kv: kv[1])
+    bot_k, bot_v = min(scores.items(), key=lambda kv: kv[1])
+    spread = top_v - bot_v
+    if top_v >= 65 and spread >= 15:
+        return f" · חזק: {SCORE_LABELS_HE.get(top_k, top_k)}"
+    if bot_v <= 40 and spread >= 15:
+        return f" · חולשה: {SCORE_LABELS_HE.get(bot_k, bot_k)}"
+    return ""
+
+
+# Markers that score_details uses to signal "no data for this factor".
+# A factor matching any of these is excluded from the weighted score so a
+# placeholder 50 doesn't pollute the total.
+_NO_DATA_MARKERS = (
+    "No fundamental data",
+    "No valuation data",
+    "No analyst coverage",
+    "No social sentiment",
+    "Insufficient price history",
+)
+
+
+def _factor_has_data(details_for_factor) -> bool:
+    """True when scoring_engine had real data to score this factor."""
+    if not details_for_factor:
+        return False
+    joined = " ".join(details_for_factor) if isinstance(details_for_factor, list) \
+        else str(details_for_factor)
+    return not any(m in joined for m in _NO_DATA_MARKERS)
+
+
+def _score_triangle(score: int) -> str:
+    """Colored chart-arrow for a 0-100 score (📈 good, ⚪ neutral, 📉 weak).
+
+    📈 is "chart trending up" — rendered green in all Telegram clients.
+    📉 is "chart trending down" — rendered red. Unlike 🔺/🔻 (both red) this
+    pair actually carries color + direction together.
+    """
+    if score >= 65:
+        return "📈"
+    if score >= 40:
+        return "⚪"
+    return "📉"
+
+
+def _pct_triangle(pct: float, neutral_band: float = 0.05) -> str:
+    """📈 positive, 📉 negative, ⚪ near-zero."""
+    if pct > neutral_band:
+        return "📈"
+    if pct < -neutral_band:
+        return "📉"
+    return "⚪"
+
+
+def _format_holding_detail(h: dict, weights: dict) -> list[str]:
+    """Mobile-first holding block — groups scores into 3 short Hebrew tiers.
+
+    Layout (4-5 lines, no English prose to trip up RTL rendering):
+        🟡 `TICKER` · HOLD 51% · ציון 58
+        📈 חזקים: קרנות 100 · איכות 70 · סנטימנט 72
+        ⚪ רגילים: שווי 50, סיכון 60, מאקרו 50, מגמה 42
+        📉 חלשים: פנימיים 15
+
+    The English detail text (e.g. "ROE 35.7% — excellent profitability") is
+    intentionally dropped here — it stays available in the Streamlit modal.
+    Mobile Telegram can't render long mixed-direction lines cleanly.
+    """
+    verdict = (h.get("verdict") or "hold").lower()
+    conviction = h.get("conviction", 0)
+    ticker = h.get("ticker", "")
+    scores = h.get("scores", {})
+    details = h.get("score_details", {}) or {}
+
+    emoji = _holding_emoji(verdict, conviction)
+    wscore = _weighted_score(scores, weights, details)
+    score_display = f"ציון {wscore}" if wscore is not None else "אין מספיק דאטה"
+
+    out = [f"{emoji} `{ticker}` · *{verdict.upper()}* {conviction}% · {score_display}"]
+
+    # Bucket every *usable* factor (drop no-data placeholders entirely) by tier.
+    strong, neutral, weak = [], [], []
+    for key, val in scores.items():
+        if not _factor_has_data(details.get(key)):
+            continue
+        label = SCORE_LABELS_HE.get(key, key)
+        item = (val, label)
+        if val >= 65:
+            strong.append(item)
+        elif val >= 40:
+            neutral.append(item)
+        else:
+            weak.append(item)
+
+    # Sort each tier by score so the highlight is the most salient on each row
+    strong.sort(key=lambda x: -x[0])
+    weak.sort(key=lambda x: x[0])
+    neutral.sort(key=lambda x: -x[0])
+
+    def _join(items):
+        return " · ".join(f"{label} {val}" for val, label in items)
+
+    if strong:
+        out.append(f"{RLM}📈 *חזקים:* {_join(strong)}")
+    if neutral:
+        out.append(f"{RLM}⚪ *רגילים:* {_join(neutral)}")
+    if weak:
+        out.append(f"{RLM}📉 *חלשים:* {_join(weak)}")
+    return out
+
+
 def _truncate(text: str, max_len: int = 55) -> str:
     """Truncate text to fit one Telegram line."""
     if not text or len(text) <= max_len:
@@ -130,13 +314,18 @@ def _sector_bar(sector_weights: dict, width: int = 10) -> str:
 
 
 def _get_sector(ticker: str) -> str:
-    """Get sector for a ticker (from config.py or local fallback)."""
+    """Resolve sector dynamically: user overrides in config.py → yfinance cache →
+    NEW_IDEA_SECTORS fallback → "Other"."""
     try:
         sys.path.insert(0, str(_ROOT))
-        from config import SECTOR_MAP
-        return SECTOR_MAP.get(ticker, NEW_IDEA_SECTORS.get(ticker, "Other"))
+        from ticker_metadata import get_sector as _dyn_sector
+        sector = _dyn_sector(ticker)
+        if sector and sector != "Other":
+            return sector
     except Exception:
-        return NEW_IDEA_SECTORS.get(ticker, "Other")
+        pass
+    # Last-resort fallback for new-idea suggestions the engine returns
+    return NEW_IDEA_SECTORS.get(ticker, "Other")
 
 
 # ─── New Mentor Blocks ────────────────────────────────────────────────────
@@ -166,10 +355,16 @@ def _format_accuracy_summary() -> str:
     else:
         hr_emoji = "📉"
 
-    lines = [f"{hr_emoji} *Track Record* — {total} verdicts, {hit_rate:.0f}% hit rate"]
+    hr_tri = _pct_triangle(hit_rate - 50, neutral_band=5)  # >55 📈, <45 📉
+    # Mobile-friendly: one metric per line
+    lines = [f"{hr_emoji} *Track Record* ({total} verdicts)"]
+    lines.append(f"`Hit rate    {hit_rate:.0f}%` {hr_tri}")
     if alpha is not None:
+        buy_tri = _pct_triangle(buy_ret)
+        alpha_tri = _pct_triangle(alpha)
         alpha_sign = "+" if alpha >= 0 else ""
-        lines.append(f"`BUY avg {buy_ret:+.1f}%  ·  Alpha vs SPY {alpha_sign}{alpha:.1f}%`")
+        lines.append(f"`BUY avg    {buy_ret:+.1f}%` {buy_tri}")
+        lines.append(f"`Alpha vs SPY {alpha_sign}{alpha:.1f}%` {alpha_tri}")
     return "\n".join(lines)
 
 
@@ -201,6 +396,34 @@ def _format_social_sentiment(recs: dict) -> str:
         themes = s.get("top_themes", [])
         theme_str = f" · {themes[0][:40]}" if themes else ""
         lines.append(f"{emoji} `{tk}` {score}/100 ({label.upper()}){theme_str}")
+    return "\n".join(lines)
+
+
+def _format_uoa_alerts(recs: dict) -> str:
+    """Scan portfolio tickers for Unusual Options Activity and render the top 3.
+
+    Only US equities with real option chains (yfinance) are scanned — crypto
+    ETFs and TASE tickers are skipped internally.
+    """
+    try:
+        sys.path.insert(0, str(_ROOT))
+        from data_loader_options import scan_portfolio_uoa, format_uoa_telegram
+    except Exception:
+        return ""
+    tickers = [h.get("ticker") for h in recs.get("holdings", []) if h.get("ticker")]
+    tickers += [i.get("ticker") for i in recs.get("new_ideas", []) if i.get("ticker")]
+    # Only scan US tickers (chain endpoints don't work for .TA)
+    tickers = [t for t in tickers if t and not t.endswith(".TA")]
+    if not tickers:
+        return ""
+    hits = scan_portfolio_uoa(tickers[:10])  # cap scan to 10 tickers to stay polite
+    if not hits:
+        return ""
+    lines = ["⚡ *זרימה לא רגילה באופציות*"]
+    for info in hits[:3]:
+        block = format_uoa_telegram(info)
+        if block:
+            lines.append(block)
     return "\n".join(lines)
 
 
@@ -246,34 +469,53 @@ def _format_market_context() -> str:
     if not m or not m.get("vix"):
         return ""
 
+    # Mobile-friendly: one metric per line. Each line fits under ~30 chars so
+    # no wrapping on narrow phones.
     lines = ["📊 *שוק היום*"]
 
-    idx_parts = []
     if m.get("sp500_change") is not None:
-        idx_parts.append(f"S&P 500 {m['sp500_change']:+.1f}%")
+        sp = m["sp500_change"]
+        lines.append(f"`S&P 500   {sp:+.1f}%` {_pct_triangle(sp)}")
     if m.get("nasdaq_change") is not None:
-        idx_parts.append(f"Nasdaq {m['nasdaq_change']:+.1f}%")
+        nq = m["nasdaq_change"]
+        lines.append(f"`Nasdaq    {nq:+.1f}%` {_pct_triangle(nq)}")
     if m.get("vix") is not None:
-        fear = "פחד" if m["vix"] > 25 else "נמוך" if m["vix"] < 15 else "נורמלי"
-        idx_parts.append(f"VIX {m['vix']:.0f} ({fear})")
-    if idx_parts:
-        lines.append("`" + "  ·  ".join(idx_parts) + "`")
-
-    rate_parts = []
+        vix_val = m["vix"]
+        if vix_val > 25:
+            vix_tri, fear = "📉", "פחד"
+        elif vix_val < 15:
+            vix_tri, fear = "📈", "רגוע"
+        else:
+            vix_tri, fear = "⚪", "רגיל"
+        lines.append(f"`VIX       {vix_val:.0f}` {vix_tri} ({fear})")
     if m.get("fed_rate") is not None:
-        rate_parts.append(f"Fed {m['fed_rate']:.2f}%")
+        lines.append(f"`Fed       {m['fed_rate']:.2f}%`")
     if m.get("ten_year_yield") is not None:
-        rate_parts.append(f"10Y {m['ten_year_yield']:.2f}%")
+        lines.append(f"`10Y       {m['ten_year_yield']:.2f}%`")
     if m.get("usd_ils") is not None:
-        rate_parts.append(f"USD/ILS {m['usd_ils']:.3f}")
-    if rate_parts:
-        lines.append("`" + "  ·  ".join(rate_parts) + "`")
+        lines.append(f"`USD/ILS   {m['usd_ils']:.3f}`")
 
     return "\n".join(lines)
 
 
+# One-line "why it matters" hints per lesson topic (kept generic so they slot
+# under any lesson body without sounding repetitive).
+_LESSON_TOPIC_HINTS = {
+    "valuation": "💡 *למה זה חשוב?* שילוב הערכת שווי נכונה מפחית את הסיכון לקנות בשיא ומאפשר לזהות הזדמנויות כשהשוק מגזים בפחד.",
+    "risk": "💡 *למה זה חשוב?* ניהול סיכון הוא מה שמבדיל בין משקיע רציני ומי שמהמר — גם רעיון מבריק יכול להרוס תיק אם הפוזיציה גדולה מדי.",
+    "quality": "💡 *למה זה חשוב?* חברות איכות מתפקדות טוב יותר במשברים, והן אלה שמצליחות לייצר תשואה עקבית לאורך זמן.",
+    "technical": "💡 *למה זה חשוב?* אינדיקטורים טכניים עוזרים לתזמון כניסה ויציאה — לא מנבאים את העתיד, אבל מגלים איפה הכוח בשוק.",
+    "behavioral": "💡 *למה זה חשוב?* רוב ההפסדים בהשקעות לא מגיעים מטעויות אנליטיות אלא מהטיות התנהגותיות — מודעות היא הגנה.",
+    "macro": "💡 *למה זה חשוב?* ריבית, אינפלציה ותעסוקה קובעים את הרקע הכללי — לפעמים חשובים יותר מהחברה עצמה.",
+    "sentiment": "💡 *למה זה חשוב?* סנטימנט של השוק הוא אינדיקטור סותר (contrarian) — כאשר כולם אופטימיים, הזמן להיות זהיר.",
+    "israeli": "💡 *למה זה חשוב?* השוק הישראלי מתנהג אחרת מארה\"ב — מס, מט\"ח, נזילות ומיסוי פנסיוני דורשים התייחסות ספציפית.",
+    "portfolio": "💡 *למה זה חשוב?* גיוון נכון מחסן מפני טעות בודדת — לא מגן מפני מפולת שוק, אבל מקטין את הכאב.",
+    "strategy": "💡 *למה זה חשוב?* האסטרטגיה שאתה בוחר חייבת להתאים לאופי שלך — אסטרטגיה שמעולה במספרים אבל לא מתאימה לך תנטוש אותה ברגע הלא נכון.",
+}
+
+
 def _format_daily_lesson(recs: dict) -> str:
-    """Block 2: Rotating daily financial lesson with portfolio examples."""
+    """Block 2: Rotating daily financial lesson with expanded context + portfolio example."""
     lessons_path = _ROOT / "lessons.json"
     if not lessons_path.exists():
         return ""
@@ -284,12 +526,12 @@ def _format_daily_lesson(recs: dict) -> str:
     if not lessons:
         return ""
 
-    from datetime import datetime
     day = datetime.now().timetuple().tm_yday
     lesson = lessons[day % len(lessons)]
 
     title = lesson.get("title_he", "")
     body = lesson.get("body_he", "")
+    topic = lesson.get("topic", "")
     if not title:
         return ""
 
@@ -299,16 +541,30 @@ def _format_daily_lesson(recs: dict) -> str:
         f"{RLM}_{_escape_md(body)}_",
     ]
 
-    # Try to personalise with portfolio data
+    # Topic-level "why it matters" line — adds depth without rewriting 30 lessons.
+    hint = _LESSON_TOPIC_HINTS.get(topic)
+    if hint:
+        lines.append("")
+        lines.append(f"{RLM}{hint}")
+
+    # Portfolio tie-in: up to 2 relevant tickers from the lesson's list that
+    # actually exist in the portfolio, so the user sees concrete examples.
+    portfolio_tickers = {
+        h.get("ticker") for h in recs.get("holdings", []) if h.get("ticker")
+    }
+    relevant = [
+        tk for tk in lesson.get("tickers_relevant", [])
+        if tk in portfolio_tickers
+    ]
     example_tpl = lesson.get("example_template", "")
-    if example_tpl:
+    if example_tpl and relevant:
         try:
             from data_loader_fundamentals import load_fundamentals_cache
             cache = load_fundamentals_cache()
             tickers_data = cache.get("tickers", {})
-            relevant = lesson.get("tickers_relevant", [])
+            examples_added = 0
             for tk in relevant:
-                if tk in tickers_data:
+                if tk in tickers_data and examples_added < 2:
                     fd = tickers_data[tk]
                     example = example_tpl.format(
                         ticker=tk,
@@ -318,10 +574,18 @@ def _format_daily_lesson(recs: dict) -> str:
                         margin=fd.get("profit_margin", "N/A"),
                         sector_pe="22",
                     )
-                    lines.append(f"{RLM}📌 _{_escape_md(example)}_")
-                    break
+                    if examples_added == 0:
+                        lines.append("")
+                        lines.append(f"{RLM}📌 *בתיק שלך:*")
+                    lines.append(f"{RLM}_{_escape_md(example)}_")
+                    examples_added += 1
         except Exception:
             pass
+    elif relevant:
+        # No template but we do have relevant tickers in the portfolio
+        tickers_str = ", ".join(f"`{t}`" for t in relevant[:3])
+        lines.append("")
+        lines.append(f"{RLM}📌 _רלוונטי בתיק שלך: {tickers_str}_")
 
     return "\n".join(lines)
 
@@ -369,7 +633,7 @@ def _format_ideas_scorecard() -> str:
         return ""
 
     import requests
-    lines = ["*💡 כרטיס ציון — רעיונות קודמים:*"]
+    lines = ["*📈 מעקב אחר המלצות קודמות*"]
     hits = 0
     total = 0
     for idea in history[-6:]:  # last 6 ideas
@@ -455,29 +719,32 @@ def _format_holdings_msg(recs: dict) -> str:
         lines.append(earnings_alerts)
         lines.append("")
 
+    # Unusual Options Activity — only shows if any portfolio ticker has
+    # meaningful UOA hits (volume > 3× OI, premium > $25k, DTE 7-90).
+    uoa_block = _format_uoa_alerts(recs)
+    if uoa_block:
+        lines.append(uoa_block)
+        lines.append("")
+
     # Social sentiment highlights (top 3 strongest signals from X/news)
     social_block = _format_social_sentiment(recs)
     if social_block:
         lines.append(social_block)
         lines.append("")
 
-    # Smart Insights from senior analyst (1 Gemini call/day — deep analysis)
-    insights = recs.get("smart_insights", {})
-    body = (insights.get("insights") or "") if insights else ""
-    # Skip error messages (e.g. from failed Gemini calls)
-    is_error = body.startswith("[error") or "API key not valid" in body
-    if body and not is_error:
-        headline = insights.get("headline", "")
-        lines.append("🧠 *Smart Analyst Brief*")
-        if headline and headline != "Analysis unavailable":
-            lines.append(f"{RLM}*{_escape_md(headline)}*")
-        # Convert **bold** markers and truncate for Telegram
-        body_tg = body.replace("**", "*")
-        # Keep first ~800 chars for Telegram readability
-        if len(body_tg) > 800:
-            body_tg = body_tg[:800].rsplit(".", 1)[0] + "..."
-        lines.append(f"{RLM}_{_escape_md(body_tg)}_")
-        lines.append("")
+    # Smart Analyst Brief — monthly cadence (1st of each month only, to reduce noise)
+    today_day = datetime.now().day
+    if today_day == 1:
+        insights = recs.get("smart_insights", {})
+        body = (insights.get("insights") or "") if insights else ""
+        if body and not _is_error_text(body):
+            headline = insights.get("headline", "")
+            lines.append("🧠 *Smart Analyst Brief* — סקירה חודשית")
+            if headline and not _is_error_text(headline):
+                lines.append(f"{RLM}*{_escape_md(headline)}*")
+            body_tg = _truncate_sentence_aware(body.replace("**", "*"), cap=1400)
+            lines.append(f"{RLM}_{_escape_md(body_tg)}_")
+            lines.append("")
     elif recs.get("summary"):
         # Fallback: show the short summary
         summary = recs.get("summary", "")
@@ -486,7 +753,7 @@ def _format_holdings_msg(recs: dict) -> str:
         lines.append(f"{RLM}_{_escape_md(short_summary)}._")
         lines.append("")
 
-    # Data-driven Key Takeaways
+    # Data-driven Key Takeaways (compact summary)
     buy_count = sum(1 for h in holdings if (h.get("verdict") or "").lower() == "buy")
     sell_count = sum(1 for h in holdings if (h.get("verdict") or "").lower() == "sell")
     hold_count = len(holdings) - buy_count - sell_count
@@ -494,24 +761,7 @@ def _format_holdings_msg(recs: dict) -> str:
     lines.append("*סיכום*")
     lines.append(f"🟢 {buy_count} קנייה  ·  🔴 {sell_count} מכירה  ·  🟡 {hold_count} החזקה")
 
-    # Highlight sells
-    sells = [h for h in holdings if (h.get("verdict") or "").lower() == "sell"]
-    if sells:
-        sell_tickers = ", ".join(f"`{h['ticker']}`" for h in sells)
-        lines.append(f"{RLM}⚠️ מכירה: {sell_tickers}")
-
-    # Top picks: BUY >=80% — exclude broad market ETFs (index funds aren't picks)
-    top_picks = [
-        h for h in holdings
-        if (h.get("verdict") or "").lower() == "buy"
-        and h.get("conviction", 0) >= 80
-        and _get_sector(h.get("ticker", "")) not in BROAD_MARKET_SECTORS
-    ]
-    if top_picks:
-        tp_tickers = ", ".join(f"`{h['ticker']}`" for h in top_picks)
-        lines.append(f"{RLM}🎯 Top Picks: {tp_tickers}")
-
-    # New ideas teaser
+    # New-ideas teaser
     if new_ideas:
         idea_tickers = ", ".join(f"`{i['ticker']}`" for i in new_ideas)
         lines.append(f"{RLM}💡 רעיונות חדשים: {idea_tickers}")
@@ -524,38 +774,37 @@ def _format_holdings_msg(recs: dict) -> str:
         lines.append(lesson)
         lines.append("")
 
-    # Sort holdings: 🟢 BUY >=80% → 🟡 BUY <80% / HOLD → 🔴 SELL
-    def _sort_key(h):
-        v = (h.get("verdict") or "hold").lower()
-        c = h.get("conviction", 0)
-        if v == "buy" and c >= 80:
-            return (0, -c)   # green first, highest conviction first
-        if v == "sell":
-            return (2, -c)   # red last
-        return (1, -c)       # yellow in middle
+    # Detailed picks: show BUY + SELL in full. Fallback: top 3 by weighted score.
+    weights = _load_scoring_weights()
+    buys = [h for h in holdings if (h.get("verdict") or "").lower() == "buy"]
+    sells = [h for h in holdings if (h.get("verdict") or "").lower() == "sell"]
+    # Sort each bucket by conviction (highest first)
+    buys.sort(key=lambda h: -h.get("conviction", 0))
+    sells.sort(key=lambda h: -h.get("conviction", 0))
+    picks = buys + sells
+    if picks:
+        lines.append("*🎯 המלצות להיום*")
+    else:
+        # No actionable picks today → show the 3 highest-scoring holdings.
+        # None (no usable data) sorts to the bottom via (has_score, score).
+        def _rank_key(h):
+            s = _weighted_score(
+                h.get("scores", {}), weights, h.get("score_details") or {}
+            )
+            return (s is None, -(s or 0))
+        picks = sorted(holdings, key=_rank_key)[:3]
+        lines.append(f"{RLM}_אין המלצות קנייה או מכירה היום — להלן 3 הציונים הגבוהים בתיק:_")
+        lines.append("*⭐ מובילים בתיק*")
+    lines.append("")
 
-    holdings = sorted(holdings, key=_sort_key)
+    for h in picks:
+        lines.extend(_format_holding_detail(h, weights))
+        lines.append("")
 
-    # Holdings with scores
-    lines.append(f"*Holdings* ({len(holdings)})")
-    for h in holdings:
-        verdict = (h.get("verdict") or "hold").lower()
-        conviction = h.get("conviction", 0)
-        ticker = h.get("ticker", "")
-        scores = h.get("scores", {})
-
-        emoji = _holding_emoji(verdict, conviction)
-
-        # Show top 3 scores inline
-        if scores:
-            top3 = sorted(scores.items(), key=lambda x: -x[1])[:3]
-            score_str = " · " + " ".join(f"{k[:3].upper()}{v}" for k, v in top3)
-        else:
-            score_str = ""
-
-        lines.append(
-            f"{emoji} `{ticker}` *{verdict.upper()}* {conviction}%{score_str}"
-        )
+    # Legend — once per message, at the bottom
+    lines.append(
+        f"{RLM}_ציון משוקלל מ-8 מדדים · 📈 ≥65 · ⚪ 40-64 · 📉 <40_"
+    )
 
     return "\n".join(lines)
 
@@ -574,8 +823,10 @@ def _format_dashboard_msg(recs: dict, snapshots: list[dict]) -> str:
             conv = idea.get("conviction", 0)
             lines.append(f"🚀 `{ticker}` — {name} ({conv}%)")
             rationale = idea.get("rationale", "")
-            if rationale:
+            if rationale and not _is_error_text(rationale):
                 lines.append(f"{RLM}_{_escape_md(rationale)}_")
+            elif rationale:
+                lines.append(f"{RLM}_רציונל לא זמין כעת — ננסה שוב מחר_")
             lines.append("")
 
     # Portfolio Dashboard (from snapshots)
@@ -619,7 +870,54 @@ def _format_dashboard_msg(recs: dict, snapshots: list[dict]) -> str:
         lines.append(changes)
         lines.append("")
 
-    # Ideas scorecard (new: Phase 2)
+    # Today's recommendations summary — compact reminder so the user always
+    # sees "today's picks" before the past-tracking scorecard.
+    holdings = recs.get("holdings", [])
+    buys = [h for h in holdings if (h.get("verdict") or "").lower() == "buy"]
+    sells = [h for h in holdings if (h.get("verdict") or "").lower() == "sell"]
+    if buys or sells:
+        lines.append("*🎯 המלצות להיום*")
+        if buys:
+            tix = ", ".join(f"`{h['ticker']}` {h.get('conviction', 0)}%"
+                            for h in sorted(buys, key=lambda h: -h.get("conviction", 0)))
+            lines.append(f"{RLM}🟢 קנייה: {tix}")
+        if sells:
+            tix = ", ".join(f"`{h['ticker']}` {h.get('conviction', 0)}%"
+                            for h in sorted(sells, key=lambda h: -h.get("conviction", 0)))
+            lines.append(f"{RLM}🔴 מכירה: {tix}")
+        lines.append("")
+    else:
+        # Fallback: list top-3 by weighted score so the user still sees
+        # "today's picks" even when no BUY/SELL verdict is produced.
+        weights = _load_scoring_weights()
+
+        def _rank_key(h):
+            s = _weighted_score(
+                h.get("scores", {}), weights, h.get("score_details") or {}
+            )
+            return (s is None, -(s or 0))
+
+        ranked = sorted(holdings, key=_rank_key)
+        # Keep only holdings with a usable score for this teaser
+        ranked = [
+            h for h in ranked
+            if _weighted_score(h.get("scores", {}), weights,
+                               h.get("score_details") or {}) is not None
+        ]
+        top3 = ranked[:3]
+        if top3:
+            def _score_str(h):
+                s = _weighted_score(
+                    h.get("scores", {}), weights, h.get("score_details") or {}
+                )
+                return f"`{h['ticker']}` (ציון {s})"
+            tix = ", ".join(_score_str(h) for h in top3)
+            lines.append("*🎯 המלצות להיום*")
+            lines.append(f"{RLM}_אין BUY/SELL — 3 הציונים הגבוהים:_ {tix}")
+            lines.append("")
+
+    # Past ideas scorecard — comes AFTER today's picks so the user always sees
+    # both "what to do today" and "how past calls performed".
     scorecard = _format_ideas_scorecard()
     if scorecard:
         lines.append(scorecard)
@@ -825,9 +1123,12 @@ def _build_analysis_caption(ticker: str, name: str, conviction: int, verdict: st
     lines.append("")
 
     # ── AI rationale (the WHY — fundamentals, not chart) ──
-    if rationale:
+    if rationale and not _is_error_text(rationale):
+        # Keep rationale short enough that the full caption stays under Telegram's
+        # 1024-char sendPhoto limit (reserve ~350 chars for the technical section).
+        rationale_short = _truncate_sentence_aware(rationale, cap=600)
         lines.append(f"{RLM}💡 *למה {verdict.upper()}?*")
-        lines.append(f"{RLM}_{rationale}_")
+        lines.append(f"{RLM}_{_escape_md(rationale_short)}_")
         lines.append("")
 
     # ── Technical context (supporting data from chart) ──
@@ -863,7 +1164,11 @@ def _build_analysis_caption(ticker: str, name: str, conviction: int, verdict: st
     sign = "+" if change_6m >= 0 else ""
     lines.append(f"{RLM}• שינוי 6M: {sign}{change_6m:.1f}%")
 
-    return "\n".join(lines)
+    caption = "\n".join(lines)
+    # Telegram sendPhoto caption limit is 1024 chars; keep a small safety margin
+    if len(caption) > 1020:
+        caption = caption[:1020].rstrip() + " …"
+    return caption
 
 
 # ─── Send ───────────────────────────────────────────────────────────────────
@@ -887,6 +1192,7 @@ def send_telegram(text: str) -> None:
 
     import urllib.request
     import urllib.parse
+    import urllib.error
 
     url = f"https://api.telegram.org/bot{token}/sendMessage"
     payload = urllib.parse.urlencode({
@@ -903,6 +1209,10 @@ def send_telegram(text: str) -> None:
             if resp.status != 200:
                 print(f"[error] Telegram API returned {resp.status}: {body}", file=sys.stderr)
                 sys.exit(3)
+    except urllib.error.HTTPError as e:
+        err_body = e.read().decode(errors="replace") if hasattr(e, "read") else ""
+        print(f"[error] Telegram HTTPError {e.code}: {err_body}", file=sys.stderr)
+        sys.exit(3)
     except Exception as e:
         print(f"[error] Telegram request failed: {e}", file=sys.stderr)
         sys.exit(3)
@@ -916,6 +1226,7 @@ def send_telegram_photo(photo_bytes: bytes, caption: str = "") -> None:
         return
 
     import urllib.request
+    import urllib.error
 
     boundary = "----TelegramBoundary"
     body_parts = []
@@ -944,7 +1255,12 @@ def send_telegram_photo(photo_bytes: bytes, caption: str = "") -> None:
     try:
         with urllib.request.urlopen(req, timeout=30) as resp:
             if resp.status != 200:
-                print(f"[warn] sendPhoto returned {resp.status}", file=sys.stderr)
+                resp_body = resp.read().decode(errors="replace")
+                print(f"[warn] sendPhoto returned {resp.status}: {resp_body}",
+                      file=sys.stderr)
+    except urllib.error.HTTPError as e:
+        err_body = e.read().decode(errors="replace") if hasattr(e, "read") else ""
+        print(f"[warn] sendPhoto HTTPError {e.code}: {err_body}", file=sys.stderr)
     except Exception as e:
         print(f"[warn] sendPhoto failed: {e}", file=sys.stderr)
 

@@ -1,8 +1,13 @@
 """
-Fundamental data fetcher — Alpha Vantage OVERVIEW endpoint + Google News RSS.
+Fundamental data fetcher — yfinance (primary) + Alpha Vantage OVERVIEW (supplement)
++ Google News RSS.
 
-Free tier: 25 calls/minute, 500/day.  We cache results in fundamentals_cache.json
-(refresh if >24 h old) so a daily run only hits the API once per ticker.
+yfinance covers ETFs, ADRs, crypto ETFs, and international tickers that Alpha
+Vantage's OVERVIEW endpoint returns empty for. We still hit AV for US stocks to
+pick up fields yfinance sometimes lacks (EPS, RevenuePerShareTTM, DebtToEquityRatio).
+
+We cache results in fundamentals_cache.json (refresh if >24 h old) so a daily run
+only hits the APIs once per ticker.
 """
 
 from __future__ import annotations
@@ -127,6 +132,86 @@ def fetch_fundamentals(ticker: str) -> dict | None:
     }
 
 
+# ── Fundamentals (yfinance — works for ETFs and international too) ──────────
+
+def fetch_fundamentals_yfinance(ticker: str) -> dict | None:
+    """Fetch key fundamentals via yfinance (unofficial Yahoo Finance client).
+
+    Works for ETFs, ADRs, crypto ETFs, and most international tickers. Returns
+    None if the ticker is unknown to Yahoo (e.g. some TASE symbols).
+    """
+    try:
+        import yfinance as yf
+    except ImportError:
+        return None
+    try:
+        info = yf.Ticker(ticker).info
+    except Exception:
+        return None
+    if not info or not info.get("regularMarketPrice"):
+        return None
+
+    def _get(*keys):
+        for k in keys:
+            v = info.get(k)
+            if v is not None and v != "None":
+                return v
+        return None
+
+    def _f(*keys):
+        v = _get(*keys)
+        try:
+            return float(v) if v is not None else None
+        except (TypeError, ValueError):
+            return None
+
+    # yfinance returns 0-1 ratios for dividendYield, profitMargins, ROE → convert to %
+    def _pct(*keys):
+        v = _f(*keys)
+        if v is None:
+            return None
+        return round(v * 100, 2) if abs(v) < 1 else round(v, 2)
+
+    return {
+        "pe": _f("trailingPE", "forwardPE"),
+        "peg": _f("pegRatio", "trailingPegRatio"),
+        "eps": _f("trailingEps"),
+        "revenue_per_share": _f("revenuePerShare"),
+        "profit_margin": _pct("profitMargins"),
+        "roe": _pct("returnOnEquity"),
+        "debt_equity": _f("debtToEquity"),
+        "dividend_yield": _pct("dividendYield"),
+        "market_cap": _f("marketCap"),
+        "beta": _f("beta"),
+        "analyst_target": _f("targetMeanPrice"),
+        "analyst_buy": int(_f("numberOfAnalystOpinions") or 0)
+            if _get("recommendationKey") in ("buy", "strong_buy") else 0,
+        "analyst_hold": int(_f("numberOfAnalystOpinions") or 0)
+            if _get("recommendationKey") == "hold" else 0,
+        "analyst_sell": int(_f("numberOfAnalystOpinions") or 0)
+            if _get("recommendationKey") in ("sell", "strong_sell", "underperform") else 0,
+        "price": _f("regularMarketPrice", "currentPrice"),
+        # Metadata — used by ticker_metadata.py to resolve sector/name/type
+        # dynamically for any uploaded ticker, without needing config.py edits.
+        "sector": info.get("sector") or "",
+        "long_name": info.get("longName") or info.get("shortName") or "",
+        "quote_type": (info.get("quoteType") or "").upper(),  # "ETF", "EQUITY", "CRYPTOCURRENCY", …
+        "currency": info.get("currency") or "",
+        "_source": "yfinance",
+    }
+
+
+def _merge_non_null(primary: dict, secondary: dict) -> dict:
+    """Fill null/None fields in `primary` with values from `secondary`."""
+    if not secondary:
+        return primary
+    out = dict(primary)
+    for k, v in secondary.items():
+        if out.get(k) in (None, 0, 0.0, "") and v not in (None, 0, 0.0, ""):
+            out[k] = v
+    return out
+
+
 def _pct(v: float | None) -> float | None:
     """Convert 0.xx ratio to percentage if needed.
 
@@ -148,7 +233,13 @@ def _pct(v: float | None) -> float | None:
 def fetch_all_fundamentals(tickers: list[str]) -> dict[str, dict]:
     """Fetch fundamentals for all tickers with caching + rate limiting.
 
-    Returns {ticker: fundamentals_dict}.  Cached results are reused if < 24 h old.
+    Strategy:
+      1. yfinance is called for every ticker (free, no API key, covers ETFs +
+         international).
+      2. For US equities, Alpha Vantage OVERVIEW is called as a supplement to
+         fill any missing fields (EPS, RevenuePerShareTTM, DebtToEquityRatio).
+
+    Returns {ticker: fundamentals_dict}. Cached results reused if < 24 h old.
     """
     cache = _load_cache(_FUND_CACHE)
     tickers_data = cache.get("tickers", {})
@@ -158,8 +249,6 @@ def fetch_all_fundamentals(tickers: list[str]) -> dict[str, dict]:
     need_fetch: list[str] = []
 
     for tk in tickers:
-        if tk.endswith(".TA"):
-            continue  # skip Israeli tickers
         if is_fresh and tk in tickers_data:
             result[tk] = tickers_data[tk]
         else:
@@ -168,22 +257,29 @@ def fetch_all_fundamentals(tickers: list[str]) -> dict[str, dict]:
     if not need_fetch:
         return result
 
-    if not _av_key():
-        print("[warn] ALPHA_VANTAGE_API_KEY not set — skipping fundamentals",
-              flush=True)
-        return result
-
-    print(f"[info] fetching fundamentals for {len(need_fetch)} tickers from Alpha Vantage…",
+    print(f"[info] fetching fundamentals for {len(need_fetch)} tickers "
+          f"(yfinance primary, Alpha Vantage supplement for US equities)…",
           flush=True)
+
+    have_av = bool(_av_key())
     for i, tk in enumerate(need_fetch):
-        if i > 0:
-            time.sleep(2.5)  # stay under 25 calls/min
-        data = fetch_fundamentals(tk)
-        if data:
-            result[tk] = data
-            tickers_data[tk] = data
-        else:
-            print(f"  [warn] no fundamentals for {tk}", flush=True)
+        # 1. yfinance (covers ETFs, international, etc.)
+        yf_data = fetch_fundamentals_yfinance(tk)
+        if not yf_data:
+            print(f"  [warn] yfinance returned nothing for {tk}", flush=True)
+
+        # 2. Alpha Vantage supplement — skip .TA (AV doesn't cover TASE) and skip
+        #    ETFs where we already got clean data from yfinance
+        av_data = None
+        if have_av and not tk.endswith(".TA"):
+            if i > 0:
+                time.sleep(2.5)  # stay under 25 calls/min
+            av_data = fetch_fundamentals(tk)
+
+        merged = _merge_non_null(yf_data or {}, av_data or {})
+        if merged:
+            result[tk] = merged
+            tickers_data[tk] = merged
 
     # Update cache
     cache["updated"] = datetime.now(timezone.utc).isoformat(timespec="seconds") + "Z"

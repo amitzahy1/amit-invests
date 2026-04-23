@@ -2,9 +2,9 @@ name: Daily AI recommendations
 
 on:
   schedule:
-    # 13:35 UTC = 16:35 Israel (summer). Also 14:35 UTC as a winter fallback.
-    - cron: "35 13 * * 1-5"
-    - cron: "35 14 * * 1-5"
+    # 13:30 UTC = 16:30 IDT (Israel summer, matches US market open).
+    # GitHub Actions typical scheduling lag is 15-60 min → delivery ~17:00-17:30 IDT.
+    - cron: "30 13 * * 1-5"
   workflow_dispatch: {}
 
 permissions:

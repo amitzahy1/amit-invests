@@ -43,6 +43,10 @@ news_cache.json
 earnings_cache.json
 social_sentiment_cache.json
 backtest_cache.json
+insider_cache.json
+news_sentiment_cache.json
+smart_money_cache.json
+tase_cache.json
 
 # ─── Broker exports (personal, don't commit to repo) ──────────────────────
 *.xlsx

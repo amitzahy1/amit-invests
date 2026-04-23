@@ -1,2025 +1,1837 @@
 {
-  "updated": "2026-04-15T07:46:08Z",
+  "updated": "2026-04-15T15:53:52Z",
   "profile_name": "Conservative AI Bull",
-  "summary": "סיכום יומי לפרופיל 'Conservative AI Bull' (אופק 4 שנים, סגנון conservative). החשיפה הקריפטו (ETHA, IBIT) חורגת מתקרת 3% ומגדרת סקטור נמנע — מומלץ להקטין. NVDA בהחזקה — איכות גבוהה אך מחיר מתוח; לחכות לנקודת כניסה טובה יותר. רעיונות חדשים שצוותו לפרופיל: MSFT, LLY.",
+  "summary": "סיכום יומי — 15 החזקות נסקרו.",
   "smart_insights": {
-    "headline": "תיק מאוזן עם חשיפה חזקה ל-AI וסקטורים דפנסיביים",
-    "insights": "**Portfolio Health** — התיק שלך מציג פיזור טוב עם דגש על איכות עסקית. GOOGL ו-NVDA מהווים את העוגן הטכנולוגי, ו-SPY/VOO כעוגן מדד רחב.\n\n**Hidden Risks** — יש חשיפה כפולה דרך QQQM ו-SPY (שניהם מחזיקים GOOGL, NVDA, AMZN). שקול לצמצם את QQQM.\n\n**Market Context** — VIX סביב 18, ריבית Fed 3.64%, עקום תשואות נורמלי. סביבה תומכת במניות איכות אך זהירות מפני תמחור מתוח.\n\n**Opportunities** — CPNG עם ציון Technical נמוך אך Valuation גבוה — חוסר התאמה שמצריך מחקר.\n\n**Action Items** — 1. לצמצם IBIT/ETHA אם הם חוצים את תקרת הקריפטו. 2. לעקוב אחר RSI של CPNG לתיקון אפשרי.\n\n_סקירת שוק — אינה המלצה פיננסית._",
-    "updated": "2026-04-15T07:46:08Z"
+    "updated": "2026-04-15T15:53:52+00:00Z",
+    "headline": "Analysis unavailable",
+    "insights": "[error: Error calling model 'gemini-2.5-flash' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key not valid. Please pass a valid API key.', 'status': 'INVALID_ARGUMENT', 'de]"
   },
   "holdings": [
     {
       "ticker": "GOOGL",
       "verdict": "hold",
-      "conviction": 50,
+      "conviction": 58,
       "scores": {
-        "valuation": 60,
-        "technical": 65,
-        "risk": 55,
-        "sentiment": 63,
+        "valuation": 37,
+        "technical": 19,
+        "risk": 50,
+        "sentiment": 75,
         "macro": 50,
-        "quality": 67
+        "quality": 55,
+        "insider": 15,
+        "smart_money": 100
       },
       "score_details": {
-        "valuation": [
-          "Fairly valued vs sector"
+        "insider": [
+          "Last 90d: 0 buys / 32 sells, net $-13,361,084",
+          "Executive-only selling pressure"
         ],
-        "technical": [
-          "Price above MA50 and MA200",
-          "Uptrend confirmed",
-          "RSI in healthy zone"
-        ],
-        "risk": [
-          "Moderate portfolio risk contribution"
-        ],
-        "sentiment": [
-          "Strong analyst BUY consensus (>70%)",
-          "Positive recent coverage"
-        ],
-        "macro": [
-          "Neutral macro environment"
+        "smart_money": [
+          "Held by 6/10 top funds",
+          "Increased by: Citadel Advisors"
         ],
         "quality": [
-          "High ROE (>15%) indicates strong profitability",
-          "Stable profit margins over past years",
-          "Low debt burden"
+          "ROE 35.7% — excellent profitability (>20%)",
+          "Profit margin 32.8% — wide moat indicator (>25%)",
+          "Debt/Equity 16.13 — high debt risk"
+        ],
+        "valuation": [
+          "P/E 31.4 — expensive, needs high growth to justify",
+          "PEG 2.31 — expensive relative to growth rate"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized",
+          "Beta 1.13 — slightly above market volatility"
+        ],
+        "macro": [
+          "VIX 19 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
+        ],
+        "sentiment": [
+          "Analyst consensus: 56 Buy / 0 Hold / 0 Sell (100% bullish)",
+          "Well-covered stock (56 analysts)"
+        ],
+        "technical": [
+          "RSI 80 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
-        "buy": 12,
-        "hold": 15,
-        "sell": 5,
-        "target": null,
+        "buy": 56,
+        "hold": 0,
+        "sell": 0,
+        "target": 376.6825,
         "price": null
       },
+      "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 3.6,
-        "action": "hold",
-        "delta_pct": -0.4,
-        "reason": "Position size is appropriate — no change needed",
+        "target_pct": 4.8,
+        "action": "reduce_small",
+        "delta_pct": -1.9,
+        "reason": "Small trim recommended (6.7% → 4.8%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 140.0,
-        "stop_loss_pct": -6.7,
-        "take_profit_price": 210.0,
+        "stop_loss_price": 270.87,
+        "stop_loss_pct": -18.8,
+        "take_profit_price": 466.96,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "buy",
-          "conviction": 84,
-          "rationale": "אלפבית היא עסק עם חפיר תחרותי עמוק: מונופול דה-פקטו בחיפוש, מערכת הפעלה דומיננטית (Android), ו-YouTube שמייצרים תזרים מזומנים עצום. הסיכון העיקרי הוא קניבליזציה של החיפוש ע״י AI, אך גוגל עצמה מובילה את מרוץ ה-AI עם Gemini ו-TPU. המחיר הנוכחי סביר יחסית לאיכות — מועמדת מובהקת לתיק ערך לטווח ארוך."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "buy",
-          "conviction": 84,
-          "rationale": "עסק מעולה במחיר הוגן — הסוג שאני וורן מחפשים לאורך עשורים. האיכות של המותג 'גוגל' לא ניתנת לשכפול. הסכנה היחידה היא אפקט הרגולציה — האנטי-טרסט האמריקאי מתקדם, אבל גם אם יחלקו את החברה, השברים יהיו שווים יותר מהשלם."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "buy",
-          "conviction": 92,
-          "rationale": "גוגל היא מוביל ה-AI הגנרטיבי עם Gemini, Waymo (רובוטקסי), ו-TPU (צ'יפים ייחודיים). היא לא 'מותקפת' ע״י ChatGPT — היא בונה את המרכבה הבאה. אנחנו רואים צמיחה של פי 5 בחישוב ה-AI שלהם ב-3 השנים הקרובות — תזת חדשנות חזקה."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "buy",
-          "conviction": 84,
-          "rationale": "חברה עם צמיחה ברורה רבעון-אחר-רבעון ב-Cloud (30%+) ו-AI. היא עדיין בתמחור סביר של 22x P/E — GARP (Growth At Reasonable Price) קלאסי. 'Invest in what you know' — כולם משתמשים בגוגל."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "buy",
-          "conviction": 84,
-          "rationale": "משקל סביר בתיק (8%), תנודתיות מתונה (25% שנתית), קורלציה עם השוק 0.9. אין דגל אדום — ניתן להגדיל עד 10% משקל."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "buy",
-          "conviction": 84,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "buy",
-          "conviction": 89,
-          "rationale": "שבירת התנגדות ארוכת-טווח מעל $175. ממוצע נע 50 יום עולה חד; RSI סביב 60 — לא במצב קניית-יתר, אבל מומנטום חיובי. פריצה נוספת מעל $185 תאותת כניסה חזקה."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "buy",
-          "conviction": 84,
-          "rationale": "מרווח גולמי 56%, מרווח תפעולי 30%, צמיחת EPS דו-ספרתית (13%+), יחס חוב/הון נמוך במיוחד. הפונדמנטלים מהטובים ב-S&P 500 — דיבידנד התחיל, מה שמעיד על בשלות."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "buy",
-          "conviction": 84,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        }
-      ]
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "personas": [],
+      "insider_activity": {
+        "ticker": "GOOGL",
+        "lookback_days": 90,
+        "buy_count": 0,
+        "sell_count": 32,
+        "buy_value_usd": 0.0,
+        "sell_value_usd": 13361084.32,
+        "net_value_usd": -13361084.32,
+        "executive_buy": false,
+        "executive_sell_only": true,
+        "cluster_buy": false,
+        "unique_buyers": 0,
+        "recent_trades": [
+          {
+            "date": "2026-04-15",
+            "insider": "John L. Hennessy",
+            "role": "Director",
+            "action": "Sale",
+            "shares": 105.0,
+            "price": 330.54,
+            "value_usd": 34706.7
+          },
+          {
+            "date": "2026-04-15",
+            "insider": "John L. Hennessy",
+            "role": "Director",
+            "action": "Sale",
+            "shares": 105.0,
+            "price": 331.74,
+            "value_usd": 34832.7
+          },
+          {
+            "date": "2026-04-15",
+            "insider": "John L. Hennessy",
+            "role": "Director",
+            "action": "Sale",
+            "shares": 75.0,
+            "price": 332.91,
+            "value_usd": 24968.25
+          },
+          {
+            "date": "2026-04-15",
+            "insider": "John L. Hennessy",
+            "role": "Director",
+            "action": "Sale",
+            "shares": 72.0,
+            "price": 334.35,
+            "value_usd": 24073.2
+          },
+          {
+            "date": "2026-04-15",
+            "insider": "John L. Hennessy",
+            "role": "Director",
+            "action": "Sale",
+            "shares": 34.0,
+            "price": 329.88,
+            "value_usd": 11215.92
+          },
+          {
+            "date": "2026-04-15",
+            "insider": "John L. Hennessy",
+            "role": "Director",
+            "action": "Sale",
+            "shares": 137.0,
+            "price": 330.91,
+            "value_usd": 45334.67
+          },
+          {
+            "date": "2026-04-15",
+            "insider": "John L. Hennessy",
+            "role": "Director",
+            "action": "Sale",
+            "shares": 68.0,
+            "price": 331.88,
+            "value_usd": 22567.84
+          },
+          {
+            "date": "2026-04-15",
+            "insider": "John L. Hennessy",
+            "role": "Director",
+            "action": "Sale",
+            "shares": 85.0,
+            "price": 332.92,
+            "value_usd": 28298.2
+          },
+          {
+            "date": "2026-04-15",
+            "insider": "John L. Hennessy",
+            "role": "Director",
+            "action": "Sale",
+            "shares": 68.0,
+            "price": 329.78,
+            "value_usd": 22425.04
+          },
+          {
+            "date": "2026-04-15",
+            "insider": "John L. Hennessy",
+            "role": "Director",
+            "action": "Sale",
+            "shares": 142.0,
+            "price": 330.67,
+            "value_usd": 46955.14
+          }
+        ],
+        "last_filed": "2026-04-17"
+      },
+      "smart_money_info": {
+        "holders": [
+          "Berkshire Hathaway",
+          "Bridgewater Associates",
+          "Citadel Advisors",
+          "Pershing Square (Ackman)",
+          "Renaissance Technologies",
+          "Two Sigma Investments"
+        ],
+        "holder_count": 6,
+        "new": [],
+        "increased": [
+          "Citadel Advisors"
+        ],
+        "unchanged": [
+          "Berkshire Hathaway"
+        ],
+        "decreased": [
+          "Pershing Square (Ackman)",
+          "Bridgewater Associates",
+          "Renaissance Technologies",
+          "Two Sigma Investments"
+        ],
+        "exited": [],
+        "total_value_usd": 18169265095.0,
+        "net_value_change_usd": 3420760794.0
+      }
     },
     {
       "ticker": "AMZN",
       "verdict": "hold",
-      "conviction": 57,
+      "conviction": 56,
       "scores": {
-        "valuation": 52,
-        "technical": 54,
-        "risk": 57,
-        "sentiment": 50,
-        "macro": 52,
-        "quality": 52
+        "valuation": 50,
+        "technical": 19,
+        "risk": 50,
+        "sentiment": 75,
+        "macro": 50,
+        "quality": 35,
+        "insider": 15,
+        "smart_money": 100
       },
       "score_details": {
-        "valuation": [
-          "Fairly valued vs sector"
+        "insider": [
+          "Last 90d: 0 buys / 35 sells, net $-28,010,243",
+          "Executive-only selling pressure"
         ],
-        "technical": [
-          "Sideways price action"
-        ],
-        "risk": [
-          "Moderate portfolio risk contribution"
-        ],
-        "sentiment": [
-          "Mixed analyst views"
-        ],
-        "macro": [
-          "Neutral macro environment"
+        "smart_money": [
+          "Held by 9/10 top funds",
+          "New position from: Baupost Group (Klarman), Renaissance Technologies",
+          "Increased by: Pershing Square (Ackman), Bridgewater Associates"
         ],
         "quality": [
-          "Average business quality metrics"
+          "ROE 22.3% — excellent profitability (>20%)",
+          "Profit margin 10.8% — thin, competitive pressure",
+          "Debt/Equity 43.44 — high debt risk"
+        ],
+        "valuation": [
+          "P/E 35.6 — expensive, needs high growth to justify",
+          "PEG 1.80 — fairly priced for growth"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized",
+          "Beta 1.38 — slightly above market volatility"
+        ],
+        "macro": [
+          "VIX 19 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
+        ],
+        "sentiment": [
+          "Analyst consensus: 64 Buy / 0 Hold / 0 Sell (100% bullish)",
+          "Well-covered stock (64 analysts)"
+        ],
+        "technical": [
+          "RSI 93 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
-        "buy": 12,
-        "hold": 15,
-        "sell": 5,
-        "target": null,
+        "buy": 64,
+        "hold": 0,
+        "sell": 0,
+        "target": 282.6328,
         "price": null
       },
+      "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 7.9,
-        "action": "reduce",
-        "delta_pct": -3.1,
-        "reason": "Scores suggest trimming (11.0% → 7.9%)",
+        "target_pct": 4.0,
+        "action": "reduce_small",
+        "delta_pct": -1.6,
+        "reason": "Small trim recommended (5.6% → 4.0%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 140.0,
-        "stop_loss_pct": -6.7,
-        "take_profit_price": 210.0,
+        "stop_loss_price": 225.28,
+        "stop_loss_pct": -9.2,
+        "take_profit_price": 347.28,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "hold",
-          "conviction": 58,
-          "rationale": "AWS הוא נכס איכותי מהשורה הראשונה — מרווחים תפעוליים של 35%+ ושוק שצומח. הקמעונאות מוסיפה רעש ומרווחים דקים, אך הופכת יחסית ליותר רווחית. התמחור לא זול, אך האיכות הכוללת גבוהה מאוד — החזקה מוצדקת."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "hold",
-          "conviction": 58,
-          "rationale": "AWS הוא עסק נפלא. הקמעונאות לא. ההשקעה פה היא על AWS — ואני חושב שזה משתלם, למרות הסחת הדעת."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "hold",
-          "conviction": 58,
-          "rationale": "AWS מוביל בחישוב ענן, הבת Anthropic שייכת להם חלקית, ורובוטיקה עתידית (Zoox + Kiva). עסק 'שלוש-בחברה-אחת' עם חדשנות בכל שכבה."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "hold",
-          "conviction": 58,
-          "rationale": "'Two stocks in one' — AWS הוא עסק מהיר-צמיחה עם מרווחים גבוהים, וה-retail הוא גדל איטי אבל יציב. המודל הזה הוא בדיוק מה שאני מחפש."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "hold",
-          "conviction": 58,
-          "rationale": "קורלציה גבוהה עם QQQ/SPY (0.85+) — היזהר מהכפלת חשיפה טכנולוגית. התנודתיות בסדר (28%)."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "hold",
-          "conviction": 58,
-          "rationale": "סימנים מעורבים — החזקה, ולהעריך מחדש בהרצה הבאה."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "hold",
-          "conviction": 58,
-          "rationale": "נעה בתוך טווח צדדי רחב של $175-200 מזה 6 חודשים. חוצה את MA50 למעלה ומטה ללא מגמה ברורה. טכנית ניטרלית — אין איתות."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "hold",
-          "conviction": 58,
-          "rationale": "מרווח תפעולי של AWS לבד הוא 35%+ — זה המנוע. הקמעונאות ברווחיות חיובית אך נמוכה. מבנה חוב בריא, יחס חוב/EBITDA סביב 2x."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "hold",
-          "conviction": 58,
-          "rationale": "סימנים מעורבים — החזקה, ולהעריך מחדש בהרצה הבאה."
-        }
-      ]
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "personas": [],
+      "insider_activity": {
+        "ticker": "AMZN",
+        "lookback_days": 90,
+        "buy_count": 0,
+        "sell_count": 35,
+        "buy_value_usd": 0.0,
+        "sell_value_usd": 28010243.06,
+        "net_value_usd": -28010243.06,
+        "executive_buy": false,
+        "executive_sell_only": true,
+        "cluster_buy": false,
+        "unique_buyers": 0,
+        "recent_trades": [
+          {
+            "date": "2026-04-17",
+            "insider": "Andrew R Jassy",
+            "role": "President and CEO",
+            "action": "Sale",
+            "shares": 31000.0,
+            "price": 255.0,
+            "value_usd": 7905000.0
+          },
+          {
+            "date": "2026-04-14",
+            "insider": "Douglas J Herrington",
+            "role": "CEO Worldwide Amazon Stores",
+            "action": "Sale",
+            "shares": 20500.0,
+            "price": 245.0,
+            "value_usd": 5022500.0
+          },
+          {
+            "date": "2026-04-01",
+            "insider": "Douglas J Herrington",
+            "role": "CEO Worldwide Amazon Stores",
+            "action": "Sale",
+            "shares": 1000.0,
+            "price": 210.5,
+            "value_usd": 210500.0
+          },
+          {
+            "date": "2026-03-02",
+            "insider": "Douglas J Herrington",
+            "role": "CEO Worldwide Amazon Stores",
+            "action": "Sale",
+            "shares": 1000.0,
+            "price": 204.25,
+            "value_usd": 204250.0
+          },
+          {
+            "date": "2026-02-24",
+            "insider": "David Zapolsky",
+            "role": "Senior Vice President",
+            "action": "Sale",
+            "shares": 10649.0,
+            "price": 205.43,
+            "value_usd": 2187624.07
+          },
+          {
+            "date": "2026-02-23",
+            "insider": "Shelley Reynolds",
+            "role": "Vice President",
+            "action": "Sale",
+            "shares": 795.0,
+            "price": 204.6013,
+            "value_usd": 162658.03
+          },
+          {
+            "date": "2026-02-23",
+            "insider": "Shelley Reynolds",
+            "role": "Vice President",
+            "action": "Sale",
+            "shares": 1300.0,
+            "price": 206.0154,
+            "value_usd": 267820.02
+          },
+          {
+            "date": "2026-02-23",
+            "insider": "Shelley Reynolds",
+            "role": "Vice President",
+            "action": "Sale",
+            "shares": 400.0,
+            "price": 207.0425,
+            "value_usd": 82817.0
+          },
+          {
+            "date": "2026-02-23",
+            "insider": "Shelley Reynolds",
+            "role": "Vice President",
+            "action": "Sale",
+            "shares": 200.0,
+            "price": 207.985,
+            "value_usd": 41597.0
+          },
+          {
+            "date": "2026-02-23",
+            "insider": "Matthew S Garman",
+            "role": "CEO Amazon Web Services",
+            "action": "Sale",
+            "shares": 5881.0,
+            "price": 204.1438,
+            "value_usd": 1200569.69
+          }
+        ],
+        "last_filed": "2026-04-21"
+      },
+      "smart_money_info": {
+        "holders": [
+          "Appaloosa (Tepper)",
+          "Baupost Group (Klarman)",
+          "Berkshire Hathaway",
+          "Bridgewater Associates",
+          "Citadel Advisors",
+          "Greenlight Capital",
+          "Pershing Square (Ackman)",
+          "Renaissance Technologies",
+          "Two Sigma Investments"
+        ],
+        "holder_count": 9,
+        "new": [
+          "Baupost Group (Klarman)",
+          "Renaissance Technologies"
+        ],
+        "increased": [
+          "Pershing Square (Ackman)",
+          "Bridgewater Associates",
+          "Two Sigma Investments",
+          "Citadel Advisors"
+        ],
+        "unchanged": [],
+        "decreased": [
+          "Berkshire Hathaway",
+          "Appaloosa (Tepper)",
+          "Greenlight Capital"
+        ],
+        "exited": [],
+        "total_value_usd": 17918956176.0,
+        "net_value_change_usd": 2479178003.0
+      }
     },
     {
       "ticker": "BN",
       "verdict": "hold",
-      "conviction": 45,
+      "conviction": 50,
       "scores": {
-        "valuation": 65,
-        "technical": 70,
-        "risk": 60,
-        "sentiment": 68,
-        "macro": 55,
-        "quality": 72
+        "valuation": 50,
+        "technical": 19,
+        "risk": 40,
+        "sentiment": 70,
+        "macro": 50,
+        "quality": 15,
+        "insider": 50,
+        "smart_money": 77
       },
       "score_details": {
-        "valuation": [
-          "P/E below sector average",
-          "Favorable PEG ratio (<1.5)",
-          "Analyst targets suggest upside"
+        "insider": [
+          "No insider trades in last 90 days"
         ],
-        "technical": [
-          "Price above MA50 and MA200",
-          "Uptrend confirmed",
-          "RSI in healthy zone"
-        ],
-        "risk": [
-          "Moderate portfolio risk contribution"
-        ],
-        "sentiment": [
-          "Strong analyst BUY consensus (>70%)",
-          "Positive recent coverage"
-        ],
-        "macro": [
-          "Neutral macro environment"
+        "smart_money": [
+          "Held by 4/10 top funds",
+          "Increased by: Pershing Square (Ackman), Greenlight Capital"
         ],
         "quality": [
-          "High ROE (>15%) indicates strong profitability",
-          "Stable profit margins over past years",
-          "Low debt burden"
+          "ROE 1.9% — below institutional threshold of 15%",
+          "Profit margin 1.7% — thin, competitive pressure",
+          "Debt/Equity 164.04 — high debt risk"
+        ],
+        "valuation": [
+          "P/E 94.3 — expensive, needs high growth to justify",
+          "PEG 1.27 — fairly priced for growth"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized",
+          "Beta 1.83 — significantly more volatile than S&P 500"
+        ],
+        "macro": [
+          "VIX 19 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
+        ],
+        "sentiment": [
+          "Analyst consensus: 10 Buy / 0 Hold / 0 Sell (100% bullish)"
+        ],
+        "technical": [
+          "RSI 84 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
-        "buy": 12,
-        "hold": 15,
-        "sell": 5,
-        "target": null,
+        "buy": 10,
+        "hold": 0,
+        "sell": 0,
+        "target": 53.7,
         "price": null
       },
+      "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 8.1,
+        "target_pct": 3.6,
         "action": "reduce_small",
-        "delta_pct": -0.9,
-        "reason": "Small trim recommended (9.0% → 8.1%)",
+        "delta_pct": -1.4,
+        "reason": "Small trim recommended (5.0% → 3.6%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 140.0,
-        "stop_loss_pct": -6.7,
-        "take_profit_price": 210.0,
+        "stop_loss_price": 44.62,
+        "stop_loss_pct": -4.3,
+        "take_profit_price": 65.25,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "buy",
-          "conviction": 74,
-          "rationale": "ברוקפילד קורפ מחזיקה ב-75%+ מברוקפילד Asset Management ובנכסים ריאליים (תשתיות, נדל״ן, אנרגיה מתחדשת) — חפיר תחרותי בהפצה ובגודל. מודל ההכנסות משילוב דמי ניהול ועמלות הצלחה יציב לאורך מחזורים. דיבידנד צומח באופן עקבי — עסק איכותי לטווח ארוך."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "buy",
-          "conviction": 74,
-          "rationale": "ניק דקאס (המנכ״ל) הוא אחד המנהלים הטובים בתחום הנכסים האלטרנטיביים. ברוקפילד קורפ היא דוגמא קלאסית של 'עסק איכותי במחיר הוגן' — חפיר בהפצה, אנשים חכמים, תמחור סביר."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "buy",
-          "conviction": 74,
-          "rationale": "תשתיות ואנרגיה מתחדשת תומכות בתזת החדשנות — BN חשופה לזה דרך Brookfield Renewable Partners."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "buy",
-          "conviction": 74,
-          "rationale": "צמיחת NAV של 15%+ שנתית, דיבידנד צומח — סיפור 'מצטבר' קלאסי. לא מרגש, אבל עם הריבית המצטברת מעל 10 שנים זה ירוויח יותר מרוב המניות."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "buy",
-          "conviction": 74,
-          "rationale": "גיוון נאה מחוץ לטכנולוגיה — קורלציה נמוכה יחסית עם השוק (0.65). תורמת ליציבות התיק הכללית."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "buy",
-          "conviction": 74,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "buy",
-          "conviction": 74,
-          "rationale": "מגמה עולה לאורך שנה שלמה. ירידות קטנות נתמכות בעקביות ע״י MA50. התבנית היא 'מדרגות עולות' קלאסית."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "buy",
-          "conviction": 74,
-          "rationale": "NAV של ברוקפילד קורפ צומח ב-15%+ שנתית. הכנסות ממדיניות חלוקה יציבות וצפויות. יחס תשואה להון (ROE) גבוה מהממוצע בענף."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "buy",
-          "conviction": 74,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        }
-      ]
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "personas": [],
+      "insider_activity": {
+        "ticker": "BN",
+        "lookback_days": 90,
+        "buy_count": 0,
+        "sell_count": 0,
+        "buy_value_usd": 0.0,
+        "sell_value_usd": 0.0,
+        "net_value_usd": 0.0,
+        "executive_buy": false,
+        "executive_sell_only": false,
+        "cluster_buy": false,
+        "unique_buyers": 0,
+        "recent_trades": [],
+        "last_filed": "2026-04-22"
+      },
+      "smart_money_info": {
+        "holders": [
+          "Bridgewater Associates",
+          "Citadel Advisors",
+          "Greenlight Capital",
+          "Pershing Square (Ackman)"
+        ],
+        "holder_count": 4,
+        "new": [],
+        "increased": [
+          "Pershing Square (Ackman)",
+          "Greenlight Capital",
+          "Bridgewater Associates",
+          "Citadel Advisors"
+        ],
+        "unchanged": [],
+        "decreased": [],
+        "exited": [],
+        "total_value_usd": 3146797651.0,
+        "net_value_change_usd": -34651133.0
+      }
     },
     {
       "ticker": "CPNG",
       "verdict": "hold",
-      "conviction": 42,
+      "conviction": 56,
       "scores": {
-        "valuation": 31,
-        "technical": 36,
-        "risk": 26,
-        "sentiment": 33,
-        "macro": 46,
-        "quality": 29
+        "valuation": 62,
+        "technical": 32,
+        "risk": 50,
+        "sentiment": 75,
+        "macro": 50,
+        "quality": 15,
+        "insider": 65,
+        "smart_money": 72
       },
       "score_details": {
-        "valuation": [
-          "P/E above sector average",
-          "PEG ratio indicates overvaluation",
-          "Price near analyst target"
+        "insider": [
+          "Last 90d: 3 buys / 0 sells, net +$136,562,971"
         ],
-        "technical": [
-          "Price below MA200",
-          "Downtrend signals",
-          "RSI overbought/oversold"
-        ],
-        "risk": [
-          "Overweight position (>15%)",
-          "High beta (>1.5) — volatile",
-          "Crypto cap at risk"
-        ],
-        "sentiment": [
-          "Significant SELL pressure",
-          "Negative news flow"
-        ],
-        "macro": [
-          "Neutral macro environment"
+        "smart_money": [
+          "Held by 4/10 top funds",
+          "Increased by: Bridgewater Associates"
         ],
         "quality": [
-          "Below-average ROE",
-          "Thin profit margins",
-          "Elevated debt load"
+          "ROE 4.9% — below institutional threshold of 15%",
+          "Profit margin 0.6% — thin, competitive pressure",
+          "Debt/Equity 100.26 — high debt risk"
+        ],
+        "valuation": [
+          "P/E 187.3 — expensive, needs high growth to justify",
+          "PEG 0.45 — growth at a discount (Peter Lynch target <1)"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized",
+          "Beta 1.16 — slightly above market volatility"
+        ],
+        "macro": [
+          "VIX 19 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
+        ],
+        "sentiment": [
+          "Analyst consensus: 17 Buy / 0 Hold / 0 Sell (100% bullish)"
+        ],
+        "technical": [
+          "RSI 68 — neutral zone"
         ]
       },
       "analyst_consensus": {
-        "buy": 12,
-        "hold": 15,
-        "sell": 5,
-        "target": null,
+        "buy": 17,
+        "hold": 0,
+        "sell": 0,
+        "target": 27.38824,
         "price": null
       },
+      "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 2.5,
-        "action": "reduce",
-        "delta_pct": -7.5,
-        "reason": "Scores suggest trimming (10.0% → 2.5%)",
+        "target_pct": 1.6,
+        "action": "reduce_small",
+        "delta_pct": -0.6,
+        "reason": "Small trim recommended (2.2% → 1.6%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 140.0,
-        "stop_loss_pct": -6.7,
-        "take_profit_price": 210.0,
+        "stop_loss_price": 17.04,
+        "stop_loss_pct": -20,
+        "take_profit_price": 29.83,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "sell",
-          "conviction": 78,
-          "rationale": "השוק הקוריאני ה-e-commerce צפוף: נאבר, שופלייבה, אלי אקספרס, קאוופאנג. חפיר תחרותי לא ברור ומרווחים דקים. ללא יתרון מובהק, לא עומדת בסטנדרט הערך שלי — לעבור הלאה."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "sell",
-          "conviction": 78,
-          "rationale": "עסק בינוני במחיר שלא מצדיק את הזמן שלי. יש מאות עסקים איכותיים יותר בעולם — למה להתעסק עם אחד בינוני?"
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "sell",
-          "conviction": 78,
-          "rationale": "חדשנות במודל לוגיסטי, אבל רחוקה ממוקד התזה של ARK — לא מדד AI/Genomics/Fintech."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "sell",
-          "conviction": 78,
-          "rationale": "הצמיחה מאטה ב-CPNG, והתחרות מואצת. אני מחפש 'סיפורים צומחים', לא 'סיפורים מאטים' — לוותר."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "sell",
-          "conviction": 78,
-          "rationale": "פוזיציה במינוס ללא תרומה ברורה לתזת התיק. תורמת לסיכון מבלי לתרום לתשואה הצפויה. המלצה: לסגור ולהעביר ל-VOO/GOOGL."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "sell",
-          "conviction": 78,
-          "rationale": "ללא התאמה לתזות הנוכחיות — לשקול הקטנה."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "sell",
-          "conviction": 78,
-          "rationale": "מתחת ל-MA200 כבר 6 חודשים. מגמה יורדת ברורה. RSI ליד 30 — מבצע 'oversold bounce' אפשרי, אבל המגמה הראשית שלילית. איתות טכני לסל״ב."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "sell",
-          "conviction": 78,
-          "rationale": "מרווחים דקים (2-3% תפעולי), תחרות עזה שלוחצת על המחירים. איכות פונדמנטלית בינונית. חוב נוח, אבל בלי מנוע צמיחה ברור."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "sell",
-          "conviction": 78,
-          "rationale": "ללא התאמה לתזות הנוכחיות — לשקול הקטנה."
-        }
-      ]
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "personas": [],
+      "insider_activity": {
+        "ticker": "CPNG",
+        "lookback_days": 90,
+        "buy_count": 3,
+        "sell_count": 0,
+        "buy_value_usd": 136562970.69,
+        "sell_value_usd": 0.0,
+        "net_value_usd": 136562970.69,
+        "executive_buy": false,
+        "executive_sell_only": false,
+        "cluster_buy": false,
+        "unique_buyers": 1,
+        "recent_trades": [
+          {
+            "date": "2026-03-13",
+            "insider": "Neil Mehta",
+            "role": "Director",
+            "action": "Purchase",
+            "shares": 2332863.0,
+            "price": 18.3994,
+            "value_usd": 42923279.48
+          },
+          {
+            "date": "2026-03-12",
+            "insider": "Neil Mehta",
+            "role": "Director",
+            "action": "Purchase",
+            "shares": 3000000.0,
+            "price": 18.6787,
+            "value_usd": 56036100.0
+          },
+          {
+            "date": "2026-03-11",
+            "insider": "Neil Mehta",
+            "role": "Director",
+            "action": "Purchase",
+            "shares": 2017241.0,
+            "price": 18.6411,
+            "value_usd": 37603591.21
+          }
+        ],
+        "last_filed": "2026-04-03"
+      },
+      "smart_money_info": {
+        "holders": [
+          "Bridgewater Associates",
+          "Citadel Advisors",
+          "Renaissance Technologies",
+          "Two Sigma Investments"
+        ],
+        "holder_count": 4,
+        "new": [],
+        "increased": [
+          "Bridgewater Associates"
+        ],
+        "unchanged": [],
+        "decreased": [
+          "Renaissance Technologies",
+          "Two Sigma Investments",
+          "Citadel Advisors"
+        ],
+        "exited": [],
+        "total_value_usd": 150134120.0,
+        "net_value_change_usd": -272824988.0
+      }
     },
     {
       "ticker": "ETHA",
       "verdict": "hold",
-      "conviction": 48,
+      "conviction": 53,
       "scores": {
-        "valuation": 37,
-        "technical": 42,
-        "risk": 32,
-        "sentiment": 39,
-        "macro": 52,
-        "quality": 35
+        "valuation": 50,
+        "technical": 32,
+        "risk": 50,
+        "sentiment": 50,
+        "macro": 50,
+        "quality": 30
       },
       "score_details": {
-        "valuation": [
-          "P/E above sector average",
-          "PEG ratio indicates overvaluation",
-          "Price near analyst target"
+        "quality": [
+          "No fundamental data available for this ticker"
         ],
-        "technical": [
-          "Sideways price action"
+        "valuation": [
+          "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Overweight position (>15%)",
-          "High beta (>1.5) — volatile",
-          "Crypto cap at risk"
-        ],
-        "sentiment": [
-          "Significant SELL pressure",
-          "Negative news flow"
+          "Portfolio weight 0.0% — well-sized"
         ],
         "macro": [
-          "Neutral macro environment"
+          "VIX 19 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
         ],
-        "quality": [
-          "Below-average ROE",
-          "Thin profit margins",
-          "Elevated debt load"
+        "sentiment": [
+          "No analyst coverage data available"
+        ],
+        "technical": [
+          "RSI 67 — neutral zone"
         ]
       },
       "analyst_consensus": {
-        "buy": 12,
-        "hold": 15,
-        "sell": 5,
+        "buy": 0,
+        "hold": 0,
+        "sell": 0,
         "target": null,
         "price": null
       },
+      "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 5.6,
-        "action": "reduce",
-        "delta_pct": -10.4,
-        "reason": "Scores suggest trimming (16.0% → 5.6%)",
+        "target_pct": 0.6,
+        "action": "hold",
+        "delta_pct": -0.2,
+        "reason": "Position size is appropriate — no change needed",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 140.0,
-        "stop_loss_pct": -6.7,
-        "take_profit_price": 210.0,
+        "stop_loss_price": 14.12,
+        "stop_loss_pct": -20,
+        "take_profit_price": 24.71,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "sell",
-          "conviction": 82,
-          "rationale": "אותו עיקרון כמו IBIT — נכס ללא תזרים מזומנים מסחרי. את׳ריום אולי מיועד לאפליקציות DeFi, אך עדיין ספקולציה טכנולוגית ולא השקעה בעסק. לא מתאים לפרופיל ערך."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "sell",
-          "conviction": 82,
-          "rationale": "כנ״ל. חדשנות טכנולוגית לא מעניקה שימוש רציונלי להשקעה."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "sell",
-          "conviction": 82,
-          "rationale": "את׳ריום חשוב יותר מביטקוין אפילו — זה הבסיס ל-DeFi ול-NFT. אבל שוב, התקרה של 3% מגבילה."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "sell",
-          "conviction": 82,
-          "rationale": "אותה הערה כמו IBIT."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "sell",
-          "conviction": 85,
-          "rationale": "אותה הערה כמו IBIT — חריגה מהתקרה. להקטין מיד."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "sell",
-          "conviction": 82,
-          "rationale": "ללא התאמה לתזות הנוכחיות — לשקול הקטנה."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "sell",
-          "conviction": 82,
-          "rationale": "מתחת ל-MA50 מזה 2 חודשים. ביצועי חסר מול ביטקוין. טכנית חלש."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "sell",
-          "conviction": 70,
-          "rationale": "זהה ל-IBIT — ללא ערך פנימי ניתן להערכה. ספקולציה על שיעור אימוץ טכנולוגי."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "sell",
-          "conviction": 82,
-          "rationale": "ללא התאמה לתזות הנוכחיות — לשקול הקטנה."
-        }
-      ]
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "personas": [],
+      "insider_activity": {
+        "ticker": "ETHA",
+        "lookback_days": 90,
+        "buy_count": 0,
+        "sell_count": 0,
+        "buy_value_usd": 0.0,
+        "sell_value_usd": 0.0,
+        "net_value_usd": 0.0,
+        "executive_buy": false,
+        "executive_sell_only": false,
+        "cluster_buy": false,
+        "unique_buyers": 0,
+        "recent_trades": [],
+        "last_filed": null
+      },
+      "smart_money_info": {
+        "holders": [
+          "Citadel Advisors",
+          "Renaissance Technologies"
+        ],
+        "holder_count": 2,
+        "new": [],
+        "increased": [],
+        "unchanged": [],
+        "decreased": [
+          "Citadel Advisors"
+        ],
+        "exited": [],
+        "total_value_usd": 475165442.0,
+        "net_value_change_usd": -209850583.0
+      }
     },
     {
       "ticker": "XLV",
       "verdict": "hold",
-      "conviction": 45,
+      "conviction": 55,
       "scores": {
-        "valuation": 65,
-        "technical": 70,
-        "risk": 60,
-        "sentiment": 68,
-        "macro": 55,
-        "quality": 72
+        "valuation": 50,
+        "technical": 50,
+        "risk": 50,
+        "sentiment": 50,
+        "macro": 50,
+        "quality": 30,
+        "insider": 50,
+        "smart_money": 64
       },
       "score_details": {
-        "valuation": [
-          "P/E below sector average",
-          "Favorable PEG ratio (<1.5)",
-          "Analyst targets suggest upside"
+        "insider": [
+          "No insider trades in last 90 days"
         ],
-        "technical": [
-          "Price above MA50 and MA200",
-          "Uptrend confirmed",
-          "RSI in healthy zone"
-        ],
-        "risk": [
-          "Moderate portfolio risk contribution"
-        ],
-        "sentiment": [
-          "Strong analyst BUY consensus (>70%)",
-          "Positive recent coverage"
-        ],
-        "macro": [
-          "Neutral macro environment"
+        "smart_money": [
+          "Held by 3/10 top funds"
         ],
         "quality": [
-          "High ROE (>15%) indicates strong profitability",
-          "Stable profit margins over past years",
-          "Low debt burden"
+          "No fundamental data available for this ticker"
+        ],
+        "valuation": [
+          "P/E 25.8 — moderately expensive"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized"
+        ],
+        "macro": [
+          "VIX 19 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
+        ],
+        "sentiment": [
+          "No analyst coverage data available"
+        ],
+        "technical": [
+          "RSI 46 — neutral zone"
         ]
       },
       "analyst_consensus": {
-        "buy": 12,
-        "hold": 15,
-        "sell": 5,
+        "buy": 0,
+        "hold": 0,
+        "sell": 0,
         "target": null,
         "price": null
       },
+      "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 8.1,
+        "target_pct": 2.4,
         "action": "reduce_small",
         "delta_pct": -0.9,
-        "reason": "Small trim recommended (9.0% → 8.1%)",
+        "reason": "Small trim recommended (3.3% → 2.4%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 140.0,
-        "stop_loss_pct": -6.7,
-        "take_profit_price": 210.0,
+        "stop_loss_price": 146.34,
+        "stop_loss_pct": -0.8,
+        "take_profit_price": 206.46,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "סקטור הבריאות הוא הגנתי, לא-מחזורי, וביקושו גדל עם הזדקנות האוכלוסייה. החפיר התחרותי מורכב מפטנטים, רגולציה (FDA), ורשתות הפצה. התשואה ההיסטורית עומדת על 10%+ שנתית עם תנודתיות נמוכה יחסית — התאמה מצוינת לפרופיל שמרני."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "אני אוהב סקטורים שאני יכול להבין ולהחזיק בשקט לעשור. סקטור הבריאות עומד בכל הקריטריונים: ביקוש לא-מחזורי, מרווחים יציבים, אינרציה דמוגרפית. 'ההחזקה השקטה' הקלאסית."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "ביו-טק הוא חלק מהחדשנות, אבל XLV הוא מדד רחב — הגנתי מדי לסגנון שלי."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "בריאות היא סיפור צמיחה דמוגרפי — האוכלוסייה מזדקנת, ההוצאות עולות. יציב ויפה."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "נכס הגנתי — מפחית drawdown בתקופות משבר (בטא 0.7). ממליץ להגדיל בתקופות חוסר ודאות."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "לאחר תקופה ארוכה של תת-ביצועים, מתחיל להופיע בסיס טכני. MA50 מתחיל להתיישר, RSI מטפס בעקביות — אפשרות להתהפכות מגמה."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "רווחיות יציבה לאורך מחזורים, דיבידנדים עקביים, יחס חוב סביר. שיעור צמיחת EPS 8-10% עקבי — לא מרגש, אבל אמין."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        }
-      ]
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "personas": [],
+      "insider_activity": {
+        "ticker": "XLV",
+        "lookback_days": 90,
+        "buy_count": 0,
+        "sell_count": 0,
+        "buy_value_usd": 0.0,
+        "sell_value_usd": 0.0,
+        "net_value_usd": 0.0,
+        "executive_buy": false,
+        "executive_sell_only": false,
+        "cluster_buy": false,
+        "unique_buyers": 0,
+        "recent_trades": [],
+        "last_filed": null
+      },
+      "smart_money_info": {
+        "holders": [
+          "Citadel Advisors",
+          "Renaissance Technologies",
+          "Two Sigma Investments"
+        ],
+        "holder_count": 3,
+        "new": [],
+        "increased": [],
+        "unchanged": [],
+        "decreased": [
+          "Citadel Advisors"
+        ],
+        "exited": [],
+        "total_value_usd": 377532277.0,
+        "net_value_change_usd": -108254525.0
+      }
     },
     {
       "ticker": "IBIT",
       "verdict": "hold",
-      "conviction": 41,
+      "conviction": 48,
       "scores": {
-        "valuation": 30,
-        "technical": 35,
-        "risk": 25,
-        "sentiment": 32,
-        "macro": 45,
-        "quality": 28
+        "valuation": 35,
+        "technical": 19,
+        "risk": 50,
+        "sentiment": 50,
+        "macro": 50,
+        "quality": 30
       },
       "score_details": {
-        "valuation": [
-          "P/E above sector average",
-          "PEG ratio indicates overvaluation",
-          "Price near analyst target"
+        "quality": [
+          "No fundamental data available for this ticker"
         ],
-        "technical": [
-          "Price below MA200",
-          "Downtrend signals",
-          "RSI overbought/oversold"
+        "valuation": [
+          "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Overweight position (>15%)",
-          "High beta (>1.5) — volatile",
-          "Crypto cap at risk"
-        ],
-        "sentiment": [
-          "Significant SELL pressure",
-          "Negative news flow"
+          "Portfolio weight 0.0% — well-sized"
         ],
         "macro": [
-          "Neutral macro environment"
+          "VIX 19 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
         ],
-        "quality": [
-          "Below-average ROE",
-          "Thin profit margins",
-          "Elevated debt load"
+        "sentiment": [
+          "No analyst coverage data available"
+        ],
+        "technical": [
+          "RSI 77 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
-        "buy": 12,
-        "hold": 15,
-        "sell": 5,
+        "buy": 0,
+        "hold": 0,
+        "sell": 0,
         "target": null,
         "price": null
       },
+      "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 2.2,
+        "target_pct": 3,
         "action": "reduce",
-        "delta_pct": -6.8,
-        "reason": "Scores suggest trimming (9.0% → 2.2%)",
+        "delta_pct": -4.0,
+        "reason": "Scores suggest trimming (7.0% → 3.0%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 140.0,
-        "stop_loss_pct": -6.7,
-        "take_profit_price": 210.0,
+        "stop_loss_price": 33.53,
+        "stop_loss_pct": -20,
+        "take_profit_price": 58.67,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "sell",
-          "conviction": 80,
-          "rationale": "ביטקוין הוא נכס ספקולטיבי שאינו מייצר תזרים מזומנים. אני לא משקיע במשהו שאיני יכול להעריך בו ערך פנימי (DCF). מבחינת הפרופיל של אמית — תקרת הקריפטו של 3% כבר חורגת; הגיוני להקטין."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "sell",
-          "conviction": 80,
-          "rationale": "ספקולציה נטו — אני לא משקיע במה שאני לא יכול לשים בו ערך. ורן ואני הסכמנו על הנקודה הזו עוד בעידן הזהב; האמיתות הישנות עדיין נכונות."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "sell",
-          "conviction": 80,
-          "rationale": "חדשנות פיננסית אמיתית — ביטקוין הוא נכס המפלט של העשור הבא. אבל התקרת קריפטו של 3% אצל אמית חוסמת התרחבות — כבוד לחוקים שלו."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "sell",
-          "conviction": 80,
-          "rationale": "אני מעדיף עסקים שמייצרים הכנסות ורווחים. ביטקוין לא."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "sell",
-          "conviction": 85,
-          "rationale": "חריגה מתקרת קריפטו של 3%. הפרופיל הנוכחי אוסר 'Crypto' בסקטורים המנועים — יש להקטין ב-50%+ לפחות."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "sell",
-          "conviction": 80,
-          "rationale": "ללא התאמה לתזות הנוכחיות — לשקול הקטנה."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "sell",
-          "conviction": 80,
-          "rationale": "תלוי במחלוטין בהתנהגות ביטקוין. תנודתיות יומית של 4-6% — לא איתות טכני ברור. מגמה ארוכת-טווח עדיין עולה אך עם תיקונים חדים."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "sell",
-          "conviction": 70,
-          "rationale": "ללא פונדמנטלים קלאסיים — אין EPS, אין מרווח, אין דיבידנד. עוקב אחר מחיר ביטקוין, שאין לו ערך פנימי ניתן להערכה בשיטות DCF."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "sell",
-          "conviction": 80,
-          "rationale": "ללא התאמה לתזות הנוכחיות — לשקול הקטנה."
-        }
-      ]
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "personas": [],
+      "insider_activity": {
+        "ticker": "IBIT",
+        "lookback_days": 90,
+        "buy_count": 0,
+        "sell_count": 0,
+        "buy_value_usd": 0.0,
+        "sell_value_usd": 0.0,
+        "net_value_usd": 0.0,
+        "executive_buy": false,
+        "executive_sell_only": false,
+        "cluster_buy": false,
+        "unique_buyers": 0,
+        "recent_trades": [],
+        "last_filed": null
+      },
+      "smart_money_info": {
+        "holders": [
+          "Citadel Advisors",
+          "Renaissance Technologies",
+          "Two Sigma Investments"
+        ],
+        "holder_count": 3,
+        "new": [],
+        "increased": [
+          "Two Sigma Investments",
+          "Citadel Advisors"
+        ],
+        "unchanged": [],
+        "decreased": [],
+        "exited": [],
+        "total_value_usd": 2671583684.0,
+        "net_value_change_usd": 145298494.0
+      }
     },
     {
       "ticker": "QQQM",
       "verdict": "hold",
-      "conviction": 60,
+      "conviction": 54,
       "scores": {
-        "valuation": 49,
-        "technical": 51,
-        "risk": 54,
-        "sentiment": 47,
-        "macro": 49,
-        "quality": 49
+        "valuation": 50,
+        "technical": 19,
+        "risk": 50,
+        "sentiment": 50,
+        "macro": 50,
+        "quality": 30,
+        "insider": 50,
+        "smart_money": 61
       },
       "score_details": {
-        "valuation": [
-          "Fairly valued vs sector"
+        "insider": [
+          "No insider trades in last 90 days"
         ],
-        "technical": [
-          "Sideways price action"
-        ],
-        "risk": [
-          "Moderate portfolio risk contribution"
-        ],
-        "sentiment": [
-          "Mixed analyst views"
-        ],
-        "macro": [
-          "Neutral macro environment"
+        "smart_money": [
+          "Held by 2/10 top funds",
+          "Increased by: Citadel Advisors"
         ],
         "quality": [
-          "Average business quality metrics"
+          "No fundamental data available for this ticker"
+        ],
+        "valuation": [
+          "P/E 34.6 — expensive, needs high growth to justify"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized"
+        ],
+        "macro": [
+          "VIX 19 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
+        ],
+        "sentiment": [
+          "No analyst coverage data available"
+        ],
+        "technical": [
+          "RSI 94 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
-        "buy": 12,
-        "hold": 15,
-        "sell": 5,
+        "buy": 0,
+        "hold": 0,
+        "sell": 0,
         "target": null,
         "price": null
       },
+      "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 5.8,
+        "target_pct": 1.2,
         "action": "reduce",
-        "delta_pct": -2.2,
-        "reason": "Scores suggest trimming (8.0% → 5.8%)",
+        "delta_pct": -11.8,
+        "reason": "Scores suggest trimming (12.9% → 1.2%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 140.0,
-        "stop_loss_pct": -6.7,
-        "take_profit_price": 210.0,
+        "stop_loss_price": 246.16,
+        "stop_loss_pct": -5.6,
+        "take_profit_price": 365.22,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "hold",
-          "conviction": 55,
-          "rationale": "חשיפה לנאסד״ק 100 — חברות איכות גבוהה אך בתמחור מתוח מאוד. חופף משמעותית עם החזקות GOOGL, NVDA, AMZN שכבר קיימות בתיק. מיותר — SPY/VOO מספיקים כעוגן."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "hold",
-          "conviction": 55,
-          "rationale": "למה להחזיק נאסד״ק 100 כשיש לך כבר את רוב המניות המרכיבות אותו? כפילות בתיק היא בזבוז קוגניטיבי."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "hold",
-          "conviction": 55,
-          "rationale": "נאסד״ק 100 כולל את כל המנצחים שלי, אבל גם הרבה בלבול. אני מעדיפה בחירה ספציפית."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "hold",
-          "conviction": 55,
-          "rationale": "מדד רחב — אני מעדיף להחזיק את החברות הספציפיות."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "hold",
-          "conviction": 55,
-          "rationale": "כפילות עם SPY/VOO (המניות המרכזיות חוזרות) + החזקות פרטניות של NVDA/GOOGL/AMZN. הסיכון: חשיפה מרוכזת יתר."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "hold",
-          "conviction": 55,
-          "rationale": "סימנים מעורבים — החזקה, ולהעריך מחדש בהרצה הבאה."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "hold",
-          "conviction": 55,
-          "rationale": "מגמה עולה יציבה, דומה לנאסד״ק 100 — המשך מגמה. לא מוסיף ערך מעל SPY/VOO טכנית."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "hold",
-          "conviction": 55,
-          "rationale": "חשיפה לחברות איכות גבוהה (AAPL, MSFT, NVDA, GOOGL, META) — אבל בתמחור מתוח. P/E ממוצע של 28 vs 22 של SPY. כפילות עם החזקות קיימות."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "hold",
-          "conviction": 55,
-          "rationale": "סימנים מעורבים — החזקה, ולהעריך מחדש בהרצה הבאה."
-        }
-      ]
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "personas": [],
+      "insider_activity": {
+        "ticker": "QQQM",
+        "lookback_days": 90,
+        "buy_count": 0,
+        "sell_count": 0,
+        "buy_value_usd": 0.0,
+        "sell_value_usd": 0.0,
+        "net_value_usd": 0.0,
+        "executive_buy": false,
+        "executive_sell_only": false,
+        "cluster_buy": false,
+        "unique_buyers": 0,
+        "recent_trades": [],
+        "last_filed": null
+      },
+      "smart_money_info": {
+        "holders": [
+          "Citadel Advisors",
+          "Two Sigma Investments"
+        ],
+        "holder_count": 2,
+        "new": [],
+        "increased": [
+          "Citadel Advisors"
+        ],
+        "unchanged": [],
+        "decreased": [
+          "Two Sigma Investments"
+        ],
+        "exited": [],
+        "total_value_usd": 59942040.0,
+        "net_value_change_usd": -33271624.0
+      }
     },
     {
       "ticker": "ITA",
       "verdict": "hold",
-      "conviction": 47,
+      "conviction": 55,
       "scores": {
-        "valuation": 63,
-        "technical": 68,
-        "risk": 58,
-        "sentiment": 66,
-        "macro": 53,
-        "quality": 70
+        "valuation": 50,
+        "technical": 50,
+        "risk": 50,
+        "sentiment": 50,
+        "macro": 50,
+        "quality": 30,
+        "insider": 50,
+        "smart_money": 63
       },
       "score_details": {
-        "valuation": [
-          "P/E below sector average",
-          "Favorable PEG ratio (<1.5)",
-          "Analyst targets suggest upside"
+        "insider": [
+          "No insider trades in last 90 days"
         ],
-        "technical": [
-          "Price above MA50 and MA200",
-          "Uptrend confirmed",
-          "RSI in healthy zone"
-        ],
-        "risk": [
-          "Moderate portfolio risk contribution"
-        ],
-        "sentiment": [
-          "Strong analyst BUY consensus (>70%)",
-          "Positive recent coverage"
-        ],
-        "macro": [
-          "Neutral macro environment"
+        "smart_money": [
+          "Held by 1/10 top funds",
+          "Increased by: Citadel Advisors"
         ],
         "quality": [
-          "High ROE (>15%) indicates strong profitability",
-          "Stable profit margins over past years",
-          "Low debt burden"
+          "No fundamental data available for this ticker"
+        ],
+        "valuation": [
+          "P/E 37.6 — expensive, needs high growth to justify"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized"
+        ],
+        "macro": [
+          "VIX 19 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
+        ],
+        "sentiment": [
+          "No analyst coverage data available"
+        ],
+        "technical": [
+          "RSI 45 — neutral zone"
         ]
       },
       "analyst_consensus": {
-        "buy": 12,
-        "hold": 15,
-        "sell": 5,
+        "buy": 0,
+        "hold": 0,
+        "sell": 0,
         "target": null,
         "price": null
       },
+      "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 6.3,
+        "target_pct": 4.5,
         "action": "reduce_small",
-        "delta_pct": -0.7,
-        "reason": "Small trim recommended (7.0% → 6.3%)",
+        "delta_pct": -1.8,
+        "reason": "Small trim recommended (6.3% → 4.5%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 140.0,
-        "stop_loss_pct": -6.7,
-        "take_profit_price": 210.0,
+        "stop_loss_price": 213.76,
+        "stop_loss_pct": -8.4,
+        "take_profit_price": 326.75,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "buy",
-          "conviction": 76,
-          "rationale": "חברות הביטחון האמריקאיות (LMT, RTX, NOC, GD) יציבות, עם חוזים ממשלתיים ארוכי-טווח ותזרים מזומנים צפוי. התקציבים הביטחוניים בעלייה — סביבה מקרו תומכת. פסיבית, שקטה, מצוינת לפרופיל שמרני."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "buy",
-          "conviction": 76,
-          "rationale": "ביטחון הוא סקטור שאני מעריך — קשיי כניסה גבוהים, חוזים ארוכים, מנהלים טובים. לא מרגש, אבל רווחי."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "buy",
-          "conviction": 76,
-          "rationale": "ביטחון הוא לא במוקד תזת החדשנות שלי. יש התקדמות במזלים אוטונומיים, אבל יותר מדי מהסקטור הוא חברות ישנות."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "buy",
-          "conviction": 76,
-          "rationale": "ביטחון בצמיחה עקבית — תקציבים ממשלתיים עולים, חוזים ארוכי-טווח. סיפור 'משעמם ורווחי' — בדיוק מה שאני מחפש."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "buy",
-          "conviction": 76,
-          "rationale": "חשיפה לסקטור לא-מקורלל עם השוק הרחב. תורמת חיובית לפרופיל סיכון/תשואה."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "buy",
-          "conviction": 76,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "buy",
-          "conviction": 81,
-          "rationale": "מומנטום חיובי עקבי — מעלה את שיאי 52 השבועות. תנועה שקטה ואיטית, אבל מגמה עולה מובהקת."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "buy",
-          "conviction": 76,
-          "rationale": "חברות הביטחון האמריקאיות מציגות הכנסות צפויות ב-85% (גיבוי חוזים). רווחיות יציבה, דיבידנדים הולכים וגדלים. יחס חוב סביר."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "buy",
-          "conviction": 76,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        }
-      ]
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "personas": [],
+      "insider_activity": {
+        "ticker": "ITA",
+        "lookback_days": 90,
+        "buy_count": 0,
+        "sell_count": 0,
+        "buy_value_usd": 0.0,
+        "sell_value_usd": 0.0,
+        "net_value_usd": 0.0,
+        "executive_buy": false,
+        "executive_sell_only": false,
+        "cluster_buy": false,
+        "unique_buyers": 0,
+        "recent_trades": [],
+        "last_filed": null
+      },
+      "smart_money_info": {
+        "holders": [
+          "Citadel Advisors"
+        ],
+        "holder_count": 1,
+        "new": [],
+        "increased": [
+          "Citadel Advisors"
+        ],
+        "unchanged": [],
+        "decreased": [],
+        "exited": [],
+        "total_value_usd": 28055475.0,
+        "net_value_change_usd": 4513725.0
+      }
     },
     {
       "ticker": "NVDA",
       "verdict": "hold",
-      "conviction": 54,
+      "conviction": 59,
       "scores": {
-        "valuation": 55,
-        "technical": 57,
-        "risk": 60,
-        "sentiment": 53,
-        "macro": 55,
-        "quality": 55
+        "valuation": 62,
+        "technical": 19,
+        "risk": 30,
+        "sentiment": 75,
+        "macro": 50,
+        "quality": 55,
+        "insider": 15,
+        "smart_money": 90
       },
       "score_details": {
-        "valuation": [
-          "Fairly valued vs sector"
+        "insider": [
+          "Last 90d: 0 buys / 63 sells, net $-208,125,739",
+          "Executive-only selling pressure"
         ],
-        "technical": [
-          "Sideways price action"
-        ],
-        "risk": [
-          "Moderate portfolio risk contribution"
-        ],
-        "sentiment": [
-          "Mixed analyst views"
-        ],
-        "macro": [
-          "Neutral macro environment"
+        "smart_money": [
+          "Held by 7/10 top funds",
+          "New position from: Scion Asset Mgmt (Burry)",
+          "Increased by: Greenlight Capital, Bridgewater Associates"
         ],
         "quality": [
-          "Average business quality metrics"
+          "ROE 1.0% — below institutional threshold of 15%",
+          "Profit margin 55.6% — wide moat indicator (>25%)",
+          "Debt/Equity 7.25 — high debt risk"
+        ],
+        "valuation": [
+          "P/E 41.3 — expensive, needs high growth to justify",
+          "PEG 0.72 — growth at a discount (Peter Lynch target <1)"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized",
+          "Beta 2.33 — significantly more volatile than S&P 500"
+        ],
+        "macro": [
+          "VIX 19 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
+        ],
+        "sentiment": [
+          "Analyst consensus: 56 Buy / 0 Hold / 0 Sell (100% bullish)",
+          "Well-covered stock (56 analysts)"
+        ],
+        "technical": [
+          "RSI 92 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
-        "buy": 12,
-        "hold": 15,
-        "sell": 5,
-        "target": null,
+        "buy": 56,
+        "hold": 0,
+        "sell": 0,
+        "target": 268.6148,
         "price": null
       },
+      "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 10.1,
-        "action": "reduce",
-        "delta_pct": -3.9,
-        "reason": "Scores suggest trimming (14.0% → 10.1%)",
+        "target_pct": 4.3,
+        "action": "reduce_small",
+        "delta_pct": -1.7,
+        "reason": "Small trim recommended (6.0% → 4.3%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 140.0,
-        "stop_loss_pct": -6.7,
-        "take_profit_price": 210.0,
+        "stop_loss_price": 181.33,
+        "stop_loss_pct": -9.3,
+        "take_profit_price": 279.76,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "hold",
-          "conviction": 62,
-          "rationale": "חברה נהדרת ויצרנית ה-GPU הדומיננטית לעידן ה-AI, אבל P/E של 50+ משאיר שולי בטיחות דקים מאוד. הסיכון: כל כשל בציפיות צמיחה יפגע במחיר חזק. אני מעדיף להמתין לתיקון של 20-30% לפני שאגדיל פוזיציה."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "hold",
-          "conviction": 62,
-          "rationale": "חברה נהדרת, אבל המחיר מבקש ממך להיות צודק לחלוטין לשנים קדימה. שולי בטיחות (Margin of Safety) הם העיקרון הכי חשוב — וכאן אין. זה המקום שאני חוזר ל-Poor Charlie's Almanack שלי ונזכר: 'אל תעשה שטויות'."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "buy",
-          "conviction": 70,
-          "rationale": "מונופול וירטואלי על GPU לעידן ה-AI — CUDA הוא חפיר תוכנה עצום. עקומת ההכנסות עדיין מצויה רק בתחילתה: רק 15% מהדאטה-סנטרים עברו ל-AI-accelerated. ריצה ארוכה קדימה."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "hold",
-          "conviction": 62,
-          "rationale": "קצב צמיחת ההכנסות יוצא דופן — אבל המחיר כבר משקף זאת לחלוטין. P/E של 50 מחייב המשך צמיחה מושלמת. זהירות — זה לא 'החבא בעיניים' שאני מחפש."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "hold",
-          "conviction": 62,
-          "rationale": "תורמת משמעותית לתנודתיות התיק (40% שנתית!). משקל נוכחי 5% כבר מציע חשיפה חזקה. לא להגדיל מעל 7-8% משקל — הסיכון למחיקה חד-פעמית גבוה."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "hold",
-          "conviction": 62,
-          "rationale": "סימנים מעורבים — החזקה, ולהעריך מחדש בהרצה הבאה."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "hold",
-          "conviction": 62,
-          "rationale": "לאחר ריצה של 250%+ השנה, נמצאת בהתכנסות ליד $140-150. RSI נרגע מ-75 ל-55 — קירור בריא. אין עדיין איתות כניסה; אני מחכה לשבירת תבנית."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "hold",
-          "conviction": 57,
-          "rationale": "מרווחים יוצאי דופן (75%+ גולמי), אבל P/E של 50+. רווחי העתיד חייבים להצדיק את המחיר — ציפיות של 30%+ צמיחת EPS ב-5 שנים. סיכון רמת הציפיות."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "hold",
-          "conviction": 62,
-          "rationale": "סימנים מעורבים — החזקה, ולהעריך מחדש בהרצה הבאה."
-        }
-      ]
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "personas": [],
+      "insider_activity": {
+        "ticker": "NVDA",
+        "lookback_days": 90,
+        "buy_count": 0,
+        "sell_count": 63,
+        "buy_value_usd": 0.0,
+        "sell_value_usd": 208125739.25,
+        "net_value_usd": -208125739.25,
+        "executive_buy": false,
+        "executive_sell_only": true,
+        "cluster_buy": false,
+        "unique_buyers": 0,
+        "recent_trades": [
+          {
+            "date": "2026-03-20",
+            "insider": "Mark A Stevens",
+            "role": "Director",
+            "action": "Sale",
+            "shares": 100000.0,
+            "price": 172.6068,
+            "value_usd": 17260680.0
+          },
+          {
+            "date": "2026-03-20",
+            "insider": "Mark A Stevens",
+            "role": "Director",
+            "action": "Sale",
+            "shares": 121682.0,
+            "price": 174.5685,
+            "value_usd": 21241844.22
+          },
+          {
+            "date": "2026-03-20",
+            "insider": "Donald F Robertson Jr",
+            "role": "Principal Accounting Officer",
+            "action": "Sale",
+            "shares": 1196.0,
+            "price": 172.5777,
+            "value_usd": 206402.93
+          },
+          {
+            "date": "2026-03-20",
+            "insider": "Donald F Robertson Jr",
+            "role": "Principal Accounting Officer",
+            "action": "Sale",
+            "shares": 400.0,
+            "price": 172.97,
+            "value_usd": 69188.0
+          },
+          {
+            "date": "2026-03-20",
+            "insider": "Donald F Robertson Jr",
+            "role": "Principal Accounting Officer",
+            "action": "Sale",
+            "shares": 500.0,
+            "price": 173.778,
+            "value_usd": 86889.0
+          },
+          {
+            "date": "2026-03-20",
+            "insider": "Donald F Robertson Jr",
+            "role": "Principal Accounting Officer",
+            "action": "Sale",
+            "shares": 600.0,
+            "price": 174.8467,
+            "value_usd": 104908.02
+          },
+          {
+            "date": "2026-03-20",
+            "insider": "Donald F Robertson Jr",
+            "role": "Principal Accounting Officer",
+            "action": "Sale",
+            "shares": 2100.0,
+            "price": 175.7948,
+            "value_usd": 369169.08
+          },
+          {
+            "date": "2026-03-20",
+            "insider": "Donald F Robertson Jr",
+            "role": "Principal Accounting Officer",
+            "action": "Sale",
+            "shares": 600.0,
+            "price": 177.3117,
+            "value_usd": 106387.02
+          },
+          {
+            "date": "2026-03-20",
+            "insider": "Colette Kress",
+            "role": "EVP & Chief Financial Officer",
+            "action": "Sale",
+            "shares": 715.0,
+            "price": 172.0119,
+            "value_usd": 122988.51
+          },
+          {
+            "date": "2026-03-20",
+            "insider": "Colette Kress",
+            "role": "EVP & Chief Financial Officer",
+            "action": "Sale",
+            "shares": 10264.0,
+            "price": 172.7096,
+            "value_usd": 1772691.33
+          }
+        ],
+        "last_filed": "2026-03-24"
+      },
+      "smart_money_info": {
+        "holders": [
+          "Appaloosa (Tepper)",
+          "Bridgewater Associates",
+          "Citadel Advisors",
+          "Greenlight Capital",
+          "Renaissance Technologies",
+          "Scion Asset Mgmt (Burry)",
+          "Two Sigma Investments"
+        ],
+        "holder_count": 7,
+        "new": [
+          "Scion Asset Mgmt (Burry)"
+        ],
+        "increased": [
+          "Greenlight Capital",
+          "Bridgewater Associates",
+          "Two Sigma Investments",
+          "Citadel Advisors"
+        ],
+        "unchanged": [],
+        "decreased": [
+          "Appaloosa (Tepper)",
+          "Renaissance Technologies"
+        ],
+        "exited": [],
+        "total_value_usd": 31122852925.0,
+        "net_value_change_usd": -250428692.0
+      }
     },
     {
       "ticker": "SPY",
-      "verdict": "buy",
-      "conviction": 71,
+      "verdict": "hold",
+      "conviction": 56,
       "scores": {
-        "valuation": 71,
-        "technical": 76,
-        "risk": 66,
-        "sentiment": 74,
-        "macro": 61,
-        "quality": 78
+        "valuation": 50,
+        "technical": 19,
+        "risk": 50,
+        "sentiment": 50,
+        "macro": 50,
+        "quality": 30,
+        "insider": 50,
+        "smart_money": 90
       },
       "score_details": {
-        "valuation": [
-          "P/E below sector average",
-          "Favorable PEG ratio (<1.5)",
-          "Analyst targets suggest upside"
+        "insider": [
+          "No insider trades in last 90 days"
         ],
-        "technical": [
-          "Price above MA50 and MA200",
-          "Uptrend confirmed",
-          "RSI in healthy zone"
-        ],
-        "risk": [
-          "Well-sized position in portfolio",
-          "Beta near market (1.0)",
-          "Low sector concentration"
-        ],
-        "sentiment": [
-          "Strong analyst BUY consensus (>70%)",
-          "Positive recent coverage"
-        ],
-        "macro": [
-          "VIX low, calm markets",
-          "Yield curve normal",
-          "Rate environment favorable"
+        "smart_money": [
+          "Held by 5/10 top funds",
+          "New position from: Renaissance Technologies",
+          "Increased by: Bridgewater Associates"
         ],
         "quality": [
-          "High ROE (>15%) indicates strong profitability",
-          "Stable profit margins over past years",
-          "Low debt burden"
+          "No fundamental data available for this ticker"
+        ],
+        "valuation": [
+          "P/E 28.2 — moderately expensive"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized"
+        ],
+        "macro": [
+          "VIX 19 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
+        ],
+        "sentiment": [
+          "No analyst coverage data available"
+        ],
+        "technical": [
+          "RSI 91 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
-        "buy": 25,
-        "hold": 8,
-        "sell": 2,
+        "buy": 0,
+        "hold": 0,
+        "sell": 0,
         "target": null,
         "price": null
       },
+      "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 12,
+        "target_pct": 10.1,
         "action": "reduce",
-        "delta_pct": -3,
-        "reason": "Scores suggest trimming (15.0% → 12.0%)",
+        "delta_pct": -15.1,
+        "reason": "Scores suggest trimming (25.2% → 10.1%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 140.0,
-        "stop_loss_pct": -6.7,
-        "take_profit_price": 210.0,
+        "stop_loss_price": 665.58,
+        "stop_loss_pct": -4.6,
+        "take_profit_price": 976.3,
         "take_profit_pct": 40,
-        "trailing_enabled": true,
-        "re_evaluate_if": "If weighted score drops below 50, or if quality score breaks below 40"
+        "trailing_enabled": false,
+        "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "buy",
-          "conviction": 80,
-          "rationale": "אני ממליץ לכל משקיע פרטי להחזיק מדד S&P 500 זול ולשכוח ממנו — זה התיק הכי טוב לרוב האנשים. גם לאמית, זהו עוגן התיק. הבעיה היחידה: SPY יקר יותר מ-VOO בדמי ניהול (0.09% מול 0.03%)."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "buy",
-          "conviction": 80,
-          "rationale": "פשוט, זול, אפקטיבי — נכס ליבה לכל משקיע רציונלי. אני לא יכול לנצח את השוק בהחזקה לטווח ארוך, אז למה לנסות? מדד S&P 500 הוא הדרך הכי חכמה להיות 'טיפש' בחוכמה."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "buy",
-          "conviction": 80,
-          "rationale": "חשיפה פסיבית לא מנצחת חדשנות ממוקדת לטווח ארוך. אני בנויה לבחור מנצחים ספציפיים, לא להחזיק את הממוצע. ל-Amit יש SPY — זה בסדר כעוגן, אבל לא למקסם תשואה."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "buy",
-          "conviction": 80,
-          "rationale": "מדד רחב — אני מעדיף סיפורים ספציפיים שאני מבין. ל-SPY אין 'סיפור' לספר."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "buy",
-          "conviction": 80,
-          "rationale": "עוגן התיק — המשך לבנות משקל בתרומות החודשיות. קטגוריית 'סיכון נמוך' של הפרופיל."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "buy",
-          "conviction": 80,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "buy",
-          "conviction": 80,
-          "rationale": "מגמה עולה יציבה — מחיר מעל MA50 מעל MA200. יחס טכני בריא, ללא סטיות שליליות. המשך מגמה עולה — להמשיך לצבור בתרומות חודשיות."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "buy",
-          "conviction": 80,
-          "rationale": "חשיפה לפונדמנטלים של 500 החברות המובילות — ROE ממוצע של 18%, P/E של 22, שיעור צמיחה של 8%. רמת איכות 'ממוצעת גבוהה' — זה המצב הטבעי של כלכלה אמריקאית."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "buy",
-          "conviction": 80,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        }
-      ]
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "personas": [],
+      "insider_activity": {
+        "ticker": "SPY",
+        "lookback_days": 90,
+        "buy_count": 0,
+        "sell_count": 0,
+        "buy_value_usd": 0.0,
+        "sell_value_usd": 0.0,
+        "net_value_usd": 0.0,
+        "executive_buy": false,
+        "executive_sell_only": false,
+        "cluster_buy": false,
+        "unique_buyers": 0,
+        "recent_trades": [],
+        "last_filed": null
+      },
+      "smart_money_info": {
+        "holders": [
+          "Bridgewater Associates",
+          "Citadel Advisors",
+          "Greenlight Capital",
+          "Renaissance Technologies",
+          "Two Sigma Investments"
+        ],
+        "holder_count": 5,
+        "new": [
+          "Renaissance Technologies"
+        ],
+        "increased": [
+          "Bridgewater Associates"
+        ],
+        "unchanged": [],
+        "decreased": [
+          "Two Sigma Investments",
+          "Citadel Advisors"
+        ],
+        "exited": [],
+        "total_value_usd": 43002378457.0,
+        "net_value_change_usd": -6140633380.0
+      }
     },
     {
       "ticker": "URNM",
       "verdict": "hold",
-      "conviction": 48,
+      "conviction": 57,
       "scores": {
-        "valuation": 62,
-        "technical": 67,
-        "risk": 57,
-        "sentiment": 65,
-        "macro": 52,
-        "quality": 69
+        "valuation": 60,
+        "technical": 32,
+        "risk": 50,
+        "sentiment": 50,
+        "macro": 50,
+        "quality": 30,
+        "insider": 50,
+        "smart_money": 61
       },
       "score_details": {
-        "valuation": [
-          "P/E below sector average",
-          "Favorable PEG ratio (<1.5)",
-          "Analyst targets suggest upside"
+        "insider": [
+          "No insider activity (non-US or data unavailable)"
         ],
-        "technical": [
-          "Price above MA50 and MA200",
-          "Uptrend confirmed",
-          "RSI in healthy zone"
-        ],
-        "risk": [
-          "Moderate portfolio risk contribution"
-        ],
-        "sentiment": [
-          "Strong analyst BUY consensus (>70%)",
-          "Positive recent coverage"
-        ],
-        "macro": [
-          "Neutral macro environment"
+        "smart_money": [
+          "Held by 2/10 top funds"
         ],
         "quality": [
-          "High ROE (>15%) indicates strong profitability",
-          "Stable profit margins over past years",
-          "Low debt burden"
+          "No fundamental data available for this ticker"
+        ],
+        "valuation": [
+          "P/E 14.6 — cheap by most standards (<15)"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized"
+        ],
+        "macro": [
+          "VIX 19 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
+        ],
+        "sentiment": [
+          "No analyst coverage data available"
+        ],
+        "technical": [
+          "RSI 69 — neutral zone"
         ]
       },
       "analyst_consensus": {
-        "buy": 12,
-        "hold": 15,
-        "sell": 5,
+        "buy": 0,
+        "hold": 0,
+        "sell": 0,
         "target": null,
         "price": null
       },
+      "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 5.4,
+        "target_pct": 4.0,
         "action": "reduce_small",
-        "delta_pct": -0.6,
-        "reason": "Small trim recommended (6.0% → 5.4%)",
+        "delta_pct": -1.6,
+        "reason": "Small trim recommended (5.6% → 4.0%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 140.0,
-        "stop_loss_pct": -6.7,
-        "take_profit_price": 210.0,
+        "stop_loss_price": 58.91,
+        "stop_loss_pct": -14.3,
+        "take_profit_price": 96.25,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "buy",
-          "conviction": 73,
-          "rationale": "אורניום מחזורי מאוד — אם מחירי הספוט עולים, ההכנסות של חברות הכרייה מזנקות. ביקוש מאושש מצד datacenters של AI ומדיניות 'חזרה לגרעין'. תנודתיות גבוהה — לא לגעת מעל 5% משקל."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "buy",
-          "conviction": 73,
-          "rationale": "מחזוריות גבוהה היא לא הסגנון שלי, אבל אני רואה את התזה: מחסור במכרות חדשים + ביקוש AI-datacenter. אם אמית רוצה חשיפה, משקל 5% מקסימום."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "buy",
-          "conviction": 73,
-          "rationale": "אורניום הוא חלק מתזת האנרגיה הנקייה — דאטה-סנטרים של AI צורכים עשרות גיגה-וואטים, ורק גרעין יכול לענות. תזה מעולה ל-5 שנים."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "buy",
-          "conviction": 73,
-          "rationale": "סיפור צמיחה ברור: מחסור באורניום + ביקוש ענק מ-AI-datacenters + חזרה לגרעין בסקנדינביה. צמיחה שצפויה להיות לא-ליניארית."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "buy",
-          "conviction": 73,
-          "rationale": "תנודתיות גבוהה מאוד (45%+). לא להגדיל מעל 5% משקל — סיכון למחיקות של 30-40%. לאמית: נראה שאתה בגבול התקרה."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "buy",
-          "conviction": 73,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "buy",
-          "conviction": 78,
-          "rationale": "שובר שיאים של 52 שבועות ברצף. התבנית מציגה higher-highs ו-higher-lows עקביים — מגמה עולה חזקה. איתות קנייה טכני מובהק."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "buy",
-          "conviction": 73,
-          "rationale": "תלוי מאוד במחירי הספוט של אורניום. היום מחירים עולים — מה שתרגם להכפלת הכנסות של חברות הכרייה. סיכון: אם המחירים יירדו, הרווחיות תצנח."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "buy",
-          "conviction": 73,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        }
-      ]
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "personas": [],
+      "insider_activity": null,
+      "smart_money_info": {
+        "holders": [
+          "Bridgewater Associates",
+          "Citadel Advisors"
+        ],
+        "holder_count": 2,
+        "new": [],
+        "increased": [],
+        "unchanged": [],
+        "decreased": [
+          "Citadel Advisors"
+        ],
+        "exited": [],
+        "total_value_usd": 15358222.0,
+        "net_value_change_usd": -10613444.0
+      }
     },
     {
       "ticker": "NLR",
       "verdict": "hold",
-      "conviction": 41,
+      "conviction": 55,
       "scores": {
-        "valuation": 69,
-        "technical": 74,
-        "risk": 64,
-        "sentiment": 72,
-        "macro": 59,
-        "quality": 76
+        "valuation": 50,
+        "technical": 32,
+        "risk": 50,
+        "sentiment": 50,
+        "macro": 50,
+        "quality": 30,
+        "insider": 50,
+        "smart_money": 63
       },
       "score_details": {
-        "valuation": [
-          "P/E below sector average",
-          "Favorable PEG ratio (<1.5)",
-          "Analyst targets suggest upside"
+        "insider": [
+          "No insider trades in last 90 days"
         ],
-        "technical": [
-          "Price above MA50 and MA200",
-          "Uptrend confirmed",
-          "RSI in healthy zone"
-        ],
-        "risk": [
-          "Well-sized position in portfolio",
-          "Beta near market (1.0)",
-          "Low sector concentration"
-        ],
-        "sentiment": [
-          "Strong analyst BUY consensus (>70%)",
-          "Positive recent coverage"
-        ],
-        "macro": [
-          "Neutral macro environment"
+        "smart_money": [
+          "Held by 1/10 top funds",
+          "Increased by: Citadel Advisors"
         ],
         "quality": [
-          "High ROE (>15%) indicates strong profitability",
-          "Stable profit margins over past years",
-          "Low debt burden"
+          "No fundamental data available for this ticker"
+        ],
+        "valuation": [
+          "P/E 30.7 — expensive, needs high growth to justify"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized"
+        ],
+        "macro": [
+          "VIX 19 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
+        ],
+        "sentiment": [
+          "No analyst coverage data available"
+        ],
+        "technical": [
+          "RSI 70 — neutral zone"
         ]
       },
       "analyst_consensus": {
-        "buy": 12,
-        "hold": 15,
-        "sell": 5,
+        "buy": 0,
+        "hold": 0,
+        "sell": 0,
         "target": null,
         "price": null
       },
+      "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 11.7,
+        "target_pct": 3.3,
         "action": "reduce_small",
         "delta_pct": -1.3,
-        "reason": "Small trim recommended (13.0% → 11.7%)",
+        "reason": "Small trim recommended (4.6% → 3.3%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 140.0,
-        "stop_loss_pct": -6.7,
-        "take_profit_price": 210.0,
+        "stop_loss_price": 133.11,
+        "stop_loss_pct": -8.4,
+        "take_profit_price": 203.53,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "דומה ל-URNM אך מגוון יותר — כולל גם שירותי חשמל גרעיניים (NextEra, Constellation). יציבות גבוהה יותר בזכות רגולציה מורכבת שיוצרת חפיר תחרותי. התאמה טובה לפרופיל."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "יותר יציב מ-URNM. שירותי חשמל גרעיניים עם חפיר רגולטורי עמוק — מתאים ליותר הרבה."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "אותו סיפור כמו URNM — חדשנות אנרגיה גרעינית (SMR - Small Modular Reactors) בדרך."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "תזה דומה ל-URNM אבל עם פרופיל סיכון יותר יציב. אני אוהב שתיהן."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "יותר יציב מ-URNM (תנודתיות 30%), אבל עדיין סקטור צר. מקסימום 5% משקל."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "buy",
-          "conviction": 77,
-          "rationale": "פריצה לאחרונה מעל רמת ההתנגדות של $90. תבנית גביע-וידית הושלמה — מטרה טכנית סביב $110."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "יציבות הכנסות גבוהה יותר מ-URNM — כולל שירותי חשמל גרעיניים (רגולציה מורכבת יוצרת חפיר). דיבידנדים מסוימים; פונדמנטלים יציבים."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "buy",
-          "conviction": 72,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        }
-      ]
-    },
-    {
-      "ticker": "KSM-F34.TA",
-      "verdict": "hold",
-      "conviction": 57,
-      "scores": {
-        "valuation": 52,
-        "technical": 54,
-        "risk": 57,
-        "sentiment": 50,
-        "macro": 52,
-        "quality": 52
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "personas": [],
+      "insider_activity": {
+        "ticker": "NLR",
+        "lookback_days": 90,
+        "buy_count": 0,
+        "sell_count": 0,
+        "buy_value_usd": 0.0,
+        "sell_value_usd": 0.0,
+        "net_value_usd": 0.0,
+        "executive_buy": false,
+        "executive_sell_only": false,
+        "cluster_buy": false,
+        "unique_buyers": 0,
+        "recent_trades": [],
+        "last_filed": null
       },
-      "score_details": {
-        "valuation": [
-          "Fairly valued vs sector"
+      "smart_money_info": {
+        "holders": [
+          "Citadel Advisors"
         ],
-        "technical": [
-          "Sideways price action"
+        "holder_count": 1,
+        "new": [],
+        "increased": [
+          "Citadel Advisors"
         ],
-        "risk": [
-          "Moderate portfolio risk contribution"
-        ],
-        "sentiment": [
-          "Mixed analyst views"
-        ],
-        "macro": [
-          "Neutral macro environment"
-        ],
-        "quality": [
-          "Average business quality metrics"
-        ]
-      },
-      "analyst_consensus": {
-        "buy": 12,
-        "hold": 15,
-        "sell": 5,
-        "target": null,
-        "price": null
-      },
-      "position_sizing": {
-        "target_pct": 7.9,
-        "action": "reduce",
-        "delta_pct": -3.1,
-        "reason": "Scores suggest trimming (11.0% → 7.9%)",
-        "max_allowed": 12
-      },
-      "exit_triggers": {
-        "stop_loss_price": 140.0,
-        "stop_loss_pct": -6.7,
-        "take_profit_price": 210.0,
-        "take_profit_pct": 40,
-        "trailing_enabled": false,
-        "re_evaluate_if": "If weighted score moves out of 40-60 range"
-      },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "hold",
-          "conviction": 68,
-          "rationale": "קרן האג״ח הממשלתי הישראלי (F34) — אג״ח ממשלתי שקלי לטווח בינוני. יציבות גבוהה, סיכון נמוך, חשיפה שקלית הגנתית שמפחיתה סיכון מט״ח בתיק דולרי. מתאימה לפרופיל שמרני."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "hold",
-          "conviction": 68,
-          "rationale": "אג״ח ממשלתי ישראלי — שקט, יציב, תשואה צפויה. אני לא מבין לעומק בשוק הישראלי, אבל אג״ח ממשלתי הוא אג״ח ממשלתי בכל מדינה."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "hold",
-          "conviction": 68,
-          "rationale": "אג״ח ממשלתי ישראלי לא במוקד תזת החדשנות שלי."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "hold",
-          "conviction": 68,
-          "rationale": "אני לא מכיר לעומק את שוק האג״ח הישראלי. אם אמית מאמין, שיחזיק — אג״ח ממשלתי בכל מדינה הוא בדרך כלל אחזקה הגנתית סבירה."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "hold",
-          "conviction": 68,
-          "rationale": "נכס שקלי הגנתי — אג״ח ממשלתי ישראלי מפחית סיכון מט״ח בתיק דולרי. תורם חיובית לגיוון."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "hold",
-          "conviction": 68,
-          "rationale": "סימנים מעורבים — החזקה, ולהעריך מחדש בהרצה הבאה."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "hold",
-          "conviction": 68,
-          "rationale": "מגמה עולה ארוכת-טווח, תנודתיות נמוכה מאוד. ללא איתות שינוי. המשך החזקה."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "hold",
-          "conviction": 68,
-          "rationale": "אג״ח ממשלתי ישראלי F34 — תשואה לפדיון יציבה, duration בינוני. ללא חוב תאגידי — סיכון אשראי אפסי. פונדמנטלים יציבים."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "hold",
-          "conviction": 68,
-          "rationale": "סימנים מעורבים — החזקה, ולהעריך מחדש בהרצה הבאה."
-        }
-      ]
+        "unchanged": [],
+        "decreased": [],
+        "exited": [],
+        "total_value_usd": 14238288.0,
+        "net_value_change_usd": 4509334.0
+      }
     },
     {
       "ticker": "VOO",
       "verdict": "hold",
-      "conviction": 46,
+      "conviction": 56,
       "scores": {
-        "valuation": 64,
-        "technical": 69,
-        "risk": 59,
-        "sentiment": 67,
-        "macro": 54,
-        "quality": 71
+        "valuation": 50,
+        "technical": 19,
+        "risk": 50,
+        "sentiment": 50,
+        "macro": 50,
+        "quality": 30,
+        "insider": 50,
+        "smart_money": 82
       },
       "score_details": {
-        "valuation": [
-          "P/E below sector average",
-          "Favorable PEG ratio (<1.5)",
-          "Analyst targets suggest upside"
+        "insider": [
+          "No insider trades in last 90 days"
         ],
-        "technical": [
-          "Price above MA50 and MA200",
-          "Uptrend confirmed",
-          "RSI in healthy zone"
-        ],
-        "risk": [
-          "Moderate portfolio risk contribution"
-        ],
-        "sentiment": [
-          "Strong analyst BUY consensus (>70%)",
-          "Positive recent coverage"
-        ],
-        "macro": [
-          "Neutral macro environment"
+        "smart_money": [
+          "Held by 4/10 top funds",
+          "New position from: Renaissance Technologies",
+          "Increased by: Bridgewater Associates"
         ],
         "quality": [
-          "High ROE (>15%) indicates strong profitability",
-          "Stable profit margins over past years",
-          "Low debt burden"
+          "No fundamental data available for this ticker"
+        ],
+        "valuation": [
+          "P/E 28.2 — moderately expensive"
+        ],
+        "risk": [
+          "Portfolio weight 0.0% — well-sized"
+        ],
+        "macro": [
+          "VIX 19 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
+        ],
+        "sentiment": [
+          "No analyst coverage data available"
+        ],
+        "technical": [
+          "RSI 91 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
-        "buy": 12,
-        "hold": 15,
-        "sell": 5,
+        "buy": 0,
+        "hold": 0,
+        "sell": 0,
         "target": null,
         "price": null
       },
+      "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 7.2,
-        "action": "reduce_small",
-        "delta_pct": -0.8,
-        "reason": "Small trim recommended (8.0% → 7.2%)",
+        "target_pct": 0,
+        "action": "exit",
+        "delta_pct": -8.7,
+        "reason": "Scores too low to justify any position",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 140.0,
-        "stop_loss_pct": -6.7,
-        "take_profit_price": 210.0,
+        "stop_loss_price": 612.07,
+        "stop_loss_pct": -4.5,
+        "take_profit_price": 897.57,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "personas": [
-        {
-          "name": "warren_buffett",
-          "display_name": "וורן באפט (ערך)",
-          "verdict": "buy",
-          "conviction": 82,
-          "rationale": "עדיפה על SPY — אותו מוצר בדיוק, אבל דמי ניהול נמוכים יותר פי 3. לאורך 30 שנה ההבדל הזה מצטבר לאלפי דולרים. עבור תיק שנבנה בתרומות חודשיות קבועות, VOO היא הבחירה הרציונלית."
-        },
-        {
-          "name": "charlie_munger",
-          "display_name": "צ'ארלי מנגר (ערך)",
-          "verdict": "buy",
-          "conviction": 82,
-          "rationale": "אותו הדבר כמו SPY אבל זול יותר — לא צריך חוכמה מיוחדת לבחור. Vanguard חוסכת לך כסף כל שנה, זה פשוט מצטבר."
-        },
-        {
-          "name": "cathie_wood",
-          "display_name": "קתי ווד (חדשנות)",
-          "verdict": "buy",
-          "conviction": 82,
-          "rationale": "אותה הערה כמו SPY — עוגן סביר, לא מקסימיזציה של תשואה."
-        },
-        {
-          "name": "peter_lynch",
-          "display_name": "פיטר לינץ' (צמיחה)",
-          "verdict": "buy",
-          "conviction": 82,
-          "rationale": "אותה הערה כמו SPY."
-        },
-        {
-          "name": "risk_manager",
-          "display_name": "מנהל סיכונים",
-          "verdict": "buy",
-          "conviction": 82,
-          "rationale": "עוגן חלופי ל-SPY — באותו מעמד בסיכון. יש הגיון להחליף הדרגתית את SPY ב-VOO בגלל דמי ניהול."
-        },
-        {
-          "name": "sentiment",
-          "display_name": "סנטימנט שוק",
-          "verdict": "buy",
-          "conviction": 82,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        },
-        {
-          "name": "technical_analyst",
-          "display_name": "ניתוח טכני",
-          "verdict": "buy",
-          "conviction": 82,
-          "rationale": "זהה ל-SPY — מגמה עולה עקבית. אותה מסקנה טכנית."
-        },
-        {
-          "name": "fundamentals_analyst",
-          "display_name": "ניתוח פונדמנטלי",
-          "verdict": "buy",
-          "conviction": 82,
-          "rationale": "זהה ל-SPY בדיוק בפונדמנטלים. ההבדל: דמי ניהול נמוכים יותר (0.03% vs 0.09%) משפרים תשואה נטו — עדיפה פונדמנטלית."
-        },
-        {
-          "name": "macro",
-          "display_name": "מאקרו",
-          "verdict": "buy",
-          "conviction": 82,
-          "rationale": "התאמה טובה לפרופיל המשתמש — לשקול הגדלת משקל."
-        }
-      ]
-    }
-  ],
-  "new_ideas": [
-    {
-      "ticker": "MSFT",
-      "name": "Microsoft",
-      "conviction": 73,
-      "rationale": "מוביל בגל ה-AI (Azure + OpenAI + Copilot). מרווחים 36%, ROE 38%, דיבידנד צומח. קונצנזוס אנליסטים חזק (BUY 80%+).",
-      "scores": {
-        "quality": 88,
-        "valuation": 65,
-        "risk": 75,
-        "macro": 55,
-        "sentiment": 82,
-        "technical": 72
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "personas": [],
+      "insider_activity": {
+        "ticker": "VOO",
+        "lookback_days": 90,
+        "buy_count": 0,
+        "sell_count": 0,
+        "buy_value_usd": 0.0,
+        "sell_value_usd": 0.0,
+        "net_value_usd": 0.0,
+        "executive_buy": false,
+        "executive_sell_only": false,
+        "cluster_buy": false,
+        "unique_buyers": 0,
+        "recent_trades": [],
+        "last_filed": null
       },
-      "score_details": {
-        "quality": [
-          "High ROE (>15%) indicates strong profitability",
-          "Stable profit margins over past years",
-          "Low debt burden"
+      "smart_money_info": {
+        "holders": [
+          "Bridgewater Associates",
+          "Citadel Advisors",
+          "Renaissance Technologies",
+          "Two Sigma Investments"
         ],
-        "valuation": [
-          "P/E below sector average",
-          "Favorable PEG ratio (<1.5)",
-          "Analyst targets suggest upside"
+        "holder_count": 4,
+        "new": [
+          "Renaissance Technologies"
         ],
-        "risk": [
-          "Well-sized position in portfolio",
-          "Beta near market (1.0)",
-          "Low sector concentration"
+        "increased": [
+          "Bridgewater Associates"
         ],
-        "macro": [
-          "Neutral macro environment"
+        "unchanged": [],
+        "decreased": [
+          "Two Sigma Investments",
+          "Citadel Advisors"
         ],
-        "sentiment": [
-          "Strong analyst BUY consensus (>70%)",
-          "Positive recent coverage"
-        ],
-        "technical": [
-          "Price above MA50 and MA200",
-          "Uptrend confirmed",
-          "RSI in healthy zone"
-        ]
+        "exited": [],
+        "total_value_usd": 742322493.0,
+        "net_value_change_usd": -396536523.0
       }
     },
     {
-      "ticker": "LLY",
-      "name": "Eli Lilly",
-      "conviction": 70,
-      "rationale": "מובילה ב-GLP-1 (Mounjaro, Zepbound). צמיחת הכנסות 40%+, ROE 50%+, pipeline עשיר. הגנתי מפני מחזוריות.",
+      "ticker": "5108.TA",
+      "verdict": "hold",
+      "conviction": 60,
       "scores": {
-        "quality": 85,
-        "valuation": 55,
-        "risk": 72,
-        "macro": 60,
-        "sentiment": 78,
-        "technical": 70
+        "valuation": 50,
+        "technical": 50,
+        "risk": 50,
+        "sentiment": 50,
+        "macro": 50,
+        "quality": 50
       },
       "score_details": {
         "quality": [
-          "High ROE (>15%) indicates strong profitability",
-          "Stable profit margins over past years",
-          "Low debt burden"
+          "No fundamental data available for this ticker"
         ],
         "valuation": [
-          "Fairly valued vs sector"
+          "No valuation data — scored neutral (50)"
         ],
         "risk": [
-          "Well-sized position in portfolio",
-          "Beta near market (1.0)",
-          "Low sector concentration"
+          "Portfolio weight 0.0% — well-sized"
         ],
         "macro": [
-          "Neutral macro environment"
+          "VIX 19 — normal volatility",
+          "Fed rate 3.64%",
+          "Yield curve normal (10Y-Fed = +0.66%)"
         ],
         "sentiment": [
-          "Strong analyst BUY consensus (>70%)",
-          "Positive recent coverage"
+          "No analyst coverage data available"
         ],
         "technical": [
-          "Price above MA50 and MA200",
-          "Uptrend confirmed",
-          "RSI in healthy zone"
+          "Insufficient price history for technical analysis"
         ]
-      }
-    },
-    {
-      "ticker": "V",
-      "name": "Visa",
-      "conviction": 73,
-      "rationale": "תשתית תשלומים דומיננטית. מרווחים 65%+, ROE 40%+. עלייה בתשלומים דיגיטליים — moat עצום.",
-      "scores": {
-        "quality": 92,
-        "valuation": 58,
-        "risk": 80,
-        "macro": 55,
-        "sentiment": 75,
-        "technical": 65
       },
-      "score_details": {
-        "quality": [
-          "High ROE (>15%) indicates strong profitability",
-          "Stable profit margins over past years",
-          "Low debt burden"
-        ],
-        "valuation": [
-          "Fairly valued vs sector"
-        ],
-        "risk": [
-          "Well-sized position in portfolio",
-          "Beta near market (1.0)",
-          "Low sector concentration"
-        ],
-        "macro": [
-          "Neutral macro environment"
-        ],
-        "sentiment": [
-          "Strong analyst BUY consensus (>70%)",
-          "Positive recent coverage"
-        ],
-        "technical": [
-          "Price above MA50 and MA200",
-          "Uptrend confirmed",
-          "RSI in healthy zone"
-        ]
-      }
+      "analyst_consensus": {
+        "buy": 0,
+        "hold": 0,
+        "sell": 0,
+        "target": null,
+        "price": null
+      },
+      "social_sentiment": null,
+      "position_sizing": {
+        "target_pct": 0,
+        "action": "exit",
+        "delta_pct": 0.0,
+        "reason": "Scores too low to justify any position",
+        "max_allowed": 12
+      },
+      "exit_triggers": {},
+      "rationale": "[שגיאת Gemini: Error calling model 'gemini-3-flash-preview' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message']",
+      "personas": [],
+      "insider_activity": null,
+      "smart_money_info": null
     }
   ],
-  "dry_run": true
+  "new_ideas": [],
+  "dry_run": false,
+  "updated_reason": "rescored_with_8_factors"
 }

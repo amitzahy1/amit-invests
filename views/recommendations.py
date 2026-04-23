@@ -20,6 +20,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 import streamlit as st
 from config import DISPLAY_NAMES, SECTOR_MAP, ASSET_TYPE_MAP
+from ticker_metadata import (
+    get_sector as _dyn_sector,
+    get_asset_type as _dyn_asset_type,
+    get_display_name as _dyn_display_name,
+)
 
 inject_css()
 inject_header("recommendations")
@@ -74,17 +79,24 @@ VERDICT_COLOR = {"buy": "#047857", "sell": "#B91C1C", "hold": "#92400E"}
 # Load scoring weights
 _sw_settings = load_json("settings.json") or {}
 _SCORE_WEIGHTS = _sw_settings.get("scoring_weights", {
-    "quality": 30, "valuation": 25, "risk": 20, "macro": 15, "sentiment": 5, "technical": 5,
+    "quality": 25, "valuation": 22, "risk": 18,
+    "macro": 12, "sentiment": 4, "technical": 4,
+    "insider": 8, "smart_money": 7,
 })
-_SCORE_ORDER = sorted(
-    ["quality", "valuation", "risk", "macro", "sentiment", "technical"],
-    key=lambda k: -_SCORE_WEIGHTS.get(k, 0),
-)
+_ALL_SCORE_KEYS = ["quality", "valuation", "risk", "macro",
+                   "sentiment", "technical", "insider", "smart_money"]
+_SCORE_ORDER = sorted(_ALL_SCORE_KEYS, key=lambda k: -_SCORE_WEIGHTS.get(k, 0))
 
-SCORE_LABELS = {"quality": "Quality", "valuation": "Valuation", "risk": "Risk",
-                "macro": "Macro", "sentiment": "Sentiment", "technical": "Trend"}
-SCORE_ICONS = {"quality": "🏛️", "valuation": "💰", "risk": "🛡️",
-               "macro": "🌍", "sentiment": "📊", "technical": "📈"}
+SCORE_LABELS = {
+    "quality": "Quality", "valuation": "Valuation", "risk": "Risk",
+    "macro": "Macro", "sentiment": "Sentiment", "technical": "Trend",
+    "insider": "Insider", "smart_money": "Smart Money",
+}
+SCORE_ICONS = {
+    "quality": "🏛️", "valuation": "💰", "risk": "🛡️",
+    "macro": "🌍", "sentiment": "📊", "technical": "📈",
+    "insider": "🕵️", "smart_money": "🐋",
+}
 
 
 def _score_color(val: int) -> str:
@@ -93,7 +105,41 @@ def _score_color(val: int) -> str:
     return "#b91c1c"
 
 
-def _score_bars_html(scores: dict) -> str:
+# Markers that score_details uses to signal "no data for this factor". Kept
+# in sync with _NO_DATA_MARKERS in scripts/telegram_digest.py.
+_NO_DATA_MARKERS = (
+    "No fundamental data",
+    "No valuation data",
+    "No analyst coverage",
+    "No social sentiment",
+    "Insufficient price history",
+)
+
+
+def _factor_has_data(details_for_factor) -> bool:
+    if not details_for_factor:
+        return False
+    joined = " ".join(details_for_factor) if isinstance(details_for_factor, list) \
+        else str(details_for_factor)
+    return not any(m in joined for m in _NO_DATA_MARKERS)
+
+
+def _weighted_score_excluding_placeholders(scores: dict, details: dict | None = None) -> int | None:
+    """Same rule the Telegram digest uses: drop placeholder factors from the total."""
+    if not scores:
+        return None
+    if details:
+        keys = [k for k in scores if _factor_has_data(details.get(k))]
+    else:
+        keys = list(scores.keys())
+    if not keys:
+        return None
+    total_w = sum(_SCORE_WEIGHTS.get(k, 0) for k in keys) or 1
+    return round(sum(scores[k] * _SCORE_WEIGHTS.get(k, 0) for k in keys) / total_w)
+
+
+def _score_bars_html(scores: dict, details: dict | None = None) -> str:
+    """Render the score bars. Factors with no data are dimmed + marked."""
     if not scores:
         return ""
     rows = []
@@ -103,9 +149,18 @@ def _score_bars_html(scores: dict) -> str:
         label = SCORE_LABELS.get(key, key)
         weight = _SCORE_WEIGHTS.get(key, 0)
         whtml = f'<span class="score-weight">{weight}%</span>' if weight else ''
+
+        # If this factor has no real data, dim the row and mark it as excluded
+        # from the weighted total.
+        has_data = _factor_has_data((details or {}).get(key))
+        row_style = ' style="opacity:0.45;"' if not has_data else ''
+        badge = '' if has_data else (
+            '<span class="score-nodata" title="Not counted in total" '
+            'style="font-size:10px;color:#92400e;margin-left:6px;">(אין דאטה)</span>'
+        )
         rows.append(
-            f'<div class="score-row">'
-            f'<span class="score-label">{label}{whtml}</span>'
+            f'<div class="score-row"{row_style}>'
+            f'<span class="score-label">{label}{whtml}{badge}</span>'
             f'<div class="score-bar"><div class="score-fill" style="width:{val}%;background:{color};"></div></div>'
             f'<span class="score-val" style="color:{color};">{val}</span>'
             f'</div>')
@@ -120,7 +175,8 @@ def _conviction_bar(pct: int, verdict: str) -> str:
 
 
 def _sector_of(ticker: str) -> str:
-    return SECTOR_MAP.get(ticker, "Other")
+    # Resolver checks user override (config.SECTOR_MAP) first, then yfinance cache
+    return _dyn_sector(ticker)
 
 
 # ─── Score history sparkline ─────────────────────────────────────────────────
@@ -181,13 +237,14 @@ def _sparkline_svg(values: list, width: int = 60, height: int = 18) -> str:
 def _show_detail(item: dict, is_idea: bool = False):
     """Modal with full analysis: rationale, score breakdown, sector context."""
     tk = item.get("ticker", "")
-    name = DISPLAY_NAMES.get(tk, item.get("name", tk))
+    # Resolvers: user override → yfinance cache → ticker / sensible default
+    name = _dyn_display_name(tk) or item.get("name", tk)
     v = (item.get("verdict") or ("buy" if is_idea else "hold")).lower()
     c = int(item.get("conviction", 0))
     scores = item.get("scores", {})
     rationale = item.get("rationale", "")
     sector = _sector_of(tk) if not is_idea else "New Idea"
-    asset_type = ASSET_TYPE_MAP.get(tk, "")
+    asset_type = _dyn_asset_type(tk)
     if is_idea and not asset_type:
         asset_type = "Suggested"
 
@@ -212,8 +269,24 @@ def _show_detail(item: dict, is_idea: bool = False):
         unsafe_allow_html=True,
     )
 
-    # Rationale
-    if rationale:
+    # Rationale — hide raw LLM error blobs behind a friendly placeholder
+    _ERROR_MARKERS = ("[error", "[שגיאת", "API key not valid",
+                      "INVALID_ARGUMENT", "Analysis unavailable")
+    _rationale_is_error = bool(rationale) and any(
+        m in rationale.strip()[:120] for m in _ERROR_MARKERS
+    )
+    if rationale and _rationale_is_error:
+        st.markdown(
+            '<div style="background:#fef3c7;border:1px solid #fde68a;border-radius:8px;'
+            'padding:16px 20px;margin-bottom:20px;font-size:14px;line-height:1.8;">'
+            '<div style="font-size:11px;font-weight:600;color:#92400e;text-transform:uppercase;'
+            'letter-spacing:0.12em;margin-bottom:8px;">Analysis</div>'
+            '<div dir="rtl" style="text-align:right;color:#78350f;">'
+            'רציונל לא זמין כעת — נסה שוב לאחר עדכון מפתח ה-API.'
+            '</div></div>',
+            unsafe_allow_html=True,
+        )
+    elif rationale:
         is_hebrew = any('\u0590' <= ch <= '\u05FF' for ch in rationale[:80])
         rtl = ' dir="rtl" style="text-align:right;"' if is_hebrew else ''
         st.markdown(
@@ -472,6 +545,8 @@ def _show_detail(item: dict, is_idea: bool = False):
             "macro": "Does the economic environment favor this asset? Rates, VIX, yield curve.",
             "sentiment": "What does Wall Street think? Analyst consensus (Buy/Hold/Sell counts).",
             "technical": "What is the price trend saying? MA50/200 crossovers, RSI, momentum.",
+            "insider": "What are the company's own executives doing? SEC Form 4 (last 90 days).",
+            "smart_money": "What are the top-10 watched funds doing? 13F deltas quarter-over-quarter.",
         }
 
         for key in _SCORE_ORDER:
@@ -484,20 +559,28 @@ def _show_detail(item: dict, is_idea: bool = False):
             bar_w = max(2, val)
             description = CAT_DESCRIPTIONS.get(key, "")
 
-            # Weight's contribution to final verdict
-            contribution = (val * weight / 100) if weight else 0
+            # Factors with no underlying data are shown greyed-out and excluded
+            # from the weighted average so placeholder 50s don't pollute the total.
+            has_data = _factor_has_data(details.get(key))
+            contribution = (val * weight / 100) if (weight and has_data) else 0
+            card_opacity = "1" if has_data else "0.5"
+            no_data_badge = "" if has_data else (
+                '<span style="font-size:10px;color:#92400e;background:#fef3c7;'
+                'padding:2px 6px;border-radius:4px;margin-left:8px;">לא בציון הכולל</span>'
+            )
 
             # Full category card
             card_html = (
                 f'<div style="border:1px solid #e2e8f0;border-left:4px solid {color};'
-                f'border-radius:6px;padding:14px 18px;margin-bottom:10px;background:#fafbfc;">'
+                f'border-radius:6px;padding:14px 18px;margin-bottom:10px;background:#fafbfc;'
+                f'opacity:{card_opacity};">'
                 # Header row
                 f'<div style="display:flex;align-items:center;justify-content:space-between;'
                 f'gap:12px;margin-bottom:8px;">'
                 f'<div style="display:flex;align-items:center;gap:10px;">'
                 f'<span style="font-size:20px;">{icon}</span>'
                 f'<div>'
-                f'<div style="font-size:15px;font-weight:700;color:var(--text);">{label}</div>'
+                f'<div style="font-size:15px;font-weight:700;color:var(--text);">{label}{no_data_badge}</div>'
                 f'<div style="font-size:11px;color:var(--text-mute);">{description}</div>'
                 f'</div>'
                 f'</div>'
@@ -539,17 +622,33 @@ def _show_detail(item: dict, is_idea: bool = False):
             card_html += '</div>'
             st.markdown(card_html, unsafe_allow_html=True)
 
-        # Weighted average
-        total_w = sum(_SCORE_WEIGHTS.get(k, 0) for k in scores)
-        if total_w > 0:
-            wavg = sum(scores.get(k, 50) * _SCORE_WEIGHTS.get(k, 0) for k in scores) / total_w
+        # Weighted average — only over factors that actually had data.
+        wavg = _weighted_score_excluding_placeholders(scores, details)
+        excluded = [k for k in scores if not _factor_has_data(details.get(k))]
+        excluded_note = ""
+        if excluded:
+            excluded_labels = ", ".join(SCORE_LABELS.get(k, k) for k in excluded)
+            excluded_note = (
+                f'<div style="font-size:10px;color:#92400e;margin-top:4px;">'
+                f'לא נכלל בממוצע (אין דאטה): {excluded_labels}</div>'
+            )
+        if wavg is not None:
             st.markdown(
-                f'<div style="display:flex;justify-content:space-between;align-items:baseline;'
-                f'margin-top:12px;padding-top:12px;border-top:2px solid var(--hair);">'
-                f'<div style="font-size:12px;font-weight:600;color:var(--text);">Weighted Average</div>'
+                f'<div style="margin-top:12px;padding-top:12px;border-top:2px solid var(--hair);">'
+                f'<div style="display:flex;justify-content:space-between;align-items:baseline;">'
+                f'<div style="font-size:12px;font-weight:600;color:var(--text);">'
+                f'Weighted Average ({len(scores) - len(excluded)}/{len(scores)} factors)</div>'
                 f'<div style="font-size:20px;font-weight:700;color:{_score_color(int(wavg))};'
-                f'font-family:\'IBM Plex Mono\',monospace;">{wavg:.0f}</div>'
+                f'font-family:\'IBM Plex Mono\',monospace;">{wavg}</div>'
+                f'</div>'
+                f'{excluded_note}'
                 f'</div>',
+                unsafe_allow_html=True,
+            )
+        else:
+            st.markdown(
+                '<div style="margin-top:12px;padding-top:12px;border-top:2px solid var(--hair);'
+                'color:#92400e;font-size:13px;">אין מספיק דאטה לחישוב ציון מצרפי</div>',
                 unsafe_allow_html=True,
             )
 
@@ -559,10 +658,11 @@ def _show_detail(item: dict, is_idea: bool = False):
 def _render_card(item: dict, accent: str, is_idea: bool = False) -> None:
     """Render a card + 'Details' button that opens the modal."""
     tk = item.get("ticker", "")
-    name = DISPLAY_NAMES.get(tk, item.get("name", tk))
+    name = _dyn_display_name(tk) or item.get("name", tk)
     v = (item.get("verdict") or ("buy" if is_idea else "hold")).lower()
     c = int(item.get("conviction", 0))
     scores = item.get("scores", {})
+    details = item.get("score_details", {}) or {}
     sector = _sector_of(tk) if not is_idea else ""
 
     pill_cls = VERDICT_CLS.get(v, "pill-hold") if not is_idea else "pill-new"
@@ -596,7 +696,7 @@ def _render_card(item: dict, accent: str, is_idea: bool = False) -> None:
         f'  </div>'
         f'  <div class="mini-name txt-dim">{_html.escape(name)}</div>'
         f'  {"<div class=\"priority-sector txt-mute\">" + sector + "</div>" if sector else ""}'
-        f'  {_score_bars_html(scores)}'
+        f'  {_score_bars_html(scores, details)}'
         f'  {sparkline_html}'
         f'  {_conviction_bar(c, v)}'
         f'</div>',

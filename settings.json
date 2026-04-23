@@ -29,12 +29,14 @@
   "recommendation_mode": "scoring",
   "scoring_strategy": "conservative_longterm",
   "scoring_weights": {
-    "quality": 30,
-    "valuation": 25,
-    "risk": 20,
-    "macro": 15,
-    "sentiment": 5,
-    "technical": 5
+    "quality": 25,
+    "valuation": 22,
+    "risk": 18,
+    "macro": 12,
+    "sentiment": 4,
+    "technical": 4,
+    "insider": 8,
+    "smart_money": 7
   },
   "personas_active": [
     "warren_buffett",

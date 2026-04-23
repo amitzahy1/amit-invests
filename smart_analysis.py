@@ -5,7 +5,8 @@ Smart Analysis Layer — ONE Gemini call per day that:
 3. Surfaces risks the user should know about
 4. Generates a portfolio-level insight summary
 
-Uses gemini-2.5-flash (smarter model) — ONE call per run.
+Uses gemini-pro-latest (auto-resolves to 2026 flagship) — ONE call per run,
+monthly cadence.
 Output is saved to smart_insights.json and shown in UI + Telegram.
 """
 
@@ -149,7 +150,7 @@ def load_insights() -> dict:
 def get_smart_llm():
     """Instantiate the 'smart' Gemini model for deep analysis.
 
-    Uses gemini-2.5-flash (better reasoning than flash-lite but still cheap).
+    Uses gemini-3-pro for monthly deep-dive briefs; defaults overridable via env.
     ONE call per day, so even the more expensive model costs ~$0.001/run.
     """
     api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
@@ -157,7 +158,9 @@ def get_smart_llm():
         return None
     try:
         from langchain_google_genai import ChatGoogleGenerativeAI
-        model = os.environ.get("GEMINI_SMART_MODEL", "gemini-2.5-flash")
+        # Smart Brief is monthly now — splurge on the best Pro model available
+        # (`gemini-pro-latest` auto-resolves to current flagship Pro preview).
+        model = os.environ.get("GEMINI_SMART_MODEL", "gemini-pro-latest")
         return ChatGoogleGenerativeAI(
             model=model, google_api_key=api_key,
             temperature=0.4, timeout=60, max_retries=0,

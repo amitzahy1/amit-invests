@@ -42,6 +42,8 @@ _pages = [
             url_path="recommendations"),
     st.Page(_V / "performance.py",     title="Performance",     icon="🏆",
             url_path="performance"),
+    st.Page(_V / "rebalance.py",       title="Rebalance",       icon="⚖️",
+            url_path="rebalance"),
     st.Page(_V / "import_csv.py",      title="Import",          icon="📥",
             url_path="import_csv"),
     st.Page(_V / "inbox.py",           title="Inbox",           icon="📬",

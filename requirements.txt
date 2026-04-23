@@ -8,6 +8,10 @@ requests>=2.28.0
 python-dotenv>=1.0.0
 matplotlib>=3.7.0
 mplfinance>=0.12.0
+yfinance>=0.2.40
+pymaya>=0.1.0
+edgartools>=4.0.0
+riskfolio-lib>=7.0.0
 
 # Gemini calls — used by scripts/run_recommendations.py and the in-app Run AI button.
 # Required on Streamlit Cloud so the in-app "Run analysis →" works.

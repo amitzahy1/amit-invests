@@ -398,3 +398,18 @@
 {"date": "2026-04-15", "ticker": "NLR", "verdict": "hold", "conviction": 56, "scores": {"valuation": 50, "technical": 71, "risk": 60, "sentiment": 50, "macro": 50, "quality": 50}}
 {"date": "2026-04-15", "ticker": "VOO", "verdict": "hold", "conviction": 58, "scores": {"valuation": 50, "technical": 55, "risk": 40, "sentiment": 50, "macro": 50, "quality": 50}}
 {"date": "2026-04-15", "ticker": "5108.TA", "verdict": "hold", "conviction": 60, "scores": {"valuation": 50, "technical": 50, "risk": 50, "sentiment": 50, "macro": 50, "quality": 50}}
+{"date": "2026-04-23", "ticker": "GOOGL", "verdict": "hold", "conviction": 51, "scores": {"valuation": 50, "technical": 42, "risk": 60, "sentiment": 72, "macro": 50, "quality": 70, "insider": 15, "smart_money": 100}}
+{"date": "2026-04-23", "ticker": "AMZN", "verdict": "hold", "conviction": 54, "scores": {"valuation": 62, "technical": 35, "risk": 60, "sentiment": 70, "macro": 50, "quality": 50, "insider": 15, "smart_money": 100}}
+{"date": "2026-04-23", "ticker": "BN", "verdict": "hold", "conviction": 59, "scores": {"valuation": 62, "technical": 35, "risk": 50, "sentiment": 68, "macro": 50, "quality": 30, "insider": 50, "smart_money": 77}}
+{"date": "2026-04-23", "ticker": "CPNG", "verdict": "hold", "conviction": 56, "scores": {"valuation": 50, "technical": 19, "risk": 60, "sentiment": 50, "macro": 50, "quality": 50, "insider": 65, "smart_money": 72}}
+{"date": "2026-04-23", "ticker": "ETHA", "verdict": "hold", "conviction": 55, "scores": {"valuation": 50, "technical": 29, "risk": 60, "sentiment": 50, "macro": 50, "quality": 30}}
+{"date": "2026-04-23", "ticker": "XLV", "verdict": "hold", "conviction": 58, "scores": {"valuation": 50, "technical": 23, "risk": 60, "sentiment": 50, "macro": 50, "quality": 50, "insider": 50, "smart_money": 64}}
+{"date": "2026-04-23", "ticker": "IBIT", "verdict": "hold", "conviction": 48, "scores": {"valuation": 35, "technical": 12, "risk": 35, "sentiment": 53, "macro": 50, "quality": 40}}
+{"date": "2026-04-23", "ticker": "QQQM", "verdict": "hold", "conviction": 56, "scores": {"valuation": 50, "technical": 50, "risk": 25, "sentiment": 50, "macro": 50, "quality": 50, "insider": 50, "smart_money": 61}}
+{"date": "2026-04-23", "ticker": "ITA", "verdict": "hold", "conviction": 57, "scores": {"valuation": 50, "technical": 50, "risk": 60, "sentiment": 50, "macro": 50, "quality": 50, "insider": 50, "smart_money": 63}}
+{"date": "2026-04-23", "ticker": "NVDA", "verdict": "hold", "conviction": 58, "scores": {"valuation": 50, "technical": 50, "risk": 60, "sentiment": 50, "macro": 50, "quality": 50, "insider": 15, "smart_money": 90}}
+{"date": "2026-04-23", "ticker": "SPY", "verdict": "hold", "conviction": 54, "scores": {"valuation": 50, "technical": 50, "risk": 5, "sentiment": 57, "macro": 50, "quality": 50, "insider": 50, "smart_money": 90}}
+{"date": "2026-04-23", "ticker": "URNM", "verdict": "hold", "conviction": 56, "scores": {"valuation": 50, "technical": 71, "risk": 60, "sentiment": 50, "macro": 50, "quality": 50, "insider": 50, "smart_money": 61}}
+{"date": "2026-04-23", "ticker": "NLR", "verdict": "hold", "conviction": 56, "scores": {"valuation": 50, "technical": 71, "risk": 60, "sentiment": 52, "macro": 50, "quality": 50, "insider": 50, "smart_money": 63}}
+{"date": "2026-04-23", "ticker": "VOO", "verdict": "hold", "conviction": 59, "scores": {"valuation": 50, "technical": 50, "risk": 40, "sentiment": 50, "macro": 50, "quality": 50, "insider": 50, "smart_money": 82}}
+{"date": "2026-04-23", "ticker": "5108.TA", "verdict": "hold", "conviction": 58, "scores": {"valuation": 50, "technical": 50, "risk": 45, "sentiment": 50, "macro": 50, "quality": 50}}
