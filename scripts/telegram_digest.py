@@ -416,12 +416,21 @@ def _format_uoa_alerts(recs: dict) -> str:
     tickers = [t for t in tickers if t and not t.endswith(".TA")]
     if not tickers:
         return ""
-    hits = scan_portfolio_uoa(tickers[:10])  # cap scan to 10 tickers to stay polite
+    # A single ticker's chain parse error must not brick the whole digest —
+    # an earlier NaN-to-int crash in yfinance rows took down every message.
+    try:
+        hits = scan_portfolio_uoa(tickers[:10])  # cap scan to 10 tickers to stay polite
+    except Exception as e:
+        print(f"[warn] UOA scan failed: {e}", file=sys.stderr)
+        return ""
     if not hits:
         return ""
     lines = ["⚡ *זרימה לא רגילה באופציות*"]
     for info in hits[:3]:
-        block = format_uoa_telegram(info)
+        try:
+            block = format_uoa_telegram(info)
+        except Exception:
+            continue
         if block:
             lines.append(block)
     return "\n".join(lines)

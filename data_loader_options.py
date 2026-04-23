@@ -21,6 +21,7 @@ we hit a 429, we return None and caller skips.
 from __future__ import annotations
 
 import json
+import math
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
@@ -65,11 +66,21 @@ def _scan_chain_side(chain_df, *, side: str, spot: float, dte: int) -> list[dict
     if chain_df is None or chain_df.empty:
         return hits
     for _, row in chain_df.iterrows():
-        vol = float(row.get("volume") or 0)
-        oi = float(row.get("openInterest") or 0)
-        last = float(row.get("lastPrice") or 0)
-        strike = float(row.get("strike") or 0)
-        if vol <= 0 or oi <= 0 or last <= 0:
+        # yfinance option rows can have NaN for volume/openInterest on
+        # illiquid strikes. `float(x or 0)` keeps NaN (truthy), so int(NaN)
+        # raises later — coerce NaN to 0 explicitly.
+        def _num(v):
+            try:
+                v = float(v)
+            except (TypeError, ValueError):
+                return 0.0
+            return 0.0 if math.isnan(v) else v
+
+        vol = _num(row.get("volume"))
+        oi = _num(row.get("openInterest"))
+        last = _num(row.get("lastPrice"))
+        strike = _num(row.get("strike"))
+        if vol <= 0 or oi <= 0 or last <= 0 or strike <= 0:
             continue
         vol_oi = vol / max(oi, 1)
         premium = vol * last * 100  # option contracts are 100 shares each
