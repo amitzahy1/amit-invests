@@ -1,11 +1,11 @@
 {
-  "updated": "2026-04-23T18:42:08Z",
+  "updated": "2026-04-24T15:02:16Z",
   "profile_name": "Conservative AI Bull",
-  "summary": "השוק מציג יציבות עם המלצת HOLD גורפת לכלל הנכסים, מה שתואם את האסטרטגיה השמרנית והתמקדות ב-AI כקטר צמיחה ארוך טווח. מומלץ להמשיך להחזיק בעוגני המדדים VOO ו-QQQM וביציבות הדפנסיבית של 5108.TA, תוך שמירה על משמעת חשיפה נמוכה לקריפטו בנכסים כמו IBIT. בהיעדר שינוי במגמה או רעיונות חדשים, יש להמתין למועד ההפקדה הדו-חודשי הבא לביצוע רכישות מתוכננות.",
+  "summary": "השוק מציג יציבות עם המלצות HOLD גורפות לכלל הנכסים בתיק, מה שתואם את הגישה השמרנית וההתמקדות בצמיחה מבוססת AI לטווח ארוך. אין צורך בביצוע פעולות כרגע, ומומלץ להמשיך להחזיק בעוגנים המרכזיים כמו GOOGL ומדדי ה-S&P 500 (VOO/SPY) לצד החשיפה המגזרית לביטחון (ITA) ואנרגיה גרעינית (URNM). שמירה על תדירות ההפקדות הדו-חודשית המתוכננת תשרת את יעדי התיק ל-4 השנים הקרובות ללא צורך בשינויים טקטיים מיידיים.",
   "smart_insights": {
-    "updated": "2026-04-23T18:42:08+00:00Z",
-    "headline": "ניתוח תיק: חשיפת יתר, כפילויות במדדים וסיכון מטבעי סמוי",
-    "insights": "למרות הגדרת הלקוח כבעל פרופיל 'שמרני' ואופק השקעה של 4 שנים, הרכב התיק בפועל מציג רמת סיכון גבוהה משמעותית. האלגוריתם מפספס את הכפילות המוחלטת בין VOO ל-SPY (שניהם עוקבים אחר ה-S&P 500), ואת החפיפה הכבדה של שניהם עם QQQM ומניות הטכנולוגיה הבודדות (NVDA, GOOGL, AMZN). בנוסף, החזקה כפולה בסקטור האורניום (URNM ו-NLR) יחד עם תעודות קריפטו (IBIT, ETHA) סותרת לחלוטין אסטרטגיה שמרנית ארוכת טווח.\n\nסיכון סמוי וקריטי שהמערכת מתעלמת ממנו הוא החשיפה המטבעית. עם שער דולר/שקל בשפל של 2.999, התיק סופג פגיעה ריאלית משמעותית, שכן רובו המוחלט נקוב בדולרים ואינו מגודר. כמו כן, קיימת קורלציה עקיפה בין סקטור הטכנולוגיה לסקטור האורניום (שנתפס כספק אנרגיה לחוות שרתים של בינה מלאכותית) – מה שמעצים את התנודתיות, כפי שניתן לראות היום עם ירידה של 0.8%- במדד הנאסד\"ק.\n\nבסביבת המאקרו הנוכחית, תשואת האג\"ח ל-10 שנים שעומדת על 4.3% מהווה משקולת על מניות צמיחה וטכנולוגיה שמהוות את ליבת התיק. מדד הפחד (VIX) ברמה של 19.3 מצביע על עצבנות בשווקים, מצב שעלול לאתגר תיק בעל אופק השקעה בינוני של 4 שנים, במיוחד כשהריבית עדיין ברמה של 3.64% ומציעה אלטרנטיבות סולידיות יותר.\n\nמבחינת הזדמנויות ופערים בציונים, בולטת מניית CPNG שמציגה ציון ערך גבוה (VAL75) ותמיכה מוסדית חזקה (INS65), אך סובלת ממומנטום טכני חלש מאוד (TEC19) – מה שעשוי להעיד על תמחור חסר והזדמנות. מנגד, NVDA מציגה מומנטום אדיר (SMA90) וציון ערך גבוה (VAL75), אך ציון פעילות מוסדית נמוך מאוד (INS15), מה שמרמז כי 'הכסף החכם' אולי ממתין למימוש רווחים ולא מגדיל פוזיציות ברמות אלו.\n\nצעדים אופרטיביים לשקול: ראשית, איחוד החזקות כפולות – אין היגיון בהחזקה מקבילה של SPY ו-VOO, ומומלץ לבחור באחת מהן. שנית, לאור שער הדולר הנמוך (2.999) והאופק של 4 שנים, כדאי לשקול גידור מטבעי לחלק מהתיק או הגדלת משקל הנכסים המקומיים מעבר ל-5108.TA כדי לאזן את סיכון המט\"ח.\n\nסקירת שוק — אינה המלצה פיננסית."
+    "updated": "2026-04-24T15:02:16+00:00Z",
+    "headline": "Analysis unavailable",
+    "insights": "[error: Expecting ',' delimiter: line 3 column 1018 (char 1110)]"
   },
   "holdings": [
     {
@@ -37,9 +37,9 @@
           "Debt/Equity 16.13 — high debt risk"
         ],
         "valuation": [
-          "P/E 31.5 — expensive, needs high growth to justify",
-          "PEG 2.31 — expensive relative to growth rate",
-          "Analyst target $377 vs price $340 → +11% upside"
+          "P/E 31.2 — expensive, needs high growth to justify",
+          "PEG 2.32 — expensive relative to growth rate",
+          "Analyst target $377 vs price $338 → +12% upside"
         ],
         "risk": [
           "Portfolio weight 6.0% — well-sized",
@@ -51,20 +51,20 @@
           "Yield curve normal (10Y-Fed = +0.66%)"
         ],
         "sentiment": [
-          "Analyst consensus: 56 Buy / 6 Hold / 0 Sell (90% bullish)",
-          "Well-covered stock (62 analysts)"
+          "Analyst consensus: 55 Buy / 6 Hold / 0 Sell (90% bullish)",
+          "Well-covered stock (61 analysts)"
         ],
         "technical": [
-          "Price $340 > MA50 $309 > MA200 $276 — strong uptrend (golden cross zone)",
-          "RSI 83 — overbought, potential pullback ahead"
+          "Price $338 > MA50 $309 > MA200 $277 — strong uptrend (golden cross zone)",
+          "RSI 79 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
-        "buy": 56,
+        "buy": 55,
         "hold": 6,
         "sell": 0,
-        "target": 376.6825,
-        "price": 340.43
+        "target": 377.29492,
+        "price": 337.645
       },
       "social_sentiment": null,
       "position_sizing": {
@@ -75,17 +75,17 @@
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 275.72,
-        "stop_loss_pct": -19.0,
-        "take_profit_price": 476.6,
+        "stop_loss_price": 276.52,
+        "stop_loss_pct": -18.1,
+        "take_profit_price": 472.7,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "אלפאבית מציגה איכות עסקית עילאית עם ROE של 35.7% ותמיכה מוסדית חזקה, אך מכירות מאסיביות של בעלי עניין ומכפיל רווח גבוה (31.5) מעידים על תמחור מתוח. השילוב בין מגמה טכנית חיובית לבין היעדר 'אפסייד' חבוי וסימני מימוש מצד ההנהלה מצדיק המתנה בפוזיציה קיימת ולא כניסה אגרסיבית.",
+      "rationale": "למרות רווחיות יוצאת דופן ותמיכה מוסדית מקסימלית, המכירות המסיביות מצד בעלי עניין והמכפיל הגבוה (31.2) מעלים סימני שאלה לגבי כדאיות הכניסה כעת. המניה נמצאת במגמת עלייה טכנית ברורה, אך הסיכון לתיקון במחיר הנוכחי מאזן את התזה החיובית.",
       "debate": {
-        "bull_thesis": "GOOGL is a high-conviction BUY. While insider selling ($13.3M net) is a noted weakness, it is eclipsed by a perfect **100/100 Smart Money score**, with 6/10 top funds holding. Alphabet’s quality is elite, boasting a **35.7% ROE** and **32.8% profit margin**. \n\nTechnically, the stock is in a \"golden cross zone\" uptrend; the **$340.43 price** remains comfortably above the **MA50 ($309)** and **MA200 ($276)**. Analyst sentiment is overwhelming at **90% bullish** (56 Buy / 0 Sell), with an average target of **$377 (+11% upside)**. Supported by a low **16.13 Debt/Equity** and strong **$10.82 EPS**, GOOGL’s fundamental dominance justifies its P/E, making it a premier growth play.",
-        "bear_thesis": "Alphabet is a \"Sell\" as valuation reaches unsustainable levels. A P/E of 31.5 and a PEG of 2.31 (50/100 score) indicate the stock is expensive, requiring perfect execution to justify its $4.1T market cap. Most alarming is the Insider score (15/100); executives dumped $13,361,084 in stock over 90 days with zero buys, signaling a lack of confidence at these heights. While the 35.7% ROE confirms high quality, the Technical score of 42/100 suggests the current uptrend is losing steam. With 90% of analysts already bullish, there is no \"hidden\" upside remaining. When insiders exit aggressively despite high profitability, retail investors should avoid being the last ones holding the bag.",
+        "bull_thesis": "GOOGL is a high-conviction BUY backed by elite profitability and institutional dominance. With a **Quality score of 55/100**, the company boasts a massive **35.7% ROE** and **32.8% profit margin**. Smart Money is all-in, earning a perfect **100/100 score** with 6 of the top 10 funds holding positions. Technically, the stock is in a strong uptrend, with the **$337.64 price** trending well above its **MA50 ($309)** and **MA200 ($277)**. Analysts are 90% bullish (55 Buy / 0 Sell) with a **$377 target (+12%)**. While **insider selling (-$13.3M)** is a weakness, it is offset by a reported **25% dividend yield** and near-unanimous institutional support.",
+        "bear_thesis": "Alphabet is a \"Sell\" as valuation reaches unsustainable levels. A P/E of 31.2 and a PEG of 2.32 (Valuation: 50/100) demand aggressive growth that the mediocre Technical score (42/100) suggests is overextended. Most alarming is the Insider score (15/100): insiders executed 32 sells against 0 buys, dumping over $13.36M in 90 days. \n\nWhile an ROE of 35.7% confirms excellent profitability, this quality is already priced in at a $4.1T market cap. With 90% analyst bullishness creating a crowded trade and the stock near its $349 52-week high, the risk of a correction is high. When those closest to the company exit en masse at these multiples, retail investors should avoid the top.",
         "winner": "split"
       },
       "insider_activity": {
@@ -226,12 +226,12 @@
     {
       "ticker": "AMZN",
       "verdict": "hold",
-      "conviction": 58,
+      "conviction": 59,
       "scores": {
-        "valuation": 62,
+        "valuation": 50,
         "technical": 35,
         "risk": 60,
-        "sentiment": 70,
+        "sentiment": 72,
         "macro": 50,
         "quality": 35,
         "insider": 15,
@@ -253,9 +253,9 @@
           "Debt/Equity 43.44 — high debt risk"
         ],
         "valuation": [
-          "P/E 35.6 — expensive, needs high growth to justify",
-          "PEG 1.80 — fairly priced for growth",
-          "Analyst target $283 vs price $255 → +11% upside"
+          "P/E 36.2 — expensive, needs high growth to justify",
+          "PEG 1.85 — fairly priced for growth",
+          "Analyst target $283 vs price $260 → +9% upside"
         ],
         "risk": [
           "Portfolio weight 5.1% — well-sized",
@@ -279,29 +279,29 @@
         "buy": 64,
         "hold": 4,
         "sell": 0,
-        "target": 282.6328,
-        "price": 255.4
+        "target": 283.47656,
+        "price": 259.88
       },
       "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 3.6,
+        "target_pct": 3.7,
         "action": "reduce_small",
         "delta_pct": -1.4,
-        "reason": "Small trim recommended (5.1% → 3.6%)",
+        "reason": "Small trim recommended (5.1% → 3.7%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 226.2,
-        "stop_loss_pct": -11.4,
-        "take_profit_price": 357.56,
+        "stop_loss_price": 226.38,
+        "stop_loss_pct": -12.9,
+        "take_profit_price": 363.83,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "למרות תמיכה מוסדית חזקה במיוחד (100/100) ורווחיות מרשימה (ROE 22.3%), המניה מציגה חולשה טכנית בטווח הקצר מתחת לממוצע 50 ומכירות אגרסיביות של בעלי עניין. לאור המכפיל הגבוה והיעדר רכישות פנים, מומלץ להמתין להתייצבות טכנית לפני הגדלת פוזיציה.",
+      "rationale": "למרות תמיכה מוסדית מקסימלית (100/100) ורווחיות מרשימה, המניה מציגה חולשה טכנית בטווח הקצר מתחת לממוצע 50 ומכירות אינטנסיביות של בעלי עניין. השילוב בין תמחור יקר לאפסייד מוגבל ליעד האנליסטים הופך את ההחזקה לזהירה עד להתבהרות המגמה.",
       "debate": {
-        "bull_thesis": "AMZN is a high-conviction buy, anchored by a perfect **100/100 Smart Money score** and ownership by **9/10 top funds**. Quality is \"excellent\" with a **22.3% ROE** and **$7.18 EPS**. While the **35.6 P/E** is premium, a **1.80 PEG** confirms growth justifies the valuation. Sentiment is near-unanimous: **94% of analysts** (64 Buys, 0 Sells) project an **11% upside** to a **$283 target**. Technically, the **$255.40 price** remains well above the **MA200 ($226)**. I concede the weak **15/100 Insider score** ($-28M net sells), but this is likely routine profit-taking overshadowed by massive institutional accumulation. With a **53/100 weighted average** and dominant profitability, AMZN is a \"Buy\" on this short-term pullback.",
-        "bear_thesis": "AMZN is an \"Avoid\" with a mediocre 53/100 weighted average. Valuation (62/100) is stretched at a 35.6 P/E, leaving no margin for error near its 52-week high. Technicals (35/100) have soured as the price fell below the MA50. Most alarming is the Insider score (15/100); executives dumped $28,010,243 in stock with zero buys, signaling those closest to the business see a peak. While Smart Money (100/100) is a clear strength, institutional backing cannot offset a 94% bullish consensus that suggests the trade is overcrowded and \"priced for perfection.\" Despite an excellent 22.3% ROE, the low Quality score (35/100) and massive insider selling indicate the current price is unsustainable.",
+        "bull_thesis": "AMZN is a conviction BUY backed by a **100/100 Smart Money score**, with 9/10 top funds holding positions. Despite a P/E of 36.2, a **PEG of 1.85** and **ROE of 22.3%** confirm \"excellent\" profitability and growth justification. Sentiment is overwhelmingly bullish at **94% (64 Buy / 0 Sell)**, with an analyst target of $283 (+9% upside). \n\nWhile **Insider selling (15/100)** totaling -$28M is a notable weakness, it likely reflects routine profit-taking near the 52-week high ($261.54) and is eclipsed by massive institutional accumulation. Technically, the price ($259.88) remains well above its MA200 ($226), signaling a sustained long-term uptrend. AMZN’s dominant quality and institutional backing make this a premier growth play.",
+        "bear_thesis": "AMZN faces a \"Sell\" outlook with a mediocre 52/100 weighted average. While Smart Money remains fully invested (100/100), insiders are fleeing; a dismal 15/100 Insider score reflects $28,010,243 in net selling (35 sells, 0 buys) over 90 days. Valuation (50/100) is stretched at a 36.2 P/E and 1.85 PEG, leaving little room for error. Technicals (35/100) confirm a short-term breakdown, with the price slipping below the MA50. Despite an \"excellent\" 22.3% ROE, the Quality score remains a poor 35/100. With a crowded 94% bullish consensus and a meager 9% upside to the analyst target, the risk-to-reward ratio has soured. Avoid until insider selling subsides.",
         "winner": "split"
       },
       "insider_activity": {
@@ -448,10 +448,10 @@
     {
       "ticker": "BN",
       "verdict": "hold",
-      "conviction": 55,
+      "conviction": 56,
       "scores": {
         "valuation": 62,
-        "technical": 35,
+        "technical": 41,
         "risk": 50,
         "sentiment": 69,
         "macro": 50,
@@ -473,9 +473,9 @@
           "Debt/Equity 164.04 — high debt risk"
         ],
         "valuation": [
-          "P/E 92.9 — expensive, needs high growth to justify",
+          "P/E 92.2 — expensive, needs high growth to justify",
           "PEG 1.27 — fairly priced for growth",
-          "Analyst target $54 vs price $46 → +18% upside"
+          "Analyst target $54 vs price $45 → +19% upside"
         ],
         "risk": [
           "Portfolio weight 4.3% — well-sized",
@@ -491,7 +491,7 @@
         ],
         "technical": [
           "Price above MA200 but below MA50 — short-term pullback in uptrend",
-          "RSI 77 — overbought, potential pullback ahead"
+          "RSI 75 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
@@ -499,7 +499,7 @@
         "hold": 1,
         "sell": 1,
         "target": 53.7,
-        "price": 45.535
+        "price": 45.195
       },
       "social_sentiment": null,
       "position_sizing": {
@@ -510,17 +510,17 @@
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 44.75,
-        "stop_loss_pct": -1.7,
-        "take_profit_price": 63.75,
+        "stop_loss_price": 44.77,
+        "stop_loss_pct": -0.9,
+        "take_profit_price": 63.27,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "למרות תמיכה מוסדית חזקה וקונצנזוס אנליסטים שורי, המדדים הפונדמנטליים של החברה חלשים מאוד עם ROE של 1.9% ומכפיל רווח גבוה במיוחד. השילוב בין מומנטום טכני שלילי בטווח הקצר לבין מינוף גבוה הופך את ההשקעה למסוכנת מדי לקנייה במחיר הנוכחי.",
+      "rationale": "למרות תמיכה מוסדית מרשימה (Smart Money 77/100) ואופטימיות מצד האנליסטים, הנתונים הפונדמנטליים מעוררים דאגה עמוקה עם ROE נמוך במיוחד של 1.9% ומכפיל רווח גבוה מאוד. השבירה הטכנית מתחת לממוצע 50, יחד עם רמת מינוף גבוהה, מחייבים המתנה לשיפור ביעילות התפעולית לפני כניסה לנכס.",
       "debate": {
-        "bull_thesis": "Brookfield Corp (BN) is a strong BUY, backed by heavy institutional conviction and significant upside. A **Smart Money score of 77/100** (held by 4/10 top funds) and an **83% bullish analyst consensus** (10 Buys) signal professional confidence. The **$54 price target** offers an **18% upside** from the $45.53 price. While the **92.9 P/E** appears high, a **PEG of 1.27** suggests growth justifies the valuation. Technically, BN maintains its long-term uptrend, trading above the **MA200**. We concede the **1.9% ROE** is low (Quality: 15/100), but this is overshadowed by a massive **61% dividend yield** provided in the data, offering an unparalleled income floor while awaiting capital appreciation.",
-        "bear_thesis": "BN is dangerously overvalued. While Smart Money interest is strong (77/100), the underlying fundamentals are failing. A dismal Quality score of 15/100 reflects a 1.9% ROE and a razor-thin 1.7% profit margin, both well below institutional thresholds. At a P/E of 92.9, investors are paying an extreme premium for minimal earnings (EPS 0.49). \n\nThis valuation is further pressured by a high Debt/Equity ratio of 164.04, leaving little room for error in a volatile market. Technicals (35/100) confirm a loss of momentum, with the price falling below the MA50. Despite bullish analyst sentiment, the combination of poor quality, high leverage, and an astronomical P/E makes BN a clear avoid.",
+        "bull_thesis": "Brookfield Corp (BN) is a high-conviction BUY with a 19% projected upside to its $54 analyst target. Institutional backing is elite, evidenced by a **77/100 Smart Money score** and holdings by 4/10 top funds. While the **1.9% ROE (Quality: 15/100)** is currently below institutional thresholds, the **PEG ratio of 1.27** suggests growth justifies the 92.2 P/E. Sentiment is overwhelmingly bullish at 83% (10 Buy ratings), further bolstered by a massive **62.00% dividend yield**. Technically, the price remains above the MA200; the current pullback below the MA50 (Technical: 41/100) provides a strategic entry point into this $101B powerhouse before it resumes its long-term uptrend.",
+        "bear_thesis": "Brookfield (BN) is a high-risk avoid. While Smart Money (77/100) and analysts remain bullish, their optimism ignores a fundamental rot: a dismal Quality score of 15/100. BN’s ROE of 1.9% is far below the 15% institutional threshold, and a thin 1.7% profit margin offers no margin for error. \n\nThe valuation is indefensible; a P/E of 92.2 requires massive growth that current operations aren't delivering, especially with a heavy Debt/Equity ratio of 164.04. Technically, the 41/100 score reflects a breakdown, with the price slipping below the MA50. Despite the $54 target, a weighted average of 52/100 suggests BN is an overleveraged, low-efficiency trap that is currently priced for perfection it cannot achieve.",
         "winner": "split"
       },
       "insider_activity": {
@@ -564,12 +564,12 @@
     {
       "ticker": "CPNG",
       "verdict": "hold",
-      "conviction": 59,
+      "conviction": 58,
       "scores": {
         "valuation": 75,
-        "technical": 19,
+        "technical": 41,
         "risk": 60,
-        "sentiment": 68,
+        "sentiment": 70,
         "macro": 50,
         "quality": 15,
         "insider": 65,
@@ -589,12 +589,12 @@
           "Debt/Equity 100.26 — high debt risk"
         ],
         "valuation": [
-          "P/E 188.0 — expensive, needs high growth to justify",
+          "P/E 183.7 — expensive, needs high growth to justify",
           "PEG 0.45 — growth at a discount (Peter Lynch target <1)",
-          "Analyst target $27 vs price $21 → +33% upside"
+          "Analyst target $28 vs price $20 → +37% upside"
         ],
         "risk": [
-          "Portfolio weight 1.9% — well-sized",
+          "Portfolio weight 1.8% — well-sized",
           "Beta 1.16 — slightly above market volatility"
         ],
         "macro": [
@@ -608,36 +608,36 @@
         ],
         "technical": [
           "Price below MA200 — long-term trend is bearish",
-          "RSI 68 — neutral zone"
+          "RSI 58 — neutral zone"
         ]
       },
       "analyst_consensus": {
         "buy": 17,
         "hold": 2,
         "sell": 1,
-        "target": 27.38824,
-        "price": 20.67
+        "target": 27.74118,
+        "price": 20.205
       },
       "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 1.4,
+        "target_pct": 1.3,
         "action": "reduce_small",
         "delta_pct": -0.5,
-        "reason": "Small trim recommended (1.9% → 1.4%)",
+        "reason": "Small trim recommended (1.8% → 1.3%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 16.54,
+        "stop_loss_price": 16.16,
         "stop_loss_pct": -20,
-        "take_profit_price": 28.94,
+        "take_profit_price": 28.29,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "השילוב בין רכישות ענק של אנשי פנים ומכפיל PEG אטרקטיבי (0.45) לבין נתונים טכניים גרועים ורווחיות נמוכה יוצר תמונה מעורבת. בעוד שהמוסדיים והנהלת החברה מאמינים בצמיחה העתידית, המניה נמצאת במגמה דובית ברורה מתחת לממוצע 200, מה שמצדיק המתנה לנקודת היפוך לפני כניסה.",
+      "rationale": "למרות מכפיל רווח גבוה, מדד ה-PEG הנמוך (0.45) ורכישות ענק של בעלי עניין מעידים על פוטנציאל צמיחה עתידי חזק. עם זאת, איכות הנתונים הפיננסיים הנוכחית (ROE של 4.9%) והמגמה הטכנית השלילית מתחת לממוצע 200 מצדיקים המתנה לשיפור במומנטום וברווחיות לפני כניסה.",
       "debate": {
-        "bull_thesis": "Coupang is a high-conviction growth play backed by massive institutional support. While Technicals are weak (19/100) with the price below the MA200, the underlying data signals a major inflection point. Insiders are aggressively buying, with a net **+$136,562,971** in the last 90 days (Insider score 65/100). Smart Money (72/100) confirms this, with 4/10 top funds holding positions.\n\nDespite a high P/E, the **PEG ratio of 0.45** indicates the stock is significantly undervalued relative to its growth, justifying the **75/100 Valuation score**. With **85% analyst bullishness** and a **$27 price target (+33% upside)**, the smart money is betting on a fundamental recovery that the current price has yet to reflect. Buy the growth.",
-        "bear_thesis": "CPNG is a high-risk avoid. Despite 85% analyst optimism, the fundamentals are failing. A dismal **Quality score of 15/100** highlights an **ROE of 4.9%**, far below the 15% institutional threshold, and razor-thin **0.6% profit margins**. Investors are paying an absurd **188.0 P/E** for a company burdened by a **100.26 Debt/Equity** ratio. \n\nTechnically, the outlook is bleak; a **19/100 Technical score** reflects a price ($20.67) stuck well below the **MA200 ($26)**, confirming a long-term bearish trend. While **Smart Money (72/100)** shows institutional interest, their backing cannot offset the combination of extreme overvaluation and poor operational efficiency. The risk-reward profile is heavily skewed to the downside.",
+        "bull_thesis": "CPNG is a high-conviction BUY backed by massive **Insider activity (+$136.5M net buys)** and **Smart Money (72/100 score)**, with 4 of 10 top funds holding positions. While the 183.7 P/E appears high, a **PEG of 0.45** reveals deep value relative to growth, justifying the **75/100 Valuation score**. Analyst sentiment is 85% bullish with a **$28 target**, representing **37% upside** from the current $20.20 price. We concede the **15/100 Quality score** (4.9% ROE) is currently weak; however, the aggressive insider accumulation and ultra-low PEG suggest institutional conviction in a fundamental turnaround that the bearish technicals (41/100) have not yet captured.",
+        "bear_thesis": "CPNG is a high-risk avoid. While Smart Money (72/100) remains invested, the underlying fundamentals are broken. A dismal Quality score of 15/100 highlights a 4.9% ROE—far below the 15% institutional threshold—and razor-thin profit margins of just 0.6%. \n\nValuation is indefensible at a P/E of 183.7, especially given the heavy Debt/Equity ratio of 100.26. Technicals (41/100) confirm a long-term bearish trend; at $20.20, the stock remains significantly below its MA200 of $26. Despite the 85% bullish analyst consensus, CPNG’s negligible profitability and extreme valuation make it a dangerous value trap. SELL.",
         "winner": "split"
       },
       "insider_activity": {
@@ -739,7 +739,7 @@
         ],
         "technical": [
           "Price below MA200 — long-term trend is bearish",
-          "RSI 65 — neutral zone"
+          "RSI 62 — neutral zone"
         ]
       },
       "analyst_consensus": {
@@ -747,7 +747,7 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 17.468
+        "price": 17.475
       },
       "social_sentiment": null,
       "position_sizing": {
@@ -758,17 +758,17 @@
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 13.97,
+        "stop_loss_price": 13.98,
         "stop_loss_pct": -20,
         "take_profit_price": 24.46,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "למרות שהמחיר פרץ את ממוצע 50, המגמה ארוכת הטווח נותרת דובית באופן מובהק מתחת לממוצע 200 והציון המשוקלל (45) נמוך. בהיעדר נתונים פונדמנטליים או תמיכת אנליסטים, הסיכון ב'תפיסת סכין נופלת' גבוה מדי לקנייה, אך המשקל הנמוך בתיק מאפשר המתנה לסימני התייצבות.",
+      "rationale": "למרות שהמחיר חזר מעל ממוצע 50, המגמה ארוכת הטווח נותרת דובית באופן מובהק כשהמחיר רחוק מאוד מממוצע 200. היעדר נתונים פונדמנטליים וציון משוקלל נמוך (45) הופכים את הכניסה למסוכנת מדי כרגע, אך גודל הפוזיציה המזערי מאפשר המתנה לסימני התאוששות ברורים יותר.",
       "debate": {
-        "bull_thesis": "ETHA is a high-upside \"buy the dip\" play. At $17.47, it sits significantly below its 52-week high of $36.80, offering over 100% recovery potential. While the Technical score is low (29/100) because price remains below the MA200 (24), the current price has successfully cleared the MA50 (16), signaling a short-term trend reversal. \n\nRisk is expertly managed with a 60/100 score and a disciplined 0.7% portfolio weight, mitigating downside. With the VIX at a stable 19, the macro backdrop is favorable for accumulation. I concede the long-term trend is bearish, but the price reclaiming the MA50 suggests a bottoming process is underway, making this an ideal entry point within its $13.11–$36.80 range.",
-        "bear_thesis": "ETHA is a clear **AVOID** with a weighted average of 45/100. The technical score of 29/100 confirms a broken chart; at $17.47, the price sits significantly below its MA200 of $24, signaling a firm long-term bearish trend. Quality is equally poor at 30/100, reflecting a total lack of fundamental support. \n\nWhile the risk score of 60/100 is a strength due to its conservative 0.7% portfolio weighting, this small allocation cannot offset the -3.7% daily drop or the fact that ETHA is trading far below its 52-week high of $36.80. With no analyst sentiment or valuation data to provide a floor, the momentum remains decisively downward. **SELL.**",
+        "bull_thesis": "ETHA presents a compelling \"buy the dip\" opportunity for disciplined investors. While the Technical score is weak at 29/100 because the price ($17.48) remains below the MA200 ($24), this creates a massive entry discount relative to its 52-week high of $36.80. \n\nSigns of a reversal are emerging, as the current price has reclaimed the MA50 ($16). The Risk score of 60/100 is the asset's strongest metric, anchored by a conservative 0.7% portfolio weight that ensures stability. With Macro conditions stable (VIX 19), ETHA is a well-sized, asymmetric bet on a return to its yearly highs. Buy for the recovery potential while downside is structurally managed.",
+        "bear_thesis": "ETHA is a clear **AVOID**. While a Risk score of 60/100 and a modest 0.7% portfolio weight suggest manageable exposure, the technicals are broken. A Technical score of 29/100 confirms a long-term bearish trend; at $17.48, the price sits significantly below the MA200 of $24. \n\nFurthermore, a Quality score of 30/100 reflects a total lack of fundamental data, leaving investors with no valuation floor. With a weighted average of just 45/100 and the price languishing 52% below its 52-week high of $36.80, there is zero momentum to justify an entry. Until ETHA can reclaim its moving averages, it remains a speculative asset with a deteriorating profile.",
         "winner": "bear"
       },
       "insider_activity": {
@@ -829,10 +829,10 @@
           "No fundamental data available for this ticker"
         ],
         "valuation": [
-          "P/E 25.8 — moderately expensive"
+          "P/E 25.4 — moderately expensive"
         ],
         "risk": [
-          "Portfolio weight 2.9% — well-sized"
+          "Portfolio weight 2.8% — well-sized"
         ],
         "macro": [
           "VIX 19 — normal volatility",
@@ -844,7 +844,7 @@
         ],
         "technical": [
           "Price below MA200 — long-term trend is bearish",
-          "RSI 48 — neutral zone"
+          "RSI 44 — neutral zone"
         ]
       },
       "analyst_consensus": {
@@ -852,28 +852,28 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 146.205
+        "price": 144.0
       },
       "social_sentiment": null,
       "position_sizing": {
         "target_pct": 2.1,
         "action": "reduce_small",
         "delta_pct": -0.8,
-        "reason": "Small trim recommended (2.9% → 2.1%)",
+        "reason": "Small trim recommended (2.8% → 2.1%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 116.96,
+        "stop_loss_price": 115.2,
         "stop_loss_pct": -20,
-        "take_profit_price": 204.69,
+        "take_profit_price": 201.6,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "המדד מציג חולשה טכנית משמעותית מתחת לממוצעים הנעים המרכזיים (MA200 ו-MA50), מה שמחזק את טענת הדובי לגבי היעדר מומנטום בטווח הקצר. למרות תמיכה מסוימת מצד 'כסף חכם', מכפיל הרווח הגבוה יחסית וציון האיכות הנמוך הופכים את הנכס להמתנה עד להתבססות טכנית מחודשת.",
+      "rationale": "המדד מציג תמונה טכנית שבורה מתחת לממוצעים הנעים המרכזיים (MA50 ו-MA200), מה שמחזק את טענת הדובי שמדובר במלכודת ערך פוטנציאלית בטווח הקצר. למרות תמיכה מוסדית מסוימת ותשואת דיבידנד הגנתית, התמחור אינו אטרקטיבי מספיק כדי להצדיק רכישה נגד המומנטום השלילי.",
       "debate": {
-        "bull_thesis": "XLV is a \"buy the dip\" play backed by institutional conviction. While the Technical score is weak (23/100) with the price (146.21) currently below the MA200 (147), the **Smart Money score of 64/100**—driven by 3/10 top funds holding the asset—signals professional accumulation. Risk is well-managed with a **60/100 score** and a conservative 2.9% portfolio weight. At a 1.71% dividend yield and significantly below the 160.59 52-week high, the valuation (50/100) remains fair for a $29B defensive staple. Although the short-term trend is bearish, high Smart Money support suggests this is a strategic entry point before a mean reversion toward the MA50 (151).",
-        "bear_thesis": "XLV is a clear \"Avoid\" with a weak weighted average of 47/100. The technical profile (23/100) is broken: the current price of 146.21 has fallen below the MA200 (147) and MA50 (151), confirming a long-term bearish trend. Valuation (50/100) offers no margin of safety at a moderately expensive P/E of 25.8, especially given the poor Quality score of 30/100. While Smart Money (64/100) remains a relative strength, institutional interest cannot offset a technical breakdown where the asset is trading well below its 52-week high of 160.59. Without insider buying or positive technical momentum, XLV is likely to continue its downward trajectory.",
+        "bull_thesis": "XLV presents a compelling \"buy the dip\" opportunity for institutional-grade stability. The strongest catalyst is the **Smart Money score of 64/100**, with 3 of the top 10 funds holding the asset, signaling high-conviction backing. At **$144.00**, XLV trades at a significant discount to its 52-week high of **$160.59**, supported by a defensive **1.71% dividend yield** and a solid **$28B market cap**. \n\nWhile the **Technical score of 23/100** is weak—with the price currently below the **MA200 ($147)**—this bearishness likely represents a temporary exhaustion rather than a fundamental shift. With a **Risk score of 60/100**, XLV remains a well-sized, low-volatility play for investors seeking quality healthcare exposure at a tactical entry point.",
+        "bear_thesis": "XLV is a clear **AVOID** with a weighted average score of 47/100. The technical outlook is broken (23/100); at 144.00, the price has collapsed below both its MA50 (151) and MA200 (147), confirming a long-term bearish trend. Valuation provides no safety net, as a 25.4 P/E is \"moderately expensive\" (50/100) against a poor Quality score of 30/100. \n\nWhile Smart Money (64/100) shows 3/10 top funds holding the asset, this institutional floor is failing to prevent a -1.5% daily slide. Without insider buying or analyst support (both 50/100), the combination of high costs and negative momentum makes XLV a value trap. Avoid until price reclaims the MA200.",
         "winner": "bear"
       },
       "insider_activity": {
@@ -913,10 +913,10 @@
     {
       "ticker": "IBIT",
       "verdict": "hold",
-      "conviction": 48,
+      "conviction": 52,
       "scores": {
-        "valuation": 35,
-        "technical": 12,
+        "valuation": 50,
+        "technical": 14,
         "risk": 35,
         "sentiment": 52,
         "macro": 50,
@@ -942,7 +942,7 @@
         ],
         "technical": [
           "Price below MA200 — long-term trend is bearish",
-          "RSI 78 — overbought, potential pullback ahead"
+          "RSI 74 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
@@ -950,7 +950,7 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 44.22
+        "price": 44.195
       },
       "social_sentiment": null,
       "position_sizing": {
@@ -961,17 +961,17 @@
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 35.38,
+        "stop_loss_price": 35.36,
         "stop_loss_pct": -20,
-        "take_profit_price": 61.91,
+        "take_profit_price": 61.87,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "הציון הטכני הנמוך באופן קיצוני (12/100) והעובדה שהנכס נסחר עמוק מתחת לממוצע הנע 200 מעידים על מגמת ירידה ארוכת טווח חזקה. טענת הדובי גוברת שכן היעדר רצפה פונדמנטלית ומומנטום שלילי הופכים את פוטנציאל ההתאוששות לספקולטיבי בלבד.",
+      "rationale": "הציון הטכני הנמוך באופן קיצוני (14/100) והעובדה שהמחיר נסחר עמוק מתחת לממוצע נע 200 מעידים על מגמה דובית ארוכת טווח חזקה. למרות הניסיון של השורי להציג התאוששות מעל ממוצע 50, הציון המשוקלל הנמוך והיעדר נתונים פונדמנטליים הופכים את הנכס למסוכן מדי להחזקה.",
       "debate": {
-        "bull_thesis": "IBIT offers a high-conviction \"buy the dip\" entry. At $44.22, it trades significantly below its 52-week high of $71.82, providing massive recovery potential. While the Technical score is a weak 12/100—conceding that the price remains below the MA200 ($54)—short-term momentum is turning positive as the price holds above the MA50 ($40). \n\nRisk is mitigated by a \"well-sized\" 6.5% portfolio weight (Risk score 35/100), and a Macro score of 50/100 with a VIX of 19 confirms a stable environment for risk-on assets. With Sentiment holding at 52/100, IBIT is positioned for a tactical rebound from its current lows. BUY.",
-        "bear_thesis": "IBIT is a clear SELL with a weighted average score of just 37/100. The primary concern is the abysmal Technical score of 12/100. At $44.22, the price sits significantly below its MA200 of $54, confirming a long-term bearish trend. Furthermore, IBIT is trading nearly 40% below its 52-week high of $71.82. While Sentiment is neutral at 52/100, it cannot offset the lack of fundamental Quality (40/100) and Valuation (35/100) data. Despite a well-sized portfolio weight of 6.5% (Risk: 35/100), this \"safe\" sizing doesn't mitigate the technical breakdown. Without a fundamental floor or upward momentum, the asset remains in a downward spiral. Avoid until the price recovers above key moving averages.",
+        "bull_thesis": "IBIT is a prime \"buy the dip\" candidate. At $44.20, it trades significantly below its 52-week high of $71.82, offering substantial recovery upside. While the Technical score is a weak 14/100 because the price remains below the MA200 ($54), momentum is shifting; the current price has already reclaimed the MA50 ($40). \n\nRisk is well-mitigated (35/100) via a disciplined 6.5% portfolio weight, and Macro stability (50/100) with a VIX of 19 provides a favorable entry environment. With Sentiment neutral (52/100) and a +0.3% daily uptick, IBIT is positioned for a trend reversal. Accumulate now while the price is near the bottom of its 52-week range ($35.30–$71.82) to capture the eventual move back toward the MA200.",
+        "bear_thesis": "IBIT is a clear **AVOID** with a poor weighted average of 40/100. The primary concern is the dismal **Technical score of 14/100**. At a price of 44.20, IBIT is trading significantly below its MA200 of 54, confirming a long-term bearish trend. Furthermore, a **Quality score of 40/100** reflects a lack of fundamental data, making this a purely speculative play. \n\nWhile the **Risk score of 35/100** suggests a \"well-sized\" 6.5% portfolio weight, this structural management does not offset the broken technicals. With the current price sitting much closer to the 52-week low (35.30) than its high (71.82), the momentum remains firmly to the downside. Sell.",
         "winner": "bear"
       },
       "insider_activity": {
@@ -1035,10 +1035,10 @@
           "No fundamental data available for this ticker"
         ],
         "valuation": [
-          "P/E 34.5 — expensive, needs high growth to justify"
+          "P/E 34.9 — expensive, needs high growth to justify"
         ],
         "risk": [
-          "Portfolio weight 11.7% — moderate position",
+          "Portfolio weight 11.8% — moderate position",
           "Sector weight 42% — high concentration risk"
         ],
         "macro": [
@@ -1050,7 +1050,7 @@
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price $269 > MA50 $249 > MA200 $247 — strong uptrend (golden cross zone)",
+          "Price $272 > MA50 $250 > MA200 $248 — strong uptrend (golden cross zone)",
           "RSI 91 — overbought, potential pullback ahead"
         ]
       },
@@ -1059,28 +1059,28 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 268.515
+        "price": 271.725
       },
       "social_sentiment": null,
       "position_sizing": {
         "target_pct": 4.7,
         "action": "reduce",
-        "delta_pct": -7.0,
-        "reason": "Scores suggest trimming (11.7% → 4.7%)",
+        "delta_pct": -7.1,
+        "reason": "Scores suggest trimming (11.8% → 4.7%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 247.36,
-        "stop_loss_pct": -7.9,
-        "take_profit_price": 375.92,
+        "stop_loss_price": 247.57,
+        "stop_loss_pct": -8.9,
+        "take_profit_price": 380.42,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "למרות המגמה הטכנית החזקה והתמיכה של ה-Golden Cross, המכפיל הגבוה (34.5) והציונים הנמוכים באיכות ובסיכון מעידים על תמחור יתר משמעותי. השילוב בין מומנטום חיובי לבין קרבה לשיא שנתי ללא גיבוי פונדמנטלי מספק הופך את הנכס למסוכן מדי לקנייה במחיר הנוכחי.",
+      "rationale": "למרות המומנטום הטכני החזק והישיבה מעל ממוצעים נעים, המכפיל הגבוה (34.9) וציוני האיכות והסיכון הנמוכים מעידים על תמחור יתר בשיא השנתי. השילוב בין עוצמה טכנית לחולשה פונדמנטלית הופך את הנכס למסוכן לקנייה במחיר הנוכחי, ולכן עדיף להמתין לתיקון.",
       "debate": {
-        "bull_thesis": "QQQM is a strong BUY, powered by dominant technical momentum and institutional support. At $268.51, the price sits securely above the MA50 ($249) and MA200 ($247), confirming a \"golden cross zone\" uptrend. Smart Money (61/100) validates this strength, with 2/10 top funds invested. Furthermore, the reported 53.00% dividend yield provides an unprecedented income cushion for investors. \n\nWhile the P/E of 34.5 (Valuation: 50/100) indicates an expensive entry, this premium is justified by the asset’s proximity to its 52-week high ($270.44) and stable macro volatility (VIX 19). The combination of massive yield and clear technical leadership makes QQQM a high-conviction play for continued growth.",
-        "bear_thesis": "QQQM is a **SELL** as its 46/100 weighted average signals fundamental fragility. While technicals show a strong uptrend (Price $269 > MA50 $249), this momentum is dangerously overextended. Trading at $268.51—near the absolute ceiling of its 52-week range ($187.70–$270.44)—the ETF faces a valuation trap with a bloated 34.5 P/E. \n\nA dismal 25/100 Risk score and 30/100 Quality score highlight a lack of underlying support for these prices. Without fundamental data to justify the premium, the asset is priced for perfection. Furthermore, with only 2/10 top funds holding (61/100 Smart Money), institutional conviction is lacking at these highs. Avoid until valuations mean-revert from these expensive levels.",
+        "bull_thesis": "QQQM is a strong BUY driven by elite technical momentum and institutional backing. The price ($271.73) sits firmly above the MA50 ($250) and MA200 ($248), confirming a robust \"golden cross\" uptrend. Smart Money (61/100) validates this conviction, with 2/10 top funds holding positions. Most compelling is the reported 53.00% dividend yield, offering unparalleled income potential. \n\nWhile the P/E of 34.9 (Valuation 50/100) indicates an expensive entry, this premium is justified by the asset’s +1.3% daily gain and its position at the peak of its 52-week range ($190.43–$271.73). Despite high valuation, the combination of technical strength and institutional support makes QQQM a primary growth target.",
+        "bear_thesis": "QQQM is a \"Sell\" as it hits its 52-week ceiling of $271.73. While technicals (50/100) show a strong uptrend (Price > MA50), this momentum has inflated the P/E to a staggering 34.9, leaving no margin for error. \n\nThe fundamentals are concerning: a weak Risk score of 25/100 and a Quality score of only 30/100 suggest poor underlying stability. Institutional conviction is also thin, with only 2/10 top funds holding the asset. With a weighted average of 46/100 and zero insider buying in 90 days, the fund is dangerously overextended. Investors are paying a massive premium for an asset with low fundamental backing. Avoid until the valuation corrects.",
         "winner": "split"
       },
       "insider_activity": {
@@ -1124,9 +1124,9 @@
       "conviction": 57,
       "scores": {
         "valuation": 50,
-        "technical": 50,
+        "technical": 42,
         "risk": 60,
-        "sentiment": 52,
+        "sentiment": 50,
         "macro": 50,
         "quality": 30,
         "insider": 50,
@@ -1144,10 +1144,10 @@
           "No fundamental data available for this ticker"
         ],
         "valuation": [
-          "P/E 37.6 — expensive, needs high growth to justify"
+          "P/E 36.9 — expensive, needs high growth to justify"
         ],
         "risk": [
-          "Portfolio weight 5.2% — well-sized"
+          "Portfolio weight 5.1% — well-sized"
         ],
         "macro": [
           "VIX 19 — normal volatility",
@@ -1158,8 +1158,8 @@
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price above MA200 but below MA50 — short-term pullback in uptrend",
-          "RSI 47 — neutral zone"
+          "Price below MA200 — long-term trend is bearish",
+          "RSI 39 — neutral zone"
         ]
       },
       "analyst_consensus": {
@@ -1167,28 +1167,28 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 218.96
+        "price": 214.87
       },
       "social_sentiment": null,
       "position_sizing": {
         "target_pct": 3.7,
         "action": "reduce_small",
-        "delta_pct": -1.5,
-        "reason": "Small trim recommended (5.2% → 3.7%)",
+        "delta_pct": -1.4,
+        "reason": "Small trim recommended (5.1% → 3.7%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 214.94,
-        "stop_loss_pct": -1.8,
-        "take_profit_price": 306.54,
+        "stop_loss_price": 171.9,
+        "stop_loss_pct": -20,
+        "take_profit_price": 300.82,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "הנכס נסחר במכפיל רווח גבוה מאוד (37.6) ומציג חולשה טכנית מתחת לממוצע 50, מה שמעיד על אובדן מומנטום בטווח הקצר. למרות התמיכה המוסדית, תשואת הדיבידנד החריגה (49%) והציון האיכותי הנמוך מעוררים חשד לעיוות בנתונים או למצוקה מבנית, מה שמצדיק המתנה על הגדר.",
+      "rationale": "המדד מציג שבירה טכנית משמעותית מתחת לממוצעים הנעים (MA50 ו-MA200), מה שמעיד על מומנטום שלילי חזק. למרות תמיכה מסוימת ממוסדיים, מכפיל הרווח הגבוה (36.9) והיעדר נתוני איכות תומכים הופכים את הסיכון לגבוה מדי, במיוחד כשטיעון הדיבידנד של השור נראה כטעות בנתונים.",
       "debate": {
-        "bull_thesis": "ITA is a strong BUY at $218.96, offering a rare combination of massive income and institutional backing. The **Smart Money score of 63/100** confirms top-tier fund interest, while the reported **49.00% dividend yield** provides an unmatched cushion for investors. Technically, ITA remains in a structural uptrend, holding above its **MA200 of 215**. \n\nWhile the **P/E of 37.6** (Valuation: 50/100) is high, this premium is justified by a solid **60/100 Risk score**, indicating a well-sized portfolio. The current price represents a tactical \"buy the dip\" opportunity below the **MA50 (232)**, with clear recovery potential toward the **52-week high of 250.65**. The institutional conviction and yield make this a high-conviction play.",
-        "bear_thesis": "ITA is a \"Sell\" driven by extreme overvaluation and technical decay. While Smart Money (63/100) shows some institutional backing, the P/E of 37.6 (Valuation 50/100) is prohibitively expensive. Technically, ITA is breaking down; the price of $218.96 has fallen significantly below the MA50 ($232), confirming a bearish short-term trend. \n\nA dismal Quality score of 30/100 highlights a lack of fundamental transparency, while the 51/100 weighted average offers no margin of safety. Furthermore, zero insider trades and no analyst coverage (Sentiment 52/100) leave the ETF without a positive catalyst. Even the 49% dividend yield likely signals structural distress rather than sustainable value. Avoid until valuation aligns with reality.",
+        "bull_thesis": "ITA presents a compelling \"buy the dip\" opportunity. While the **Technical score (42/100)** is a weakness—with the **$214.87 price** currently sitting just below the **MA200 ($215)**—this entry point offers significant recovery potential toward the **52-week high of $250.65**. \n\nThe bull case is anchored by a **Smart Money score of 63/100**, confirming institutional backing from 1/10 top funds. Most notably, the reported **49.00% dividend yield** provides an unprecedented income cushion. With a **Risk score of 60/100** and a well-sized **5.1% portfolio weight**, ITA is a high-conviction play for investors prioritizing massive yield and institutional alignment over short-term price momentum. Buy before the trend mean-reverts.",
+        "bear_thesis": "ITA is a clear **AVOID** with a weak weighted average of 49/100. The valuation (50/100) is dangerously stretched at a P/E of 36.9, demanding growth the current trend fails to support. Technicals (42/100) are broken; the current price of 214.87 has fallen below both the MA50 (232) and the MA200 (215), signaling a confirmed long-term bearish trend. Quality is dismal at 30/100. \n\nWhile Smart Money (63/100) shows 1/10 top funds holding the asset, institutional interest cannot offset the technical breakdown and recent -1.9% daily slide. With the price significantly off its 52-week high of 250.65, momentum remains firmly to the downside. Stay away.",
         "winner": "bear"
       },
       "insider_activity": {
@@ -1239,7 +1239,7 @@
       },
       "score_details": {
         "insider": [
-          "Last 90d: 0 buys / 63 sells, net $-208,125,739",
+          "Last 90d: 0 buys / 62 sells, net $-172,118,579",
           "Executive-only selling pressure"
         ],
         "smart_money": [
@@ -1253,12 +1253,12 @@
           "Debt/Equity 7.25 — high debt risk"
         ],
         "valuation": [
-          "P/E 40.7 — expensive, needs high growth to justify",
+          "P/E 42.4 — expensive, needs high growth to justify",
           "PEG 0.72 — growth at a discount (Peter Lynch target <1)",
-          "Analyst target $269 vs price $199 → +35% upside"
+          "Analyst target $269 vs price $207 → +30% upside"
         ],
         "risk": [
-          "Portfolio weight 5.3% — well-sized",
+          "Portfolio weight 5.5% — well-sized",
           "Beta 2.33 — significantly more volatile than S&P 500"
         ],
         "macro": [
@@ -1271,8 +1271,8 @@
           "Well-covered stock (59 analysts)"
         ],
         "technical": [
-          "Price $199 > MA50 $185 > MA200 $183 — strong uptrend (golden cross zone)",
-          "RSI 83 — overbought, potential pullback ahead"
+          "Price $207 > MA50 $185 > MA200 $183 — strong uptrend (golden cross zone)",
+          "RSI 86 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
@@ -1280,38 +1280,38 @@
         "hold": 2,
         "sell": 1,
         "target": 268.6148,
-        "price": 199.38
+        "price": 206.96
       },
       "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 3.0,
+        "target_pct": 3.1,
         "action": "reduce",
-        "delta_pct": -2.3,
-        "reason": "Scores suggest trimming (5.3% → 3.0%)",
+        "delta_pct": -2.4,
+        "reason": "Scores suggest trimming (5.5% → 3.1%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 182.62,
-        "stop_loss_pct": -8.4,
-        "take_profit_price": 279.13,
+        "stop_loss_price": 182.84,
+        "stop_loss_pct": -11.7,
+        "take_profit_price": 289.74,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "למרות תמיכה מוסדית חזקה (90/100) ומכפיל PEG אטרקטיבי המעיד על צמיחה גבוהה, המכירות המסיביות של בעלי עניין (מעל 200 מיליון דולר) ונתון ROE נמוך במיוחד מהווים תמרורי אזהרה משמעותיים. המניה נמצאת במגמת עלייה טכנית, אך השילוב בין תמחור 'מתומחר לשלמות' לבין בריחת מקורבים מצדיק המתנה למימוש או לשיפור במדדי האיכות.",
+      "rationale": "למרות מכירות בעלי עניין מאסיביות ונתון ROE חריג בנמיכותו, הגיבוי המוחלט של ה-'Smart Money' ומכפיל ה-PEG האטרקטיבי (0.72) מכריעים לטובת המשך צמיחה. השילוב בין רווחיות גולמית גבוהה למגמה טכנית חיובית תומך בתזה שהנכס עדיין לא הגיע למיצוי, למרות התמחור היקר.",
       "debate": {
-        "bull_thesis": "NVDA is a conviction BUY. The **Smart Money score (90/100)** is elite, with 7/10 top funds holding positions. Technicals confirm a strong uptrend ($199 > MA50 $185 > MA200 $183), while a **PEG ratio of 0.72** proves its 40.7 P/E is undervalued relative to growth. Analyst sentiment is overwhelming (95% bullish) with a **$269 target**, representing **35% upside**. Elite **55.6% profit margins** and a low 7.25 Debt/Equity provide a fortress balance sheet. While the **1.0% ROE (Quality 55/100)** is currently below institutional thresholds, the massive institutional backing and projected price appreciation suggest this is a temporary lag in a high-growth phase. Buy for the +35% projected gain.",
-        "bear_thesis": "NVDA is a high-risk \"avoid\" despite strong Smart Money backing (90/100). The most alarming red flag is the Insider score (15/100): insiders executed 63 sells and zero buys over 90 days, dumping $208,125,739. This massive divestment suggests leadership sees a peak. \n\nFundamentally, the Quality score (55/100) is undermined by a staggering ROE of just 1.0%, failing the 15% institutional threshold. At a $4.8T market cap and an expensive P/E of 40.7 (Valuation: 75/100), the stock is priced for perfection. While 95% of analysts remain bullish, this extreme sentiment (70/100) often signals a contrarian \"crowded trade.\" When insiders flee a 1.0% ROE business at these multiples, retail should exit.",
-        "winner": "split"
+        "bull_thesis": "NVDA is a high-conviction BUY backed by a **90/100 Smart Money score**, with 7 of the top 10 funds holding positions. While the **P/E of 42.4** appears high, the **0.72 PEG ratio** indicates growth significantly outpaces valuation, supporting its **75/100 Valuation score**. Technically, NVDA is in a confirmed uptrend ($207 > MA50 $185), and **95% of analysts** (56 Buys) project a **$269 target**, offering 30% upside. Although the **1.0% ROE** is currently below institutional thresholds, the staggering **55.6% profit margin** and low **7.25 debt/equity** demonstrate elite fundamental efficiency. With overwhelming institutional backing and massive margins, NVDA remains the premier growth play.",
+        "bear_thesis": "NVDA is a dangerous \"avoid\" despite strong Smart Money backing (90/100). While 95% of analysts are bullish, this extreme sentiment suggests a crowded trade. Fundamentally, the stock is overextended with a Valuation score of 75/100 and a steep P/E of 42.4. Most concerning is the Quality score (55/100); an ROE of just 1.0% sits far below the 15% institutional threshold, indicating poor capital efficiency for a $5.0T company. Insiders are signaling a peak, with a dismal Insider score of 15/100 reflecting 62 sells and zero buys over 90 days, totaling a net exit of $172,118,579. With a weighted average of only 56/100, the current price is unsustainable.",
+        "winner": "bull"
       },
       "insider_activity": {
         "ticker": "NVDA",
         "lookback_days": 90,
         "buy_count": 0,
-        "sell_count": 63,
+        "sell_count": 62,
         "buy_value_usd": 0.0,
-        "sell_value_usd": 208125739.25,
-        "net_value_usd": -208125739.25,
+        "sell_value_usd": 172118579.25,
+        "net_value_usd": -172118579.25,
         "executive_buy": false,
         "executive_sell_only": true,
         "cluster_buy": false,
@@ -1449,7 +1449,7 @@
         "valuation": 50,
         "technical": 50,
         "risk": 5,
-        "sentiment": 55,
+        "sentiment": 50,
         "macro": 50,
         "quality": 30,
         "insider": 50,
@@ -1468,7 +1468,7 @@
           "No fundamental data available for this ticker"
         ],
         "valuation": [
-          "P/E 28.1 — moderately expensive"
+          "P/E 28.2 — moderately expensive"
         ],
         "risk": [
           "Portfolio weight 22.5% — overweight (>15%)",
@@ -1483,8 +1483,8 @@
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price $709 > MA50 $677 > MA200 $668 — strong uptrend (golden cross zone)",
-          "RSI 88 — overbought, potential pullback ahead"
+          "Price $711 > MA50 $677 > MA200 $669 — strong uptrend (golden cross zone)",
+          "RSI 87 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
@@ -1492,7 +1492,7 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 709.08
+        "price": 711.23
       },
       "social_sentiment": null,
       "position_sizing": {
@@ -1503,17 +1503,17 @@
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 668.21,
-        "stop_loss_pct": -5.8,
-        "take_profit_price": 992.71,
+        "stop_loss_price": 668.64,
+        "stop_loss_pct": -6.0,
+        "take_profit_price": 995.72,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "למרות תמיכה מוסדית חזקה (Smart Money 90) ומגמה טכנית חיובית, התמחור היקר והקרבה לשיא השנתי מגבילים את פוטנציאל הרווח המיידי. בנוסף, משקל היתר בתיק (22.5%) מייצר סיכון ריכוזיות גבוה שמחייב המתנה לתיקון או התייצבות לפני הגדלת פוזיציה.",
+      "rationale": "למרות המומנטום הטכני החזק והתמיכה המסיבית של המוסדיים (90/100), התמחור הנוכחי והקרבה לשיא השנתי מייצרים יחס סיכון-סיכוי גבולי. ציון הסיכון הנמוך (5/100) בשל משקל יתר בתיק מחייב עצירה לבחינה מחדש לפני הגדלת פוזיציה.",
       "debate": {
-        "bull_thesis": "SPY is a conviction BUY driven by elite institutional backing and dominant price action. The **Smart Money score of 90/100** is the standout catalyst, with 5 of the top 10 funds holding positions, signaling massive professional confidence. Technically, SPY is in a textbook uptrend; at $709.08, it remains firmly above its MA50 ($677) and MA200 ($668) in a \"golden cross\" zone. \n\nWhile the **P/E of 28.1** and 22.5% portfolio weight present valuation and concentration risks, this premium is justified by the asset’s momentum near its 52-week high ($712.39) and a stable VIX of 19. Institutional accumulation outweighs high multiples, making SPY the primary vehicle for capturing continued market expansion.",
-        "bear_thesis": "SPY is a SELL. While institutional backing is high (Smart Money 90/100) and the technical trend remains positive, the underlying risk profile is critical. The **Risk score of 5/100** highlights a dangerous 22.5% portfolio overweighting, creating extreme concentration risk. Valuation is stretched with a **P/E of 28.1**, and the **Quality score lags at 30/100**. \n\nWith the price at $709.08—sitting precariously near its 52-week ceiling of $712.39—the upside is mathematically exhausted. A **weighted average of 48/100** signals that institutional support cannot compensate for poor quality and overextension. Avoid SPY until the valuation resets and concentration risk is mitigated.",
+        "bull_thesis": "SPY is a strong BUY driven by elite institutional backing and technical dominance. A **Smart Money score of 90/100**—with 5 of the top 10 funds holding positions—signals massive professional conviction. Technically, SPY is in a \"golden cross zone,\" with its $711.23 price trending firmly above the MA50 ($677) and MA200 ($669). While the **Risk score is a low 5/100** due to a heavy 22.5% portfolio concentration, this overweighting reflects high-conviction momentum in a stable macro environment (VIX 19). Despite a moderately high P/E of 28.2, the combination of heavy institutional accumulation and a perfect technical uptrend suggests the path of least resistance remains higher.",
+        "bear_thesis": "SPY is a **SELL** as it hits a technical ceiling. At $711.23, it is nearly exhausted against its 52-week high of $712.39. A critical **Risk score of 5/100** highlights a dangerous 22.5% portfolio overweighting, creating extreme concentration risk. Valuation is stretched at a **28.2 P/E**, while a low **Quality score of 30/100** suggests underlying fundamental weakness. \n\nWhile Smart Money (90/100) and a strong uptrend (Price > MA200) show current momentum, this likely signals a blow-off top. With a **weighted average of only 47/100**, the upside is capped by \"moderately expensive\" pricing. The risk-to-reward ratio is broken; avoid until valuations and concentration levels mean-revert.",
         "winner": "split"
       },
       "insider_activity": {
@@ -1582,10 +1582,10 @@
           "No fundamental data available for this ticker"
         ],
         "valuation": [
-          "P/E 14.2 — cheap by most standards (<15)"
+          "P/E 14.0 — cheap by most standards (<15)"
         ],
         "risk": [
-          "Portfolio weight 4.9% — well-sized"
+          "Portfolio weight 4.8% — well-sized"
         ],
         "macro": [
           "VIX 19 — normal volatility",
@@ -1596,8 +1596,8 @@
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price $69 > MA50 $67 > MA200 $60 — strong uptrend (golden cross zone)",
-          "RSI 64 — neutral zone"
+          "Price $68 > MA50 $67 > MA200 $60 — strong uptrend (golden cross zone)",
+          "RSI 62 — neutral zone"
         ]
       },
       "analyst_consensus": {
@@ -1605,28 +1605,28 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 69.27
+        "price": 68.09
       },
       "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 3.6,
+        "target_pct": 3.5,
         "action": "reduce_small",
         "delta_pct": -1.4,
-        "reason": "Small trim recommended (4.9% → 3.6%)",
+        "reason": "Small trim recommended (4.8% → 3.5%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 59.59,
-        "stop_loss_pct": -14.0,
-        "take_profit_price": 96.98,
+        "stop_loss_price": 59.71,
+        "stop_loss_pct": -12.3,
+        "take_profit_price": 95.33,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "המגמה הטכנית חזקה מאוד (ציון 71) עם תצורת 'צלב זהב' ומומנטום חיובי מעל הממוצעים הנעים, בשילוב תמחור נוח של מכפיל 14.2. למרות הציון הנמוך במדד האיכות הנובע מחוסר בנתונים, השילוב של דיבידנד יציב ותמיכה מוסדית הופך את הנכס להזדמנות קנייה מבוססת מומנטום.",
+      "rationale": "המגמה הטכנית חזקה מאוד עם 'צלב זהב' ומחיר מעל ממוצעים נעים מרכזיים, בשילוב מכפיל רווח אטרקטיבי של 14. למרות היעדר נתונים פונדמנטליים מסוימים המשפיעים על ציון האיכות, הצבירה של כסף חכם והתמחור הנוח תומכים בהמשך המומנטום החיובי.",
       "debate": {
-        "bull_thesis": "URNM is a compelling **BUY** driven by a powerful technical setup and attractive valuation. Its **Technical score of 71/100** confirms a strong uptrend, with the price ($69.27) holding above both the MA50 ($67) and MA200 ($60) in a \"golden cross\" zone. Despite this momentum, the **Valuation (60/100)** remains cheap with a **P/E of 14.2** and a solid **2.81% dividend yield**. Institutional support is growing, evidenced by a **Smart Money score of 61/100**.\n\nWhile the **Quality score is low (30/100)** due to missing fundamental data, the clear price action and institutional backing suggest the market is pricing in growth. At $69.27, URNM offers a disciplined entry into a proven uptrend.",
-        "bear_thesis": "URNM’s technicals (71/100) and low P/E (14.2) suggest a strong uptrend, but the underlying data is alarming. A dismal **Quality score of 30/100** indicates a lack of fundamental support, dragging the weighted average down to a mediocre **54/100**. Institutional conviction is weak, with only **2/10 top funds** holding the asset. \n\nThe recent **-2.9% daily drop** signals a potential reversal as the price remains significantly extended from its 52-week low of $33.05. Without analyst coverage (Sentiment 50) or insider data (50), investors are flying blind into a high-risk sector. Avoid until fundamental quality improves; the current price action lacks the \"Smart Money\" backing to sustain its momentum.",
+        "bull_thesis": "URNM is a strong BUY, backed by a powerful Technical score of 71/100. The price ($68.09) is trending above its MA50 ($67) and MA200 ($60), signaling a confirmed golden cross uptrend. Valuation (60/100) is exceptionally attractive with a P/E of 14.0—cheap by most standards—and a 2.81% dividend yield providing income support. Smart Money (61/100) validates the move, with 2/10 top funds already positioned. While the Quality score is low (30/100) due to limited fundamental data for this ticker, the combination of a low P/E and strong price momentum suggests the market is aggressively re-rating these miners. URNM offers a disciplined entry into a sector showing clear institutional accumulation and technical strength.",
+        "bear_thesis": "Avoid URNM. While Technicals (71/100) show a golden cross, the underlying fundamentals are alarming. The Quality score is a dismal 30/100, reflecting a total lack of fundamental data to support the rally. A mediocre weighted average of 54/100 suggests the risk outweighs the reward. \n\nSentiment and Insider scores are stagnant at 50/100, indicating zero conviction from experts. Despite a seemingly low 14.0 P/E, the price is already down 1.5% today and remains far below its $84.95 52-week high, signaling exhaustion. With only 2/10 top funds invested, \"Smart Money\" (61/100) is hardly backing this move. Without fundamental transparency or insider support, URNM is a speculative trap. SELL.",
         "winner": "bull"
       },
       "insider_activity": null,
@@ -1656,7 +1656,7 @@
         "valuation": 50,
         "technical": 71,
         "risk": 60,
-        "sentiment": 50,
+        "sentiment": 52,
         "macro": 50,
         "quality": 30,
         "insider": 50,
@@ -1674,10 +1674,10 @@
           "No fundamental data available for this ticker"
         ],
         "valuation": [
-          "P/E 30.4 — expensive, needs high growth to justify"
+          "P/E 30.0 — expensive, needs high growth to justify"
         ],
         "risk": [
-          "Portfolio weight 4.1% — well-sized"
+          "Portfolio weight 4.0% — well-sized"
         ],
         "macro": [
           "VIX 19 — normal volatility",
@@ -1688,8 +1688,8 @@
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price $147 > MA50 $140 > MA200 $134 — strong uptrend (golden cross zone)",
-          "RSI 68 — neutral zone"
+          "Price $145 > MA50 $140 > MA200 $134 — strong uptrend (golden cross zone)",
+          "RSI 65 — neutral zone"
         ]
       },
       "analyst_consensus": {
@@ -1697,28 +1697,28 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 146.54
+        "price": 144.615
       },
       "social_sentiment": null,
       "position_sizing": {
         "target_pct": 2.9,
         "action": "reduce_small",
         "delta_pct": -1.1,
-        "reason": "Small trim recommended (4.1% → 2.9%)",
+        "reason": "Small trim recommended (4.0% → 2.9%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 134.22,
-        "stop_loss_pct": -8.4,
-        "take_profit_price": 205.16,
+        "stop_loss_price": 134.41,
+        "stop_loss_pct": -7.1,
+        "take_profit_price": 202.46,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "למרות המומנטום הטכני החזק והמגמה החיובית הברורה (ציון 71), המכפיל הגבוה (30.4) וציון האיכות הנמוך (30) מעוררים חשש שהנכס מתומחר ביתר. היעדר נתונים פונדמנטליים תומכים ופעילות מוסדית מוגבלת מצדיקים המתנה לתיקון או לשיפור בנתוני האיכות לפני הגדלת פוזיציה.",
+      "rationale": "למרות מומנטום טכני חזק וצלב זהב המעידים על עוצמה, מכפיל הרווח הגבוה (30) והיעדר נתונים פונדמנטליים מספקים (ציון איכות 30) יוצרים סיכון משמעותי. השקלול בין המגמה החיובית לבין התמחור היקר מוביל להמלצת Hold, שכן פוטנציאל העלייה מקוזז על ידי חוסר בביטחון פונדמנטלי.",
       "debate": {
-        "bull_thesis": "NLR is a strong BUY fueled by exceptional momentum. Its **Technical score of 71/100** highlights a clear uptrend, with the price ($146.54) trending well above its MA50 ($140) and MA200 ($134) in a \"golden cross zone.\" Institutional confidence is rising, reflected in a **Smart Money score of 63/100** and holdings by a top-tier fund. While the **P/E of 30.4** (Valuation: 50/100) indicates a premium, it is justified by the sector's growth and supported by a solid **2.40% dividend yield**. With a **Risk score of 60/100** and a disciplined 4.1% portfolio weight, NLR is positioned to capitalize on its massive recovery from a 52-week low of $76.30 toward its $168.12 high.",
-        "bear_thesis": "NLR is a \"Sell\" due to a dangerous disconnect between price and fundamentals. While technicals are strong (71/100) with a clear uptrend (Price $147 > MA200 $134), the valuation is unsustainable. A P/E of 30.4 is expensive, demanding high growth that the underlying data doesn't support. \n\nThe Quality score is a dismal 30/100, highlighting a lack of fundamental transparency. With a mediocre weighted average of 53/100 and zero insider activity (50/100), there is no conviction behind this move. Trading near its 52-week high of $168.12, NLR is overextended and lacks the \"Smart Money\" backing (only 1/10 top funds) to justify these levels. Avoid until the valuation aligns with the low quality score.",
+        "bull_thesis": "NLR is a compelling BUY driven by elite momentum. Its **Technical score of 71/100** confirms a powerful uptrend, with the price ($144.62) comfortably above the MA50 ($140) and MA200 ($134) in a \"golden cross zone.\" Institutional backing is emerging, evidenced by a **Smart Money score of 63/100** and holdings by 1/10 top funds. While the **Valuation (50/100)** is high at a 30.0 P/E, this premium is justified by the massive 52-week recovery from a low of $77.32. Although the **Quality score is low (30/100)** due to missing fundamental data, the **2.40% dividend yield** and strong price action suggest the market is pricing in significant future growth. Ride the trend; the technicals are undeniable.",
+        "bear_thesis": "NLR is a \"Sell\" due to its abysmal Quality score (30/100) and overstretched Valuation (50/100). Trading at a P/E of 30.0, the ETF is expensive and requires aggressive growth that isn't backed by fundamental data. While the Technical score of 71/100 confirms a strong uptrend (Price $145 > MA200 $134), this momentum is likely exhausted; the price is already down 1.2% today and sits near its 52-week high. With zero insider trades and no analyst coverage (Sentiment 52/100), there is no conviction behind this rally. A mediocre weighted average of 53/100 suggests the risk-reward profile is skewed heavily to the downside. Avoid this expensive, low-quality play.",
         "winner": "split"
       },
       "insider_activity": {
@@ -1780,10 +1780,10 @@
           "No fundamental data available for this ticker"
         ],
         "valuation": [
-          "P/E 28.1 — moderately expensive"
+          "P/E 28.2 — moderately expensive"
         ],
         "risk": [
-          "Portfolio weight 7.7% — well-sized",
+          "Portfolio weight 7.8% — well-sized",
           "Sector weight 42% — high concentration risk"
         ],
         "macro": [
@@ -1795,8 +1795,8 @@
           "No analyst coverage data available"
         ],
         "technical": [
-          "Price $652 > MA50 $622 > MA200 $614 — strong uptrend (golden cross zone)",
-          "RSI 88 — overbought, potential pullback ahead"
+          "Price $654 > MA50 $623 > MA200 $615 — strong uptrend (golden cross zone)",
+          "RSI 87 — overbought, potential pullback ahead"
         ]
       },
       "analyst_consensus": {
@@ -1804,28 +1804,28 @@
         "hold": 0,
         "sell": 0,
         "target": null,
-        "price": 651.84
+        "price": 653.88
       },
       "social_sentiment": null,
       "position_sizing": {
-        "target_pct": 0.8,
+        "target_pct": 0.7,
         "action": "reduce",
-        "delta_pct": -6.9,
-        "reason": "Scores suggest trimming (7.7% → 0.8%)",
+        "delta_pct": -7.1,
+        "reason": "Scores suggest trimming (7.8% → 0.7%)",
         "max_allowed": 12
       },
       "exit_triggers": {
-        "stop_loss_price": 614.48,
-        "stop_loss_pct": -5.7,
-        "take_profit_price": 912.58,
+        "stop_loss_price": 614.88,
+        "stop_loss_pct": -6.0,
+        "take_profit_price": 915.43,
         "take_profit_pct": 40,
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "למרות תמיכה מוסדית חזקה (82/100) ומגמה טכנית חיובית מעל ממוצעים נעים, המכפיל הגבוה והקרבה לשיא השנתי מעלים חשש למיצוי העליות בטווח הקצר. הציון המשוקלל הניטרלי משקף איזון בין מומנטום חזק לתמחור יקר, מה שמצדיק המתנה לנקודת כניסה נוחה יותר.",
+      "rationale": "המדד נמצא במגמת עלייה חזקה ונהנה מגיבוי מוסדי משמעותי של 82/100, אך מכפיל הרווח הגבוה (28.2) והקרבה לשיא כל הזמנים מייצרים יחס סיכון-סיכוי מאוזן. לאור הנתונים הטכניים החיוביים מול התמחור המתוח והיעדר מרווח ביטחון, עמדת המתנה היא המושכלת ביותר כרגע.",
       "debate": {
-        "bull_thesis": "VOO is a conviction BUY driven by elite institutional backing and technical dominance. A **Smart Money score of 82/100**—with 4 of 10 top funds holding—signals massive professional confidence. Technically, VOO is in a \"golden cross zone,\" with its $651.84 price comfortably above the MA50 ($622) and MA200 ($614), confirming a powerful uptrend. \n\nWhile the **P/E of 28.1 (Valuation: 50/100)** is moderately expensive, this premium is justified by the clear momentum and stable macro environment (VIX 19). With a 1.19% dividend yield and a well-sized 7.7% portfolio weight, VOO offers a high-probability path for continued gains. Institutional conviction suggests the market is willing to pay for this proven performance. Follow the \"Smart Money.\"",
-        "bear_thesis": "VOO is a \"SELL\" as it hits a valuation ceiling. With a **P/E of 28.1**, the index is \"moderately expensive,\" offering a negligible **1.19% dividend yield**. The **Quality score of 30/100** highlights a concerning lack of fundamental support at these levels. While the **Technical score (50/100)** shows a strong uptrend ($652 > MA50 $622), this momentum is likely exhausted; the price of **$651.84** sits at the extreme edge of its **52-week high ($654.90)**. Despite **Smart Money (82/100)** backing, the mediocre **50/100 weighted average** and a **VIX of 19** suggest volatility is brewing. Buying at the absolute peak of the range is a high-risk, low-reward gamble. Avoid.",
+        "bull_thesis": "VOO is a compelling BUY, driven by an elite **Smart Money score of 82/100**, with 4 of the top 10 funds holding positions. Technicals confirm a powerful uptrend: the current price of $653.88 sits well above the MA50 ($623) and MA200 ($615), signaling a \"golden cross zone\" as it nears its 52-week high of $654.90. Macro stability is supported by a VIX of 19 and a reliable 1.19% dividend yield. While the **P/E of 28.2** (Valuation 50/100) indicates a moderate premium, this cost is justified by the dominant institutional backing and clear price momentum. VOO remains the premier vehicle for capturing sustained market growth.",
+        "bear_thesis": "VOO is dangerously overextended. With a P/E of 28.2, the valuation score is a mediocre 50/100, signaling it is \"moderately expensive.\" The price of $653.88 sits at the extreme edge of its 52-week range ($497.76–$654.90), leaving zero margin for error. A dismal Quality score of 30/100 reflects a lack of fundamental support, while the 1.19% dividend yield offers no protection against a correction. While Smart Money (82/100) remains invested, this high concentration suggests the \"easy money\" has been made, leaving latecomers to buy the top of a technical uptrend nearing exhaustion. With a neutral weighted average of 50/100, the risk-to-reward ratio is poor. AVOID.",
         "winner": "split"
       },
       "insider_activity": {
@@ -1925,10 +1925,10 @@
         "trailing_enabled": false,
         "re_evaluate_if": "If weighted score moves out of 40-60 range"
       },
-      "rationale": "הנכס מהווה כרגע 'קופסה שחורה' בשל היעדר מוחלט של נתונים פונדמנטליים, טכניים או כיסוי אנליסטים, מה שהופך כל השקעה בו להימור על בסיס חוסר ודאות. בעוד שהמשקל הגבוה בתיק מעיד על ביטחון פנימי מסוים, היעדר השקיפות מצדיק עמדה זהירה עד להצטברות נתונים המאמתים את איכות הנכס.",
+      "rationale": "הנכס מהווה כרגע 'קופסה שחורה' ללא נתונים פונדמנטליים, טכניים או כיסוי אנליסטים, מה שהופך את הציונים הניטרליים לברירת מחדל טכנית בלבד. למרות המשקל הגבוה בתיק, היעדר השקיפות והיסטוריית המחירים מייצרים סיכון משמעותי שאינו מאפשר הצדקת קנייה.",
       "debate": {
-        "bull_thesis": "5108.TA offers a high-conviction entry at 218.41, evidenced by its immediate +1.1% daily momentum. The Macro score of 50/100, supported by a stable VIX of 19, creates a calm environment for growth. Most telling is the Risk score (45/100), which reflects a significant 11.2% portfolio weight—signaling strong internal confidence despite the current lack of analyst coverage (Sentiment 50/100). \n\nWhile the lack of historical price data (Technical 50/100) makes traditional charting difficult, the neutral Quality and Valuation scores (50/100) suggest an overlooked asset with no baked-in downside. This is a \"ground floor\" opportunity where institutional positioning outweighs the temporary data gap. BUY for the momentum and high-conviction weight.",
-        "bear_thesis": "5108.TA is a \"blind box\" investment with a bearish Weighted Average of 49/100. The primary case for AVOID is the total lack of transparency; Quality and Valuation scores are stalled at a neutral 50/100 simply because no fundamental data exists. Furthermore, the Technical score (50/100) is unusable due to insufficient price history, leaving the 52-week range at \"nan.\" \n\nWhile the daily price rose 1.1%, this minor gain is offset by a concerning Risk score of 45/100. Allocating an 11.2% portfolio weight to an asset with zero analyst coverage (Sentiment 50/100) and no verifiable quality metrics is an unacceptable gamble. Without data to justify the valuation, this ticker represents extreme uncertainty.",
+        "bull_thesis": "5108.TA offers a strategic entry point with immediate momentum, evidenced by a **+1.1% daily gain** to **218.41**. While the **49/100 weighted average** reflects a lack of historical data, the **45/100 Risk score** is backed by a significant **11.2% portfolio weight**, signaling strong conviction in the position. Macro conditions are favorable, with a **VIX of 19** indicating a stable, normal-volatility environment. I concede the **Quality score of 50/100** lacks fundamental depth; however, this \"blank slate\" status allows investors to front-run future analyst coverage (Sentiment 50/100). Buy now to capture the upside as this under-the-radar insurance asset gains market visibility and technical history.",
+        "bear_thesis": "5108.TA is a high-risk \"black box\" with a bearish weighted average of **49/100**. The primary red flag is the total lack of transparency: Quality (**50/100**), Technical (**50/100**), and Sentiment (**50/100**) are only neutral because there is zero fundamental data, no price history, and no analyst coverage. \n\nWhile the **1.1% daily gain** shows slight momentum, the Risk score of **45/100** is concerning given the outsized **11.2% portfolio weight**. With 52-week ranges listed as \"**nan**\" and no valuation data (**50/100**), investors are flying blind. Without fundamental or technical visibility, this asset is a clear avoid; the absence of data is itself the greatest risk.",
         "winner": "bear"
       },
       "insider_activity": null,
