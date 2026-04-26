@@ -16,3 +16,8 @@ riskfolio-lib>=7.0.0
 # Gemini calls — used by scripts/run_recommendations.py and the in-app Run AI button.
 # Required on Streamlit Cloud so the in-app "Run analysis →" works.
 langchain-google-genai>=2.0.0
+
+# Native Google GenAI SDK — used by smart_analysis.py to enable Google Search
+# grounding on the monthly Smart Analyst Brief (langchain wrapper doesn't
+# expose the Search tool). Falls back to langchain when missing or failing.
+google-genai>=1.0.0

@@ -8,12 +8,17 @@ Smart Analysis Layer — ONE Gemini call per day that:
 Uses gemini-pro-latest (auto-resolves to 2026 flagship) — ONE call per run,
 monthly cadence.
 Output is saved to smart_insights.json and shown in UI + Telegram.
+
+Calls the native google-genai SDK with Google Search grounding so the brief
+can incorporate real-time news/earnings context, then falls back to the
+plain langchain path when the SDK or grounded call is unavailable.
 """
 
 from __future__ import annotations
 
 import json
 import os
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -92,18 +97,79 @@ def _build_analysis_prompt(recommendations: dict, macro: dict, settings: dict) -
     return "\n".join(lines)
 
 
+_SYSTEM_INSTRUCTION = (
+    "You are a senior portfolio analyst. Write in Hebrew. "
+    "When you need current market context (recent news, earnings calls, "
+    "policy changes), use Google Search before answering."
+)
+
+
+def _try_grounded_call(prompt: str) -> str | None:
+    """Run the brief via the native google-genai SDK with Google Search grounding.
+
+    Why a separate path: langchain-google-genai (used elsewhere) doesn't expose
+    the Search tool natively. Real-time grounding meaningfully improves the
+    monthly brief, where stale knowledge is the failure mode.
+
+    Tries the configured smart model first; on 429/quota, retries on the
+    flash fallback (still grounded). Returns None on any other failure so
+    the caller can fall back to the plain langchain path.
+    """
+    api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+    if not api_key:
+        return None
+    try:
+        from google import genai
+        from google.genai import types
+    except ImportError:
+        return None
+
+    primary = os.environ.get("GEMINI_SMART_MODEL", "gemini-pro-latest")
+    fallback = os.environ.get("GEMINI_FALLBACK_MODEL", "gemini-flash-latest")
+    client = genai.Client(api_key=api_key)
+    config = types.GenerateContentConfig(
+        tools=[{"google_search": {}}],
+        temperature=0.4,
+        system_instruction=_SYSTEM_INSTRUCTION,
+    )
+
+    for model in (primary, fallback):
+        try:
+            resp = client.models.generate_content(
+                model=model, contents=prompt, config=config,
+            )
+            return resp.text
+        except Exception as e:
+            err = str(e)
+            is_quota = any(s in err for s in ("429", "RESOURCE_EXHAUSTED", "quota"))
+            if is_quota and model == primary:
+                print(f"[warn] grounded brief: {primary} quota exhausted, "
+                      f"retrying with {fallback}", file=sys.stderr)
+                continue
+            print(f"[warn] grounded brief failed on {model}, "
+                  f"falling back to langchain: {err[:200]}", file=sys.stderr)
+            return None
+    return None
+
+
 def generate_smart_insights(llm_smart, recommendations: dict, macro: dict, settings: dict) -> dict:
-    """Generate deep portfolio analysis using smart model (ONE call per day)."""
+    """Generate deep portfolio analysis using smart model (ONE call per day).
+
+    Tries the grounded native-SDK path first (real-time web context), then
+    falls back to the plain langchain client when grounding is unavailable.
+    """
     import re
 
     prompt = _build_analysis_prompt(recommendations, macro, settings)
 
     try:
-        resp = llm_smart.invoke([
-            ("system", "You are a senior portfolio analyst. Write in Hebrew."),
-            ("user", prompt),
-        ])
-        content = resp.content if hasattr(resp, "content") else str(resp)
+        content: str | None = _try_grounded_call(prompt)
+        if content is None:
+            resp = llm_smart.invoke([
+                ("system", _SYSTEM_INSTRUCTION),
+                ("user", prompt),
+            ])
+            content = resp.content if hasattr(resp, "content") else str(resp)
         if isinstance(content, list):
             content = "\n".join(
                 p.get("text", "") if isinstance(p, dict)
